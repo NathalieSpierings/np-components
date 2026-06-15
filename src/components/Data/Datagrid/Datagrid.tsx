@@ -5,7 +5,6 @@ import { DatagridRowConfig } from "./Config/DatagridRowConfig";
 import { DatagridSortConfig, DatagridSortOrder } from "./Config/DatagridSort";
 import { DatagridAction } from "./Config/DatagridAction";
 import { PaginationData } from "./Pagination";
-import Dropdown from "../../UI/Dropdown/Dropdown";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import { Icon } from "../../UI/Icons/Icon";
 import { Checkbox } from "../../Forms/Checkbox";
