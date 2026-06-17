@@ -8,6 +8,8 @@ import { PaginationData } from "./Pagination";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import { Icon } from "../../UI/Icons/Icon";
 import { Checkbox } from "../../Forms/Checkbox";
+import { Dropdown } from "../../Forms/Dropdown/Dropdown";
+import { DropdownMenuItem } from "../../Forms/Dropdown/DropdownMenu";
 
 export type DatagridPinnedPosition = "left" | "right" | null;
 
@@ -460,145 +462,129 @@ function Datagrid<TData extends { id: string | number }>({
     // Filters 
     const hasFilterableColumns = visibleColumns?.some((p) => p.filter) ?? false;
 
-    function dropdownItems(
+
+    // Dropdown
+    const menuItems = (
         prop: string,
         config: DatagridColumnRuntime<TData>,
         state: DatagridColumnRuntime<TData>
-    ) {
+    ) => {
+        return [
+            {
+                id: "sort-asc",
+                icon: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
+                label: "Sorteer oplopend",
+                selected: sort?.prop === prop && sort.order === "asc",
+                onClick: () => setSort({ prop, order: "asc", }),
+            },
+            {
+                id: "sort-desc",
+                icon: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
+                label: "Sorteer aflopend",
+                selected: sort?.prop === prop && sort.order === "desc",
+                onClick: () => setSort({ prop, order: "desc", }),
+            },
+            {
+                divider: true
+            },
+            {
+                id: "pinning",
+                icon: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
+                label: "Pin column",
+                items: [
+                    {
+                        id: "pin-none",
+                        label: state.pinned === null
+                            ? (
+                                <>
+                                    <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
+                                    <span>Niet vastzetten</span>
+                                </>
+                            ) : <span>Niet vastzetten</span>
+                        ,
+                        selected: state.pinned === null,
+                        onClick: () => updateColumnState(prop, { pinned: null }),
+                    },
+                    {
+                        id: "pin-left",
+                        label: state.pinned === "left"
+                            ? (
+                                <>
+                                    <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
+                                    <span>Links vastzetten</span>
+                                </>
+                            ) : <span>Links vastzetten</span>
+                        ,
+                        selected: state.pinned === "left",
+                        onClick: () => updateColumnState(prop, { pinned: "left" }),
+                    },
+                    {
+                        id: "pin-right",
+                        label: state.pinned === "right"
+                            ? (
+                                <>
+                                    <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
+                                    <span>Rechts vastzetten</span>
+                                </>
+                            ) : <span>Rechts vastzetten</span>
+                        ,
+                        selected: state.pinned === "right",
+                        onClick: () => updateColumnState(prop, { pinned: "right" }),
+                    },
+                ],
+            },
+            {
+                divider: true
+            },
+            {
+                id: "autosize",
+                label: "Autosize",
+                onClick: () => updateColumnState(prop, { width: Math.max(120, config.title.length * 20), }),
+
+            },
+            {
+                id: "reset-columns",
+                label: "Reset kolommen",
+                onClick: resetColumns,
+            },
+        ];
+
+    }
+    const dropdownConfig = (
+        prop: string,
+        config: DatagridColumnRuntime<TData>,
+        state: DatagridColumnRuntime<TData>
+    ) => {
         return {
-            tabItems: [
+            tabs: [
                 {
                     id: "tabMenu",
-                    content: "Menu",
+                    label: "Menu",
+                    menuItems,
                 },
                 {
                     id: "tabColumns",
-                    content: "Kolommen",
-                },
-            ],
-            tabs: [
-                {
-                    tabId: "tabMenu",
-                    tabPane: [
+                    label: "Kolommen",
+                    content: (
                         {
-                            id: "menu",
-                            menuItems: [
-                                {
-                                    id: "sort-asc",
-                                    prefix: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
-                                    content: "Sorteer oplopend",
-                                    selected: sort?.prop === prop && sort.order === "asc",
-                                    onClick: () => setSort({ prop, order: "asc", }),
-                                },
-                                {
-                                    id: "sort-desc",
-                                    prefix: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
-                                    content: "Sorteer aflopend",
-                                    selected: sort?.prop === prop && sort.order === "desc",
-                                    onClick: () => setSort({ prop, order: "desc", }),
-                                },
-                                {
-                                    divider: true,
-                                },
-                                {
-                                    id: "pinning",
-                                    prefix: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
-                                    content: "Pin column",
-                                    children: [
-                                        {
-                                            id: "pin-none",
-                                            content: state.pinned === null
-                                                ? (
-                                                    <>
-                                                        <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                                                        <span>Niet vastzetten</span>
-                                                    </>
-                                                ) : <span>Niet vastzetten</span>
-                                            ,
-                                            selected: state.pinned === null,
-                                            onClick: () => updateColumnState(prop, { pinned: null }),
-                                        },
-                                        {
-                                            id: "pin-left",
-                                            content:  state.pinned === "left"
-                                                ? (
-                                                    <>
-                                                        <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                                                        <span>Links vastzetten</span>
-                                                    </>
-                                                ) : <span>Links vastzetten</span>
-                                            ,
-                                            selected: state.pinned === "left",
-                                            onClick: () => updateColumnState(prop, { pinned: "left" }),
-                                        },
-                                        {
-                                            id: "pin-right",
-                                            content: state.pinned === "right"
-                                                ? (
-                                                    <>
-                                                        <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                                                        <span>Rechts vastzetten</span>
-                                                    </>
-                                                ) : <span>Rechts vastzetten</span>
-                                            ,
-                                            selected: state.pinned === "right",
-                                            onClick: () => updateColumnState(prop, { pinned: "right" }),
-                                        },
-                                    ]
-                                },
-                                {
-                                    divider: true,
-                                },
-                                {
-                                    id: "autosize",
-                                    content: "Autosize",
-                                    onClick: () => updateColumnState(prop, { width: Math.max(120, config.title.length * 20), }),
-                                },
-                                {
-                                    divider: true,
-                                },
-                                {
-                                    id: "reset-columns",
-                                    content: "Reset kolommen",
-                                    onClick: resetColumns,
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    tabId: "tabColumns",
-                    tabPane: [
-                        {
-                            id: "columns",
-                            menuItems: [
-                                ...columns.map((column) => ({
-                                    id: column.prop,
-                                    keepOpen: true,
-                                    selected: column.visible,
-                                    content: (
-                                        <Checkbox
-                                            label={column.title}
-                                            checked={column.visible}
-                                            onChange={(checked) =>
-                                                updateColumnState(column.prop, {
-                                                    visible: checked,
-                                                })
-                                            }
-                                        />
-                                    ),
-                                })),
-                                {
-                                    divider: true,
-                                },
-                                {
-                                    id: "reset-columns",
-                                    content: "Reset kolommen",
-                                    onClick: resetColumns,
-                                },
-                            ]
-                        },
-                    ],
+                            ...columns.map((column) => ({
+                                id: column.prop,
+                                keepOpen: true,
+                                selected: column.visible,
+                                label: (
+                                    <Checkbox
+                                        label={column.title}
+                                        checked={column.visible}
+                                        onChange={(checked) =>
+                                            updateColumnState(column.prop, {
+                                                visible: checked,
+                                            })
+                                        }
+                                    />
+                                ),
+                            }))
+                        }
+                    )
                 },
             ],
         };
@@ -683,12 +669,36 @@ function Datagrid<TData extends { id: string | number }>({
                                             <span className={["datagrid__grid__hcell__sort-indicator", sortClass,].join(" ")}></span>
                                         </div>
                                         <div className="datagrid__grid__hcell__icon">
+
                                             <Dropdown
-                                                trigger={{
+                                                dropdownToggle={{
                                                     label: <Icon icon={IconDefinitions.ellipsis_h} size={SizeDefinitions.Small} />,
                                                 }}
-                                                closeOnSelect={false}
-                                                {...dropdownItems(column.prop, column, column)}
+                                                tabs={[{
+                                                    id: 'tabMenu',
+                                                    title: "Menu",
+                                                    menuItems: menuItems(column.prop, column, column)
+                                                },
+                                                {
+                                                    id: 'tabColumns',
+                                                    title: 'Kolommen',
+                                                    content: (
+                                                        <>
+                                                            {columns.map((visibleColumn) => (
+                                                                <Checkbox
+                                                                    key={visibleColumn.prop}
+                                                                    label={visibleColumn.title}
+                                                                    checked={visibleColumn.visible}
+                                                                    onChange={(checked) =>
+                                                                        updateColumnState(visibleColumn.prop, {
+                                                                            visible: checked,
+                                                                        })
+                                                                    }
+                                                                />
+                                                            ))}
+                                                        </>
+                                                    )
+                                                }]}
                                             />
                                         </div>
                                         <span
