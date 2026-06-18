@@ -1,6 +1,5 @@
-:root {
-    --root-aside-width: 250px;
 
+:root {
     --fontstack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --fontstack-mono: "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
@@ -43,19 +42,33 @@
     --radius-3xl: 20px;
     --radius-4xl: 24px;
     --radius-full: 100%;
-
     --radius: var(--radius-xs);
 
+    // Layout
+    --root-aside-width: 250px;
 
+    // Icon
     --icon-size: 32px;
 
+    // Colors
+    --backdrop: rgb(0 0 0 / 50%);
+    --shadow-base: rgb(0 0 0 / 12%);
+    --shadow-base-inverse: rgb(255 255 255 / 12%);
+    --shadow-light: rgb(0 0 0 / 6%);
+    --shadow-light-inverse: rgb(255 255 255 / 6%);
 
-    --color-disabled: var(--color-gray-100);
-    --color-selected: var(--color-gray-300);
-    --color-hover: var(--color-gray-200);
+    --color-shadow: var(--color-shadow-surface);
+    --color-accent: var(--color-primary);
+   
+    --color-hover: var(--shadow-light-inverse);
+    --color-selected: var(--shadow-base-inverse);
+    --color-disabled: var(--color-theme-100);
 
+    // --color-disabled: var(--color-gray-100);
+    // --color-selected: var(--color-gray-300);
+    // --color-hover: var(--color-gray-200);
 
-    --shadow-base-color: var(--color-gray-950);
+    --shadow-base-color: var(--color-gray-950, #0c111d);
     --shadow-xs: 0 1px 2px 0 color-mix(in srgb, var(--shadow-base-color) 05%, transparent);
     --shadow-sm: 0 1px 3px 0 color-mix(in srgb, var(--shadow-base-color) 10%, transparent), 0 1px 2px -1px color-mix(in srgb, var(--shadow-base-color) 10%, transparent);
     --shadow-md: 0 4px 6px -1px color-mix(in srgb, var(--shadow-base-color) 10%, transparent), 0 2px 4px -2px color-mix(in srgb, var(--shadow-base-color) 10%, transparent);

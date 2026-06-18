@@ -1,6 +1,8 @@
-import React, { ReactNode, useLayoutEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { DropdownCoordinates } from "./Dropdown";
+import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import Icon from "../../UI/Icons/Icon/Icon";
 
 
 export interface DropdownMenuItem {
@@ -12,32 +14,57 @@ export interface DropdownMenuItem {
     divider?: boolean;
     onClick?: () => void;
     items?: DropdownMenuItem[];
-}
 
+}
 
 export interface DropdownMenuProps {
     items: DropdownMenuItem[];
+    forceOpenSubmenus?: boolean;
+    noResultsText?: string;
 }
 
 export function DropdownMenu({
-    items
+    items,
+    forceOpenSubmenus = false,
+    noResultsText = "Geen resultaten",
+
 }: Readonly<DropdownMenuProps>) {
+
+    if (items.length === 0) {
+        return (
+            <div className="dropdown__menu">
+                <div className="dropdown__menu__node">
+                    <div className="dropdown__menu__item disabled">
+                        <div className="dropdown__menu__item__content">
+                            {noResultsText}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="dropdown-menu">
-            {items.map((item) => (
-                <DropdownMenuNode key={item.id} item={item} />
+        <div className="dropdown__menu">
+            {items.map((item, idx) => (
+                <DropdownMenuNode
+                    key={item.id ?? idx}
+                    item={item}
+                    forceOpenSubmenus={forceOpenSubmenus}
+                />
             ))}
         </div>
     );
 }
 
-
 export interface DropdownMenuNodeProps {
     item: DropdownMenuItem;
+    forceOpenSubmenus?: boolean;
 }
 
 export function DropdownMenuNode({
-    item
+    item,
+    forceOpenSubmenus = false
 }: Readonly<DropdownMenuNodeProps>) {
 
     const itemRef = useRef<HTMLButtonElement>(null);
@@ -49,6 +76,7 @@ export function DropdownMenuNode({
     });
 
     const hasChildren = !!item.items?.length;
+    const isOpen = forceOpenSubmenus ? true : open;
 
     const updateSubmenuPosition = () => {
         const itemElement = itemRef.current;
@@ -73,7 +101,7 @@ export function DropdownMenuNode({
     };
 
     useLayoutEffect(() => {
-        if (!open || !hasChildren) {
+        if (!isOpen || !hasChildren) {
             return;
         }
 
@@ -90,55 +118,79 @@ export function DropdownMenuNode({
         };
     }, [open, hasChildren]);
 
+
+    useEffect(() => {
+        if (!forceOpenSubmenus) {
+            setOpen(false);
+        }
+    }, [forceOpenSubmenus]);
+
+
+    const gridTemplateColumns = useMemo(() => {
+        let col = "1fr";
+
+        if (item.icon) {
+            col = "20px 1fr";
+        }
+
+        if (hasChildren) {
+            col = item.icon
+                ? "20px 1fr 20px"
+                : "1fr 20px";
+        }
+
+        return col;
+    }, [item.icon, hasChildren]);
+
+
     return (
         <div
-            className="dropdown-menu-node"
+            className="dropdown__menu__node"
             onMouseEnter={() => {
-                if (hasChildren) {
+                if (hasChildren && !forceOpenSubmenus) {
                     setOpen(true);
                 }
             }}
+
             onMouseLeave={() => {
-                if (hasChildren) {
+                if (hasChildren && !forceOpenSubmenus) {
                     setOpen(false);
                 }
             }}
         >
             {item.divider ? (
                 <div className="dropdown__divider"></div>
-            ) :
+            ) : (
+                <button
+                    ref={itemRef}
+                    type="button"
+                    className={`dropdown__menu__item  ${item.disabled ? "disabled" : ""}`}
+                    style={{ gridTemplateColumns }}
+                    disabled={item.disabled}
+                    onClick={() => {
+                        if (!hasChildren && !item.disabled) {
+                            item.onClick?.();
+                        }
+                    }}
+                >
+                    {item.icon && (<>{item.icon}</>)}
 
-                (
-                    <button
-                        ref={itemRef}
-                        type="button"
-                        className={`dropdown-menu-item ${item.disabled ? "dropdown-menu-item--disabled" : ""
-                            }`}
-                        disabled={item.disabled}
-                        onClick={() => {
-                            if (!hasChildren && !item.disabled) {
-                                item.onClick?.();
-                            }
-                        }}
-                    >
-                        {item.icon && (
-                            <span className="dropdown-menu-item__icon">{item.icon}</span>
-                        )}
+                    <div className="dropdown__menu__item__content">
+                        {item.label}
+                    </div>
 
-                        <span className="dropdown-menu-item__text">{item.label}</span>
-
-                        {hasChildren && <span className="dropdown-menu-item__arrow">›</span>}
-                    </button>
-                )
+                    {hasChildren && <span className="dropdown__menu__item__arrow">
+                        <Icon icon={IconDefinitions.angle_right} size={SizeDefinitions.Small} />
+                    </span>}
+                </button>
+            )
             }
 
 
-            {
-                open &&
-                hasChildren &&
+            {isOpen && hasChildren && (
                 createPortal(
                     <div
-                        className="dropdown-submenu-portal"
+                        className="dropdown__submenu"
                         style={{
                             position: "fixed",
                             top: coordinates.top,
@@ -150,7 +202,7 @@ export function DropdownMenuNode({
                     </div>,
                     document.body
                 )
-            }
+            )}
         </div >
     );
 }

@@ -1,44 +1,59 @@
-import React, { ReactNode, useState } from "react";
-import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
+import React, { useState } from "react";
+import { DropdownSearch } from "./Dropdown";
+import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import { Icon } from "../../UI/Icons/Icon";
 
 export interface DropdownTabItem {
   id: string;
-  title: ReactNode;
-  menuItems?: DropdownMenuItem[];
-  content?: ReactNode;
+  title: React.ReactNode;
+  disabled?: boolean;
+}
+
+export interface DropdownTabPane {
+  tabId: string;
+  content: React.ReactNode;
 }
 
 export interface DropdownTabsProps {
   tabs: DropdownTabItem[];
+  tabPanes: DropdownTabPane[];
+  enableSearch?: boolean;
+  search?: DropdownSearch;
 }
 
 export function DropdownTabs({
-  tabs
+  tabs,
+  tabPanes,
+  enableSearch = false,
+  search,
 }: Readonly<DropdownTabsProps>) {
+  const firstEnabledTab = tabs.find((tab) => !tab.disabled);
+  const [activeTab, setActiveTab] = useState(firstEnabledTab?.id);
 
-  const [activeTabId, setActiveTabId] = useState(tabs[0]?.id);
-  const activeTab = tabs.find((tab) => tab.id === activeTabId);
+  const activePane = tabPanes.find((pane) => pane.tabId === activeTab);
 
   return (
-    <div className="dropdown-tabs">
-      <div className="dropdown-tabs__header">
-        {tabs.map((tab) => (
+    <div className="dropdown__tabber">
+      <div className="dropdown__tabber__tabs">
+        {tabs.map((tab, idx) => (
           <button
-            key={tab.id}
-            type="button"
-            className={`dropdown-tabs__tab ${activeTabId === tab.id ? "dropdown-tabs__tab--active" : ""
-              }`}
-            onClick={() => setActiveTabId(tab.id)}
+            key={tab.id ?? idx}
+            disabled={tab.disabled}
+            className={activeTab === tab.id ? "dropdown__tabber__tab active" : "dropdown__tabber__tab"}
+            onClick={() => {
+              if (!tab.disabled) {
+                setActiveTab(tab.id);
+              }
+            }}
           >
             {tab.title}
           </button>
         ))}
       </div>
-
-      <div className="dropdown-tabs__content">
-        {activeTab?.menuItems && <DropdownMenu items={activeTab.menuItems} />}
-
-        {activeTab?.content}
+      <div className="dropdown__tabber__panes">
+        <div className="dropdown__tabber__pane">
+          {activePane?.content}
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import ContentItem from "../../Base/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
-import { DropdownTabItem, DropdownTabs } from "./DropdownTabs";
+import { DropdownTabItem, DropdownTabPane, DropdownTabs } from "./DropdownTabs";
 
 export enum DropdownVerticalPosition { Up = "Up", Down = "Down" }
 export enum DropdownHorizontalPosition { Left = "Left", Right = "Right" }
@@ -45,19 +45,22 @@ export interface DropdownFooter {
 // Tabs
 
 
-export interface DropdownProps {
+export interface DropdownProps extends PropsWithChildren {
 	dropdownToggle: DropdownToggle;
-	children?: ReactNode;
 	menuItems?: DropdownMenuItem[];
+
+	dropdownHeader?: DropdownHeader;
+	dropdownFooter?: DropdownFooter;
+	enableSearch?: boolean;
+	search?: DropdownSearch;
 	tabs?: DropdownTabItem[];
-	header?: ReactNode;
-	footer?: ReactNode;
+	tabPanes?: DropdownTabPane[];
 	verticalPosition?: DropdownVerticalPosition;
 	horizontalPosition?: DropdownHorizontalPosition;
 	maxHeight?: number;
-	className?: string;
 	isOpen?: boolean;
 	onOpenChange?: (isOpen: boolean) => void;
+	dropdownCss?: string;
 }
 
 export interface DropdownCoordinates {
@@ -67,20 +70,24 @@ export interface DropdownCoordinates {
 
 export function Dropdown({
 	dropdownToggle,
-	children,
 	menuItems,
+	dropdownHeader,
+	dropdownFooter,
 	tabs,
-	header,
-	footer,
+	tabPanes,
+	enableSearch = false,
+	search,
 	verticalPosition = DropdownVerticalPosition.Down,
 	horizontalPosition = DropdownHorizontalPosition.Left,
-	maxHeight = 320,
-	className,
+	maxHeight = 400,
 	isOpen,
 	onOpenChange,
+	children,
+	dropdownCss = ''
 }: Readonly<DropdownProps>) {
 
 	const [internalOpen, setInternalOpen] = useState(false);
+
 	const [coordinates, setCoordinates] = useState<DropdownCoordinates>({
 		top: 0,
 		left: 0,
@@ -88,6 +95,8 @@ export function Dropdown({
 
 	const dropdownToggleRef = useRef<HTMLButtonElement>(null);
 	const dropdownRef = useRef<HTMLDivElement>(null);
+
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const open = isOpen ?? internalOpen;
 
@@ -219,7 +228,7 @@ export function Dropdown({
 			if (
 				dropdownToggleRef.current?.contains(target) ||
 				dropdownRef.current?.contains(target) ||
-				document.querySelector(".dropdown-submenu-portal")?.contains(target)
+				document.querySelector(".dropdown__submenu")?.contains(target)
 			) {
 				return;
 			}
@@ -241,6 +250,43 @@ export function Dropdown({
 			document.removeEventListener("keydown", handleEscape);
 		};
 	}, [open]);
+
+	// Search
+	const filterMenuItems = (
+		items: DropdownMenuItem[],
+		term: string
+	): DropdownMenuItem[] => {
+		if (!term) return items;
+
+		const lowerTerm = term.toLowerCase();
+
+		return items
+			.map((item) => {
+				if (item.divider) return item;
+
+				const labelMatches =
+					typeof item.label === "string" &&
+					item.label.toLowerCase().includes(lowerTerm);
+
+				const filteredChildren = item.items
+					? filterMenuItems(item.items, term)
+					: undefined;
+
+				if (labelMatches || filteredChildren?.length) {
+					return {
+						...item,
+						items: filteredChildren,
+					};
+				}
+
+				return null;
+			})
+			.filter((item): item is DropdownMenuItem => item !== null);
+	};
+
+	const filteredMenuItems = menuItems
+		? filterMenuItems(menuItems, searchTerm)
+		: undefined;
 
 	// Trigger
 	const renderDropdownToggle = (
@@ -287,7 +333,7 @@ export function Dropdown({
 				createPortal(
 					<div
 						ref={dropdownRef}
-						className={`dropdown ${className ?? ""}`}
+						className={["dropdown", dropdownCss].join(" ")}
 						style={{
 							position: "fixed",
 							top: coordinates.top,
@@ -296,17 +342,43 @@ export function Dropdown({
 							maxHeight,
 						}}
 					>
-						{header && <div className="dropdown__header">{header}</div>}
+						{dropdownHeader && (
+							<div className={`dropdown__header ${dropdownHeader.borderColor ? "border-" + dropdownHeader.borderColor : ""}`}>
+								{dropdownHeader.content}
+							</div>
+						)}
+
+						{!tabs && enableSearch && (
+							<div className="dropdown__search">
+								<div className="dropdown__search__container">
+									<Icon icon={IconDefinitions.search} size={SizeDefinitions.Small} />
+									<input
+										type="text"
+										placeholder={search?.placeholder ?? "Zoeken..."}
+										value={searchTerm}
+										onChange={(e) => setSearchTerm(e.target.value)}
+										onClick={(e) => e.stopPropagation()}
+									/>
+								</div>
+							</div>
+						)}
+
 
 						<div className="dropdown__content">
-							{tabs && <DropdownTabs tabs={tabs} />}
+							{tabs && tabPanes && (
+								<DropdownTabs tabs={tabs} tabPanes={tabPanes} />
+							)}
 
-							{!tabs && menuItems && <DropdownMenu items={menuItems} />}
+							{!tabs && filteredMenuItems && <DropdownMenu items={filteredMenuItems} forceOpenSubmenus={!!searchTerm} noResultsText={search?.noResultsText}/>}
 
 							{!tabs && !menuItems && children}
 						</div>
 
-						{footer && <div className="dropdown__footer">{footer}</div>}
+						{dropdownFooter && (
+							<div className={`dropdown__footer ${dropdownFooter.borderColor ? "border-" + dropdownFooter.borderColor : ""}`}>
+								{dropdownFooter.content}
+							</div>)
+						}
 					</div>,
 					document.body
 				)}

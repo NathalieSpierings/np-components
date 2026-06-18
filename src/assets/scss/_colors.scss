@@ -4,7 +4,6 @@
 @use "sass:string";
 @use "sass:map";
 
-
 $colors: (
   "black": #000000,
   "white": #FFFFFF,
@@ -48,7 +47,8 @@ $shades: (
 );
 
 $themes: (
-  light: (theme-100: #fffffe,
+  light: (
+    theme-100: #fffffe,
     theme-200: #fefcfc,
     theme-300: #f9f7f5,
     theme-400: #f2eeeb,
@@ -67,7 +67,8 @@ $themes: (
 		primary-30: #EC6636,
     dark: #3F3F3F,
   ),
-  dimmed: (theme-100: #989898,
+  dimmed: (
+    theme-100: #989898,
     theme-200: #808080,
     theme-300: #727272,
     theme-400: #676767,
@@ -86,7 +87,8 @@ $themes: (
 		primary-30: #EC6636,
     dark: #3F3F3F,
   ),
-  dark: (theme-100: #656565,
+  dark: (
+    theme-100: #656565,
     theme-200: #4b4b4b,
     theme-300: #414141,
     theme-400: #373737,
@@ -288,9 +290,6 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
     }
   }
 }
-
-
-
 
 
 // === COLORS
@@ -603,4 +602,49 @@ $theme-all: list.join($theme-low, $theme-high);
   --scrollbar-background: var(--color-theme-500);
   --scrollbar-thumb: var(--color-theme-600);
   --scrollbar-thumb-hover: var(--color-theme-700);
+}
+
+.theme-light {
+    --color-gray-25: #fcfbfa;
+    --color-gray-50: #f8f7f6;
+    --color-gray-100: #f1efee;
+    --color-gray-200: #e6e3e1;
+    --color-gray-300: #d7d3d0;
+    --color-gray-400: #c3bfbc;
+    --color-gray-500: #a8a4a1;
+    --color-gray-600: #8c8885;
+    --color-gray-700: #706c69;
+    --color-gray-800: #54514f;
+    --color-gray-900: #373533;
+    --color-gray-950: #1f1d1c;
+}
+
+.theme-dimmed {
+    --color-gray-25: #f8f8f8;
+    --color-gray-50: #f2f2f2;
+    --color-gray-100: #e5e5e5;
+    --color-gray-200: #d4d4d4;
+    --color-gray-300: #b8b8b8;
+    --color-gray-400: #9a9a9a;
+    --color-gray-500: #7a7a7a;
+    --color-gray-600: #5f5f5f;
+    --color-gray-700: #474747;
+    --color-gray-800: #323232;
+    --color-gray-900: #1f1f1f;
+    --color-gray-950: #0f0f0f;
+}
+
+.theme-dark {
+    --color-gray-25: #f5f5f5;
+    --color-gray-50: #ebebeb;
+    --color-gray-100: #d9d9d9;
+    --color-gray-200: #c0c0c0;
+    --color-gray-300: #a3a3a3;
+    --color-gray-400: #858585;
+    --color-gray-500: #6b6b6b;
+    --color-gray-600: #545454;
+    --color-gray-700: #404040;
+    --color-gray-800: #2d2d2d;
+    --color-gray-900: #1c1c1c;
+    --color-gray-950: #0f0f0f;
 }
