@@ -1807,10 +1807,25 @@ toastr, toolbar, tooltip, widget, wizard;
         --datagrid-header-height: 48px;
         --datagrid-grid-padding: .5rem var(--page-padding-sm);
 
+        // .pc-layout__header{
+            
+        // }
+
+        &__footer{
+            padding: calc(var(--page-padding) / 2) 0;
+            border-top: 1px solid var(--color-border);
+
+            &__content{
+                padding: calc(var(--page-padding) / 2) 0;
+            }
+        }
+
         &__grid {
             display: grid;
             grid-template-rows: var(--datagrid-header-height) 1fr;
             height: 100%;
+           // border: 1px solid var(--color-border);
+           // border-radius: var(--radius-sm);
 
             &__header {
                 display: grid;
@@ -2131,7 +2146,120 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
-        
+        &__pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+
+            @include mixins.MQ-max(md) {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+                justify-content: center;
+            }
+        }
+
+        &__pager {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            list-style: none;
+            margin: 0;
+
+            &__item {
+                --color-background: transparent;
+                --color-border: var(--color-border-surface);
+                --color-shadow: var(--color-shadow-surface);
+
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 34px;
+                height: 34px;
+                text-decoration: none;
+                border-radius: var(--radius);
+                border: 1px solid var(--color-border);
+                color: var(--color-foreground);
+                background: var(--color-background);
+                cursor: pointer;
+                transition: all 400ms;
+                outline: none;
+                margin-inline-end: 0.5rem;
+
+                &__link {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-decoration: none;
+                    color: inherit;
+                }
+
+                svg {
+                    width: 1.1em;
+                    height: 1.1em;
+                    fill: currentcolor;
+                }
+
+                &.active {
+                    --color-background: var(--color-accent);
+                    --color-foreground: var(--color-offwhite);
+                    border-color: transparent;
+                }
+
+                &:hover,
+                &:focus {
+                    box-shadow: var(--color-shadow);
+                }
+
+                &:disabled,
+                &.disabled {
+                    --color-foreground: var(--color-mute);
+
+                    cursor: default;
+                    pointer-events: none;
+                    opacity: 0.7;
+                    -webkit-box-shadow: none;
+                    box-shadow: none;
+                }
+            }
+
+            &__info {
+                display: flex;
+                align-items: center;
+
+                @include mixins.MQ-max(md) {
+                    flex-direction: column;
+                    gap: 1rem;
+                    align-items: flex-start;
+                    justify-content: center;
+                }
+
+                .form-group {
+                    margin: 0;
+                }
+
+                strong {
+                    margin-left: 1rem;
+                }
+
+                &--results {
+                    display: flex;
+                    align-items: center;
+
+
+                    label {
+                        margin-right: 1rem;
+                    }
+
+                    .form-group {
+                        margin-right: 1rem;
+                    }
+                }
+            }
+        }
+
         &__column-picker {
             display: flex;
             flex-direction: column;

@@ -40,6 +40,7 @@ const DatagridPage: React.FC = () => {
                     { prop: "minOrderAantal", title: "Min Order Aantal", sortable: true, },
                     { prop: "maxOrderAantal", title: "Max Order Aantal", sortable: true, },
                 ]}
+                footerContent={(<span>Dit is een test</span>)}
 
                 enableTabs
                 tabs={[

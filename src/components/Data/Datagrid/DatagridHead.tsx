@@ -9,6 +9,18 @@ import { DatagridColumnRuntime } from "./Datagrid";
 
 export interface DatagridHeadProps<TData> {
     gridRef: RefObject<HTMLDivElement | null>;
+
+    // Dropdown
+    enableDropdown?: boolean;
+    enableColumnChooserInDropdown?: boolean;
+
+
+    // Tabs
+    enabelTabs?: boolean;
+    enableTabMenu?: boolean;
+    enableTabColumnChooser?: boolean;
+
+
     enableColumnResize?: boolean;
     enableColumnReorder?: boolean;
     enableColumnVisibility?: boolean;
@@ -34,6 +46,18 @@ export interface DatagridHeadProps<TData> {
 
 export function DatagridHead<TData>({
     gridRef,
+
+     // Dropdown
+    enableDropdown,
+    enableColumnChooserInDropdown,
+
+
+    // Tabs
+    enabelTabs,
+    enableTabMenu,
+    enableTabColumnChooser,
+
+
     enableColumnResize,
     enableColumnReorder,
     enableColumnVisibility,
@@ -262,98 +286,6 @@ export function DatagridHead<TData>({
                         column.pinned === "right" ? "datagrid__grid__hcell--pinned-right" : "",
                         resizing?.prop === column.prop ? "datagrid__grid--resizing" : "",
                     ].join(" ");
-
-
-                    const showColumnsTab = enableColumnVisibility && enableColumnReorder;
-
-                    // const menuItems = (
-                    //     prop: string,
-                    //     config: DatagridColumnRuntime<TData>,
-                    //     state: DatagridColumnRuntime<TData>
-                    // ) => [
-                    //         {
-                    //             icon: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
-                    //             label: "Sorteer oplopend",
-                    //             selected: sort?.prop === prop && sort.order === "asc",
-                    //             onClick: () => setSort({ prop, order: "asc" }),
-                    //         },
-                    //         {
-                    //             icon: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
-                    //             label: "Sorteer aflopend",
-                    //             selected: sort?.prop === prop && sort.order === "desc",
-                    //             onClick: () => setSort({ prop, order: "desc" }),
-                    //         },
-                    //         { divider: true },
-                    //         {
-                    //             icon: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
-                    //             label: "Pin column",
-                    //             items: [
-                    //                 {
-                    //                     icon:
-                    //                         state.pinned === null ? (
-                    //                             <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                    //                         ) : undefined,
-                    //                     label: <span>Niet vastzetten</span>,
-                    //                     selected: state.pinned === null,
-                    //                     onClick: () => updateColumnState(prop, { pinned: null }),
-                    //                 },
-                    //                 {
-                    //                     icon:
-                    //                         state.pinned === "left" ? (
-                    //                             <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                    //                         ) : undefined,
-                    //                     label: <span>Links vastzetten</span>,
-                    //                     selected: state.pinned === "left",
-                    //                     onClick: () => updateColumnState(prop, { pinned: "left" }),
-                    //                 },
-                    //                 {
-                    //                     icon:
-                    //                         state.pinned === "right" ? (
-                    //                             <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                    //                         ) : undefined,
-                    //                     label: <span>Rechts vastzetten</span>,
-                    //                     selected: state.pinned === "right",
-                    //                     onClick: () => updateColumnState(prop, { pinned: "right" }),
-                    //                 },
-                    //             ],
-                    //         },
-                    //         {
-                    //             label: "Autosize",
-                    //             onClick: () =>
-                    //                 updateColumnState(prop, {
-                    //                     width: Math.max(120, config.title.length * 20),
-                    //                 }),
-                    //         },
-                    //         { divider: true },
-                    //         {
-                    //             label: "Reset kolommen",
-                    //             onClick: resetColumns,
-                    //         },
-                    //     ];
-
-
-                    // const tabs = [
-                    //     { id: "tabMenu", title: "Menu" },
-                    //     ...(showColumnsTab ? [{ id: "tabColumns", title: "Kolommen" }] : []),
-                    // ];
-
-                    // const tabPanes = [
-                    //     {
-                    //         tabId: "tabMenu",
-                    //         content: (
-                    //             <DropdownMenu
-                    //                 items={menuItems(column.prop, column, column)}
-                    //             />
-                    //         ),
-                    //     },
-                    //     ...(showColumnsTab
-                    //         ? [{
-                    //             tabId: "tabColumns",
-                    //             content: renderColumnChooser(),
-                    //         }]
-                    //         : []),
-                    // ];
-
 
                     return (
                         <div

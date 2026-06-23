@@ -6,7 +6,7 @@ import { DatagridRowConfig } from "./Config/DatagridRowConfig";
 import { DatagridSortConfig } from "./Config/DatagridSort";
 import DatagridHead from "./DatagridHead";
 import { DatagridTabItem, DatagridTabPane, DatagridTabs } from "./DatagridTabs";
-import { PaginationData } from "./Pagination";
+import Pagination, { PaginationData } from "./Pagination";
 
 export type DatagridPinnedPosition = "left" | "right" | null;
 
@@ -25,14 +25,22 @@ export interface DatagridProps<TData> {
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
     rowActions?: DatagridAction<TData>[];
+    enablePagination?: boolean;
 
-   
-    enableStickyHeader?: boolean;
+    // Dropdown
+    enableDropdown?: boolean;
+    enableColumnChooserInDropdown?: boolean;
+
+    // Tabs
     enableTabs?: boolean;
     tabs?: DatagridTabItem[];
     tabPanes?: DatagridTabPane[];
+    enableTabMenu?: boolean;
+    enableTabColumnChooser?: boolean;
 
+    enableStickyHeader?: boolean;
 
+    footerContent?: ReactNode;
     localStorageKey?: string;
 }
 
@@ -45,13 +53,17 @@ function Datagrid<TData extends { id: string | number }>({
     properties = [],
     initialSortConfig,
     rowActions = [],
+    enablePagination = true,
 
-   
-    enableStickyHeader = true,
     enableTabs,
     tabs,
     tabPanes,
+    enableTabMenu,
+    enableTabColumnChooser,
 
+
+    enableStickyHeader = true,
+    footerContent,
     localStorageKey = "datagrid-columns",
 }: Readonly<DatagridProps<TData>>): ReactElement {
 
@@ -71,7 +83,7 @@ function Datagrid<TData extends { id: string | number }>({
     const [sort, setSort] = useState<DatagridSortConfig | undefined>(
         initialSortConfig
     );
-      
+
     const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
     const [selectedRowId, setSelectedRowId] = useState<string | number | null>(null);
     const [columnSearchTerm, setColumnSearchTerm] = useState("");
@@ -86,6 +98,7 @@ function Datagrid<TData extends { id: string | number }>({
 
     // Columns
     const [columns, setColumns] = useState<DatagridColumnRuntime<TData>[]>(() => {
+
         const stored = localStorage.getItem(STORAGE_KEY);
 
         if (stored) {
@@ -424,13 +437,12 @@ function Datagrid<TData extends { id: string | number }>({
         />
     );
 
-   
+
 
     return (
         <div className="datagrid pc-layout">
             <div className="pc-layout__header">
-               
-             
+
 
             </div>
             <div className="pc-layout__content">
@@ -487,6 +499,7 @@ function Datagrid<TData extends { id: string | number }>({
                                         </div>
                                     ))}
 
+                                    {/* Row actions */}
                                     {rowActions.length > 0 && (
                                         <div className="datagrid__grid__cell datagrid__grid__cell--actions">
                                             {rowActions.map((action, index) => {
@@ -529,14 +542,29 @@ function Datagrid<TData extends { id: string | number }>({
                     <DatagridTabs
                         tabs={tabs ?? []}
                         tabPanes={tabPanes ?? []}
-                        enableTabs
-                        enableColumnChooserTab
-                        columnChooserContent={renderColumnChooser()}
+                        enableTabMenu
+                        enableTabColumnChooser
+
+
+                        // enableColumnChooserTab
+                        // columnChooserContent={renderColumnChooser()}
                     />
+
+
+
                 )}
             </div>
-            <div className="pc-layout__footer">
-                footer
+            <div className="datagrid__footer pc-layout__footer">
+                {enablePagination && (
+                    <Pagination
+                            total={total}
+                            pagination={pagination}
+                            setPagination={setPagination}
+                        />
+                )}
+                <div className="datagrid__footer__content">
+                    {footerContent}
+                </div>
             </div>
         </div>
     );

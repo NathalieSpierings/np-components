@@ -25,21 +25,19 @@ export interface DatagridTabPane {
 export interface DatagridTabsProps {
     tabs: DatagridTabItem[];
     tabPanes: DatagridTabPane[];
-    enableTabs?: boolean;
-    enableColumnChooserTab?: boolean;
-    columnChooserContent?: ReactNode;
+    enableTabMenu?: boolean;
+    enableTabColumnChooser?: boolean;
 }
 
 export function DatagridTabs({
     tabs,
     tabPanes,
-    enableTabs,
-    enableColumnChooserTab,
-    columnChooserContent
+    enableTabMenu,
+    enableTabColumnChooser
 }: Readonly<DatagridTabsProps>) {
 
     const effectiveTabs = useMemo(() => {
-        if (!enableColumnChooserTab || !columnChooserContent) return tabs;
+        if (!enableTabColumnChooser) return tabs;
 
         return [
             {
@@ -48,10 +46,10 @@ export function DatagridTabs({
             },
             ...tabs,
         ];
-    }, [tabs, enableColumnChooserTab, columnChooserContent]);
+    }, [tabs, enableTabColumnChooser]);
 
     const effectiveTabPanes = useMemo(() => {
-        if (!enableColumnChooserTab || !columnChooserContent) return tabPanes;
+        if (!enableTabColumnChooser) return tabPanes;
 
         return [
             {
@@ -63,7 +61,7 @@ export function DatagridTabs({
             },
             ...tabPanes,
         ];
-    }, [tabPanes, enableColumnChooserTab, columnChooserContent]);
+    }, [tabPanes, enableTabColumnChooser]);
 
     const firstEnabledTab = effectiveTabs.find((tab) => !tab.disabled);
 
