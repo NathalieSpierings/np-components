@@ -7,9 +7,10 @@ const DemoPage: React.FC = () => {
         <>
             <p> Welcome to the demo page</p>
 
-            <ul>
+            <ul className="list">
                 <li><Link to='./dropdown'>Dropdown demo</Link>            </li>
                 <li><Link to='./datagrid'>Datagrid demo</Link>            </li>
+                <li><Link to='./tooltip'>Tooltip demo</Link>            </li>
             </ul>
         </>
     )

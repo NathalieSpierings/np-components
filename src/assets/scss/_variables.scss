@@ -1,5 +1,7 @@
-
 :root {
+    --fontstack1: "Inter", sans-serif;
+    --fontstack2: "Inter Tight", sans-serif;
+
     --fontstack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --fontstack-mono: "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
@@ -44,8 +46,35 @@
     --radius-full: 100%;
     --radius: var(--radius-xs);
 
+    --alpha-link: 0.6;
+
     // Layout
-    --root-aside-width: 250px;
+    --header-height: 80px;
+
+    --root-aside-width: 280px;
+
+    --rows: 1;
+    --columns: 12;
+    --gap: 1.5rem;
+
+    --scrollbar-size: 12px;
+    --scrollbar-track: transparent;
+    --scrollbar-thumb: var(--color-theme-600);
+    --scrollbar-thumb-hover: var(--color-theme-700);
+
+    --accessibility-focus-outline-style: dashed;
+    --accessibility-focus-outline-offset: 3px;
+    --accessibility-focus-outline-width: 1px;
+    --accessibility-focus-outline-color: var(--color-foreground-lighter);
+    --accessibility-focus-outline-box-shadow: 0 0 0 0 #fdefe880, 0 0 #0000, 0 0 #0000;
+
+
+    --page-padding: 2.5rem;
+    --page-padding-sm: 1.5rem;
+    --page-translate-x: 0;
+    --page-transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    --page-container-padding: calc(var(--page-padding) * 5) var(--page-padding) var(--page-padding) var(--page-padding);
+
 
     // Icon
     --icon-size: 32px;
@@ -59,30 +88,109 @@
 
     --color-shadow: var(--color-shadow-surface);
     --color-accent: var(--color-primary);
-   
+
     --color-hover: var(--shadow-light-inverse);
     --color-selected: var(--shadow-base-inverse);
     --color-disabled: var(--color-theme-100);
 
-    // --color-disabled: var(--color-gray-100);
-    // --color-selected: var(--color-gray-300);
-    // --color-hover: var(--color-gray-200);
+    // Form
+    --form-field-background: var(--color-border-surface-dark);
+    --form-field-accent: var(--color-border-surface-dark);
 
-    --shadow-base-color: var(--color-gray-950, #0c111d);
-    --shadow-xs: 0 1px 2px 0 color-mix(in srgb, var(--shadow-base-color) 05%, transparent);
-    --shadow-sm: 0 1px 3px 0 color-mix(in srgb, var(--shadow-base-color) 10%, transparent), 0 1px 2px -1px color-mix(in srgb, var(--shadow-base-color) 10%, transparent);
-    --shadow-md: 0 4px 6px -1px color-mix(in srgb, var(--shadow-base-color) 10%, transparent), 0 2px 4px -2px color-mix(in srgb, var(--shadow-base-color) 10%, transparent);
-    --shadow-lg: 0 10px 15px -3px color-mix(in srgb, var(--shadow-base-color) 10%, transparent), 0 4px 6px -4px color-mix(in srgb, var(--shadow-base-color) 10%, transparent);
-    --shadow-xl: 0 20px 25px -5px color-mix(in srgb, var(--shadow-base-color) 10%, transparent), 0 8px 10px -6px color-mix(in srgb, var(--shadow-base-color) 10%, transparent);
-    --shadow-2xl: 0 25px 50px -12px color-mix(in srgb, var(--shadow-base-color) 25%, transparent);
+    --form-group-padding: var(--page-padding);
+    --input-padding: 1.5rem;
+    --input-background: var(--color-surface-dark);
+    --input-foreground: var(--color-foreground);
+    --input-border: var(--color-border-surface-dark);
+    --input-disabled-border: var(--color-border-surface-dark);
+    --input-radius: var(--radius);
+    --input-height: 48px;
+    --input-label-foreground: var(--color-mute);
+    --input-addon-padding: 1rem;
+    --input-offset-left: 1.5rem;
+    --input-offset-right: 1.5rem;
+
+    // Zindexes
+
+    // Alert goes on top of everything
+    --alert-sticy-zindex: 1009;
 
 
+    // Modal goes on top of pageoverlay
+    --modal-zindex: 1007;
+    --modal-backdrop-zindex: 1006;
 
-    --page-padding: 2.5rem;
-    --page-padding-sm: 1.5rem;
-    --page-translate-x: 0;
-    --page-transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    --page-container-padding: calc(var(--page-padding) * 5) var(--page-padding) var(--page-padding) var(--page-padding);
+    --zindex-dropdown: 1008;
+    --pageoverlay-zindex: 1005;
+    --drawer-zindex: 1004;
 
-    --header-height: 80px;
+    --sb-main-zindex: 203;
+    --sb-sub-zindex: 201;
+    // Drawer on top of sidebar sub
+    --sb-drawer-zindex: 202;
+    --sb-backdrop-zindex: 200;
+
+    --header-zindex: 98;
+    --gridlayout-zindex-mobile: 99; // must be higher that header
+    --gridlayout-zindex-desktop: 96; // Must be lower than header
+
+    --card-sticky-header-zindex: 97;
+
+    --bottom-sheet-zindex: 80;
+
+    // Illustrations
+    --art-background: var(--color-theme-500);
+    --art-accent: var(--color-primary);
+
 }
+
+
+.bg-surface-light{
+	.form-group{
+		--input-border: var(--color-border-surface-light);
+		--input-background: var(--color-surface-dark);
+		--input-disabled-border: var(--color-border-surface-dark);
+	}
+}
+.bg-surface-dark{
+	.form-group{
+		--input-border: var(--color-border-surface-dark);
+		--input-background: var(--color-theme-500);
+		--input-disabled-border: var(--color-border-theme-500);
+	}
+}
+
+.theme-dimmed,
+.theme-dark{
+	.form-group{
+		--input-disabled-border: var(--color-border-surface-light);
+	}
+	
+	.bg-surface-light{
+		.form-field{
+            --form-field-background: var(--color-theme-100);	
+			--form-field-accent: var(--color-theme-100);
+			&-accent{
+				--form-field-accent: var(--color-primary);
+			}
+		}	
+		
+		.form-group{
+			--input-disabled-border: var(--color-border-surface-light);
+		}
+	}
+	
+	.bg-surface-dark {
+		.form-field{
+            --form-field-background: var(--color-theme-100);	
+			--form-field-accent: var(--color-theme-100);
+			&-accent{
+				--form-field-accent: var(--color-primary);
+			}
+		}	
+		.form-group{
+			--input-disabled-border: var(--color-border-surface-light);
+		}
+	}
+}
+

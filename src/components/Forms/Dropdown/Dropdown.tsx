@@ -5,16 +5,11 @@ import ContentItem from "../../Base/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
 import { DropdownTabItem, DropdownTabPane, DropdownTabs } from "./DropdownTabs";
+import { DropdownSearch } from "./DropdownSearch";
 
 export enum DropdownVerticalPosition { Up = "Up", Down = "Down" }
 export enum DropdownHorizontalPosition { Left = "Left", Right = "Right" }
 
-
-// Search
-export interface DropdownSearch {
-	placeholder?: string;
-	noResultsText?: string;
-}
 
 // Toggle
 export interface DropdownToggle {
@@ -42,17 +37,14 @@ export interface DropdownFooter {
 	onClick?: () => void;
 }
 
-// Tabs
-
-
 export interface DropdownProps extends PropsWithChildren {
 	dropdownToggle: DropdownToggle;
 	menuItems?: DropdownMenuItem[];
-
 	dropdownHeader?: DropdownHeader;
 	dropdownFooter?: DropdownFooter;
 	enableSearch?: boolean;
-	search?: DropdownSearch;
+	searchPlaceholder?: string;
+	searchNoResultsText?: string;
 	tabs?: DropdownTabItem[];
 	tabPanes?: DropdownTabPane[];
 	verticalPosition?: DropdownVerticalPosition;
@@ -76,7 +68,8 @@ export function Dropdown({
 	tabs,
 	tabPanes,
 	enableSearch = false,
-	search,
+	searchPlaceholder,
+	searchNoResultsText,
 	verticalPosition = DropdownVerticalPosition.Down,
 	horizontalPosition = DropdownHorizontalPosition.Left,
 	maxHeight = 400,
@@ -251,42 +244,7 @@ export function Dropdown({
 		};
 	}, [open]);
 
-	// Search
-	const filterMenuItems = (
-		items: DropdownMenuItem[],
-		term: string
-	): DropdownMenuItem[] => {
-		if (!term) return items;
 
-		const lowerTerm = term.toLowerCase();
-
-		return items
-			.map((item) => {
-				if (item.divider) return item;
-
-				const labelMatches =
-					typeof item.label === "string" &&
-					item.label.toLowerCase().includes(lowerTerm);
-
-				const filteredChildren = item.items
-					? filterMenuItems(item.items, term)
-					: undefined;
-
-				if (labelMatches || filteredChildren?.length) {
-					return {
-						...item,
-						items: filteredChildren,
-					};
-				}
-
-				return null;
-			})
-			.filter((item): item is DropdownMenuItem => item !== null);
-	};
-
-	const filteredMenuItems = menuItems
-		? filterMenuItems(menuItems, searchTerm)
-		: undefined;
 
 	// Trigger
 	const renderDropdownToggle = (
@@ -325,7 +283,14 @@ export function Dropdown({
 			<button
 				ref={dropdownToggleRef}
 				className={dropdownToggleCss}
-				onClick={() => setOpen(!open)}    >
+				onMouseDown={(e) => {
+					e.stopPropagation();
+				}}
+				onClick={(e) => {
+					e.stopPropagation();
+					setOpen(!open);
+				}}
+			>
 				{renderDropdownToggle}
 			</button>
 
@@ -349,18 +314,11 @@ export function Dropdown({
 						)}
 
 						{!tabs && enableSearch && (
-							<div className="dropdown__search">
-								<div className="dropdown__search__container">
-									<Icon icon={IconDefinitions.search} size={SizeDefinitions.Small} />
-									<input
-										type="text"
-										placeholder={search?.placeholder ?? "Zoeken..."}
-										value={searchTerm}
-										onChange={(e) => setSearchTerm(e.target.value)}
-										onClick={(e) => e.stopPropagation()}
-									/>
-								</div>
-							</div>
+							<DropdownSearch
+								value={searchTerm}
+								placeholder={searchPlaceholder}
+								onChange={setSearchTerm}
+							/>
 						)}
 
 
@@ -369,7 +327,14 @@ export function Dropdown({
 								<DropdownTabs tabs={tabs} tabPanes={tabPanes} />
 							)}
 
-							{!tabs && filteredMenuItems && <DropdownMenu items={filteredMenuItems} forceOpenSubmenus={!!searchTerm} noResultsText={search?.noResultsText}/>}
+							{!tabs && menuItems && (
+								<DropdownMenu
+									items={menuItems}
+									searchTerm={searchTerm}
+									forceOpenSubmenus={!!searchTerm}
+									noResultsText={searchNoResultsText}
+								/>
+							)}
 
 							{!tabs && !menuItems && children}
 						</div>

@@ -4,16 +4,16 @@ export const SvgSprite = () => {
     return (
         <svg xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/symbol" style={{ display: "none" }}>
 
-<symbol id="svg_icon_move" viewBox="0 0 24 24">
-		<g fill="none" stroke="currentColor" strokeWidth="1.5">
-			<path d="M22 12H2" />
-			<path d="M12 2V22" opacity="var(--svg-ico-opacity, 0.5)"/>
-			<path d="M19 15L22 12L19 9" />
-			<path d="M5 15L2 12L5 9" />
-			<path d="M15 5L12 2L9 5" opacity="var(--svg-ico-opacity, 0.5)" />
-			<path d="M15 19L12 22L9 19" opacity="var(--svg-ico-opacity, 0.5)"/>			
-		</g>
-	</symbol>
+            <symbol id="svg_icon_move" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M22 12H2" />
+                    <path d="M12 2V22" opacity="var(--svg-ico-opacity, 0.5)" />
+                    <path d="M19 15L22 12L19 9" />
+                    <path d="M5 15L2 12L5 9" />
+                    <path d="M15 5L12 2L9 5" opacity="var(--svg-ico-opacity, 0.5)" />
+                    <path d="M15 19L12 22L9 19" opacity="var(--svg-ico-opacity, 0.5)" />
+                </g>
+            </symbol>
             <symbol id="svg_icon_arrow_reset" viewBox="0 0 32 32">
                 <path fill="currentColor" d="M27 4a1 1 0 1 0-2 0v2.62a12.97 12.97 0 0 0-6.647-3.407c-.586-.108-1.1.362-1.1.957c0 .513.387.94.89 1.039A11 11 0 0 1 23.55 8H21a1 1 0 1 0 0 2h5a1 1 0 0 0 1-1zM8.62 5.296c-.49.338-.52 1.033-.1 1.454c.363.363.938.391 1.364.106a10.9 10.9 0 0 1 3.979-1.649c.504-.099.89-.525.89-1.039c0-.595-.513-1.064-1.098-.957a12.9 12.9 0 0 0-5.034 2.085m5.243 21.497c.504.099.89.525.89 1.039c0 .595-.513 1.064-1.098.957a12.9 12.9 0 0 1-5.028-2.08c-.49-.338-.522-1.034-.101-1.455c.363-.363.937-.391 1.363-.106a10.9 10.9 0 0 0 3.974 1.645M6.86 22.124c.286.426.258 1.001-.105 1.364c-.42.421-1.115.39-1.454-.1a12.9 12.9 0 0 1-2.09-5.034c-.107-.585.363-1.099.958-1.099c.513 0 .94.387 1.039.89a10.9 10.9 0 0 0 1.652 3.98m-1.654-8.26c-.1.504-.526.891-1.04.891c-.594 0-1.063-.513-.957-1.099a12.9 12.9 0 0 1 2.088-5.038c.338-.49 1.033-.521 1.454-.1c.363.362.391.937.105 1.363a10.9 10.9 0 0 0-1.65 3.983" />
                 <path fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="var(--svg-ico-opacity, 0.5)" d="M18.342 19.036a1.52 1.52 0 0 1-1.117 1.928l-1.536.35a7.5 7.5 0 0 0-.04 3.19l1.698.423a1.52 1.52 0 0 1 1.096 1.892l-.496 1.724a7.5 7.5 0 0 0 2.75 1.597l1.26-1.3a1.53 1.53 0 0 1 2.193 0l1.236 1.272a7.5 7.5 0 0 0 2.737-1.635l-.467-1.514a1.52 1.52 0 0 1 1.117-1.927l1.536-.351a7.5 7.5 0 0 0 .04-3.189l-1.698-.423a1.52 1.52 0 0 1-1.096-1.893l.496-1.724a7.5 7.5 0 0 0-2.75-1.596l-1.26 1.3a1.53 1.53 0 0 1-2.193 0l-1.236-1.272a7.5 7.5 0 0 0-2.737 1.635zM25 23a2 2 0 1 1-4 0a2 2 0 0 1 4 0"
@@ -57,32 +57,31 @@ export const SvgSprite = () => {
                 <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5">
                     <path d="M16 18V6m0 0l4 4.125M16 6l-4 4.125" opacity="var(--svg-ico-opacity, 0.5)" />
                     <path d="M8 6v12m0 0l4-4.125M8 18l-4-4.125" />
-                </g>
+                </g>                
             </symbol>
-            <symbol id="svg_icon_grip_h" viewBox="0 0 16 16" fill="currentColor">
-                <circle cx="2" cy="6" r="1" />
-                <circle cx="2" cy="9" r="1" />
-                <circle cx="5" cy="6" r="1" />
-                <circle cx="5" cy="9" r="1" />
-                <circle cx="8" cy="6" r="1" opacity="var(--svg-ico-opacity, 0.5)" />
-                <circle cx="8" cy="9" r="1" opacity="var(--svg-ico-opacity, 0.5)" />
-                <circle cx="11" cy="6" r="1" />
-                <circle cx="11" cy="9" r="1" />
-                <circle cx="14" cy="6" r="1" />
-                <circle cx="14" cy="9" r="1" />
-            </symbol>
+
+    
+
             <symbol id="svg_icon_grip_v" viewBox="0 0 16 16" fill="currentColor">
-                <circle cx="6" cy="2" r="1" />
-                <circle cx="9" cy="2" r="1" />
-                <circle cx="6" cy="5" r="1" />
-                <circle cx="9" cy="5" r="1" />
-                <circle cx="6" cy="8" r="1" opacity="var(--svg-ico-opacity, 0.5)" />
-                <circle cx="9" cy="8" r="1" opacity="var(--svg-ico-opacity, 0.5)" />
-                <circle cx="6" cy="11" r="1" />
-                <circle cx="9" cy="11" r="1" />
-                <circle cx="6" cy="14" r="1" />
-                <circle cx="9" cy="14" r="1" />
-            </symbol>
+		<circle cx="2" cy="6" r="1" />
+		<circle cx="2" cy="10" r="1" />
+		<circle cx="5" cy="6" r="1"  opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="5" cy="10" r="1"  opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="8" cy="6" r="1"  opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="8" cy="10" r="1"  opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="11" cy="6" r="1" />
+		<circle cx="11" cy="10" r="1" />		
+	</symbol>
+	<symbol id="svg_icon_grip_h" viewBox="0 0 16 16" fill="currentColor">
+		<circle cx="6" cy="2" r="1" />
+		<circle cx="10" cy="2" r="1" />
+		<circle cx="6" cy="5" r="1" opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="10" cy="5" r="1" opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="6" cy="8" r="1" opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="10" cy="8" r="1" opacity="var(--svg-ico-opacity, 0.5)"/>
+		<circle cx="6" cy="11" r="1" />
+		<circle cx="10" cy="11" r="1" />		
+	</symbol>
 
 
             <symbol viewBox="0 0 24 24" id="svg_icon_sun_fog">

@@ -5,6 +5,7 @@ import HomePage from "./HomePage";
 import DemoPage from "./DemoPage";
 import DropdownPage from "./Demo/Dropdown/DropdownPage";
 import DatagridPage from "./Demo/Datagrid/DatagridPage";
+import TooltipPage from "./Demo/Tooltip/TooltipPage";
 
 
 export const routes = [
@@ -25,5 +26,10 @@ export const routes = [
 
 		path: "/demo/dropdown",
 		element: <DropdownPage />
+	},
+	{
+
+		path: "/demo/tooltip",
+		element: <TooltipPage />
 	}
 ];

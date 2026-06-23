@@ -3,6 +3,8 @@ import { DatagridGetDataArguments } from "../../../components/Data/Datagrid/Conf
 import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import useDatagridQueryClientFilter from "../../../components/Data/Datagrid/Hooks/useDatagridQueryClientFilter";
 import { ProductGetModel, getProductsQuery } from "../../../lib/testdata/models";
+import Icon from "../../../components/UI/Icons/Icon/Icon";
+import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 
 const DatagridPage: React.FC = () => {
 
@@ -37,6 +39,30 @@ const DatagridPage: React.FC = () => {
                     { prop: "garantiemaanden", title: "Garantiemaanden", sortable: true, },
                     { prop: "minOrderAantal", title: "Min Order Aantal", sortable: true, },
                     { prop: "maxOrderAantal", title: "Max Order Aantal", sortable: true, },
+                ]}
+
+                enableTabs
+                tabs={[
+                    { id: "tabMenu", title: "Menu", icon: <Icon icon={IconDefinitions.burger} size={SizeDefinitions.Small}/> },
+                    { id: "tabColumns", title: "Kolommen", icon: <Icon icon={IconDefinitions.window} size={SizeDefinitions.Small}/>  },
+                ]}
+                tabPanes={[
+                    {
+                        tabId: "tabMenu",
+                        content: (<span>Content....</span>),
+                        header:{
+                            content: "Menu"
+                        }
+                    },
+                    {
+                        tabId: "tabColumns",
+                        content: (
+                            <span>Content....</span>
+                        ),
+                         header:{
+                            content: "Kolommen"
+                        }
+                    },
                 ]}
             />
         </>

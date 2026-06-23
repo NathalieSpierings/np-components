@@ -180,6 +180,116 @@ const DropdownPage: React.FC = () => {
                 />
             </div>
 
+            <div className="mt-4">
+                <Dropdown dropdownToggle={{
+                    label: "Tabs dropdown",
+                    arrow: true
+                }}
+                    tabs={[
+                        { id: "tabMenu", title: "Menu" },
+                        { id: "tabColumns", title: "Kolommen" },
+                    ]}
+                    tabPanes={[
+                        {
+                            tabId: "tabMenu",
+                            content: <DropdownMenu items={[{
+                                id: '1',
+                                label: 'Menu item 1'
+                            },
+                            {
+                                id: "2",
+                                label: "Menu item 2",
+                                items: [
+                                    {
+                                        id: "3",
+                                        label: "Submenu item 1",
+                                    },
+                                    {
+                                        id: "4",
+                                        label: "Submenu item 2",
+                                    },
+                                ],
+                            },
+                            {
+                                id: '7',
+                                label: 'Menu item 3'
+                            }]} />,
+                        },
+                        {
+                            tabId: "tabColumns",
+                            content: (
+                                <div>
+                                    <h4>Custom pane</h4>
+                                    <p className="p2000">Hier kan elke React content staan.</p>
+                                    <input placeholder="Zoeken..." />
+                                    <button type="button">Toepassen</button>
+                                </div>
+                            ),
+                        },
+                    ]}
+                />
+            </div>
+
+            <div className="mt-4">
+                <Dropdown
+                    dropdownToggle={{
+                        label: "Tabs with search",
+                        arrow: true
+                    }}
+
+                    tabs={[
+                        { id: "tabMenu", title: "Menu" },
+                        { id: "tabColumns", title: "Kolommen" },
+                    ]}
+                    tabPanes={[
+                        {
+                            tabId: "tabMenu",
+                            search: {
+                                enabled: true,
+                                placeholder: "Zoek menu item...",
+                                noResultsText: "Geen resultaten"
+                            },
+
+                            menuItems: [
+                                {
+                                    id: "1",
+                                    label: "Menu item 1"
+                                },
+                                {
+                                    id: "2",
+                                    label: "Menu item 2",
+                                    items: [
+                                        {
+                                            id: "3",
+                                            label: "Submenu item 1",
+                                        },
+                                        {
+                                            id: "4",
+                                            label: "Submenu item 2",
+                                        },
+                                    ],
+                                },
+                                {
+                                    id: "7",
+                                    label: "Menu item 3"
+                                }
+                            ],
+                        },
+                        {
+                            tabId: "tabColumns",
+                            content: (
+                                <div>
+                                    <h4>Custom pane</h4>
+                                    <p className="p2000">Hier kan elke React content staan.</p>
+                                    <input placeholder="Zoeken..." />
+                                    <button type="button">Toepassen</button>
+                                </div>
+                            ),
+                        },
+                    ]}
+                />
+            </div>
+
 
             <div className="mt-4">
                 <Dropdown dropdownToggle={{
@@ -264,110 +374,6 @@ const DropdownPage: React.FC = () => {
                 />
             </div>
 
-
-            <div className="mt-4">
-                <Dropdown dropdownToggle={{
-                    label: "Tabs dropdown",
-                    arrow: true
-                }}
-                    tabs={[
-                        { id: "tabMenu", title: "Menu" },
-                        { id: "tabColumns", title: "Kolommen" },
-                    ]}
-                    tabPanes={[
-                        {
-                            tabId: "tabMenu",
-                            content: <DropdownMenu items={[{
-                                id: '1',
-                                label: 'Menu item 1'
-                            },
-                            {
-                                id: "2",
-                                label: "Menu item 2",
-                                items: [
-                                    {
-                                        id: "3",
-                                        label: "Submenu item 1",
-                                    },
-                                    {
-                                        id: "4",
-                                        label: "Submenu item 2",
-                                    },
-                                ],
-                            },
-                            {
-                                id: '7',
-                                label: 'Menu item 3'
-                            }]} />,
-                        },
-                        {
-                            tabId: "tabColumns",
-                            content: (
-                                <div>
-                                    <h4>Custom pane</h4>
-                                    <p className="p2000">Hier kan elke React content staan.</p>
-                                    <input placeholder="Zoeken..." />
-                                    <button type="button">Toepassen</button>
-                                </div>
-                            ),
-                        },
-                    ]}
-                />
-            </div>
-
-            <div className="mt-4">
-                <Dropdown 
-                dropdownToggle={{
-                    label: "Tabs with search",
-                    arrow: true
-                }}
-                enableSearch
-                    tabs={[
-                        { id: "tabMenu", title: "Menu" },
-                        { id: "tabColumns", title: "Kolommen" },
-                    ]}
-                    tabPanes={[
-                        {
-                            tabId: "tabMenu",
-                            content: <DropdownMenu
-                                items={[{
-                                    id: '1',
-                                    label: 'Menu item 1'
-                                },
-                                {
-                                    id: "2",
-                                    label: "Menu item 2",
-                                    items: [
-                                        {
-                                            id: "3",
-                                            label: "Submenu item 1",
-                                        },
-                                        {
-                                            id: "4",
-                                            label: "Submenu item 2",
-                                        },
-                                    ],
-                                },
-                                {
-                                    id: '7',
-                                    label: 'Menu item 3'
-                                }]}
-                            />,
-                        },
-                        {
-                            tabId: "tabColumns",
-                            content: (
-                                <div>
-                                    <h4>Custom pane</h4>
-                                    <p className="p2000">Hier kan elke React content staan.</p>
-                                    <input placeholder="Zoeken..." />
-                                    <button type="button">Toepassen</button>
-                                </div>
-                            ),
-                        },
-                    ]}
-                />
-            </div>
 
         </>
     )

@@ -1736,7 +1736,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
             &__pane {
                 display: block;
-                padding: 1rem;
+               // padding: 1rem;
 
                 &:has(.dropdown__menu) {
                     padding: 0;

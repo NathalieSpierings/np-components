@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, forwardRef, useState, ReactElement } from 'react';
+import React, { PropsWithChildren, forwardRef, useState, ReactElement, useRef, useEffect } from 'react';
 import { Control, FieldValues, RegisterOptions, useController, Path } from 'react-hook-form';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import { ValidationState } from '../Input/Input';
@@ -15,6 +15,7 @@ export interface CheckboxProps extends PropsWithChildren {
     color?: ColorDefinitions;
     readOnly?: boolean;
     disabled?: boolean;
+    indeterminate?: boolean;
     onChange?: (checked: boolean) => void;
     onBlur?: React.FocusEventHandler<HTMLInputElement>;
     css?: string;
@@ -32,6 +33,7 @@ const Checkbox = forwardRef(({
     color,
     readOnly,
     disabled,
+    indeterminate,
     onChange,
     onBlur,
     css = '',
@@ -39,7 +41,16 @@ const Checkbox = forwardRef(({
 }: CheckboxProps,
     ref: React.Ref<any>
 ) => {
+
     const [checkedState, setCheckedState] = useState(!!defaultChecked);
+
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.indeterminate = !!indeterminate;
+        }
+    }, [indeterminate]);
 
     const handleChange = () => {
         if (checked === undefined) {
@@ -79,12 +90,20 @@ const Checkbox = forwardRef(({
             <div className={cls} >
                 <label htmlFor={id}>
                     <span className="sr-only">{label}</span> {/* screen-reader only */}
-                    <input
-                        id={id}
-                        disabled={disabled}
-                        readOnly={readOnly}
+                    <input  
                         type="checkbox"
-                        ref={ref}
+                        id={id}
+                        ref={(node) => {
+                            inputRef.current = node;
+
+                            if (typeof ref === 'function') {
+                                ref(node);
+                            } else if (ref) {
+                                ref.current = node;
+                            }
+                        }}
+                        disabled={disabled}
+                        readOnly={readOnly}                      
                         checked={checked ?? checkedState}
                         onKeyDown={disabled ? undefined : handleKeyDown}
                         onChange={(e) => {
@@ -94,7 +113,7 @@ const Checkbox = forwardRef(({
                             }
                         }}
                         onBlur={onBlur}
-                        aria-checked={checked ?? checkedState}
+                        aria-checked={indeterminate ? 'mixed' : checked ?? checkedState}
                         aria-disabled={disabled}
                         tabIndex={disabled ? undefined : 0}
                     />

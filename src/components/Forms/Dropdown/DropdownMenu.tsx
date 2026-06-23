@@ -4,6 +4,42 @@ import { DropdownCoordinates } from "./Dropdown";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Icon from "../../UI/Icons/Icon/Icon";
 
+const filterMenuItems = (
+    items: DropdownMenuItem[],
+    term: string
+): DropdownMenuItem[] => {
+    if (!term) {
+        return items;
+    }
+
+    const lowerTerm = term.toLowerCase();
+
+    return items
+        .map((item) => {
+            if (item.divider) {
+                return item;
+            }
+
+            const labelMatches =
+                typeof item.label === "string" &&
+                item.label.toLowerCase().includes(lowerTerm);
+
+            const filteredChildren = item.items
+                ? filterMenuItems(item.items, term)
+                : undefined;
+
+            if (labelMatches || filteredChildren?.length) {
+                return {
+                    ...item,
+                    items: filteredChildren
+                };
+            }
+
+            return null;
+        })
+        .filter((item): item is DropdownMenuItem => item !== null);
+};
+
 
 export interface DropdownMenuItem {
     id?: string | number;
@@ -19,18 +55,22 @@ export interface DropdownMenuItem {
 
 export interface DropdownMenuProps {
     items: DropdownMenuItem[];
+     searchTerm?: string;
     forceOpenSubmenus?: boolean;
     noResultsText?: string;
 }
 
 export function DropdownMenu({
     items,
+     searchTerm = "",
     forceOpenSubmenus = false,
-    noResultsText = "Geen resultaten",
+    noResultsText = "Geen resultaten"
 
 }: Readonly<DropdownMenuProps>) {
 
-    if (items.length === 0) {
+     const filteredItems = filterMenuItems(items, searchTerm);
+
+     if (filteredItems.length === 0) {
         return (
             <div className="dropdown__menu">
                 <div className="dropdown__menu__node">
@@ -44,17 +84,20 @@ export function DropdownMenu({
         );
     }
 
-    return (
+
+     return (
         <div className="dropdown__menu">
-            {items.map((item, idx) => (
+            {filteredItems.map((item, idx) => (
                 <DropdownMenuNode
-                    key={item.id ?? idx}
+                     key={item.id ?? idx}
                     item={item}
-                    forceOpenSubmenus={forceOpenSubmenus}
+                    forceOpenSubmenus={
+                        forceOpenSubmenus || !!searchTerm
+                    }
                 />
             ))}
         </div>
-    );
+    );   
 }
 
 export interface DropdownMenuNodeProps {
