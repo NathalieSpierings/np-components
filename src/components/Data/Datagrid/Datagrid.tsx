@@ -10,8 +10,11 @@ import Pagination, { PaginationData } from "./Pagination";
 import Icon from "../../UI/Icons/Icon/Icon";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Checkbox from "../../Forms/Checkbox/Checkbox";
+import { AnimatePresence, motion } from "framer-motion";
+import { DatagridRow } from "./DatagridRow";
 
 export type DatagridPinnedPosition = "left" | "right" | null;
+export type DatagridRowActionsPosition = "left" | "right" | null;
 
 export interface DatagridColumnRuntime<TData> extends DatagridRowConfig<TData> {
     width: number;
@@ -28,6 +31,7 @@ export interface DatagridProps<TData> {
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
     rowActions?: DatagridAction<TData>[];
+    rowActionPosition?: DatagridRowActionsPosition,
     enablePagination?: boolean;
     enableColumnResize?: boolean;
     enableColumnReorder?: boolean;
@@ -53,10 +57,10 @@ export interface DatagridProps<TData> {
     checkedItems?: TData[];
     onRowsChecked?: (checkedItems: TData[]) => void;
 
+    collapsibleRowData?: (item: TData) => ReactElement;
+
     footerContent?: ReactNode;
     localStorageKey?: string;
-
-
 }
 
 function Datagrid<TData extends { id: string | number }>({
@@ -68,6 +72,7 @@ function Datagrid<TData extends { id: string | number }>({
     properties = [],
     initialSortConfig,
     rowActions = [],
+    rowActionPosition = 'right',
     enableColumnResize = false,
     enableColumnReorder = false,
     enableColumnVisibility = false,
@@ -88,6 +93,8 @@ function Datagrid<TData extends { id: string | number }>({
     checkedItems = [],
     onRowsChecked,
 
+    collapsibleRowData,
+
     footerContent,
     localStorageKey = "datagrid-columns",
 
@@ -97,8 +104,6 @@ function Datagrid<TData extends { id: string | number }>({
     const STORAGE_KEY = localStorageKey;
 
     const gridRef = useRef<HTMLDivElement | null>(null);
-    const columnPickerDragProp = useRef<string | null>(null);
-    const lastDragTargetProp = useRef<string | null>(null);
     const dragPreviewRef = useRef<HTMLDivElement | null>(null);
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -112,12 +117,10 @@ function Datagrid<TData extends { id: string | number }>({
     );
 
     const useCheckboxes = enableCheckboxes && onRowsChecked !== undefined;
-
+    const [collapsibleRowIds, setCollapsibleRowIds] = useState<Set<string | number>>(new Set());
 
     const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
 
-    const [columnSearchTerm, setColumnSearchTerm] = useState("");
-    const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
 
     const [resizing, setResizing] = useState<{
         prop: string;
@@ -134,10 +137,8 @@ function Datagrid<TData extends { id: string | number }>({
         if (stored) {
             try {
                 const storedColumns = JSON.parse(stored) as DatagridColumnRuntime<TData>[];
-
                 return properties.map((p) => {
                     const storedColumn = storedColumns.find((c) => c.prop === p.prop);
-
                     return {
                         ...p,
                         width: storedColumn?.width ?? 180,
@@ -146,7 +147,6 @@ function Datagrid<TData extends { id: string | number }>({
                     };
                 });
             } catch {
-
             }
         }
 
@@ -251,15 +251,32 @@ function Datagrid<TData extends { id: string | number }>({
     }, [columns]);
 
     const gridTemplateColumns = useMemo(() => {
-        const columns = visibleColumns.map((c) => `${c.width}px`);
+        const columns: string[] = [];
+
+        if (collapsibleRowData) {
+            columns.push("50px");
+        }
+
 
         if (useCheckboxes) {
-            columns.unshift("50px");
+            columns.push("50px");
+        }
+
+        if (rowActions.length > 0 && rowActionPosition === 'left') {
+            columns.push(`${rowActions.length * 50}px`);
+        }
+
+        columns.push(...visibleColumns.map(c => `${c.width}px`));
+
+        if (rowActions.length > 0 && rowActionPosition === 'right') {
+            columns.push(`${rowActions.length * 50}px`);
         }
 
         return columns.join(" ");
-    }, [visibleColumns, useCheckboxes]);
 
+    }, [visibleColumns, useCheckboxes, rowActions.length, rowActionPosition, collapsibleRowData]);
+
+   
 
     const resetColumns = () => {
         setColumns(
@@ -378,68 +395,10 @@ function Datagrid<TData extends { id: string | number }>({
 
 
 
-    // Tabs
-
-    const menuItems = (column: DatagridColumnRuntime<TData>) => {
-
-        return [
-            {
-                icon: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
-                label: "Sorteer oplopend",
-                selected: sort?.prop === column.prop && sort.order === "asc",
-                onClick: () => setSort({ prop: column.prop, order: "asc" }),
-            },
-            {
-                icon: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
-                label: "Sorteer aflopend",
-                selected: sort?.prop === column.prop && sort.order === "desc",
-                onClick: () => setSort({ prop: column.prop, order: "desc" }),
-            },
-            { divider: true },
-            {
-                icon: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
-                label: "Pin column",
-                items: [
-                    {
-                        label: "Niet vastzetten",
-                        selected: column.pinned === null,
-                        onClick: () => updateColumnState(column.prop, { pinned: null }),
-                    },
-                    {
-                        label: "Links vastzetten",
-                        selected: column.pinned === "left",
-                        onClick: () => updateColumnState(column.prop, { pinned: "left" }),
-                    },
-                    {
-                        label: "Rechts vastzetten",
-                        selected: column.pinned === "right",
-                        onClick: () => updateColumnState(column.prop, { pinned: "right" }),
-                    },
-                ],
-            },
-            {
-                label: "Autosize",
-                onClick: () =>
-                    updateColumnState(column.prop, {
-                        width: Math.max(120, column.title.length * 20),
-                    }),
-            },
-
-            { divider: true },
-            {
-                label: "Reset kolommen",
-                onClick: resetColumns,
-            },
-
-            ...extraItems,
-        ];
-    };
+    // Tabs   
 
     // Tab Column chooser
     const columnChooser = useDatagridColumnChooser<TData>({ columns, setColumns, enableColumnReorder, enableColumnVisibility });
-
-    // Tab menu
-
 
     const effectiveTabs = useMemo<DatagridTabItem[]>(() => {
         const extraTabs: DatagridTabItem[] = [];
@@ -487,6 +446,23 @@ function Datagrid<TData extends { id: string | number }>({
         onRowsChecked?.(items);
     };
 
+    // Collapsible row handling
+    const toggleCollapsibleRow = (id: string | number) => {
+
+        setCollapsibleRowIds((prev) => {
+
+            const newSet = new Set(prev);
+
+            if (newSet.has(id)) {
+                newSet.delete(id);
+            } else {
+                newSet.add(id);
+            }
+
+            return newSet;
+        });
+    };
+
     return (
         <div className="datagrid pc-layout">
             <div className="pc-layout__header">
@@ -509,6 +485,7 @@ function Datagrid<TData extends { id: string | number }>({
                         getPinnedStyle={getPinnedStyle}
                         setColumns={setColumns}
                         rowActions={rowActions}
+                        rowActionPosition={rowActionPosition}
                         enableStickyHeader={enableStickyHeader}
                         resetColumns={resetColumns}
                         enableColumnReorder={enableColumnReorder}
@@ -525,101 +502,45 @@ function Datagrid<TData extends { id: string | number }>({
                         enableCheckboxes={enableCheckboxes}
                         checkedItems={checkedItems}
                         onRowsChecked={onRowsChecked}
+                        collapsibleRowData={collapsibleRowData}
                     />
 
-                    <div className="datagrid__grid__body">
-                        {data.map((item) => {
-
-                            const selected =
-                                selectedRow != null &&
-                                String(typeof selectedRow === "object" ? selectedRow.id : selectedRow) === String(item.id);
-
-
-                            return (
-                                <div
-                                    key={item.id}
-                                    className={["datagrid__grid__row", selected ? "selected" : ""].join(" ")}
-                                    style={{ gridTemplateColumns }}
-                                    role="button"
-                                    tabIndex={0}
-                                    onClick={() => rowSingleClickAction?.(item)}
-                                    onDoubleClick={() => rowDoubleClickAction?.(item)}
-                                    onKeyDown={(event) => {
-                                        if (event.key === "Enter" || event.key === " ") {
-                                            event.preventDefault();
-                                            rowSingleClickAction?.(item);
-                                        }
-                                    }}
-                                >
-
-                                    {onRowsChecked && (
-                                       <div className="datagrid__grid__cell">
-                                         <Checkbox color={ColorDefinitions.Accent}
-                                         checked={checkedItems.some((x) => x.id === item.id)}
-                                            onChange={
-                                                useCheckboxes
-                                                    ? (checked) =>
-                                                        handleCheckedItems(
-                                                            checked
-                                                                ? [...checkedItems, item]
-                                                                : checkedItems.filter((x) => x.id !== item.id)
-                                                        )
-                                                    : undefined
-                                            } />
-                                       </div>
-                                    )}
-
-
-                                    {visibleColumns.map((column) => (
-                                        <div key={`${item.id}-${column.prop}`}
-                                            className={[
-                                                "datagrid__grid__cell",
-                                                column.pinned === "left" ? "datagrid__grid__cell--pinned-left" : "",
-                                                column.pinned === "right" ? "datagrid__grid__cell--pinned-right" : "",
-                                                resizing?.prop === column.prop ? "datagrid__grid--resizing" : ""
-                                            ].join(" ")}
-                                            data-column-key={column.prop}
-                                            style={getPinnedStyle(column)}
-                                        >
-                                            {renderValue(item, column)}
-                                        </div>
-                                    ))}
-
-                                    {/* Row actions */}
-                                    {rowActions.length > 0 && (
-                                        <div className="datagrid__grid__cell datagrid__grid__cell--actions">
-                                            {rowActions.map((action, index) => {
-                                                const disabled = action.disabled?.(item) ?? false;
-
-                                                if (action.element) {
-                                                    return (
-                                                        <React.Fragment key={action.label ?? index}>
-                                                            {action.element(item)}
-                                                        </React.Fragment>
-                                                    );
-                                                }
-
-                                                return (
-                                                    <button
-                                                        key={action.label ?? index}
-                                                        type="button"
-                                                        disabled={disabled}
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            action.action?.(item, async () => undefined);
-                                                        }}
-                                                    >
-                                                        {action.icon}
-                                                        {action.label}
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
+                     <div className="datagrid__grid__body">
+                        {data.map((item) => (
+                            <DatagridRow
+                                key={item.id}
+                                item={item}
+                                selected={
+                                    selectedRow != null &&
+                                    String(
+                                        typeof selectedRow === "object"
+                                            ? selectedRow.id
+                                            : selectedRow
+                                    ) === String(item.id)
+                                }
+                                expanded={collapsibleRowIds.has(item.id)}
+                                visibleColumns={visibleColumns}
+                                gridTemplateColumns={gridTemplateColumns}
+                                rowActions={rowActions}
+                                rowActionPosition={rowActionPosition}
+                                checkedItems={checkedItems}
+                                useCheckboxes={useCheckboxes}
+                                collapsibleRowData={collapsibleRowData}
+                                rowSingleClickAction={rowSingleClickAction}
+                                rowDoubleClickAction={rowDoubleClickAction}
+                                onRowsChecked={onRowsChecked}
+                                resizing={resizing}
+                                renderValue={renderValue}
+                                getPinnedStyle={getPinnedStyle}
+                                toggleCollapsibleRow={toggleCollapsibleRow}
+                            />
+                        ))}
                     </div>
+
+
+
+
+
                 </div>
 
                 {enableTabs && (
@@ -629,6 +550,7 @@ function Datagrid<TData extends { id: string | number }>({
                     />
                 )}
             </div>
+
             <div className="datagrid__footer pc-layout__footer">
                 {enablePagination && (
                     <Pagination

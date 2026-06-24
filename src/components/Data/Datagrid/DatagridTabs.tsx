@@ -31,12 +31,11 @@ export function DatagridTabs({
     tabs,
     tabPanes,
 }: Readonly<DatagridTabsProps>) {
- 
+
     const firstEnabledTab = tabs.find((tab) => !tab.disabled);
 
-    const [activeTab, setActiveTab] = useState<string | undefined>(
-        firstEnabledTab?.id
-    );
+    //const [activeTab, setActiveTab] = useState<string | undefined>(firstEnabledTab?.id);
+    const [activeTab, setActiveTab] = useState<string | undefined>();
 
     const activePane = tabPanes.find(
         (pane) => pane.tabId === activeTab
@@ -76,7 +75,7 @@ export function DatagridTabs({
             <div className="datagrid__tabber__panes">
 
                 {activeTab && (
-                    <div className="datagrid__tabber__pane shown">
+                    <div className={`datagrid__tabber__pane ${activeTab ? 'shown' : ''}`}>
                         <div className="datagrid__tabber__pane__container">
                             <div className={`datagrid__tabber__pane__header ${activePane?.header?.borderColor ? 'border-' + activePane?.header?.borderColor : ''}`}>
 

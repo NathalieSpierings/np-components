@@ -10,6 +10,8 @@ const DemoPage: React.FC = () => {
             <ul className="list">
                 <li><Link to='./datagrid'>Datagrid demo</Link></li>
                 <li><Link to='./datagridcheckboxes'>Datagrid checkboxes demo</Link></li>
+                <li><Link to='./datagridactions'>Datagrid actions demo</Link></li>
+                <li><Link to='./datagridnested'>Datagrid nested demo</Link></li>
             </ul>
 
             <br />

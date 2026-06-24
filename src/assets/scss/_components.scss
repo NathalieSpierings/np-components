@@ -1808,14 +1808,14 @@ toastr, toolbar, tooltip, widget, wizard;
         --datagrid-grid-padding: .5rem var(--page-padding-sm);
 
         // .pc-layout__header{
-            
+
         // }
 
-        &__footer{
+        &__footer {
             padding: calc(var(--page-padding) / 2) 0;
             border-top: 1px solid var(--color-border);
 
-            &__content{
+            &__content {
                 padding: calc(var(--page-padding) / 2) 0;
             }
         }
@@ -1824,8 +1824,7 @@ toastr, toolbar, tooltip, widget, wizard;
             display: grid;
             grid-template-rows: var(--datagrid-header-height) 1fr;
             height: 100%;
-           // border: 1px solid var(--color-border);
-           // border-radius: var(--radius-sm);
+
 
             &__header {
                 display: grid;
@@ -1848,12 +1847,12 @@ toastr, toolbar, tooltip, widget, wizard;
                 border-bottom: 1px solid var(--color-border);
                 background: var(--color-background);
 
-                &.selected{
+                &.selected {
                     background: var(--color-surface-dark);
-                    border-color: var(--color-border-surface-dark);    
+                    border-color: var(--color-border-surface-dark);
 
-                    .datagrid__grid__cell{
-                         background: var(--color-surface-dark);
+                    .datagrid__grid__cell {
+                        background: var(--color-surface-dark);
                     }
                 }
             }
@@ -1865,6 +1864,14 @@ toastr, toolbar, tooltip, widget, wizard;
                 padding: var(--datagrid-grid-padding);
                 background: var(--color-background);
                 transition: background-color 0.3s;
+
+                &--right {
+                    justify-self: end;
+                }
+
+                &--center {
+                    justify-self: center;
+                }
             }
 
             &__hcell {
@@ -1949,9 +1956,7 @@ toastr, toolbar, tooltip, widget, wizard;
                     z-index: 40;
                 }
 
-                &--center{
-                    text-align: center;
-                }
+
             }
 
             &__cell {
@@ -1971,6 +1976,17 @@ toastr, toolbar, tooltip, widget, wizard;
 
                 &--pinned-right {
                     z-index: 30;
+                }
+            }
+
+            &__collapsible {
+                padding: var(--page-padding);
+
+                &__row {
+                    >.datagrid__grid {
+                        border: 1px solid var(--color-border);
+                        border-radius: var(--radius-sm);
+                    }
                 }
             }
 
@@ -2295,18 +2311,19 @@ toastr, toolbar, tooltip, widget, wizard;
             &__item {
                 display: flex;
                 align-items: center;
-                padding:.5rem var(--page-padding-sm);
+                padding: .5rem var(--page-padding-sm);
                 border-bottom: 2px solid transparent;
 
-                &--dragging{
+                &--dragging {
                     border-bottom: 2px solid var(--color-primary);
                 }
             }
-            
-          
-             .icon{
+
+
+            .icon {
                 flex: 0 0 var(--icon-size);
-             }
+            }
+
             // Search
             &__search {
                 max-width: 200px;
@@ -2339,8 +2356,8 @@ toastr, toolbar, tooltip, widget, wizard;
                 }
             }
 
-        
-            
+
+
 
             &__grip {
                 cursor: grab;

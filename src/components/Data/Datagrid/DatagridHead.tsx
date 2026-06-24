@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode, RefObject } from "react";
 import DatagridMenuDropdown from "./Addons/DatagridMenuDropdown";
 import { DatagridAction } from "./Config/DatagridAction";
 import { DatagridSortConfig } from "./Config/DatagridSort";
-import { DatagridColumnRuntime } from "./Datagrid";
+import { DatagridColumnRuntime, DatagridRowActionsPosition } from "./Datagrid";
 import Checkbox from "../../Forms/Checkbox/Checkbox";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 
@@ -14,11 +14,9 @@ export interface DatagridHeadProps<TData> {
     enableColumnResize?: boolean;
     enableColumnReorder?: boolean;
 
-
     // Dropdown
     enableDropdownHeadMenu?: boolean;
     enableColumnChooserInDropdownHeadMenu?: boolean;
-
 
     // Tabs
     enabelTabs?: boolean;
@@ -35,6 +33,7 @@ export interface DatagridHeadProps<TData> {
     getPinnedStyle: (column: DatagridColumnRuntime<TData>) => React.CSSProperties;
     setColumns: React.Dispatch<React.SetStateAction<DatagridColumnRuntime<TData>[]>>;
     rowActions: DatagridAction<TData>[];
+    rowActionPosition?: DatagridRowActionsPosition,
     enableStickyHeader: boolean;
 
     updateColumnState: (prop: string, update: Partial<Pick<DatagridColumnRuntime<TData>, "width" | "visible" | "pinned">>) => void;
@@ -49,6 +48,8 @@ export interface DatagridHeadProps<TData> {
     enableCheckboxes?: boolean;
     checkedItems?: TData[];
     onRowsChecked?: (checkedItems: TData[]) => void;
+
+    collapsibleRowData?: (item: TData) => ReactElement;
 }
 
 export function DatagridHead<TData>({
@@ -70,6 +71,7 @@ export function DatagridHead<TData>({
     getPinnedStyle,
     setColumns,
     rowActions,
+    rowActionPosition,
     enableStickyHeader,
     updateColumnState,
     resetColumns,
@@ -82,6 +84,7 @@ export function DatagridHead<TData>({
     enableCheckboxes,
     checkedItems = [],
     onRowsChecked,
+    collapsibleRowData
 }: Readonly<DatagridHeadProps<TData>>): ReactElement {
 
     const useCheckboxes = enableCheckboxes && onRowsChecked !== undefined;
@@ -188,6 +191,10 @@ export function DatagridHead<TData>({
         <div className={`datagrid__grid__header ${enableStickyHeader ? "datagrid__grid__header--sticky" : ""}`}>
             <div className="datagrid__grid__row" style={{ gridTemplateColumns }}>
 
+                {collapsibleRowData && (
+                    <div className="datagrid__grid__hcell datagrid__grid__hcell--center"></div>
+                )}
+
                 {useCheckboxes && (
                     <div className="datagrid__grid__hcell datagrid__grid__hcell--center">
                         <Checkbox
@@ -196,6 +203,11 @@ export function DatagridHead<TData>({
                             onChange={(checked) => onRowsChecked?.(checked ? data : [])}
                         />
                     </div>
+                )}
+
+
+                {rowActions.length > 0 && rowActionPosition === 'left' && (
+                    <div className="datagrid__grid__hcell datagrid__grid__hcell--actions"></div>
                 )}
 
                 {visibleColumns.map((column) => {
@@ -299,9 +311,10 @@ export function DatagridHead<TData>({
                     );
                 })}
 
-                {rowActions.length > 0 && (
+                {rowActions.length > 0 && rowActionPosition === 'right' && (
                     <div className="datagrid__grid__hcell datagrid__grid__hcell--actions"></div>
                 )}
+
             </div>
         </div>
     );

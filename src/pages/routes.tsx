@@ -7,6 +7,8 @@ import DropdownPage from "./Demo/Dropdown/DropdownPage";
 import DatagridPage from "./Demo/Datagrid/DatagridPage";
 import TooltipPage from "./Demo/Tooltip/TooltipPage";
 import DatagridPageCheckboxes from "./Demo/Datagrid/DatagridPageCheckboxes";
+import DatagridPageActions from "./Demo/Datagrid/DatagridPageActions";
+import DatagridPageNested from "./Demo/Datagrid/DatagridPageNested";
 
 
 export const routes = [
@@ -27,6 +29,16 @@ export const routes = [
 
 		path: "/demo/datagridcheckboxes",
 		element: <DatagridPageCheckboxes />
+	},
+	{
+
+		path: "/demo/datagridactions",
+		element: <DatagridPageActions />
+	},
+	{
+
+		path: "/demo/datagridnested",
+		element: <DatagridPageNested />
 	},
 
 	{
