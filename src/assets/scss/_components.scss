@@ -1847,6 +1847,15 @@ toastr, toolbar, tooltip, widget, wizard;
                 min-width: 100%;
                 border-bottom: 1px solid var(--color-border);
                 background: var(--color-background);
+
+                &.selected{
+                    background: var(--color-surface-dark);
+                    border-color: var(--color-border-surface-dark);    
+
+                    .datagrid__grid__cell{
+                         background: var(--color-surface-dark);
+                    }
+                }
             }
 
             &__hcell,
@@ -1938,6 +1947,10 @@ toastr, toolbar, tooltip, widget, wizard;
                     position: sticky;
                     background: var(--color-surface-dark);
                     z-index: 40;
+                }
+
+                &--center{
+                    text-align: center;
                 }
             }
 

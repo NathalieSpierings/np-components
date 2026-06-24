@@ -6,6 +6,7 @@ import DemoPage from "./DemoPage";
 import DropdownPage from "./Demo/Dropdown/DropdownPage";
 import DatagridPage from "./Demo/Datagrid/DatagridPage";
 import TooltipPage from "./Demo/Tooltip/TooltipPage";
+import DatagridPageCheckboxes from "./Demo/Datagrid/DatagridPageCheckboxes";
 
 
 export const routes = [
@@ -22,6 +23,12 @@ export const routes = [
 		path: "/demo/datagrid",
 		element: <DatagridPage />
 	},
+	{
+
+		path: "/demo/datagridcheckboxes",
+		element: <DatagridPageCheckboxes />
+	},
+
 	{
 
 		path: "/demo/dropdown",

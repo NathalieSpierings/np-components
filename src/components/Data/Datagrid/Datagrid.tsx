@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import DatagridColumnChooser from "./Addons/DatagridColumnChooser";
+import { useDatagridColumnChooser } from "./Addons/DatagridColumnChooser";
 import { DatagridAction } from "./Config/DatagridAction";
 import { FilterUpdateFunc } from "./Config/DatagridData";
 import { DatagridRowConfig } from "./Config/DatagridRowConfig";
@@ -7,6 +7,9 @@ import { DatagridSortConfig } from "./Config/DatagridSort";
 import DatagridHead from "./DatagridHead";
 import { DatagridTabItem, DatagridTabPane, DatagridTabs } from "./DatagridTabs";
 import Pagination, { PaginationData } from "./Pagination";
+import Icon from "../../UI/Icons/Icon/Icon";
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import Checkbox from "../../Forms/Checkbox/Checkbox";
 
 export type DatagridPinnedPosition = "left" | "right" | null;
 
@@ -26,22 +29,34 @@ export interface DatagridProps<TData> {
     initialSortConfig?: DatagridSortConfig;
     rowActions?: DatagridAction<TData>[];
     enablePagination?: boolean;
+    enableColumnResize?: boolean;
+    enableColumnReorder?: boolean;
+    enableColumnVisibility?: boolean;
 
     // Dropdown
-    enableDropdown?: boolean;
-    enableColumnChooserInDropdown?: boolean;
+    enableDropdownHeadMenu?: boolean;
+    enableColumnChooserInDropdownHeadMenu?: boolean;
 
     // Tabs
     enableTabs?: boolean;
     tabs?: DatagridTabItem[];
     tabPanes?: DatagridTabPane[];
-    enableTabMenu?: boolean;
     enableTabColumnChooser?: boolean;
 
     enableStickyHeader?: boolean;
 
+    selectedRow?: TData | string | number;
+    rowSingleClickAction?: (item: TData) => void;
+    rowDoubleClickAction?: (item: TData) => void;
+
+    enableCheckboxes?: boolean;
+    checkedItems?: TData[];
+    onRowsChecked?: (checkedItems: TData[]) => void;
+
     footerContent?: ReactNode;
     localStorageKey?: string;
+
+
 }
 
 function Datagrid<TData extends { id: string | number }>({
@@ -53,18 +68,30 @@ function Datagrid<TData extends { id: string | number }>({
     properties = [],
     initialSortConfig,
     rowActions = [],
+    enableColumnResize = false,
+    enableColumnReorder = false,
+    enableColumnVisibility = false,
     enablePagination = true,
-
     enableTabs,
     tabs,
     tabPanes,
-    enableTabMenu,
     enableTabColumnChooser,
-
-
+    enableDropdownHeadMenu,
+    enableColumnChooserInDropdownHeadMenu,
     enableStickyHeader = true,
+
+    selectedRow,
+    rowSingleClickAction,
+    rowDoubleClickAction,
+
+    enableCheckboxes = false,
+    checkedItems = [],
+    onRowsChecked,
+
     footerContent,
     localStorageKey = "datagrid-columns",
+
+
 }: Readonly<DatagridProps<TData>>): ReactElement {
 
     const STORAGE_KEY = localStorageKey;
@@ -84,8 +111,11 @@ function Datagrid<TData extends { id: string | number }>({
         initialSortConfig
     );
 
+    const useCheckboxes = enableCheckboxes && onRowsChecked !== undefined;
+
+
     const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
-    const [selectedRowId, setSelectedRowId] = useState<string | number | null>(null);
+
     const [columnSearchTerm, setColumnSearchTerm] = useState("");
     const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
 
@@ -211,19 +241,6 @@ function Datagrid<TData extends { id: string | number }>({
         });
     }, [searchTerm, pagination.page, pagination.perPage, sort, columnFilters]);
 
-
-    const allColumnsVisible = columns.every((c) => c.visible);
-    const someColumnsVisible = columns.some((c) => c.visible);
-
-    const setAllColumnsVisible = (checked: boolean) => {
-        setColumns((current) =>
-            current.map((column, index) => ({
-                ...column,
-                visible: checked || index === 0,
-            }))
-        );
-    };
-
     const visibleColumns = useMemo(() => {
         const visible = columns.filter((c) => c.visible);
         const left = visible.filter((c) => c.pinned === "left");
@@ -234,37 +251,15 @@ function Datagrid<TData extends { id: string | number }>({
     }, [columns]);
 
     const gridTemplateColumns = useMemo(() => {
-        return visibleColumns.map((c) => `${c.width}px`).join(" ");
-    }, [visibleColumns]);
+        const columns = visibleColumns.map((c) => `${c.width}px`);
 
+        if (useCheckboxes) {
+            columns.unshift("50px");
+        }
 
+        return columns.join(" ");
+    }, [visibleColumns, useCheckboxes]);
 
-    const updateColumnState = (
-        prop: string,
-        update: Partial<Pick<DatagridColumnRuntime<TData>, "width" | "visible" | "pinned">>
-    ) => {
-        setColumns((current) => {
-            // Alleen controleren bij het verbergen van een kolom
-            if (update.visible === false) {
-                const visibleCount = current.filter((c) => c.visible).length;
-                const targetColumn = current.find((c) => c.prop === prop);
-
-                // Last visible column cannot be removed
-                if (visibleCount === 1 && targetColumn?.visible) {
-                    return current;
-                }
-            }
-
-            return current.map((column) =>
-                column.prop === prop
-                    ? {
-                        ...column,
-                        ...update,
-                    }
-                    : column
-            );
-        });
-    };
 
     const resetColumns = () => {
         setColumns(
@@ -277,23 +272,6 @@ function Datagrid<TData extends { id: string | number }>({
         );
 
         setSort(initialSortConfig);
-    };
-
-    const moveColumn = (draggedProp: string, targetProp: string) => {
-        if (draggedProp === targetProp) return;
-
-        setColumns((current) => {
-            const from = current.findIndex((c) => c.prop === draggedProp);
-            const to = current.findIndex((c) => c.prop === targetProp);
-
-            if (from === -1 || to === -1 || from === to) return current;
-
-            const updated = [...current];
-            const [moved] = updated.splice(from, 1);
-            updated.splice(to, 0, moved);
-
-            return updated;
-        });
     };
 
     const renderValue = (
@@ -360,22 +338,6 @@ function Datagrid<TData extends { id: string | number }>({
         return {};
     };
 
-    // Dragging
-    const createDragPreview = (label: string) => {
-        removeDragPreview();
-
-        const preview = document.createElement("div");
-        preview.className = "datagrid__grid__drag__tooltip";
-        preview.innerHTML = `
-        <div class="icon icon--sm">
-            <svg><use xlink:href="#svg_icon_move" /></svg>
-        </div>
-        <span>${label}</span>
-    `;
-
-        document.body.appendChild(preview);
-        dragPreviewRef.current = preview;
-    };
 
     const moveDragPreview = (event: DragEvent | React.DragEvent) => {
         if (!dragPreviewRef.current) return;
@@ -416,28 +378,114 @@ function Datagrid<TData extends { id: string | number }>({
 
 
 
-    // Column chooser
-    const renderColumnChooser = () => (
-        <DatagridColumnChooser
-            columns={columns}
-            searchTerm={columnSearchTerm}
-            setSearchTerm={setColumnSearchTerm}
-            allColumnsVisible={allColumnsVisible}
-            someColumnsVisible={someColumnsVisible}
-            setAllColumnsVisible={setAllColumnsVisible}
-            updateColumnState={updateColumnState}
-            moveColumn={moveColumn}
-            columnPickerDragProp={columnPickerDragProp}
-            lastDragTargetProp={lastDragTargetProp}
-            dragOverColumn={dragOverColumn}
-            setDragOverColumn={setDragOverColumn}
-            createDragPreview={createDragPreview}
-            moveDragPreview={moveDragPreview}
-            removeDragPreview={removeDragPreview}
-        />
-    );
+    // Tabs
+
+    const menuItems = (column: DatagridColumnRuntime<TData>) => {
+
+        return [
+            {
+                icon: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
+                label: "Sorteer oplopend",
+                selected: sort?.prop === column.prop && sort.order === "asc",
+                onClick: () => setSort({ prop: column.prop, order: "asc" }),
+            },
+            {
+                icon: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
+                label: "Sorteer aflopend",
+                selected: sort?.prop === column.prop && sort.order === "desc",
+                onClick: () => setSort({ prop: column.prop, order: "desc" }),
+            },
+            { divider: true },
+            {
+                icon: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
+                label: "Pin column",
+                items: [
+                    {
+                        label: "Niet vastzetten",
+                        selected: column.pinned === null,
+                        onClick: () => updateColumnState(column.prop, { pinned: null }),
+                    },
+                    {
+                        label: "Links vastzetten",
+                        selected: column.pinned === "left",
+                        onClick: () => updateColumnState(column.prop, { pinned: "left" }),
+                    },
+                    {
+                        label: "Rechts vastzetten",
+                        selected: column.pinned === "right",
+                        onClick: () => updateColumnState(column.prop, { pinned: "right" }),
+                    },
+                ],
+            },
+            {
+                label: "Autosize",
+                onClick: () =>
+                    updateColumnState(column.prop, {
+                        width: Math.max(120, column.title.length * 20),
+                    }),
+            },
+
+            { divider: true },
+            {
+                label: "Reset kolommen",
+                onClick: resetColumns,
+            },
+
+            ...extraItems,
+        ];
+    };
+
+    // Tab Column chooser
+    const columnChooser = useDatagridColumnChooser<TData>({ columns, setColumns, enableColumnReorder, enableColumnVisibility });
+
+    // Tab menu
 
 
+    const effectiveTabs = useMemo<DatagridTabItem[]>(() => {
+        const extraTabs: DatagridTabItem[] = [];
+
+        if (enableTabColumnChooser) {
+            extraTabs.push({
+                id: "__columns",
+                title: "Kolommen",
+            });
+        }
+
+        return [
+            ...extraTabs,
+            ...(tabs ?? []),
+        ];
+    }, [tabs, enableTabColumnChooser]);
+
+    const effectiveTabPanes = useMemo<DatagridTabPane[]>(() => {
+        const extraPanes: DatagridTabPane[] = [];
+
+        if (enableTabColumnChooser) {
+            extraPanes.push({
+                tabId: "__columns",
+                content: columnChooser.renderColumnChooser(),
+                header: {
+                    content: "Kolommen",
+                },
+            });
+        }
+
+
+
+        return [
+            ...extraPanes,
+            ...(tabPanes ?? []),
+        ];
+    }, [
+        tabPanes,
+        enableTabColumnChooser,
+        columnChooser.renderColumnChooser,
+    ]);
+
+    // Checkbox handling
+    const handleCheckedItems = (items: TData[]) => {
+        onRowsChecked?.(items);
+    };
 
     return (
         <div className="datagrid pc-layout">
@@ -451,6 +499,7 @@ function Datagrid<TData extends { id: string | number }>({
 
                     <DatagridHead
                         gridRef={gridRef}
+                        data={data}
                         visibleColumns={visibleColumns}
                         gridTemplateColumns={gridTemplateColumns}
                         sort={sort}
@@ -461,29 +510,66 @@ function Datagrid<TData extends { id: string | number }>({
                         setColumns={setColumns}
                         rowActions={rowActions}
                         enableStickyHeader={enableStickyHeader}
-                        updateColumnState={updateColumnState}
                         resetColumns={resetColumns}
-                        renderColumnChooser={renderColumnChooser}
-                        createDragPreview={createDragPreview}
-                        moveDragPreview={moveDragPreview}
-                        removeDragPreview={removeDragPreview}
-                        dragProp={columnPickerDragProp}
-                        lastDragTargetProp={lastDragTargetProp}
+                        enableColumnReorder={enableColumnReorder}
+                        enableColumnResize={enableColumnResize}
+                        enableDropdownHeadMenu={enableDropdownHeadMenu}
+                        enableColumnChooserInDropdownHeadMenu={enableColumnChooserInDropdownHeadMenu}
+                        updateColumnState={columnChooser.updateColumnState}
+                        renderColumnChooser={columnChooser.renderColumnChooser}
+                        createDragPreview={columnChooser.createDragPreview}
+                        moveDragPreview={columnChooser.moveDragPreview}
+                        removeDragPreview={columnChooser.removeDragPreview}
+                        dragProp={columnChooser.columnPickerDragProp}
+                        lastDragTargetProp={columnChooser.lastDragTargetProp}
+                        enableCheckboxes={enableCheckboxes}
+                        checkedItems={checkedItems}
+                        onRowsChecked={onRowsChecked}
                     />
 
                     <div className="datagrid__grid__body">
                         {data.map((item) => {
 
-                            const selected = selectedRowId === item.id;
-                            //const selected = { typeof selectedRow === "string" ? selectedRow === item.id : selectedRow?.id === item.id }
+                            const selected =
+                                selectedRow != null &&
+                                String(typeof selectedRow === "object" ? selectedRow.id : selectedRow) === String(item.id);
+
 
                             return (
                                 <div
                                     key={item.id}
                                     className={["datagrid__grid__row", selected ? "selected" : ""].join(" ")}
                                     style={{ gridTemplateColumns }}
-                                    onClick={() => setSelectedRowId(item.id)}
+                                    role="button"
+                                    tabIndex={0}
+                                    onClick={() => rowSingleClickAction?.(item)}
+                                    onDoubleClick={() => rowDoubleClickAction?.(item)}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Enter" || event.key === " ") {
+                                            event.preventDefault();
+                                            rowSingleClickAction?.(item);
+                                        }
+                                    }}
                                 >
+
+                                    {onRowsChecked && (
+                                       <div className="datagrid__grid__cell">
+                                         <Checkbox color={ColorDefinitions.Accent}
+                                         checked={checkedItems.some((x) => x.id === item.id)}
+                                            onChange={
+                                                useCheckboxes
+                                                    ? (checked) =>
+                                                        handleCheckedItems(
+                                                            checked
+                                                                ? [...checkedItems, item]
+                                                                : checkedItems.filter((x) => x.id !== item.id)
+                                                        )
+                                                    : undefined
+                                            } />
+                                       </div>
+                                    )}
+
+
                                     {visibleColumns.map((column) => (
                                         <div key={`${item.id}-${column.prop}`}
                                             className={[
@@ -536,31 +622,20 @@ function Datagrid<TData extends { id: string | number }>({
                     </div>
                 </div>
 
-
-
                 {enableTabs && (
                     <DatagridTabs
-                        tabs={tabs ?? []}
-                        tabPanes={tabPanes ?? []}
-                        enableTabMenu
-                        enableTabColumnChooser
-
-
-                        // enableColumnChooserTab
-                        // columnChooserContent={renderColumnChooser()}
+                        tabs={effectiveTabs}
+                        tabPanes={effectiveTabPanes}
                     />
-
-
-
                 )}
             </div>
             <div className="datagrid__footer pc-layout__footer">
                 {enablePagination && (
                     <Pagination
-                            total={total}
-                            pagination={pagination}
-                            setPagination={setPagination}
-                        />
+                        total={total}
+                        pagination={pagination}
+                        setPagination={setPagination}
+                    />
                 )}
                 <div className="datagrid__footer__content">
                     {footerContent}

@@ -25,51 +25,20 @@ export interface DatagridTabPane {
 export interface DatagridTabsProps {
     tabs: DatagridTabItem[];
     tabPanes: DatagridTabPane[];
-    enableTabMenu?: boolean;
-    enableTabColumnChooser?: boolean;
 }
 
 export function DatagridTabs({
     tabs,
     tabPanes,
-    enableTabMenu,
-    enableTabColumnChooser
 }: Readonly<DatagridTabsProps>) {
-
-    const effectiveTabs = useMemo(() => {
-        if (!enableTabColumnChooser) return tabs;
-
-        return [
-            {
-                id: "__columns",
-                title: "Kolommen",
-            },
-            ...tabs,
-        ];
-    }, [tabs, enableTabColumnChooser]);
-
-    const effectiveTabPanes = useMemo(() => {
-        if (!enableTabColumnChooser) return tabPanes;
-
-        return [
-            {
-                tabId: "__columns",
-                content: columnChooserContent,
-                header: {
-                    content: "Kolommen",
-                },
-            },
-            ...tabPanes,
-        ];
-    }, [tabPanes, enableTabColumnChooser]);
-
-    const firstEnabledTab = effectiveTabs.find((tab) => !tab.disabled);
+ 
+    const firstEnabledTab = tabs.find((tab) => !tab.disabled);
 
     const [activeTab, setActiveTab] = useState<string | undefined>(
         firstEnabledTab?.id
     );
 
-    const activePane = effectiveTabPanes.find(
+    const activePane = tabPanes.find(
         (pane) => pane.tabId === activeTab
     );
 
@@ -78,9 +47,9 @@ export function DatagridTabs({
     };
 
     return (
-        <div className={`datagrid__tabber pc-layout__aside ${enableTabs ? 'shown' : ''}`}>
+        <div className="datagrid__tabber pc-layout__aside shown">
             <div className="datagrid__tabber__tabs">
-                {effectiveTabs.map((tab, idx) => (
+                {tabs.map((tab, idx) => (
                     <button
                         key={tab.id ?? idx}
                         disabled={tab.disabled}
@@ -121,7 +90,6 @@ export function DatagridTabs({
                                         onClick={closePane}
                                     />
                                 </Tooltip>
-
                             </div>
                             <div className="datagrid__tabber__pane__content">
                                 {activePane?.content}

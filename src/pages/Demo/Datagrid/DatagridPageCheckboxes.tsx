@@ -6,7 +6,7 @@ import { ProductGetModel, getProductsQuery } from "../../../lib/testdata/models"
 import Icon from "../../../components/UI/Icons/Icon/Icon";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 
-const DatagridPage: React.FC = () => {
+const DatagridCheckboxesPage: React.FC = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
     const [dataRaw, data, total, status] = useDatagridQueryClientFilter({
@@ -15,11 +15,13 @@ const DatagridPage: React.FC = () => {
     });
 
     const [selected, setSelected] = useState<ProductGetModel | undefined>();
-
+  const [checkedItems, setCheckedItems] = useState<ProductGetModel[]>([]);
 
     return (
         <>
-            <p> Welcome to the datagrid demo page</p>
+            <p> Welcome to the datagrid checkboxes demo page</p>
+
+<div>You have checked  <span className="bold text-red">{checkedItems.length}</span> items</div>
 
             <Datagrid
                 data={data || []}
@@ -74,8 +76,11 @@ const DatagridPage: React.FC = () => {
                     setSelected(row)
                     console.log(`Dobule clicked row`, row.naam);
                 }}
+                 enableCheckboxes={true}
+                checkedItems={checkedItems}
+                onRowsChecked={setCheckedItems}
             />
         </>
     )
 }
-export default DatagridPage;
+export default DatagridCheckboxesPage;

@@ -1,18 +1,23 @@
-import React, { ReactElement, ReactNode, RefObject, useState } from "react";
-import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
-import { Dropdown } from "../../Forms/Dropdown/Dropdown";
-import { DropdownMenu } from "../../Forms/Dropdown/DropdownMenu";
-import { Icon } from "../../UI/Icons/Icon";
+import React, { ReactElement, ReactNode, RefObject } from "react";
+import DatagridMenuDropdown from "./Addons/DatagridMenuDropdown";
 import { DatagridAction } from "./Config/DatagridAction";
 import { DatagridSortConfig } from "./Config/DatagridSort";
 import { DatagridColumnRuntime } from "./Datagrid";
+import Checkbox from "../../Forms/Checkbox/Checkbox";
+import { ColorDefinitions } from "../../../lib/utils/definitions";
+
 
 export interface DatagridHeadProps<TData> {
     gridRef: RefObject<HTMLDivElement | null>;
+    data: TData[];
+
+    enableColumnResize?: boolean;
+    enableColumnReorder?: boolean;
+
 
     // Dropdown
-    enableDropdown?: boolean;
-    enableColumnChooserInDropdown?: boolean;
+    enableDropdownHeadMenu?: boolean;
+    enableColumnChooserInDropdownHeadMenu?: boolean;
 
 
     // Tabs
@@ -20,9 +25,6 @@ export interface DatagridHeadProps<TData> {
     enableTabMenu?: boolean;
     enableTabColumnChooser?: boolean;
 
-
-    enableColumnResize?: boolean;
-    enableColumnReorder?: boolean;
     enableColumnVisibility?: boolean;
     visibleColumns: DatagridColumnRuntime<TData>[];
     gridTemplateColumns: string;
@@ -34,6 +36,7 @@ export interface DatagridHeadProps<TData> {
     setColumns: React.Dispatch<React.SetStateAction<DatagridColumnRuntime<TData>[]>>;
     rowActions: DatagridAction<TData>[];
     enableStickyHeader: boolean;
+
     updateColumnState: (prop: string, update: Partial<Pick<DatagridColumnRuntime<TData>, "width" | "visible" | "pinned">>) => void;
     resetColumns: () => void;
     renderColumnChooser: () => ReactNode;
@@ -42,25 +45,22 @@ export interface DatagridHeadProps<TData> {
     removeDragPreview: () => void;
     dragProp: React.RefObject<string | null>;
     lastDragTargetProp: React.RefObject<string | null>;
+
+    enableCheckboxes?: boolean;
+    checkedItems?: TData[];
+    onRowsChecked?: (checkedItems: TData[]) => void;
 }
 
 export function DatagridHead<TData>({
     gridRef,
-
-     // Dropdown
-    enableDropdown,
-    enableColumnChooserInDropdown,
-
-
-    // Tabs
-    enabelTabs,
-    enableTabMenu,
-    enableTabColumnChooser,
-
+    data,
+    // Dropdown
+    enableDropdownHeadMenu,
+    enableColumnChooserInDropdownHeadMenu,
 
     enableColumnResize,
     enableColumnReorder,
-    enableColumnVisibility,
+
     visibleColumns,
     gridTemplateColumns,
     sort,
@@ -79,8 +79,13 @@ export function DatagridHead<TData>({
     removeDragPreview,
     dragProp,
     lastDragTargetProp,
+    enableCheckboxes,
+    checkedItems = [],
+    onRowsChecked,
 }: Readonly<DatagridHeadProps<TData>>): ReactElement {
-    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+    const useCheckboxes = enableCheckboxes && onRowsChecked !== undefined;
+
 
     const handleSorting = (prop: string) => {
         setSort(
@@ -94,7 +99,7 @@ export function DatagridHead<TData>({
         event: React.PointerEvent<HTMLSpanElement>,
         column: DatagridColumnRuntime<TData>
     ) => {
-        setOpenDropdown(null);
+        //  setOpenDropdown(null);
 
         event.preventDefault();
         event.stopPropagation();
@@ -179,102 +184,19 @@ export function DatagridHead<TData>({
         });
     };
 
-
-    const showColumnsTab = enableColumnVisibility && enableColumnReorder;
-
-    const menuItems = (
-        prop: string,
-        config: DatagridColumnRuntime<TData>,
-        state: DatagridColumnRuntime<TData>
-    ) => [
-            {
-                icon: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
-                label: "Sorteer oplopend",
-                selected: sort?.prop === prop && sort.order === "asc",
-                onClick: () => setSort({ prop, order: "asc" }),
-            },
-            {
-                icon: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
-                label: "Sorteer aflopend",
-                selected: sort?.prop === prop && sort.order === "desc",
-                onClick: () => setSort({ prop, order: "desc" }),
-            },
-            { divider: true },
-            {
-                icon: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
-                label: "Pin column",
-                items: [
-                    {
-                        icon:
-                            state.pinned === null ? (
-                                <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                            ) : undefined,
-                        label: <span>Niet vastzetten</span>,
-                        selected: state.pinned === null,
-                        onClick: () => updateColumnState(prop, { pinned: null }),
-                    },
-                    {
-                        icon:
-                            state.pinned === "left" ? (
-                                <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                            ) : undefined,
-                        label: <span>Links vastzetten</span>,
-                        selected: state.pinned === "left",
-                        onClick: () => updateColumnState(prop, { pinned: "left" }),
-                    },
-                    {
-                        icon:
-                            state.pinned === "right" ? (
-                                <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />
-                            ) : undefined,
-                        label: <span>Rechts vastzetten</span>,
-                        selected: state.pinned === "right",
-                        onClick: () => updateColumnState(prop, { pinned: "right" }),
-                    },
-                ],
-            },
-            {
-                label: "Autosize",
-                onClick: () =>
-                    updateColumnState(prop, {
-                        width: Math.max(120, config.title.length * 20),
-                    }),
-            },
-            { divider: true },
-            {
-                label: "Reset kolommen",
-                onClick: resetColumns,
-            },
-        ];
-
-    const tabs = [
-        { id: "tabMenu", title: "Menu" },
-        ...(showColumnsTab ? [{ id: "tabColumns", title: "Kolommen" }] : []),
-    ];
-
-    const markupDropdownTabPanes = (column: DatagridColumnRuntime<TData>) => {
-
-       return [
-            {
-                tabId: "tabMenu",
-                content: (
-                    <DropdownMenu
-                        items={menuItems(column.prop, column, column)}
-                    />
-                ),
-            },
-            ...(showColumnsTab
-                ? [{
-                    tabId: "tabColumns",
-                    content: renderColumnChooser(),
-                }]
-                : []),
-        ];
-    }
-
     return (
         <div className={`datagrid__grid__header ${enableStickyHeader ? "datagrid__grid__header--sticky" : ""}`}>
             <div className="datagrid__grid__row" style={{ gridTemplateColumns }}>
+
+                {useCheckboxes && (
+                    <div className="datagrid__grid__hcell datagrid__grid__hcell--center">
+                        <Checkbox
+                            color={ColorDefinitions.Accent}
+                            checked={data.length > 0 && data.length === checkedItems.length}
+                            onChange={(checked) => onRowsChecked?.(checked ? data : [])}
+                        />
+                    </div>
+                )}
 
                 {visibleColumns.map((column) => {
 
@@ -296,7 +218,10 @@ export function DatagridHead<TData>({
                             draggable
                             style={getPinnedStyle(column)}
                             onDragStart={(e) => {
-                                setOpenDropdown(null);
+                                if (!enableColumnReorder) {
+                                    e.preventDefault();
+                                    return;
+                                }
 
                                 if (
                                     (e.target as HTMLElement).closest(".datagrid__grid__hcell__resize-indicator") ||
@@ -318,6 +243,8 @@ export function DatagridHead<TData>({
                                 e.dataTransfer.setDragImage(img, 0, 0);
                             }}
                             onDragOver={(e) => {
+                                if (!enableColumnReorder) return;
+
                                 e.preventDefault();
                                 moveDragPreview(e);
 
@@ -349,24 +276,20 @@ export function DatagridHead<TData>({
                                 />
                             </div>
 
-                            <div className="datagrid__grid__hcell__icon">
-                                <Dropdown
-                                    isOpen={openDropdown === column.prop}
-                                    onOpenChange={(open) =>
-                                        setOpenDropdown(open ? column.prop : null)
-                                    }
-                                    dropdownToggle={{
-                                        label: (
-                                            <Icon
-                                                icon={IconDefinitions.ellipsis_h}
-                                                size={SizeDefinitions.Small}
-                                            />
-                                        ),
-                                    }}
-                                    tabs={tabs}
-                                    tabPanes={markupDropdownTabPanes(column)}
-                                />
-                            </div>
+                            {enableDropdownHeadMenu && (
+                                <div className="datagrid__grid__hcell__icon">
+                                    <DatagridMenuDropdown
+                                        column={column}
+                                        sort={sort}
+                                        setSort={setSort}
+                                        updateColumnState={updateColumnState}
+                                        resetColumns={resetColumns}
+                                        renderColumnChooser={renderColumnChooser}
+                                        enableColumnChooserInDropdown={enableColumnChooserInDropdownHeadMenu}
+                                    />
+                                </div>
+
+                            )}
 
                             {enableColumnResize && (
                                 <span className="datagrid__grid__hcell__resize-indicator" onPointerDown={(e) => startResize(e, column)}></span>
