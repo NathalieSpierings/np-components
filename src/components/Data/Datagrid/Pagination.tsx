@@ -11,16 +11,18 @@ export interface PaginationProps {
     pagination: PaginationData;
     setPagination: (newPagination: PaginationData) => void;
     color?: ColorDefinitions;
+    rowInfoPosition?: 'left' | 'right'
 }
 
-const options = [5, 10, 25, 50, 100];
-const maxVisiblePages = 4;
+const options = [5, 10, 25, 50, 100, 250, 500, 1000];
+const maxVisiblePages = 6;
 
 const Pagination = ({
     total,
     pagination,
     setPagination,
     color,
+    rowInfoPosition
 }: PaginationProps) => {
     const totalPages = Math.max(1, Math.ceil(total / pagination.perPage));
     const pageRange = Math.floor(maxVisiblePages / 2);
@@ -54,96 +56,98 @@ const Pagination = ({
     };
 
     return (
-        
-            <div className="datagrid__pagination">
-                <div className={`datagrid__pager ${color ? "bg-" + color : ""}`}>
-                    <button
-                        disabled={pagination.page === 1}
-                        className="datagrid__pager__item first"
-                        onClick={() => handleClick(1)}
-                    >
-                        <div className="datagrid__pager__item__link" aria-label="Eerste pagina">
-                            <svg>
-                                <use xlinkHref="#svg_icon_pager_first" />
-                            </svg>
-                        </div>
-                    </button>
-
-                    <button
-                        disabled={pagination.page === 1}
-                        className="datagrid__pager__item prev"
-                        onClick={() => handleClick(pagination.page - 1)}
-                    >
-                        <div className="datagrid__pager__item__link" aria-label="Vorige pagina">
-                            <svg>
-                                <use xlinkHref="#svg_icon_pager_previous" />
-                            </svg>
-                        </div>
-                    </button>
-
-                    {visiblePages.map((number) => (
-                        <button
-                            key={number}
-                            className={`datagrid__pager__item ${pagination.page === number ? "bg-primary active" : ""
-                                }`}
-                            onClick={() => handleClick(number)}
-                        >
-                            <div className="datagrid__pager__item__link" aria-label={`Pagina ${number}`}>
-                                {number}
-                            </div>
-                        </button>
-                    ))}
-
-                    <button
-                        disabled={pagination.page === totalPages}
-                        className="datagrid__pager__item next"
-                        onClick={() => handleClick(pagination.page + 1)}
-                    >
-                        <div className="datagrid__pager__item__link" aria-label="Volgende pagina">
-                            <svg>
-                                <use xlinkHref="#svg_icon_pager_next" />
-                            </svg>
-                        </div>
-                    </button>
-
-                    <button
-                        disabled={pagination.page === totalPages}
-                        className="datagrid__pager__item last"
-                        onClick={() => handleClick(totalPages)}
-                    >
-                        <div className="datagrid__pager__item__link" aria-label="Laatste pagina">
-                            <svg>
-                                <use xlinkHref="#svg_icon_pager_last" />
-                            </svg>
-                        </div>
-                    </button>
-                </div>
-                <div className="datagrid__pager__info">
-                    <div className="datagrid__pager__info--results">
-                        <label>
-                            <span className="sr-only">Resultaten per pagina: </span>{" "}
-                            {/* screen-reader only */}
-                            Resultaten per pagina:
-                        </label>
-                        <div className="form-group form-group__simple select">
-                            <select
-                                className="form-control"
-                                value={pagination.perPage}
-                                onChange={(e) => handleSelect(Number(e.target.value))}
-                            >
-                                {options.map((x) => (
-                                    <option key={x} value={x}>
-                                        {x}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+        <div className={`datagrid__paging ${rowInfoPosition}`}>
+              <div className="datagrid__pager">
+                <button
+                    disabled={pagination.page === 1}
+                    className="datagrid__pager__item first"
+                    onClick={() => handleClick(1)}
+                >
+                    <div className="datagrid__pager__item__link" aria-label="Eerste pagina">
+                        <svg>
+                            <use xlinkHref="#svg_icon_pager_first" />
+                        </svg>
                     </div>
-                    <label>
-                        Totaal resultaten: <strong>{total}</strong>
-                    </label>
-                </div>
+                </button>
+
+                <button
+                    disabled={pagination.page === 1}
+                    className="datagrid__pager__item prev"
+                    onClick={() => handleClick(pagination.page - 1)}
+                >
+                    <div className="datagrid__pager__item__link" aria-label="Vorige pagina">
+                        <svg>
+                            <use xlinkHref="#svg_icon_pager_previous" />
+                        </svg>
+                    </div>
+                </button>
+
+                {visiblePages.map((number) => (
+                    <button
+                        key={number}
+                        className={`datagrid__pager__item ${pagination.page === number ? "bg-primary active" : ""
+                            }`}
+                        onClick={() => handleClick(number)}
+                    >
+                        <div className="datagrid__pager__item__link" aria-label={`Pagina ${number}`}>
+                            {number}
+                        </div>
+                    </button>
+                ))}
+
+                <button
+                    disabled={pagination.page === totalPages}
+                    className="datagrid__pager__item next"
+                    onClick={() => handleClick(pagination.page + 1)}
+                >
+                    <div className="datagrid__pager__item__link" aria-label="Volgende pagina">
+                        <svg>
+                            <use xlinkHref="#svg_icon_pager_next" />
+                        </svg>
+                    </div>
+                </button>
+
+                <button
+                    disabled={pagination.page === totalPages}
+                    className="datagrid__pager__item last"
+                    onClick={() => handleClick(totalPages)}
+                >
+                    <div className="datagrid__pager__item__link" aria-label="Laatste pagina">
+                        <svg>
+                            <use xlinkHref="#svg_icon_pager_last" />
+                        </svg>
+                    </div>
+                </button>
             </div>
+
+            <div className="datagrid__paging__pagesize">
+                <span>Pagina grootte:</span>
+                <div className="form-group form-group--sm select">
+                    <select
+                        className="form-control"
+                        value={pagination.perPage}
+                        onChange={(e) => handleSelect(Number(e.target.value))}
+                    >
+                        {options.map((x) => (
+                            <option key={x} value={x}>
+                                {x}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+            </div>
+            <span className="datagrid__paging__row-summary">
+                <span className="datagrid__paging__row-summary--number">{pagination.page}</span>
+                <span>tot</span>
+                <span className="datagrid__paging__row-summary--number">{pagination.perPage}</span>
+                <span>van</span>
+                <span className="datagrid__paging__row-summary--number">{total}</span>
+            </span>
+           
+          
+        </div>
+
       
     );
 };

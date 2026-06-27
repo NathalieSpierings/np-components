@@ -510,12 +510,13 @@
 		}
 	}
 
-	.pc-layout {	
+	.pc-layout {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 		min-height: 0;
 		min-width: 0;
+		position: relative;
 
 		:where(.pc-layout__header, .pc-layout__footer) {
 			flex: 0 0 auto;
@@ -540,7 +541,9 @@
 			min-width: 0;
 			overflow: hidden;
 			transition: flex-basis .2s;
+			position: relative;
 		}
+		
 
 		:where(.pc-layout__aside.shown) {
 			flex-basis: var(--root-aside-width);
@@ -935,6 +938,63 @@
 		clip: rect(0, 0, 0, 0);
 		white-space: nowrap;
 		border-width: 0;
+	}
+
+	.dot-indicator{
+		--dot-indicator-size: 10px;
+		width:var(--dot-indicator-size);
+		height:var(--dot-indicator-size);
+		border-radius: var(--radius-full);
+		background: var(--color-background);
+
+		&--xs{
+			--dot-indicator-size: 6px;
+		}
+		&--sm{
+			--dot-indicator-size: 8px;
+		}
+		&--md{
+			--dot-indicator-size: 12px;
+		}
+		&--lg{
+			--dot-indicator-size: 14px;
+		}
+	}
+
+	.search {
+		flex-shrink: 0;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		position: relative;
+
+		&__container {
+			display: grid;
+			align-items: center;
+			grid-template-columns: var(--icon-size) 1fr;
+			column-gap: var(--page-padding-xs);
+			border: 1px solid var(--color-border);
+			border-radius: var(--radius-sm);
+			width: 100%;
+			padding: var(--page-padding-2xs) var(--page-padding-xs);
+			min-height: 36px;
+			
+
+			&:focus-within {
+				border-color: var(--color-primary);
+				box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 23%, transparent), 0 0 0 1px var(--color-primary);
+			}
+
+			.icon{
+				flex:0;
+			}
+		}
+
+		input {
+			outline: 0;
+			border: none;
+			background: transparent;
+		}
 	}
 
 	.separator-h {

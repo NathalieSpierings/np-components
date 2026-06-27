@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Outlet, RouterProvider, createBrowserRouter, useNavigation } from 'react-router';
+import { Link, Outlet, RouterProvider, createBrowserRouter, useNavigation } from 'react-router';
 import { proxyPrefix } from './config';
 import { IconDefinitions } from './lib/utils/definitions';
 import { routes } from './pages/routes';
@@ -37,9 +37,15 @@ const TemplateLayout = () => {
   // const [drawerRequest, setDrawerRequest] = useState<{ item: string; key: number; } | null>(null);
 
   return (
-    <div className="page">
+    <div className="page fullscreen">
+      <div className="header">
+         <div>
+            <Link to="/demo">Back to demo</Link>
+          </div>
+      </div>
       <div className="page__container">
         <div className="page__content">
+         
           <Outlet />
           <SvgSprite />
         </div>

@@ -4,7 +4,9 @@ import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import useDatagridQueryClientFilter from "../../../components/Data/Datagrid/Hooks/useDatagridQueryClientFilter";
 import { ProductGetModel, getProductsQuery } from "../../../lib/testdata/models";
 import Icon from "../../../components/UI/Icons/Icon/Icon";
-import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import ContentItem from "../../../components/UI/ContentItem/ContentItem";
+import Button from "../../../components/UI/Button/Button";
 
 const DatagridPage: React.FC = () => {
 
@@ -15,7 +17,6 @@ const DatagridPage: React.FC = () => {
     });
 
     const [selected, setSelected] = useState<ProductGetModel | undefined>();
-
 
     return (
         <>
@@ -28,11 +29,11 @@ const DatagridPage: React.FC = () => {
                 loading={status === "pending"}
                 onFilterUpdate={setTableOptions}
                 properties={[
-                    { prop: "sku", title: "SKU", sortable: true, },
-                    { prop: "naam", title: "Naam", sortable: true, },
-                    { prop: "omschrijving", title: "Omschrijving", sortable: true, },
-                    { prop: "categorie", title: "Categorie", sortable: true, },
-                    { prop: "prijs", title: "Prijs", sortable: true, transformValue: (value: unknown) => `€ ${value}`, },
+                    { prop: "sku", title: "SKU", sortable: true, visible: true},
+                    { prop: "naam", title: "Naam", sortable: true, visible: true, },
+                    { prop: "omschrijving", title: "Omschrijving", sortable: true, visible: true, },
+                    { prop: "categorie", title: "Categorie", sortable: true, visible: true, },
+                    { prop: "prijs", title: "Prijs", sortable: true, transformValue: (value: unknown) => `€ ${value}`, visible: true, },
                     { prop: "merk", title: "Merk", sortable: true, },
                     { prop: "status", title: "Status", sortable: true, },
                     { prop: "voorraad", title: "Voorraad", sortable: true, },
@@ -47,22 +48,22 @@ const DatagridPage: React.FC = () => {
                 enableColumnReorder
                 enableColumnResize
                 enableColumnVisibility
-                enableDropdownHeadMenu
-                enableColumnChooserInDropdownHeadMenu
+                enableMenuOptionsInHeader
+                enableMenuOptionColumnChooser
                 enableTabs
-                enableTabColumnChooser                               
+                enableTabColumnChooser
                 tabs={[
-                    { id: "tabTest", title: "Test", icon: <Icon icon={IconDefinitions.eye} size={SizeDefinitions.Small}/> },
+                    { id: "tabTest", title: "Test", icon: <Icon icon={IconDefinitions.eye} size={SizeDefinitions.Small} /> },
                 ]}
                 tabPanes={[
                     {
                         tabId: "tabTest",
                         content: (<span>Content....</span>),
-                        header:{
+                        header: {
                             content: "Test"
                         }
                     },
-                   
+
                 ]}
 
                 selectedRow={selected}

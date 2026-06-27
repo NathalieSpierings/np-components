@@ -70,8 +70,8 @@ const DatagridPageActionsPage: React.FC = () => {
                 enableColumnReorder
                 enableColumnResize
                 enableColumnVisibility
-                enableDropdownHeadMenu
-                enableColumnChooserInDropdownHeadMenu
+                enableMenuOptionsInHeader
+                enableMenuOptionColumnChooser
                 enableTabs
                 enableTabColumnChooser
                 tabs={[

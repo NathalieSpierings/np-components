@@ -55,22 +55,33 @@ export interface DropdownMenuItem {
 
 export interface DropdownMenuProps {
     items: DropdownMenuItem[];
-     searchTerm?: string;
+    searchTerm?: string;
     forceOpenSubmenus?: boolean;
     noResultsText?: string;
 }
 
 export function DropdownMenu({
     items,
-     searchTerm = "",
+    searchTerm = "",
     forceOpenSubmenus = false,
     noResultsText = "Geen resultaten"
 
 }: Readonly<DropdownMenuProps>) {
 
-     const filteredItems = filterMenuItems(items, searchTerm);
+    const filteredItems = filterMenuItems(items, searchTerm);
 
-     if (filteredItems.length === 0) {
+    const hasIcons = useMemo(
+        () => filteredItems.some(item => !!item.icon),
+        [filteredItems]
+    );
+
+    const hasNestedItems = useMemo(
+        () => filteredItems.some(item => !!item.items?.length),
+        [filteredItems]
+    );
+
+
+    if (filteredItems.length === 0) {
         return (
             <div className="dropdown__menu">
                 <div className="dropdown__menu__node">
@@ -85,29 +96,35 @@ export function DropdownMenu({
     }
 
 
-     return (
+    return (
         <div className="dropdown__menu">
             {filteredItems.map((item, idx) => (
                 <DropdownMenuNode
-                     key={item.id ?? idx}
+                    key={item.id ?? idx}
                     item={item}
+                    hasIcons={hasIcons}
+                    hasNestedItems={hasNestedItems}
                     forceOpenSubmenus={
                         forceOpenSubmenus || !!searchTerm
                     }
                 />
             ))}
         </div>
-    );   
+    );
 }
 
 export interface DropdownMenuNodeProps {
     item: DropdownMenuItem;
     forceOpenSubmenus?: boolean;
+    hasIcons?: boolean;
+    hasNestedItems?: boolean;
 }
 
 export function DropdownMenuNode({
     item,
-    forceOpenSubmenus = false
+    forceOpenSubmenus = false,
+    hasIcons = false,
+    hasNestedItems = false
 }: Readonly<DropdownMenuNodeProps>) {
 
     const itemRef = useRef<HTMLButtonElement>(null);
@@ -170,21 +187,20 @@ export function DropdownMenuNode({
 
 
     const gridTemplateColumns = useMemo(() => {
-        let col = "1fr";
+        const columns: string[] = [];
 
-        if (item.icon) {
-            col = "20px 1fr";
+        if (hasIcons) {
+            columns.push("var(--icon-size)");
         }
 
-        if (hasChildren) {
-            col = item.icon
-                ? "20px 1fr 20px"
-                : "1fr 20px";
+        columns.push("1fr");
+
+        if (hasNestedItems) {
+            columns.push("16px");
         }
 
-        return col;
-    }, [item.icon, hasChildren]);
-
+        return columns.join(" ");
+    }, [hasIcons, hasNestedItems]);
 
     return (
         <div
@@ -216,15 +232,27 @@ export function DropdownMenuNode({
                         }
                     }}
                 >
-                    {item.icon && (<>{item.icon}</>)}
 
-                    <div className="dropdown__menu__item__content">
+                    {hasIcons && (
+                        <span className="dropdown__menu__item__icon">
+                            {item.icon}
+                        </span>
+                    )}
+
+                    <span className="dropdown__menu__item__content">
                         {item.label}
-                    </div>
+                    </span>
 
-                    {hasChildren && <span className="dropdown__menu__item__arrow">
-                        <Icon icon={IconDefinitions.angle_right} size={SizeDefinitions.Small} />
-                    </span>}
+                    {hasNestedItems && (
+                        <span className="dropdown__menu__item__arrow">
+                            {hasChildren && (
+                                <Icon
+                                    icon={IconDefinitions.angle_right}
+                                    size={SizeDefinitions.Small}
+                                />
+                            )}
+                        </span>
+                    )}
                 </button>
             )
             }

@@ -2,13 +2,14 @@ import React, { ReactNode, useMemo, useState } from "react";
 import { DismissButton } from "../../UI/DismissButton";
 import { ColorDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Tooltip from "../../UI/Tooltip/Tooltip";
+import { useResizableAside } from "../../Base/Layout/Hooks/useResizableAside";
+
+export type DatagridTabberPosition = 'left' | 'right';
 
 export interface DatagridTabPaneHeader {
     content?: ReactNode;
     borderColor?: ColorDefinitions;
 }
-
-
 export interface DatagridTabItem {
     id: string;
     title: ReactNode;
@@ -25,16 +26,19 @@ export interface DatagridTabPane {
 export interface DatagridTabsProps {
     tabs: DatagridTabItem[];
     tabPanes: DatagridTabPane[];
+    tabberPosition?: DatagridTabberPosition;
 }
 
 export function DatagridTabs({
     tabs,
     tabPanes,
+    tabberPosition
 }: Readonly<DatagridTabsProps>) {
 
     const firstEnabledTab = tabs.find((tab) => !tab.disabled);
 
-    //const [activeTab, setActiveTab] = useState<string | undefined>(firstEnabledTab?.id);
+    const { width, resizing, startResize } = useResizableAside(280, 280, 400, tabberPosition);
+
     const [activeTab, setActiveTab] = useState<string | undefined>();
 
     const activePane = tabPanes.find(
@@ -46,7 +50,22 @@ export function DatagridTabs({
     };
 
     return (
-        <div className="datagrid__tabber pc-layout__aside shown">
+        <div className={`pc-layout__aside datagrid__tabber datagrid__tabber--${tabberPosition} shown`}
+            style={
+                activeTab
+                    ? ({ "--datagrid-tabber-width": `${width}px` } as React.CSSProperties)
+                    : undefined
+            }>
+            {activeTab && (
+                <div
+                    className="datagrid__resizer"
+                    onPointerDown={(e) => {
+                        e.preventDefault();
+                        startResize(e);
+                    }}
+                />
+            )}
+
             <div className="datagrid__tabber__tabs">
                 {tabs.map((tab, idx) => (
                     <button

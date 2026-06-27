@@ -6,19 +6,21 @@ export interface DropdownSearchProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  type?: "text" | "number" | "date";
 }
 
 export function DropdownSearch({
   value,
   placeholder,
-  onChange
+  onChange,
+  type
 }: Readonly<DropdownSearchProps>) {
   return (
     <div className="dropdown__search">
       <div className="dropdown__search__container">
         <Icon icon={IconDefinitions.search} size={SizeDefinitions.Small} />
         <input
-          type="text"
+          type={type}
           placeholder={placeholder ?? "Zoeken..."}
           value={value}
           onChange={(e) => onChange(e.target.value)}

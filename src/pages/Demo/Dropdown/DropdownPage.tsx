@@ -1,7 +1,8 @@
 import React from "react";
 import { Dropdown } from "../../../components/Forms/Dropdown/Dropdown";
 import { DropdownMenu } from "../../../components/Forms/Dropdown/DropdownMenu";
-import { ColorDefinitions } from "../../../lib/utils/definitions";
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import Icon from "../../../components/UI/Icons/Icon/Icon";
 
 const DropdownPage: React.FC = () => {
 
@@ -10,7 +11,8 @@ const DropdownPage: React.FC = () => {
             <p> Welcome to the dropdown demo page</p>
 
 
-            <Dropdown dropdownToggle={{
+            <Dropdown 
+            dropdownToggle={{
                 label: "Default dropdown",
                 arrow: true
             }}
@@ -151,8 +153,7 @@ const DropdownPage: React.FC = () => {
                         id: '3',
                         label: 'Menu item 3'
                     }]}
-                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), borderColor: ColorDefinitions.Surface }}
-                    enableSearch
+                   enableSearch
 
                 />
             </div>
@@ -202,18 +203,35 @@ const DropdownPage: React.FC = () => {
                                 items: [
                                     {
                                         id: "3",
+                                        icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
                                         label: "Submenu item 1",
                                     },
                                     {
                                         id: "4",
                                         label: "Submenu item 2",
                                     },
+                                    {
+                                        id: "5",
+                                        icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
+                                        label: "Submenu item 3",
+                                    },
                                 ],
                             },
                             {
-                                id: '7',
+                                id: '6',
+                                 icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
                                 label: 'Menu item 3'
-                            }]} />,
+                            },
+                             {
+                                id: '7',
+                                label: 'Menu item 4'
+                            },
+                             {
+                                id: '8',
+                                 icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
+                                label: 'Menu item 5'
+                            }
+                        ]} />,
                         },
                         {
                             tabId: "tabColumns",

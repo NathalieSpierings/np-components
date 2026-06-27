@@ -263,9 +263,15 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             pointer-events: none;
         }
 
+        &:has(.checkbox__label){
+            .checker {
+                margin-right: 8px;
+            }
+        }
+
         .checker {
             position: relative;
-            margin-right: 8px;
+            
             cursor: pointer;
 
             .check {
@@ -1477,14 +1483,11 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
 @layer dropdownField {
     .dropdown {
-        --color-background: var(--color-surface-light);
-        --dropdown-radius: var(--radius-sm);
-        --dropdown-spacing: .5rem;
+        --color-background: var(--color-surface-light);     
         --dropdown-min-width: 22rem;
+        --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, .10), 0 2px 4px rgba(0, 0, 0, .05);
         --color-hover: var(--shadow-light);
         --color-selected: var(--shadow-base);
-        --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, .10), 0 2px 4px rgba(0, 0, 0, .05);
-
 
         display: inline-flex;
         flex-direction: column;
@@ -1492,19 +1495,16 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
         min-width: var(--dropdown-min-width);
         background: var(--color-background);
         box-shadow: var(--dropdown-shadow);
-        border-radius: var(--dropdown-radius);
+        border-radius: var(--radius-sm);
 
 
         // Submenu	
         &__submenu {
-            --color-background: var(--color-surface-light);
-            --dropdown-radius: var(--radius-sm);
-            --dropdown-spacing: .5rem;
+            --color-background: var(--color-surface-light);           
             --dropdown-min-width: 22rem;
             --color-hover: var(--shadow-light);
             --color-selected: var(--shadow-base);
             --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, .10), 0 2px 4px rgba(0, 0, 0, .05);
-
 
             display: inline-flex;
             flex-direction: column;
@@ -1512,7 +1512,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             min-width: var(--dropdown-min-width);
             background: var(--color-background);
             box-shadow: var(--dropdown-shadow);
-            border-radius: var(--dropdown-radius);
+            border-radius: var(--radius-sm);
         }
 
         &__toggle {
@@ -1593,16 +1593,23 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             line-height: 36px;
             padding: .5rem 1rem;
             white-space: nowrap;
-            padding-inline: calc(var(--dropdown-spacing) * 3);
+            padding-inline: var(--page-padding-sm);
             background: var(--color-background);
+
+            .btn {
+                margin-bottom: 0 !important;
+            }
         }
 
         &__header {
             border-bottom: 1px solid transparent;
 
             &[class*="border-"] {
-                ~.dropdown__menu__search {
-                    padding-block: calc(var(--dropdown-spacing) * 3);
+                ~ .dropdown__menu__search {
+                    padding-block: var(--page-padding-sm);
+                }
+                ~ .dropdown__search{
+                    border-bottom: 1px solid var(--color-border);
                 }
             }
         }
@@ -1622,23 +1629,38 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
         // Menu
         &__menu {
+            margin-block: var(--page-padding-2xs);
+
             &__node {
                 width: 100%;
-                padding-inline: var(--dropdown-spacing);
+                padding-inline: var(--page-padding-2xs);
             }
 
             &__item {
                 position: relative;
                 display: grid;
-                grid-template-columns: "1fr";
+                grid-template-columns: var(--icon-size) 1fr var(--icon-size);
                 column-gap: 1rem;
                 align-items: center;
                 width: 100%;
                 background: var(--color-background);
-                border-radius: var(--dropdown-radius);
+                border-radius: var(--radius-sm);
                 margin-block: 1px;
-                padding: var(--dropdown-spacing) calc(var(--dropdown-spacing) * 1.5);
+                padding: var(--page-padding-xs) calc(var(--page-padding-2xs) * 1.5);
                 cursor: pointer;
+
+                &__content{
+                    min-width: 0;
+                }
+
+                &__icon,
+                &__arrow {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: var(--icon-size);
+                    height: var(--icon-size);
+                }
 
                 &:hover,
                 &:focus {
@@ -1662,10 +1684,10 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
                 }
 
                 &__empty {
-                    padding: calc(var(--dropdown-spacing) * 1.5) calc(var(--dropdown-spacing) * 2);
+                    padding: calc(var(--page-padding-2xs) * 1.5) var(--page-padding-xs);
                     white-space: nowrap;
-                    padding-inline: calc(var(--dropdown-spacing) * 2);
-                    margin-inline: var(--dropdown-spacing);
+                    padding-inline: var(--page-padding-xs);
+                    margin-inline: var(--page-padding-2xs);
                     margin-block: 1px;
                     display: block;
                 }
@@ -1688,7 +1710,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             min-height: 1px;
             flex: 0 0 1px;
             background: var(--color-border);
-            margin-block: var(--dropdown-spacing);
+            margin-block: var(--page-padding-xxs);
         }
 
         // Tabs
@@ -1736,7 +1758,6 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
             &__pane {
                 display: block;
-               // padding: 1rem;
 
                 &:has(.dropdown__menu) {
                     padding: 0;
@@ -1746,33 +1767,10 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
         // Search
         &__search {
-            flex-shrink: 0;
-            z-index: 1;
-            display: flex;
-            align-items: center;
             border-bottom: 1px solid var(--color-border);
-            padding-inline: calc(var(--dropdown-spacing) * 3);
-            padding-block: calc(var(--dropdown-spacing) * 3);
+            padding-inline: var(--page-padding-sm);
+             padding-block: var(--page-padding-sm);
 
-            &__container {
-                display: flex;
-                gap: calc(var(--dropdown-spacing) * 2);
-                border: 1px solid var(--color-border);
-                border-radius: var(--dropdown-radius);
-                width: 100%;
-                padding: var(--dropdown-spacing) calc(var(--dropdown-spacing) * 2);
-
-                &:focus-within {
-                    border-color: var(--color-primary);
-                    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 23%, transparent), 0 0 0 1px var(--color-primary);
-                }
-            }
-
-            input {
-                outline: 0;
-                border: none;
-                background: transparent;
-            }
         }
     }
 
@@ -3209,7 +3207,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
         min-height: 1px;
         flex: 0 0 1px;
         background: var(--color-border);
-        margin-block: var(--dropdown-spacing);
+        margin-block: var(--page-padding-2xs);
     }
 
     &__tabs {

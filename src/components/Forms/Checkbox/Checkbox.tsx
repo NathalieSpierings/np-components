@@ -121,7 +121,9 @@ const Checkbox = forwardRef(({
                         <span className="check"></span>
                     </span>
                 </label>
-                <span>{label}</span>
+                {label && (
+                    <span className="checkbox__label">{label}</span>
+                )}
             </div>
 
             {infoText ? <small className="form-text">{infoText}</small> : null}

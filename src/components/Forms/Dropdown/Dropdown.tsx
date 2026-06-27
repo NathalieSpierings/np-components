@@ -1,11 +1,11 @@
 import React, { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
-import ContentItem from "../../Base/ContentItem/ContentItem";
+import { Search } from "../../Base/Search/Search";
+import ContentItem from "../../UI/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
 import { DropdownTabItem, DropdownTabPane, DropdownTabs } from "./DropdownTabs";
-import { DropdownSearch } from "./DropdownSearch";
 
 export enum DropdownVerticalPosition { Up = "Up", Down = "Down" }
 export enum DropdownHorizontalPosition { Left = "Left", Right = "Right" }
@@ -15,7 +15,6 @@ export enum DropdownHorizontalPosition { Left = "Left", Right = "Right" }
 export interface DropdownToggle {
 	prefix?: ReactNode;
 	label?: ReactNode;
-	//formFieldPlaceholder?: string;
 	variant?: 'default' | 'input';
 	arrow?: boolean;
 	dropdownToggleCss?: string;
@@ -50,8 +49,8 @@ export interface DropdownProps extends PropsWithChildren {
 	verticalPosition?: DropdownVerticalPosition;
 	horizontalPosition?: DropdownHorizontalPosition;
 	maxHeight?: number;
-	isOpen?: boolean;
-	onOpenChange?: (isOpen: boolean) => void;
+	open?: boolean;
+	setOpen?: (open: boolean) => void;
 	dropdownCss?: string;
 }
 
@@ -73,8 +72,8 @@ export function Dropdown({
 	verticalPosition = DropdownVerticalPosition.Down,
 	horizontalPosition = DropdownHorizontalPosition.Left,
 	maxHeight = 400,
-	isOpen,
-	onOpenChange,
+	open,
+	setOpen,
 	children,
 	dropdownCss = ''
 }: Readonly<DropdownProps>) {
@@ -91,14 +90,14 @@ export function Dropdown({
 
 	const [searchTerm, setSearchTerm] = useState("");
 
-	const open = isOpen ?? internalOpen;
+	const isOpen = open ?? internalOpen;
 
-	const setOpen = (value: boolean) => {
-		if (isOpen === undefined) {
+	const handleOnOpenChange = (value: boolean) => {
+		if (open === undefined) {
 			setInternalOpen(value);
 		}
 
-		onOpenChange?.(value);
+		setOpen?.(value);
 	};
 
 	const updatePosition = () => {
@@ -182,7 +181,7 @@ export function Dropdown({
 	};
 
 	useLayoutEffect(() => {
-		if (!open) {
+		if (!isOpen) {
 			return;
 		}
 
@@ -208,10 +207,10 @@ export function Dropdown({
 			window.removeEventListener("scroll", update, true);
 			resizeObserver.disconnect();
 		};
-	}, [open, verticalPosition, horizontalPosition]);
+	}, [isOpen, verticalPosition, horizontalPosition]);
 
 	useEffect(() => {
-		if (!open) {
+		if (!isOpen) {
 			return;
 		}
 
@@ -226,12 +225,12 @@ export function Dropdown({
 				return;
 			}
 
-			setOpen(false);
+			handleOnOpenChange(false);
 		};
 
 		const handleEscape = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
-				setOpen(false);
+				handleOnOpenChange(false);
 			}
 		};
 
@@ -242,7 +241,7 @@ export function Dropdown({
 			document.removeEventListener("mousedown", handleMouseDown);
 			document.removeEventListener("keydown", handleEscape);
 		};
-	}, [open]);
+	}, [isOpen]);
 
 
 
@@ -272,7 +271,7 @@ export function Dropdown({
 
 	const dropdownToggleCss = [
 		"dropdown__toggle",
-		open ? "shown" : '',
+		isOpen ? "shown" : '',
 		dropdownToggle.dropdownToggleCss ? dropdownToggle.dropdownToggleCss : ""
 	].filter(Boolean).join(" ");
 
@@ -288,13 +287,13 @@ export function Dropdown({
 				}}
 				onClick={(e) => {
 					e.stopPropagation();
-					setOpen(!open);
+					handleOnOpenChange(!isOpen);
 				}}
 			>
 				{renderDropdownToggle}
 			</button>
 
-			{open &&
+			{isOpen &&
 				createPortal(
 					<div
 						ref={dropdownRef}
@@ -314,7 +313,7 @@ export function Dropdown({
 						)}
 
 						{!tabs && enableSearch && (
-							<DropdownSearch
+							<Search css="dropdown__search"
 								value={searchTerm}
 								placeholder={searchPlaceholder}
 								onChange={setSearchTerm}

@@ -31,8 +31,7 @@ export function DatagridMenuDropdown<TData>({
     enableColumnChooserInDropdown,
 }: Readonly<DatagridMenuDropdownProps<TData>>): ReactElement {
 
-    const [open, setOpen] = useState(false);
-  
+    const [open, setOpen] = useState(false);  
 
     const menuItems = [
         {

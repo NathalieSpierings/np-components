@@ -71,14 +71,19 @@
 
     --page-padding: 2.5rem;
     --page-padding-sm: 1.5rem;
+    --page-padding-xs: 1rem;
+    --page-padding-xxs: .75rem;
+    --page-padding-2xs: .5rem;
+    --page-padding-3xs: .25rem;
+    
     --page-translate-x: 0;
     --page-transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     --page-container-padding: calc(var(--page-padding) * 5) var(--page-padding) var(--page-padding) var(--page-padding);
 
 
     // Icon
-   --icon-size: 20px;
-		--icon-padding: 6px;
+    --icon-size: 20px;
+    --icon-padding: 6px;
 
     // Colors
     --backdrop: rgb(0 0 0 / 50%);

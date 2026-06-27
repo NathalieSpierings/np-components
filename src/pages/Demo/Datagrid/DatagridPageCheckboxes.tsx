@@ -21,7 +21,6 @@ const DatagridCheckboxesPage: React.FC = () => {
         <>
             <p> Welcome to the datagrid checkboxes demo page</p>
 
-<div>You have checked  <span className="bold text-red">{checkedItems.length}</span> items</div>
 
             <Datagrid
                 data={data || []}
@@ -49,24 +48,8 @@ const DatagridCheckboxesPage: React.FC = () => {
                 enableColumnReorder
                 enableColumnResize
                 enableColumnVisibility
-                enableDropdownHeadMenu
-                enableColumnChooserInDropdownHeadMenu
-                enableTabs
-                enableTabColumnChooser                               
-                tabs={[
-                    { id: "tabTest", title: "Test", icon: <Icon icon={IconDefinitions.eye} size={SizeDefinitions.Small}/> },
-                ]}
-                tabPanes={[
-                    {
-                        tabId: "tabTest",
-                        content: (<span>Content....</span>),
-                        header:{
-                            content: "Test"
-                        }
-                    },
-                   
-                ]}
-
+                enableMenuOptionsInHeader
+                enableMenuOptionColumnChooser                
                 selectedRow={selected}
                 rowSingleClickAction={(row) => {
                     setSelected(row)
@@ -79,6 +62,7 @@ const DatagridCheckboxesPage: React.FC = () => {
                  enableCheckboxes={true}
                 checkedItems={checkedItems}
                 onRowsChecked={setCheckedItems}
+                enableTableInfo={checkedItems.length > 0}
             />
         </>
     )

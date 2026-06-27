@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { DatagridSortFunc } from "./DatagridSort";
-import { DatagridColumnFilterConfig } from "./DatagridColumnFilter";
+import { DatagridColumnFilterConfig } from "../Filters/DatagridColumnFilter";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
+import { DatagridPinnedPosition } from "../Datagrid";
 
 export interface DatagridRowConfig<TData, TProp extends Extract<keyof TData, string> = Extract<keyof TData, string>, TTransformedValue = any> {
   prop: TProp;
@@ -23,5 +24,9 @@ export interface DatagridRowConfig<TData, TProp extends Extract<keyof TData, str
   tooltipColor?: ColorDefinitions;
   tooltipArrow?: boolean;
 
-  filter?: DatagridColumnFilterConfig<TData>;  
+  filter?: DatagridColumnFilterConfig<TData>;
+
+  width?: number;
+  visible?: boolean;
+  pinned?: DatagridPinnedPosition;
 }
