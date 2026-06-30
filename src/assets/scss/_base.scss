@@ -684,7 +684,7 @@
 
 	.caption {
 		font-size: var(--fs-xs);
-		line-height: var(--lh-tiny);
+		line-height: var(--lh-sm);
 		font-weight: 500;
 		text-transform: uppercase;
 		letter-spacing: 0.2em;
@@ -1428,7 +1428,7 @@
 
 	.text-tiny {
 		font-size: var(--fs-tiny);
-		line-height: var(--lh-tiny);
+		line-height: var(--lh-sm);
 	}
 
 	.text-xs {
@@ -1701,6 +1701,11 @@
 		border-left: 1px solid var(--color-border) !important;
 	}
 
+
+	.rounded-xxs {
+		border-radius: var(--radius-xxs) !important;
+	}
+
 	.rounded-xs {
 		border-radius: var(--radius-xs) !important;
 	}
@@ -1729,12 +1734,16 @@
 		border-radius: var(--radius-3xl) !important;
 	}
 
+	.rounded-4xl {
+		border-radius: var(--radius-4xl) !important;
+	}
+
 	.rounded-none {
-		border-radius: 0 !important;
+		border-radius: var(--radius-none) !important;
 	}
 
 	.rounded-full {
-		border-radius: 9999px !important;
+		border-radius: var(--radius-full) !important;
 	}
 
 	.size-4 {

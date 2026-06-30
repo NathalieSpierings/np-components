@@ -1,6 +1,9 @@
 import React, { useCallback, useMemo } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 
+export type PaginationPosition = "inside table" | "outside table";
+export type PaginationInfoPosition = "left" | "right";
+
 export interface PaginationData {
     page: number;
     perPage: number;
@@ -12,18 +15,20 @@ export interface PaginationProps {
     setPagination: (newPagination: PaginationData) => void;
     color?: ColorDefinitions;
     rowInfoPosition?: 'left' | 'right'
+    maxVisiblePages?: number;
 }
 
 const options = [5, 10, 25, 50, 100, 250, 500, 1000];
-const maxVisiblePages = 6;
 
 const Pagination = ({
     total,
     pagination,
     setPagination,
     color,
-    rowInfoPosition
+    rowInfoPosition,
+    maxVisiblePages = 4
 }: PaginationProps) => {
+
     const totalPages = Math.max(1, Math.ceil(total / pagination.perPage));
     const pageRange = Math.floor(maxVisiblePages / 2);
 
@@ -56,7 +61,7 @@ const Pagination = ({
     };
 
     return (
-        <div className={`datagrid__paging ${rowInfoPosition}`}>
+        <div className={`datagrid__paging ${rowInfoPosition} ${color ? 'bg-'+ color :''}`}>
               <div className="datagrid__pager">
                 <button
                     disabled={pagination.page === 1}

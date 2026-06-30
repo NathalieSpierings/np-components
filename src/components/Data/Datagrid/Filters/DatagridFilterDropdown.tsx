@@ -1,14 +1,13 @@
 import React, { useMemo } from "react";
 import { ColorDefinitions, IconDefinitions } from "../../../../lib/utils/definitions";
 import { Dropdown } from "../../../Forms/Dropdown/Dropdown";
-import { DropdownSearch } from "../../../Forms/Dropdown/DropdownSearch";
 import Multiselect, { MultiselectItemType } from "../../../Forms/Multiselect/Multiselect";
 import { Select } from "../../../Forms/Select/Select";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
 import { DatagridColumnFilterValue, DatagridFilterOption, isActiveColumnFilter } from "./DatagridColumnFilter";
 import { getOperators } from "./DatagridFilterOperators";
-import { Search } from "../../../Base/Search/Search";
+import Search from "../../../Base/Search/Search";
 
 export interface DatagridFilterDropdownProps<TData> {
     column: DatagridRowConfig<TData>;

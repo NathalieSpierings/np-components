@@ -48,8 +48,8 @@ const DatagridCheckboxesPage: React.FC = () => {
                 enableColumnReorder
                 enableColumnResize
                 enableColumnVisibility
-                enableMenuOptionsInHeader
-                enableMenuOptionColumnChooser                
+                enableColumnMenu
+                enableColumnMenuColumnVisibility                
                 selectedRow={selected}
                 rowSingleClickAction={(row) => {
                     setSelected(row)

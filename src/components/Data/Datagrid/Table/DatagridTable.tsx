@@ -3,9 +3,11 @@ import { useDatagridColumnChooser } from "../Addons/DatagridColumnChooser";
 import { DatagridAction } from "../Config/DatagridAction";
 import { DatagridSortConfig } from "../Config/DatagridSort";
 import { DatagridColumnRuntime, DatagridRenderedColumn, DatagridRowActionsPosition } from "../Datagrid";
-import Pagination, { PaginationData } from "../Pagination";
+import Pagination, { PaginationData, PaginationInfoPosition, PaginationPosition } from "../Pagination";
 import DatagridHead from "./DatagridHead";
 import { DatagridRow } from "./DatagridRow";
+
+
 
 export interface DatagridTableProps<TData> {
     gridRef: React.RefObject<HTMLDivElement | null>;
@@ -18,16 +20,16 @@ export interface DatagridTableProps<TData> {
     rowActionPosition: DatagridRowActionsPosition;
 
     enablePagination: boolean;
-    paginationPosition: "inside table" | "outside table";
-    paginationRowInfoPosition: "left" | "right";
+    paginationPosition: PaginationPosition;
+    paginationRowInfoPosition:PaginationInfoPosition;
 
     enableColumnResize: boolean;
     enableColumnReorder: boolean;
     enableColumnVisibility?: boolean;
     enableStickyHeader?: boolean;
 
-    enableMenuOptionsInHeader?: boolean;
-    enableMenuOptionColumnChooser?: boolean;
+    enableColumnMenu?: boolean;
+    enableColumnMenuColumnVisibility?: boolean;
 
     enableFiltersInHeader?: boolean;
 
@@ -98,8 +100,8 @@ function DatagridTable<TData extends { id: string | number }>({
     enableColumnReorder,
     enableColumnVisibility,
     enableStickyHeader,
-    enableMenuOptionsInHeader,
-    enableMenuOptionColumnChooser,
+    enableColumnMenu,
+    enableColumnMenuColumnVisibility,
     enableFiltersInHeader,
     selectedRow,
     rowSingleClickAction,
@@ -149,8 +151,8 @@ function DatagridTable<TData extends { id: string | number }>({
                 enableColumnResize={enableColumnResize}
                 enableColumnReorder={enableColumnReorder}
                 enableStickyHeader={enableStickyHeader}
-                enableMenuOptionsInHeader={enableMenuOptionsInHeader}
-                enableMenuOptionColumnChooser={enableMenuOptionColumnChooser}
+                enableColumnMenu={enableColumnMenu}
+                enableColumnMenuColumnVisibility={enableColumnMenuColumnVisibility}
                 enableFiltersInHeader={enableFiltersInHeader}
                 checkedItems={checkedItems}
                 onRowsChecked={onRowsChecked}
@@ -215,8 +217,8 @@ function DatagridTable<TData extends { id: string | number }>({
                     })
                 ) : (
                     <div className="datagrid__grid__row datagrid__grid__row--empty"
-                     style={{ gridTemplateColumns: '1fr' }}
-                     >
+                        style={{ gridTemplateColumns: '1fr' }}
+                    >
                         <div className="datagrid__grid__cell">
                             Geen gegevens gevonden!
                         </div>
@@ -257,23 +259,24 @@ function DatagridTable<TData extends { id: string | number }>({
 
             <div className="datagrid__grid__footer">
 
-                {!isNested && enablePagination && paginationPosition === "inside table" ? (
+                {isNested && enablePagination && (
                     <Pagination
                         total={total}
                         pagination={pagination}
                         setPagination={setPagination}
                         rowInfoPosition={paginationRowInfoPosition}
                     />
-                ) :
-                    enablePagination && (
-                        <Pagination
-                            total={total}
-                            pagination={pagination}
-                            setPagination={setPagination}
-                            rowInfoPosition="left"
-                        />
-                    )
-                }
+                )}
+
+                {!isNested && enablePagination && paginationPosition === "inside table" && (
+                    <Pagination
+                        total={total}
+                        pagination={pagination}
+                        setPagination={setPagination}
+                        rowInfoPosition={paginationRowInfoPosition}
+                    />
+                )}
+
 
                 {footerContent && (<div className="datagrid__footer__content">
                     {footerContent}

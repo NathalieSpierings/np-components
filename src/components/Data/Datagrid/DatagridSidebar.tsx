@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
-import { useResizableAside } from "../../Base/Layout/Hooks/useResizableAside";
+import { useResizableAside } from "../../../lib/hooks/useResizableAside";
 import { DismissButton } from "../../UI/DismissButton";
 import Icon from "../../UI/Icons/Icon/Icon";
 

@@ -1,17 +1,20 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+
+type ContentItemPosition = 'item-start' | 'item-center' | 'item-end';
+type ContentItemJustifyPosition = 'justify-start' | 'justify-center' | 'justify-end';
 
 export interface ContentItemType {
     id?: string | number;
     gap?: string;
     prefix?: ReactNode;
-    prefixItemPosition?: 'item-start' | 'item-center' | 'item-end';
+    prefixItemPosition?: ContentItemPosition;
     prefixGap?: string;
     contentCss?: string;
     content?: ReactNode;
-    contentItemPosition?: 'item-start' | 'item-center' | 'item-end';
-    contentJustifyPosition?: 'justify-start' | 'justify-center' | 'justify-end';
+    contentItemPosition?: ContentItemPosition;
+    contentJustifyPosition?: ContentItemJustifyPosition;
     postfix?: ReactNode;
-    postfixItemPosition?: 'item-start' | 'item-center' | 'item-end';
+    postfixItemPosition?: ContentItemPosition;
     postfixGap?: string;
     separatorAfterPrefix?: boolean;
     separatorAfterMeta?: boolean;

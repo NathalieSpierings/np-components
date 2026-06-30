@@ -67,14 +67,14 @@ export interface DatagridProps<TData> {
     enableColumnReorder?: boolean;
     enableColumnVisibility?: boolean;
     enableStickyHeader?: boolean;
-    enableMenuOptionsInHeader?: boolean;
-    enableMenuOptionColumnChooser?: boolean;
+    enableColumnMenu?: boolean;
+    enableColumnMenuColumnVisibility?: boolean;
     enableFiltersInHeader?: boolean;
     enableTabs?: boolean;
     tabs?: DatagridTabItem[];
     tabPanes?: DatagridTabPane[];
     tabberPosition?: 'left' | 'right';
-    enableTabColumnChooser?: boolean;
+    enableTabColumnVisibility?: boolean;
     enableTabFilters?: boolean;
     selectedRow?: TData | string | number;
     rowSingleClickAction?: (item: TData) => void;
@@ -147,10 +147,10 @@ function Datagrid<TData extends { id: string | number }>({
     tabs,
     tabPanes,
     tabberPosition = 'right',
-    enableTabColumnChooser,
+    enableTabColumnVisibility,
     enableTabFilters,
-    enableMenuOptionsInHeader,
-    enableMenuOptionColumnChooser,
+    enableColumnMenu,
+    enableColumnMenuColumnVisibility,
     enableStickyHeader = true,
     selectedRow,
     rowSingleClickAction,
@@ -544,7 +544,7 @@ function Datagrid<TData extends { id: string | number }>({
     const effectiveTabs = useMemo<DatagridTabItem[]>(() => {
         const extraTabs: DatagridTabItem[] = [];
 
-        if (enableTabColumnChooser) {
+        if (enableTabColumnVisibility) {
             extraTabs.push({
                 id: "__columns",
                 title: "Kolommen",
@@ -564,12 +564,12 @@ function Datagrid<TData extends { id: string | number }>({
             ...extraTabs,
             ...(tabs ?? []),
         ];
-    }, [tabs, enableTabColumnChooser]);
+    }, [tabs, enableTabColumnVisibility]);
 
     const effectiveTabPanes = useMemo<DatagridTabPane[]>(() => {
         const extraPanes: DatagridTabPane[] = [];
 
-        if (enableTabColumnChooser) {
+        if (enableTabColumnVisibility) {
             extraPanes.push({
                 tabId: "__columns",
                 content: columnChooser.renderColumnChooser(),
@@ -600,7 +600,7 @@ function Datagrid<TData extends { id: string | number }>({
             ...extraPanes,
             ...(tabPanes ?? []),
         ];
-    }, [tabPanes, enableTabColumnChooser, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, visibleColumns, columnFilters
+    }, [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, visibleColumns, columnFilters
     ]);
 
     // Toolbar 
@@ -761,8 +761,8 @@ function Datagrid<TData extends { id: string | number }>({
                     enableColumnReorder={enableColumnReorder}
                     enableColumnVisibility={enableColumnVisibility}
                     enableStickyHeader={enableStickyHeader}
-                    enableMenuOptionsInHeader={enableMenuOptionsInHeader}
-                    enableMenuOptionColumnChooser={enableMenuOptionColumnChooser}
+                    enableColumnMenu={enableColumnMenu}
+                    enableColumnMenuColumnVisibility={enableColumnMenuColumnVisibility}
                     enableFiltersInHeader={enableFiltersInHeader}
                     selectedRow={selectedRow}
                     rowSingleClickAction={rowSingleClickAction}

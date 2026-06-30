@@ -134,10 +134,10 @@ const DatagridPageNested: React.FC = () => {
                 enableColumnResize
                 enableColumnVisibility
                 enableStickyHeader
-                enableMenuOptionsInHeader
-                enableMenuOptionColumnChooser
+                enableColumnMenu
+                enableColumnMenuColumnVisibility
                 enableTabs
-                enableTabColumnChooser
+                enableTabColumnVisibility
                 tabs={[
                     { id: "tabTest", title: "Test", icon: <Icon icon={IconDefinitions.eye} size={SizeDefinitions.Small} /> },
                 ]}

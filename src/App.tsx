@@ -4,7 +4,7 @@ import { Link, Outlet, RouterProvider, createBrowserRouter, useNavigation } from
 import { proxyPrefix } from './config';
 import { IconDefinitions } from './lib/utils/definitions';
 import { routes } from './pages/routes';
-import { SvgSprite } from './assets/scss/SvgSprite';
+import { SvgSprite } from './assets/SvgSprite';
 
 const queryClient = new QueryClient();
 

@@ -183,12 +183,12 @@ const DatagridAllPage = (): ReactElement => {
 
                 enableFiltersInHeader={headerFilters}
 
-                enableMenuOptionsInHeader
-                enableMenuOptionColumnChooser
+                enableColumnMenu
+                enableColumnMenuColumnVisibility
 
                 enableTabs={enableTabber}
                 tabberPosition={tabsDirection}
-                enableTabColumnChooser
+                enableTabColumnVisibility
                 enableTabFilters
                 tabs={[
                     { id: "tabTest", title: "Test", icon: <Icon icon={IconDefinitions.eye} size={SizeDefinitions.Small} /> },

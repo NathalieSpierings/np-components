@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Outlet } from "react-router";
-import { SvgSprite } from "../../../assets/scss/SvgSprite";
+import { SvgSprite } from "../../../assets/SvgSprite";
 
 export interface LayoutProps {
     shown?: boolean;

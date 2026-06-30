@@ -97,12 +97,12 @@ const TooltipPage = ({
             </Fieldset>
 
             <Fieldset legend="OnMobile" className="mt-4">
-                <Tooltip
+             <Tooltip
                     content="I will flip to left on mobile or tablet"
                     direction='right'
                     background={ColorDefinitions.Magenta}>
                     Hover me
-                </Tooltip>
+                </Tooltip>   
 
 <br/><br/>
                  <Tooltip

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import Search from "../../Base/Search/Search";
 import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
-import { DropdownSearch } from "./DropdownSearch";
 
 export interface DropdownTabItem {
   id: string;
@@ -60,8 +60,9 @@ export function DropdownTabs({
         ))}
       </div>
 
-      {activePane?.menuItems && activePane.search?.enabled && (
-        <DropdownSearch
+      {activePane?.menuItems && activePane.search?.enabled && (      
+
+        <Search css="dropdown__search"
           value={searchTerm}
           placeholder={
             activePane.search?.placeholder ?? "Zoeken..."

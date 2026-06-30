@@ -1,14 +1,15 @@
 import React, { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
-import { Search } from "../../Base/Search/Search";
 import ContentItem from "../../UI/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
 import { DropdownTabItem, DropdownTabPane, DropdownTabs } from "./DropdownTabs";
+import Search from "../../Base/Search/Search";
+import Box, { BoxProps } from "../../Base/Box/Box";
 
-export enum DropdownVerticalPosition { Up = "Up", Down = "Down" }
-export enum DropdownHorizontalPosition { Left = "Left", Right = "Right" }
+export enum DropdownVerticalPosition { Up = "up", Down = "down" }
+export enum DropdownHorizontalPosition { Left = "left", Right = "right" }
 
 
 // Toggle
@@ -36,7 +37,7 @@ export interface DropdownFooter {
 	onClick?: () => void;
 }
 
-export interface DropdownProps extends PropsWithChildren {
+export interface DropdownProps extends PropsWithChildren, BoxProps {
 	dropdownToggle: DropdownToggle;
 	menuItems?: DropdownMenuItem[];
 	dropdownHeader?: DropdownHeader;
@@ -71,11 +72,13 @@ export function Dropdown({
 	searchNoResultsText,
 	verticalPosition = DropdownVerticalPosition.Down,
 	horizontalPosition = DropdownHorizontalPosition.Left,
-	maxHeight = 400,
+	maxHeight = 300,
 	open,
 	setOpen,
 	children,
-	dropdownCss = ''
+	dropdownCss = '',
+	background,
+	...boxProps
 }: Readonly<DropdownProps>) {
 
 	const [internalOpen, setInternalOpen] = useState(false);
@@ -295,7 +298,8 @@ export function Dropdown({
 
 			{isOpen &&
 				createPortal(
-					<div
+					<Box  {...boxProps}
+					background={background}
 						ref={dropdownRef}
 						className={["dropdown", dropdownCss].join(" ")}
 						style={{
@@ -334,8 +338,12 @@ export function Dropdown({
 									noResultsText={searchNoResultsText}
 								/>
 							)}
+							{!tabs && !menuItems && (
+								<div className="dropdown__content__container">
+									{children}
+								</div>
+							)}
 
-							{!tabs && !menuItems && children}
 						</div>
 
 						{dropdownFooter && (
@@ -343,7 +351,7 @@ export function Dropdown({
 								{dropdownFooter.content}
 							</div>)
 						}
-					</div>,
+					</Box>,
 					document.body
 				)}
 		</>

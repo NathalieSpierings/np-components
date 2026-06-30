@@ -6,6 +6,120 @@ collection, dropdown, datagrid, filterbar, drawer, duocolumn, errorPages, gridCo
 gridLayout, loader, modal, navs, onboarding, pageOverlay, popover, slider, tabs,
 toastr, toolbar, tooltip, widget, wizard;
 
+@layer contentItem {
+    
+    .content-item {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 1rem;
+        width: 100%;
+
+        &__prefix,
+        &__postfix,
+        &__meta {
+
+            &.item-start {
+                align-items: flex-start;
+            }
+
+            &.item-center {
+                align-items: center;
+            }
+
+            &.item-end {
+                align-items: flex-end;
+            }
+
+            &.justify-start {
+                justify-content: flex-start;
+            }
+
+            &.justify-center {
+                justify-content: center;
+            }
+
+            &.justify-end {
+                justify-content: flex-end;
+            }
+
+            .form-group,
+            .form-field {
+                margin: 0;
+            }
+
+        }
+
+        &__prefix,
+        &__postfix {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            >div,
+            >button {
+                margin-inline-start: 1rem;
+
+                &:first-child {
+                    margin-inline-start: 0;
+                }
+            }
+        }
+
+        &__postfix {
+            margin-left: auto;
+        }
+
+        &__meta {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            .title-lg,
+            .title,
+            .title-md,
+            .title-sm,
+            .title-xs {
+                word-break: break-word;
+                margin: 0;
+            }
+
+        }
+
+        &__separator {
+            flex: 0 1 auto;
+            align-self: center;
+            width: 1px;
+            min-width: 1px;
+            height: 24px;
+            background: var(--color-border);
+        }
+
+        @include mixins.MQ-max(md) {
+            flex-wrap: wrap;
+
+            &__meta+&__separator {
+                width: 100%;
+                height: 1px;
+            }
+
+            &__postfix {
+                flex: 0 0 100%;
+                margin-left: 0;
+            }
+        }
+    }
+
+}
 
 @layer buttons {
 
@@ -354,12 +468,12 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &--tiny {
             --dismiss-cross-size: 1rem;
-            --dismiss-label-size: var(--fs-2xs);
+            --dismiss-label-size: var(--fs-tiny);
         }
 
         &--xs {
             --dismiss-cross-size: 1.4rem;
-            --dismiss-label-size: var(--fs-2xs);
+            --dismiss-label-size: var(--fs-tiny);
         }
 
         &--sm {
@@ -1721,119 +1835,6 @@ toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer contentItem {
-    .content-item {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        align-items: stretch;
-        gap: 1rem;
-        width: 100%;
-
-        &__prefix,
-        &__postfix,
-        &__meta {
-
-            &.item-start {
-                align-items: flex-start;
-            }
-
-            &.item-center {
-                align-items: center;
-            }
-
-            &.item-end {
-                align-items: flex-end;
-            }
-
-            &.justify-start {
-                justify-content: flex-start;
-            }
-
-            &.justify-center {
-                justify-content: center;
-            }
-
-            &.justify-end {
-                justify-content: flex-end;
-            }
-
-            .form-group,
-            .form-field {
-                margin: 0;
-            }
-
-        }
-
-        &__prefix,
-        &__postfix {
-            flex: 0 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-
-            >div,
-            >button {
-                margin-inline-start: 1rem;
-
-                &:first-child {
-                    margin-inline-start: 0;
-                }
-            }
-        }
-
-        &__postfix {
-            margin-left: auto;
-        }
-
-        &__meta {
-            flex: 1 1 auto;
-            min-width: 0;
-            display: flex;
-            align-items: center;
-
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6,
-            .title-lg,
-            .title,
-            .title-md,
-            .title-sm,
-            .title-xs {
-                word-break: break-word;
-                margin: 0;
-            }
-
-        }
-
-        &__separator {
-            flex: 0 1 auto;
-            align-self: center;
-            width: 1px;
-            min-width: 1px;
-            height: 24px;
-            background: var(--color-border);
-        }
-
-        @include mixins.MQ-max(md) {
-            flex-wrap: wrap;
-
-            &__meta+&__separator {
-                width: 100%;
-                height: 1px;
-            }
-
-            &__postfix {
-                flex: 0 0 100%;
-                margin-left: 0;
-            }
-        }
-    }
-
-}
 
 @layer datagrid {
     .datagrid {
@@ -5019,7 +5020,6 @@ toastr, toolbar, tooltip, widget, wizard;
         }
     }
 }
-
 
 @layer widget {
 

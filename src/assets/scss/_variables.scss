@@ -5,28 +5,34 @@
     --fontstack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --fontstack-mono: "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-    // Font sizes
-    --fs-2xs: 10px;
-    --fs-xs: 12px;
-    --fs-sm: 14px;
-    --fs-base: 16px;
-    --fs-lg: 20px;
-    --fs-xl: 24px;
-    --fs-2xl: 32px;
-    --fs-3xl: 40px;
+   // Font sizes
+	--fs-base: 1.6rem;
+	--lh-base: 1.5;
 
-    // Lineheights
-    --lh-tight: 1.2;
-    --lh-ultra-tight: 1;
-    --lh-2xs: 1.2;
-    --lh-xs: 1.6666;
-    --lh-sm: 1.4;
-    --lh-base: 1.4;
-    --lh-lg: 1.2;
-    --lh-xl: 1.2;
-    --lh-2xl: 1.5;
-    --lh-3xl: 1.1;
+	--fs-tiny: 1.1rem;
+	--fs-xs: 1.2rem;
+	--fs-sm: 1.4rem;
+	--fs-md: 1.7rem;
+	--fs-lg: 2rem;
+	--fs-xl: 2.2rem;
+	--fs-2xl: 2.4rem;
+	--fs-3xl: 2.8rem;
+	--fs-4xl: 3rem;
+	--fs-5xl: 3.6rem;
+	--fs-6xl: 4.8rem;
 
+	--lh-tiny: 1.5;
+	--lh-xs: 1.5;
+	--lh-sm: 1.5;
+	--lh-md: 1.5;
+	--lh-lg: 1.6;
+	--lh-xl: 1.8;
+	--lh-2xl: 1.8;
+	--lh-3xl: 1.5;
+	--lh-4xl: 1.5;
+	--lh-5xl: 1.5;
+	--lh-6xl: 1.3;
+    
     // Font weights
     --fw-regular: 400;
     --fw-semibold: 600;
@@ -158,6 +164,7 @@
 		--input-disabled-border: var(--color-border-surface-dark);
 	}
 }
+
 .bg-surface-dark{
 	.form-group{
 		--input-border: var(--color-border-surface-dark);

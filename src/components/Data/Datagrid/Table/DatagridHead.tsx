@@ -18,8 +18,8 @@ export interface DatagridHeadProps<TData> {
     enableColumnResize: boolean;
     enableColumnReorder: boolean;
     enableStickyHeader?: boolean;
-    enableMenuOptionsInHeader?: boolean;
-    enableMenuOptionColumnChooser?: boolean;
+    enableColumnMenu?: boolean;
+    enableColumnMenuColumnVisibility?: boolean;
     enableFiltersInHeader?: boolean;
     checkedItems?: TData[];
     onRowsChecked?: (checkedItems: TData[]) => void;
@@ -71,8 +71,8 @@ export function DatagridHead<TData>({
     enableColumnResize,
     enableColumnReorder,
     enableStickyHeader,
-    enableMenuOptionsInHeader,
-    enableMenuOptionColumnChooser,
+    enableColumnMenu,
+    enableColumnMenuColumnVisibility,
     enableFiltersInHeader,
     checkedItems = [],
     onRowsChecked,
@@ -394,7 +394,7 @@ export function DatagridHead<TData>({
                                 </div>
                             )}
 
-                            {enableMenuOptionsInHeader && (
+                            {enableColumnMenu && (
                                 <div className="datagrid__grid__hcell__icon">
                                     <DatagridMenuDropdown
                                         key={`menu-${dropdownResetKey}-${column.prop}`}
@@ -404,7 +404,7 @@ export function DatagridHead<TData>({
                                         updateColumnState={updateColumnState}
                                         resetColumns={resetColumns}
                                         renderColumnChooser={renderColumnChooser}
-                                        enableColumnChooserInDropdown={enableMenuOptionColumnChooser}
+                                        enableColumnChooserInDropdown={enableColumnMenuColumnVisibility}
                                     />
                                 </div>
                             )}

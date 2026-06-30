@@ -116,15 +116,15 @@ const Collection: FC<CollectionProps> = ({
     };
 
     useEffect(() => {
-        const activeDefaultOpenIds = items
-            .filter((item) => item.defaultOpen)
-            .map((item) => item.id);
+        const activeDefaultOpenIds = new Set(items.filter((item) => item.defaultOpen).map((item) => item.id)
+        );
 
         setManuallyClosedItems((current) =>
-            current.filter((id) => activeDefaultOpenIds.includes(id))
+            current.filter((id) => activeDefaultOpenIds.has(id))
         );
     }, [items]);
 
+  
 
     const handleItemClick = (id: string) => {
         if (!selectable || !setSelected) return;
@@ -154,9 +154,7 @@ const Collection: FC<CollectionProps> = ({
         compact ? `collection--compact` : '',
         medium ? `collection--md` : '',
         hoverable ? 'collection--hover' : '',
-    ]
-        .filter(Boolean)
-        .join(' ');
+    ].filter(Boolean).join(' ');
 
     return (
         <div
@@ -198,7 +196,7 @@ const Collection: FC<CollectionProps> = ({
                     const postfix = (
                         <>
                             {item.active && (
-                                <div className={`dot-indicator ${item.active  ? 'bg-primary' : ''}`} />
+                                <div className={`dot-indicator ${item.active ? 'bg-primary' : ''}`} />
                             )}
                             {item.postfix}
 

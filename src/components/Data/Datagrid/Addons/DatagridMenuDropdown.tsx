@@ -113,8 +113,8 @@ export function DatagridMenuDropdown<TData>({
 
     return (
         <Dropdown
-            isOpen={open}
-            onOpenChange={setOpen}
+            open={open}
+            setOpen={setOpen}
             dropdownToggle={{
                 label: (
                     <Icon

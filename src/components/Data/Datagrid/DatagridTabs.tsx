@@ -2,7 +2,7 @@ import React, { ReactNode, useMemo, useState } from "react";
 import { DismissButton } from "../../UI/DismissButton";
 import { ColorDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Tooltip from "../../UI/Tooltip/Tooltip";
-import { useResizableAside } from "../../Base/Layout/Hooks/useResizableAside";
+import { useResizableAside } from "../../../lib/hooks/useResizableAside";
 
 export type DatagridTabberPosition = 'left' | 'right';
 

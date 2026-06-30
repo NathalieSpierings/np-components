@@ -1,6 +1,6 @@
 @layer inputReset, inputAnimations, formField, checkboxField, radioField, toggleSwithField,
 selectField, inputField, passwordField, searchInputField, tagsInputField,
-checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
+checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload, formDisplayList;
 
 
 @layer inputReset {
@@ -263,7 +263,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             pointer-events: none;
         }
 
-        &:has(.checkbox__label){
+        &:has(.checkbox__label) {
             .checker {
                 margin-right: 8px;
             }
@@ -271,7 +271,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
         .checker {
             position: relative;
-            
+
             cursor: pointer;
 
             .check {
@@ -1483,7 +1483,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
 @layer dropdownField {
     .dropdown {
-        --color-background: var(--color-surface-light);     
+        --color-background: var(--color-surface-light);
         --dropdown-min-width: 22rem;
         --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, .10), 0 2px 4px rgba(0, 0, 0, .05);
         --color-hover: var(--shadow-light);
@@ -1493,6 +1493,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
         flex-direction: column;
         overflow: hidden;
         min-width: var(--dropdown-min-width);
+        max-width: 400px;
         background: var(--color-background);
         box-shadow: var(--dropdown-shadow);
         border-radius: var(--radius-sm);
@@ -1500,7 +1501,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
 
         // Submenu	
         &__submenu {
-            --color-background: var(--color-surface-light);           
+            --color-background: var(--color-surface-light);
             --dropdown-min-width: 22rem;
             --color-hover: var(--shadow-light);
             --color-selected: var(--shadow-base);
@@ -1591,7 +1592,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             display: flex;
             align-items: center;
             line-height: 36px;
-            padding: .5rem 1rem;
+            padding: var(--page-padding-2xs) var(--page-padding-xs);
             white-space: nowrap;
             padding-inline: var(--page-padding-sm);
             background: var(--color-background);
@@ -1605,10 +1606,11 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             border-bottom: 1px solid transparent;
 
             &[class*="border-"] {
-                ~ .dropdown__menu__search {
+                ~.dropdown__menu__search {
                     padding-block: var(--page-padding-sm);
                 }
-                ~ .dropdown__search{
+
+                ~.dropdown__search {
                     border-bottom: 1px solid var(--color-border);
                 }
             }
@@ -1625,10 +1627,20 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
             min-height: 0;
             max-height: inherit;
             overflow: hidden;
+
+            &__container {
+                flex: 1 1 auto;
+                min-height: 0;
+                overflow-y: auto;
+                padding: var(--page-padding-2xs) var(--page-padding-xs);
+            }
         }
 
         // Menu
         &__menu {
+            flex: auto;
+            min-height: 0;
+            overflow-y: auto;
             margin-block: var(--page-padding-2xs);
 
             &__node {
@@ -1649,7 +1661,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
                 padding: var(--page-padding-xs) calc(var(--page-padding-2xs) * 1.5);
                 cursor: pointer;
 
-                &__content{
+                &__content {
                     min-width: 0;
                 }
 
@@ -1769,7 +1781,7 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
         &__search {
             border-bottom: 1px solid var(--color-border);
             padding-inline: var(--page-padding-sm);
-             padding-block: var(--page-padding-sm);
+            padding-block: var(--page-padding-sm);
 
         }
     }
@@ -1793,7 +1805,6 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
     }
 
 }
-
 
 @layer multiSelect {
 
@@ -3060,338 +3071,21 @@ checkboxAnimated, dropdownField, multiSelect, datepicker, fileupload;
     }
 }
 
-
-.popup {
-    position: relative;
-    display: inline-flex;
-
-    &__toggle {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        gap: .5rem;
-        cursor: pointer;
-
-
-        &__container {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-        }
-
-        &:active,
-        &.active {
-            transform: scale(1) !important;
-        }
-
-        &.form-group {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            margin-bottom: 0 !important;
-
-            .form-control {
-                cursor: pointer;
-                height: var(--input-height);
-
-                &:focus {
-                    cursor: pointer !important;
-                }
-
-                &[readonly] {
-                    background: var(--input-background);
-                    pointer-events: none;
-                    cursor: pointer;
-                    border: 1px solid var(--input-border);
-                }
-            }
-
-            .form-option {
-                color: var(--color-foreground);
-                position: absolute;
-                padding: var(--input-padding);
-            }
-
-            &.float {
-                &:has(.form-option) {
-                    label {
-                        top: .5rem;
-                        font-size: var(--fs-sm);
-                        transform: var(--input-label-trans);
-                    }
-
-                    .form-control,
-                    .form-option {
-                        --input-padding: 1.5rem 1.5rem .5rem 1.5rem;
-                    }
-                }
-
-            }
-        }
-
-        &__arrow {
-            transition: transform .15s ease;
-        }
-
-        &--open {
-            .popup__toggle__arrow {
-                transform: rotate(180deg);
-            }
-        }
-    }
-
-    &__menu {
-        position: absolute;
-        left: 0;
-        min-width: 22rem;
-        background: var(--color-background);
-        border-radius: var(--radius-lg);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, .10), 0 2px 4px rgba(0, 0, 0, .05);
-        overflow: visible;
-        z-index: 1000;
-
-        &--down {
-            top: calc(100% + 4px);
-            bottom: auto;
-        }
-
-        &--up {
-            bottom: calc(100% + 4px);
-            top: auto;
-        }
-
-        &--left,
-        &--start {
-            left: 0;
-            right: auto;
-        }
-
-        &--right,
-        &--end {
-            right: 0;
-            left: auto;
-        }
-    }
-
-    &__header {
-        display: flex;
-        align-items: center;
-        min-height: 44px;
-        padding: .75rem 1rem;
-        border-bottom: 1px solid var(--color-border);
-        background: var(--color-background);
-        font-weight: 600;
-    }
-
-    &__footer {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        min-height: 44px;
-        padding: .75rem 1rem;
-        border-top: 1px solid var(--color-border);
-        background: var(--color-background);
-    }
-
-    &__content {
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: 320px;
-    }
-
-    &__divider {
-        width: 100%;
-        height: 1px;
-        min-height: 1px;
-        flex: 0 0 1px;
-        background: var(--color-border);
-        margin-block: var(--page-padding-2xs);
-    }
-
-    &__tabs {
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        width: 100%;
-        border-bottom: 1px solid var(--color-border, #e5e5e5);
-        background: var(--color-surface-secondary, #fafafa);
-    }
-
-    &__tab {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1 1 auto;
-        min-height: 40px;
-        padding-inline: 1rem;
-        cursor: pointer;
-        white-space: nowrap;
-        border-bottom: 2px solid transparent;
-        transition: background-color .15s ease, border-color .15s ease;
-
-        &:hover {
-            background: rgba(0, 0, 0, .04);
-        }
-
-        &--active {
-            background: white;
-            border-bottom-color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        &--disabled {
-            opacity: .5;
-            pointer-events: none;
-        }
-    }
-
-    &__item {
-        position: relative;
-
-        display: flex;
-        align-items: center;
-
-        min-height: 36px;
-
-        padding-inline: .75rem;
-
-        cursor: pointer;
-
-        user-select: none;
-
-        transition:
-            background-color .12s ease,
-            color .12s ease;
-
-        &:hover {
-            background: #eef5ff;
-        }
-
-        &:focus {
-            outline: none;
-
-            background: #eef5ff;
-        }
-
-        &--selected {
-            background: #dcecff;
-        }
-
-        &--expanded {
-            background: #dcecff;
-        }
-
-        &--disabled {
-            opacity: .5;
-            pointer-events: none;
-        }
-
-        &--level-1 {
-            padding-left: 12px;
-        }
-
-        &--level-2 {
-            padding-left: 20px;
-        }
-
-        &--level-3 {
-            padding-left: 28px;
-        }
-
-        &__content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        &__expand-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            width: 20px;
-            height: 20px;
-
-            flex-shrink: 0;
-
-            margin-left: auto;
-        }
-    }
-
-    &__submenu {
-        position: absolute;
-
-        top: -1px;
-        left: calc(100% - 1px);
-
-        min-width: 240px;
-        max-width: 420px;
-
-        background: var(--color-surface, #fff);
-
-        border: 1px solid var(--color-border, #d9d9d9);
-        border-radius: 6px;
-
-        box-shadow:
-            0 4px 12px rgba(0, 0, 0, .10),
-            0 2px 4px rgba(0, 0, 0, .05);
-
-        overflow: hidden;
-
-        z-index: 1001;
-
-        &::before {
-            content: "";
-
-            position: absolute;
-
-            top: 0;
-            left: 0;
-
-            width: 2px;
-            height: 100%;
-
-            background: #e5e5e5;
-        }
-
-        &--left {
-            left: auto;
-            right: calc(100% - 1px);
-        }
-    }
-
-    &__search {
-        padding: .75rem;
-
-        border-bottom: 1px solid var(--color-border, #e5e5e5);
-
-        input {
-            width: 100%;
-
-            padding: .5rem .75rem;
-
-            border: 1px solid #d9d9d9;
-            border-radius: 4px;
-
-            &:focus {
-                outline: none;
-                border-color: var(--color-primary,
-                        #4096ff);
-            }
-        }
-    }
-
-    &__empty,
-    &__loading {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        min-height: 60px;
-
-        padding: 1rem;
-
-        color: #8c8c8c;
-    }
+@layer formDisplayList {
+
+	.form-display-list {
+		&__item {
+			display: flex;
+			align-items: center;
+			margin: 1rem;
+
+			>.icon {
+				flex-shrink: 0;
+			}
+
+			&__content {
+				flex: 1;
+			}
+		}
+	}
 }
