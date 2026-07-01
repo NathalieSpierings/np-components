@@ -443,6 +443,9 @@ $theme-all: list.join($theme-low, $theme-high);
 // Generate css-variables for themes
 @each $theme, $values in $themes {
 
+
+ 
+
   // #{if($theme == light, ":root, .theme-light", ".theme-#{$theme}")} {
   #{if(sass($theme == light): ":root, .theme-light"; else: ".theme-#{$theme}")} {
 @each $name, $value in $values {
@@ -458,6 +461,8 @@ $theme-all: list.join($theme-low, $theme-high);
       --color-foreground-#{$name}: #{$foreground};
       --color-border-#{$name}: #{$border};
       --color-mute-#{$name}: #{$mute};
+
+     
 
       --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
       --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),

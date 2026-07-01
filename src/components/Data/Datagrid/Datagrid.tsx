@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";
 import Icon from "../../UI/Icons/Icon/Icon";
-import Loader from "../../UI/Loader/Loader";
+import Loader, { LoaderVariant } from "../../UI/Loader/Loader";
 import Toolbar from "../../UI/Toolbar/Toolbar";
 import Tooltip from "../../UI/Tooltip/Tooltip";
 import { useDatagridColumnChooser } from "./Addons/DatagridColumnChooser";
@@ -28,11 +28,7 @@ export interface DatagridColumnRuntime<TData> extends DatagridRowConfig<TData> {
     pinned: DatagridPinnedPosition;
 }
 
-export type DatagridRenderedColumnType =
-    | "collapsible"
-    | "checkbox"
-    | "rowActions"
-    | "data";
+export type DatagridRenderedColumnType = | "collapsible" | "checkbox" | "rowActions" | "data";
 
 export interface DatagridRenderedColumn<TData> {
     key: string;
@@ -54,7 +50,6 @@ export interface DatagridProps<TData> {
     data: TData[];
     dataRaw?: TData[];
     total: number;
-    loading: boolean;
     onFilterUpdate: FilterUpdateFunc<TData>;
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
@@ -87,16 +82,7 @@ export interface DatagridProps<TData> {
     tableHeaderContent?: ReactNode;
     tableFooterContent?: ReactNode;
     localStorageKey?: string;
-    loaderDuration?: number;
-    loaderBackground?: ColorDefinitions;
-    loaderLabels?: string[];
-    loaderShowLabels?: boolean;
-    loaderLabelColor?: ColorDefinitions;
-    loaderShowOverlay?: boolean;
-    loaderTableOverlay?: boolean;
-    loaderCentered?: boolean;
-    loaderShowAnimation?: boolean;
-    loaderAnimationColor?: ColorDefinitions;
+
     enableTableInfo?: boolean;
     tableInfoContent?: ReactElement;
     tableInfoBorderBottom?: boolean;
@@ -125,14 +111,26 @@ export interface DatagridProps<TData> {
     enableSidebar?: boolean;
     sidebar?: Datagridsidebar<TData>;
     sidebarPosition?: 'left' | 'right';
+
+    // Loader options
+    loaderDuration?: number;
+    loading: boolean;
+    loaderBackground?: ColorDefinitions;
+    loaderEnableAnimation?: boolean;
+    loaderAnimationColor?: ColorDefinitions;
+    loaderEnableLabels?: boolean;
+    loaderLabelColor?: ColorDefinitions;
+    loaderLabels?: string[];
+    loaderVariant?: LoaderVariant;
+
 }
 
 function Datagrid<TData extends { id: string | number }>({
     data,
     dataRaw,
     total,
-    loading,
     onFilterUpdate,
+    loading,
     properties = [],
     initialSortConfig,
     rowActions = [],
@@ -163,16 +161,6 @@ function Datagrid<TData extends { id: string | number }>({
     tableHeaderContent,
     tableFooterContent,
     localStorageKey = "datagrid-columns",
-    loaderDuration,
-    loaderBackground,
-    loaderLabels,
-    loaderShowLabels = false,
-    loaderLabelColor,
-    loaderShowOverlay,
-    loaderTableOverlay = true,
-    loaderCentered = true,
-    loaderShowAnimation,
-    loaderAnimationColor,
     enableTableInfo = false,
     tableInfoContent,
     tableInfoBorderBottom,
@@ -201,6 +189,16 @@ function Datagrid<TData extends { id: string | number }>({
     enableSidebar,
     sidebarPosition = 'right',
     sidebar,
+
+    // Loader options
+    loaderDuration,    
+    loaderBackground,
+    loaderEnableAnimation,
+    loaderAnimationColor,
+    loaderEnableLabels,
+    loaderLabelColor,
+    loaderLabels,
+    loaderVariant = "table-overlay",
 
 }: Readonly<DatagridProps<TData>>): ReactElement {
 
@@ -731,17 +729,15 @@ function Datagrid<TData extends { id: string | number }>({
 
                 {loading ? (
                     <Loader
-                        tableOverlay={loaderTableOverlay}
-                        duration={loaderDuration}
+                        duration={loaderDuration}                        
                         loading={loading}
                         background={loaderBackground}
-                        labels={loaderLabels}
-                        showLabels={loaderShowLabels}
-                        labelColor={loaderLabelColor}
-                        showOverlay={loaderShowOverlay}
-                        centered={loaderCentered}
-                        showAnimation={loaderShowAnimation}
+                        enableAnimation={loaderEnableAnimation}
                         animationColor={loaderAnimationColor}
+                        enableLabels={loaderEnableLabels}
+                        labels={loaderLabels}
+                        labelColor={loaderLabelColor}
+                        variant={loaderVariant}
                     />
                 ) : null}
 

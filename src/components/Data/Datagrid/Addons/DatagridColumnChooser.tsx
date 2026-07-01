@@ -3,6 +3,7 @@ import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../
 import Checkbox from "../../../Forms/Checkbox/Checkbox";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridColumnRuntime } from "../Datagrid";
+import Search from "../../../Base/Search/Search";
 
 
 export function useDatagridColumnChooser<TData>({
@@ -217,22 +218,13 @@ export function DatagridColumnChooser<TData>({
                         onChange={setAllColumnsVisible}
                         indeterminate={someColumnsVisible && !allColumnsVisible}
                     />
-
-                )}
-
-                <div className="datagrid__column-picker__search">
-                    <div className="datagrid__column-picker__search__container">
-                        <Icon icon={IconDefinitions.search} size={SizeDefinitions.Small} />
-
-                        <input
-                            type="search"
-                            placeholder="Zoek kolom..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            onClick={(e) => e.stopPropagation()}
-                        />
-                    </div>
-                </div>
+                )}              
+                <Search
+                    type="search"
+                    value={searchTerm}
+                    placeholder="Zoek kolom..."
+                    onChange={(value) => setSearchTerm(value)}
+                />
             </div>
 
 

@@ -1,19 +1,14 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { DatagridGetDataArguments } from "../../../components/Data/Datagrid/Config/DatagridData";
-import Datagrid, { DatagridRowActionsPosition } from "../../../components/Data/Datagrid/Datagrid";
+import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import useDatagridQueryClientFilter from "../../../components/Data/Datagrid/Hooks/useDatagridQueryClientFilter";
 import Title from "../../../components/Typography/Title/Title";
 import Button from "../../../components/UI/Button/Button";
 import Icon from "../../../components/UI/Icons/Icon/Icon";
+import Tooltip from "../../../components/UI/Tooltip/Tooltip";
 import { OrderGetModel, ProductGetModel, getOrdersForProduct, getProductsQuery } from "../../../lib/testdata/models";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
-import moment from "moment";
-import Tooltip from "../../../components/UI/Tooltip/Tooltip";
-import { DatagridTabberPosition } from "../../../components/Data/Datagrid/DatagridTabs";
-import { DatagridSidebarPosition } from "../../../components/Data/Datagrid/DatagridSidebar";
-import { Subtitle } from "../../../components/Typography/Subtitle";
-import { Fieldset } from "../../../components/Typography/Fieldset";
-import { PaginationInfoPosition, PaginationPosition } from "../../../components/Data/Datagrid/Pagination";
 
 const ProductOrdersTable = ({ productId }: { productId: string }) => {
 
@@ -76,25 +71,12 @@ const ProductOrdersTable = ({ productId }: { productId: string }) => {
 };
 
 
-const DatagridDemo: React.FC = () => {
+const DatagridLoadingDemo: React.FC = () => {
 
-    const [enableCheckboxes, setEnableCheckboxes] = useState(false);
-    const [enableSidebar, setEnableSidebar] = useState(false);
-    const [enableTabber, setEnableTabber] = useState(false);
-    const [enableColumnFilter, setEnableColumnFilter] = useState(false);
-    const [enableStickyColumn, setEnableStickyColumn] = useState(false);
-    const [enableColumnMenu, setEnableColumnMenu] = useState(false);
-    const [enableColumnMenuColumnVisibility, setEnableColumnMenuColumnVisibility] = useState(false);
-    const [enableTabColumnVisibility, setEnableTabColumnVisibility] = useState(false);
-    const [enableTabFilters, setEnableTabFilters] = useState(false);
-  
     const [selected, setSelected] = useState<ProductGetModel | undefined>();
     const [checkedItems, setCheckedItems] = useState<ProductGetModel[]>([]);
-    const [actionsPosition, setActionsPosition] = useState<DatagridRowActionsPosition>('right');
-    const [tabsDirection, setTabsDirection] = useState<DatagridTabberPosition>("right");
-    const [sidebarDirection, setSidebarDirection] = useState<DatagridSidebarPosition>("right");
-    const [paginationPosition, setPaginationPosition] = useState<PaginationPosition>("outside table");
-    const [paginationInfoPosition, setPaginationInfoPosition] = useState<PaginationInfoPosition>("right");
+    const [loading, setLoading] = useState<boolean>(false);
+ 
 
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
@@ -111,80 +93,20 @@ const DatagridDemo: React.FC = () => {
         return <ProductOrdersTable productId={item.id.toString()} />
     }
 
-    const toggleActionsPosition = () => {
-        const nextPosition = actionsPosition === "right" ? "left" : "right";
-        setActionsPosition(nextPosition);
-    };
-
-    const toggleSidebarPosition = () => {
-        const nextPosition = sidebarDirection === "right" ? "left" : "right";
-        setSidebarDirection(nextPosition);
-    };
-
-    const toggleTabberPosition = () => {
-        const nextPosition = tabsDirection === "right" ? "left" : "right";
-        setTabsDirection(nextPosition);
-    };
-
-      const togglePagination = () => {
-        const nextPosition = paginationPosition === "outside table" ? "inside table" : "outside table";
-        setPaginationPosition(nextPosition);
-    };
-     const togglePagerInfoPosition = () => {
-        const nextPosition = paginationInfoPosition === "right" ? "left" : "right";
-        setPaginationInfoPosition(nextPosition);
-    };
+ 
     return (
-        <>
-
-            <div className="grid" style={{ gap: '1rem' }}>
-                <div>
-                    <Fieldset legend="Column options" borderColor={ColorDefinitions.Surface}>
-                        
-                            <Button key="enableStickyColumn" onClick={() => setEnableStickyColumn(!enableColumnFilter)}>{enableStickyColumn === false ? "Enable" : "Disible"} column fixed</Button>
-                            <Button key="headerFilters" onClick={() => setEnableColumnFilter(!enableColumnFilter)}>{enableColumnFilter === false ? "Enable" : "Disible"} column filters</Button>
-                            <Button key="enableColumnMenu" onClick={() => setEnableColumnMenu(!enableColumnMenu)}>{enableColumnMenu === false ? "Enable" : "Disible"} column menu</Button>
-                            <Button key="enableColumnMenuColumnVisibility" onClick={() => setEnableColumnMenuColumnVisibility(!enableColumnMenuColumnVisibility)}>{enableColumnMenuColumnVisibility === false ? "Enable" : "Disible"} column menu column visibility</Button>
-                       
-                    </Fieldset>
-                </div>
-                <div>
-                    <Fieldset legend="Sidebar options" borderColor={ColorDefinitions.Surface}>
-                        <Subtitle>To open sidebar double click a row</Subtitle>
-                       
-                           <Button key="sidebarEnabler" onClick={() => setEnableSidebar(!enableSidebar)}>{enableSidebar === false ? "Enable" : "Disible"} sidebar</Button>
-                           <Button key="sidebar" disabled={!enableSidebar} onClick={toggleSidebarPosition}>Sidebar naar {sidebarDirection === "right" ? "links" : "rechts"}</Button>
-                       
-                    </Fieldset>
-                </div>
-                <div>
-                    <Fieldset legend="Tab options" borderColor={ColorDefinitions.Surface}>
-
-                            <Button key="tabberEnabler" onClick={() => setEnableTabber(!enableTabber)}> {enableTabber === false ? "Enable" : "Disible"} tabs</Button>
-                            <Button key="tabber" disabled={!enableTabber} onClick={toggleTabberPosition}>Tabs naar {tabsDirection === "right" ? "links" : "rechts"}</Button>
-                            <Button key="enableTabFilters" onClick={() => setEnableTabFilters(!enableTabFilters)}>{enableTabFilters === false ? "Enable" : "Disible"} tab filters</Button>
-                            <Button key="enableTabColumnVisibility" onClick={() => setEnableTabColumnVisibility(!enableTabColumnVisibility)}>{enableTabColumnVisibility === false ? "Enable" : "Disible"} column tab column visibility</Button>
-                      
-                    </Fieldset>
-                </div>
-            </div>
-
-
+     
+           
             <Datagrid
                 data={data || []}
                 dataRaw={dataRaw}
                 total={total || 0}
-                loading={status === "pending"}              
+                loading={loading}
                 onFilterUpdate={setTableOptions}
-
                 toolbarTitle={<Title size="md">Alle orders</Title>}
                 toolbarBorderBottom={true}
                 toolbarPrefixItems={[
-                    <Button key="actions" onClick={toggleActionsPosition}>Actions naar {actionsPosition === "right" ? "links" : "rechts"}</Button>,
-                    <Button key="enableCheckboxes" onClick={() => setEnableCheckboxes(!enableCheckboxes)}> {enableCheckboxes === false ? "Enable" : "Disible"} checkboxes</Button>,
-                    <Button key="pager" onClick={togglePagination}>Paginatie {paginationPosition === "outside table" ? "inside table" : "outside table"}</Button>,
-                    <Button key="pager" onClick={togglePagerInfoPosition}>Pager info naar {paginationInfoPosition === "right" ? "left" : "right"}</Button>,
-
+                    <Button key="loadingEnabler" onClick={() => setLoading(!loading)}> {loading === false ? "Enable" : "Disable"} loading</Button>,
                 ]}
                 toolbarPostfixItems={[
                     <Button key="download" onClick={() => alert('Create')}>
@@ -198,18 +120,18 @@ const DatagridDemo: React.FC = () => {
                 enableColumnVisibility
 
                 // Sticky columns
-                enableStickyHeader={enableStickyColumn}
+                enableStickyHeader
                 // Table info
                 enableTableInfo={checkedItems.length > 0}
                 // Column filters
-                enableFiltersInHeader={enableColumnFilter}
+                enableFiltersInHeader
                 // Column menu
-                enableColumnMenu={enableColumnMenu}
-                enableColumnMenuColumnVisibility={enableColumnMenuColumnVisibility}
+                enableColumnMenu
+                enableColumnMenuColumnVisibility
 
                 // Sidebar
-                enableSidebar={enableSidebar}
-                sidebarPosition={sidebarDirection}
+                enableSidebar
+                sidebarPosition="right"
                 sidebar={{
                     header: {
                         content: "Product details",
@@ -234,10 +156,9 @@ const DatagridDemo: React.FC = () => {
                 }}
 
                 // Tabs
-                enableTabs={enableTabber}
-                tabberPosition={tabsDirection}
-                enableTabColumnVisibility={enableTabColumnVisibility}
-                enableTabFilters={enableTabFilters}
+                enableTabs
+                enableTabColumnVisibility
+                enableTabFilters
                 tabs={[{
                     id: "tabTest",
                     title: "Test",
@@ -268,13 +189,11 @@ const DatagridDemo: React.FC = () => {
                     console.log(`Dobule clicked row`, row.naam);
                 }}
                 // Checkboxes
-                enableCheckboxes={enableCheckboxes}
+                enableCheckboxes
                 checkedItems={checkedItems}
                 onRowsChecked={setCheckedItems}
 
                 //pagination
-                paginationPosition={paginationPosition}
-                paginationRowInfoPosition={paginationInfoPosition}
                 footerContent={(<span>Dit is een test</span>)}
 
                 properties={[
@@ -379,7 +298,6 @@ const DatagridDemo: React.FC = () => {
 
                 ]}
                 // Row actions
-                rowActionPosition={actionsPosition}
                 rowActions={[{
                     icon: <Tooltip content="Bekijk"><Icon icon={IconDefinitions.eye} hover={true} iconCss="pointer" /></Tooltip>,
                     action: (item) => { alert(`Bekijk order ${item.naam}`) }
@@ -389,8 +307,8 @@ const DatagridDemo: React.FC = () => {
                     action: (item) => { alert(`Verwijder order ${item.naam}`) }
                 }]}
             />
-        </>
+      
     )
 }
 
-export default DatagridDemo;
+export default DatagridLoadingDemo;

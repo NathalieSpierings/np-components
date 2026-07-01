@@ -93,6 +93,9 @@
 
     // Colors
     --backdrop: rgb(0 0 0 / 50%);
+    --backdrop-light: rgb(255 255 255 / 50%);
+    --backdrop-table: color-mix(in oklab, var(--color-surface) 50%, white 5%); 
+
     --shadow-base: rgb(0 0 0 / 12%);
     --shadow-base-inverse: rgb(255 255 255 / 12%);
     --shadow-light: rgb(0 0 0 / 6%);
@@ -173,8 +176,15 @@
 	}
 }
 
+:root,
+.theme-light{
+  --backdrop: color-mix(in oklab, var(--color-surface) 50%, white 5%); //oklab-mix($value, 15, white);
+}
+
 .theme-dimmed,
 .theme-dark{
+    --backdrop: color-mix(in oklab, var(--color-surface) 50%, white 5%); //oklab-mix($value, 15, white);
+
 	.form-group{
 		--input-disabled-border: var(--color-border-surface-light);
 	}

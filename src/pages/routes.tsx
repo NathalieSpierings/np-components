@@ -8,6 +8,7 @@ import DropdownPage from "./Demo/Dropdown/DropdownPage";
 import TooltipPage from "./Demo/Tooltip/TooltipPage";
 import DemoPage from "./DemoPage";
 import HomePage from "./HomePage";
+import DatagridLoadingDemo from "./Demo/Datagrid/DatagridLoadingDemo";
 
 
 export const routes = [
@@ -24,11 +25,15 @@ export const routes = [
 		element: <DatagridDemo />
 	},	
 	{
-		path: "/demo/dginfo",
+		path: "/demo/dg-loading",
+		element: <DatagridLoadingDemo />
+	},		
+	{
+		path: "/demo/dg-info",
 		element: <DatagridTableInfoDemo />
 	},
 	{
-		path: "/demo/dgtoolbar",
+		path: "/demo/dg-toolbar",
 		element: <DatagridToolbarDemo />
 	},
 	{

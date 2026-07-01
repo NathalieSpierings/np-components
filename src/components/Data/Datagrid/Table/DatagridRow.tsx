@@ -1,10 +1,10 @@
+import { AnimatePresence, motion } from "framer-motion";
 import React, { ReactElement, ReactNode } from "react";
-import { DatagridColumnRuntime, DatagridRenderedColumn, DatagridRowActionsPosition } from "../Datagrid";
-import { DatagridAction } from "../Config/DatagridAction";
-import Icon from "../../../UI/Icons/Icon/Icon";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import Checkbox from "../../../Forms/Checkbox/Checkbox";
-import { AnimatePresence, motion } from "framer-motion";
+import Icon from "../../../UI/Icons/Icon/Icon";
+import { DatagridAction } from "../Config/DatagridAction";
+import { DatagridColumnRuntime, DatagridRenderedColumn } from "../Datagrid";
 
 export interface DatagridRowProps<TData extends { id: string | number }> {
     item: TData;
@@ -57,26 +57,7 @@ export function DatagridRow<TData extends { id: string | number; }>({
     const handleCheckedItems = (items: TData[]) => {
         onRowsChecked?.(items);
     };
-
-    const handleCheckboxChange = (checked: boolean) => {
-        if (!useCheckboxes) {
-            return;
-        }
-        handleCheckedItems(
-            checked
-                ? [...checkedItems, item]
-                : checkedItems.filter((x) => x.id !== item.id)
-        );
-    };
-
-    const handleActionButtonClick = (
-        event: React.MouseEvent<HTMLButtonElement>,
-        action: DatagridAction<TData>
-    ) => {
-        event.stopPropagation();
-        action.action?.(item, async () => undefined);
-    };
-
+    
     return (
         <div key={item.id}>
             <div

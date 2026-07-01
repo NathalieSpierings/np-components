@@ -6,7 +6,7 @@ export interface SearchProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  type?: "text" | "number" | "date";
+  type?: "text" | "number" | "date" | "search";
   css?: string;
 }
 

@@ -5,3 +5,49 @@
 @use "base";
 @use "form";
 @use "components";
+
+
+// Theme
+.theme {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	top: 50%;
+	left: auto;
+	right: 0;
+	padding: 0.5em;
+	z-index: 99999;
+	border-radius: 2px;
+	background: var(--color-offwhite);
+	box-shadow: 3px 8px 15px rgba(0, 0, 0, 0.5);
+	transform: translate3d(40px, 0, 0);
+	transition: transform 350ms ease, visibility 350ms ease;
+	opacity: 0;
+	visibility: hidden;
+
+	&__item {
+		width: 32px;
+		height: 32px;
+		background: var(--color-theme-600);
+		border: 1px solid var(--theme-200);
+		border-radius: 10%;
+		cursor: pointer;
+		margin-bottom: 0.5em;
+
+		&:first-child {
+			background: var(--color-theme-400);
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+			background: var(--color-theme-900);
+		}
+	}
+
+	&.shown {
+		transform: translateZ(0);
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+}

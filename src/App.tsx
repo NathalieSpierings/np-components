@@ -1,64 +1,48 @@
-import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Link, Outlet, RouterProvider, createBrowserRouter, useNavigation } from 'react-router';
-import { proxyPrefix } from './config';
-import { IconDefinitions } from './lib/utils/definitions';
-import { routes } from './pages/routes';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, RouterProvider, createBrowserRouter } from 'react-router';
 import { SvgSprite } from './assets/SvgSprite';
+import { proxyPrefix } from './config';
+import { routes } from './pages/routes';
 
 const queryClient = new QueryClient();
 
+
 const TemplateLayout = () => {
 
-  // const menuItems = [
-  //   {
-  //     id: 'home',
-  //     title: 'Home',
-  //     tooltip: 'Home',
-  //     iconName: IconDefinitions.home,
-  //     placement: SidebarMenuPlacement.Top,
-  //     url: '/'
-  //   },
-  //   {
-  //     id: 'demo',
-  //     title: 'demo',
-  //     tooltip: 'Demo',
-  //     url: '/demo',
-  //     iconName: IconDefinitions.themes,
-  //     duotone: true,
-  //     placement: SidebarMenuPlacement.Top,
-  //     sidebar: <SidebarDemo />
-  //   },
-  // ]
+  const [theme, setTheme] = useState("theme-dark");
 
-  const nav = useNavigation();
-  // const loading = nav.state === 'loading';
-  // const { pageTitle, breadcrumbItems } = useLayoutContext();
-  // const [drawerRequest, setDrawerRequest] = useState<{ item: string; key: number; } | null>(null);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    html.dataset.theme = theme;
+    html.className = theme;
+  }, [theme]);
 
   return (
     <div className="page fullscreen">
+
+      <div className="theme shown">
+        <button className="theme__item theme-light" onClick={() => setTheme("theme-light")} />
+        <button className="theme__item theme-dimmed" onClick={() => setTheme("theme-dimmed")} />
+        <button className="theme__item theme-dark" onClick={() => setTheme("theme-dark")} />
+      </div>
+
+
       <div className="header">
-         <div>
-            <Link to="/demo">Back to demo</Link>
-          </div>
+        <div>
+          <Link to="/demo">Back to demo</Link>
+        </div>
       </div>
       <div className="page__container">
         <div className="page__content">
-         
+
           <Outlet />
           <SvgSprite />
         </div>
       </div>
     </div>
-    // <MainLayout
-    //   loading={loading}
-    //   currentMenuItem={getInitialMenuItem(location.pathname)}
-    //   pageTitle={pageTitle}
-    //   breadcrumbItems={breadcrumbItems}
-    //   menuItems={menuItems}
-    //   drawerRequest={drawerRequest}
-    // />
+
   )
 }
 

@@ -35,9 +35,7 @@ export function DatagridTabs({
     tabberPosition
 }: Readonly<DatagridTabsProps>) {
 
-    const firstEnabledTab = tabs.find((tab) => !tab.disabled);
-
-    const { width, resizing, startResize } = useResizableAside(280, 280, 400, tabberPosition);
+    const { width, startResize } = useResizableAside(360, 360, 460, tabberPosition);
 
     const [activeTab, setActiveTab] = useState<string | undefined>();
 
