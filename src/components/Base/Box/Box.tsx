@@ -29,7 +29,7 @@ export interface BoxProps extends PropsWithChildren, React.AriaAttributes, React
     renderAs?: ElementType;
 }
 
-const Box = React.forwardRef<HTMLDivElement | HTMLSpanElement, BoxProps>(
+const Box = React.forwardRef<HTMLDivElement | HTMLSpanElement | HTMLFieldSetElement, BoxProps>(
     (
         {
             colorMute,
@@ -67,7 +67,7 @@ const Box = React.forwardRef<HTMLDivElement | HTMLSpanElement, BoxProps>(
 
         const cls = [
             className, 
-            addClass('text-mute', colorMute),
+            colorMute ? addClass('text', colorMute) : '',
             addClass('text', color),
             addClass('bg', background),
             addClass('border', borderColor),

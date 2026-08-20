@@ -1,6 +1,7 @@
-import React, { ChangeEvent, forwardRef, ReactElement, ReactNode, SelectHTMLAttributes } from 'react';
-import { ColorDefinitions } from '../../../lib/utils/definitions';
+import { ChangeEvent, forwardRef, ReactElement, ReactNode, SelectHTMLAttributes } from 'react';
 import { InputVariant, ValidationState } from '../Input/Input';
+import { ColorDefinitions } from '../../../lib/utils/definitions';
+import React from 'react';
 
 
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {

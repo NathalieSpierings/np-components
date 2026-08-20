@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DrawerStories from './Drawer.stories';
+import DrawerComponent from '../Drawer';
+ 
+<Meta of={DrawerStories} />
+ 
+
+# Drawer Component
+
+De `Drawer` component is een flexibel schuifpaneel dat van links of rechts in beeld kan komen. Het kan een header, footer en optionele overlay bevatten en ondersteunt verschillende aanpassingen zoals breedte en achtergrondkleur.
+
+---
+
+## Belangrijkste kenmerken
+
+- **Positie**: kan links of rechts openen via de `position` prop.
+- **Extra brede optie**: ondersteunt een bredere weergave met de `extraWide` prop.
+- **Header en footer**: optioneel een header met titel en footer met custom content.
+- **Dismiss button**: sluit het drawer-paneel; configurabel qua grootte, positie en label.
+- **Overlay ondersteuning**: kan een klikbare overlay tonen om het drawer te sluiten.
+- **Achtergrondkleur**: pas de achtergrondkleur aan via de `background` prop.
+- **Border kleur**: configureer de kleur van de header- en footerborder.
+
+
+### Default
+
+<Canvas of={DrawerStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

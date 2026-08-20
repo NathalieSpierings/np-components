@@ -1,0 +1,29 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as BadgeStories from './Badge.stories';
+import BadgeComponent from '../Badge';
+ 
+<Meta of={BadgeStories} />
+ 
+
+# Badge Component
+
+De `Badge` component wordt gebruikt om korte stukjes informatie of status te markeren. Je kunt de vorm, grootte en type aanpassen, evenals extra CSS-classes toevoegen.
+
+## Belangrijkste functionaliteiten
+
+- **Verschillende vormen:** Kies tussen `square` of `circle`.
+- **Type:** Momenteel ondersteunt `outline` voor een omrande stijl.
+- **Grootte-opties:** Ondersteunt `SizeDefinitions` zoals `small`, `medium` en `large`.
+- **Extra styling:** Voeg eigen CSS-classes toe via `badgeCss`.
+- **Flexibel:** Kan elk kind-element bevatten (tekst, iconen, etc.).
+
+
+### Default
+
+<Canvas of={BadgeStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

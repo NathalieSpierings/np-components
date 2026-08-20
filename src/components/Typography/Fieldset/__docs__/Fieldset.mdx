@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as FieldsetStories from './Fieldset.stories';
+import FieldsetComponent from '../Fieldset';
+ 
+<Meta of={FieldsetStories} />
+ 
+
+# Fieldset Component
+
+Het **`Fieldset`** component wordt gebruikt om een groep gerelateerde formuliervelden visueel en semantisch te groeperen.  
+
+## Belangrijkste functionaliteiten
+
+- **Legend weergeven**: Met de prop `legend` kan een titel of label voor de groep weergegeven worden.  
+- **Custom styling**:  
+  - `legendBorderColor` voor het instellen van de randkleur van de legend.  
+  - `fieldsetCss` en `legendCss` voor extra CSS-classes op het `<fieldset>` en `<legend>` element.  
+- **Children support**: Kan elk formulierelement of ander kind-element bevatten.  
+- **Box integratie**: Biedt consistente styling en extra eigenschappen via `boxProps`.  
+
+
+### Default
+
+<Canvas of={FieldsetStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

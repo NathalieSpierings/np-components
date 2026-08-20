@@ -28,3 +28,4 @@ export function useAnimatedCounter(target: number | undefined, duration: number 
 
     return count;
 }
+

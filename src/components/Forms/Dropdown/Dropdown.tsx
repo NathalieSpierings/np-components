@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import ContentItem from "../../UI/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
-import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
-import { DropdownTabItem, DropdownTabPane, DropdownTabs } from "./DropdownTabs";
+import DropdownMenu, { DropdownMenuItem } from "./DropdownMenu";
+import DropdownTabs, { DropdownTabItem, DropdownTabPane } from "./DropdownTabs";
 import Search from "../../Base/Search/Search";
 import Box, { BoxProps } from "../../Base/Box/Box";
 
@@ -24,7 +24,7 @@ export interface DropdownToggle {
 // Header
 export interface DropdownHeader {
 	content?: ReactNode;
-	borderColor?: ColorDefinitions;
+	border?: boolean;
 	keepOpen?: boolean;
 	onClick?: () => void;
 }
@@ -32,7 +32,7 @@ export interface DropdownHeader {
 // Footer
 export interface DropdownFooter {
 	content?: ReactNode;
-	borderColor?: ColorDefinitions;
+	border?: boolean;
 	keepOpen?: boolean;
 	onClick?: () => void;
 }
@@ -45,6 +45,7 @@ export interface DropdownProps extends PropsWithChildren, BoxProps {
 	enableSearch?: boolean;
 	searchPlaceholder?: string;
 	searchNoResultsText?: string;
+	searchBorder?: boolean;
 	tabs?: DropdownTabItem[];
 	tabPanes?: DropdownTabPane[];
 	verticalPosition?: DropdownVerticalPosition;
@@ -60,7 +61,7 @@ export interface DropdownCoordinates {
 	left: number;
 }
 
-export function Dropdown({
+function Dropdown({
 	dropdownToggle,
 	menuItems,
 	dropdownHeader,
@@ -70,6 +71,7 @@ export function Dropdown({
 	enableSearch = false,
 	searchPlaceholder,
 	searchNoResultsText,
+	searchBorder,
 	verticalPosition = DropdownVerticalPosition.Down,
 	horizontalPosition = DropdownHorizontalPosition.Left,
 	maxHeight = 300,
@@ -212,6 +214,7 @@ export function Dropdown({
 		};
 	}, [isOpen, verticalPosition, horizontalPosition]);
 
+
 	useEffect(() => {
 		if (!isOpen) {
 			return;
@@ -223,7 +226,7 @@ export function Dropdown({
 			if (
 				dropdownToggleRef.current?.contains(target) ||
 				dropdownRef.current?.contains(target) ||
-				document.querySelector(".dropdown__submenu")?.contains(target)
+				(target instanceof Element && target.closest(".dropdown__submenu"))
 			) {
 				return;
 			}
@@ -237,15 +240,14 @@ export function Dropdown({
 			}
 		};
 
-		document.addEventListener("mousedown", handleMouseDown);
+		document.addEventListener("mousedown", handleMouseDown, true);
 		document.addEventListener("keydown", handleEscape);
 
 		return () => {
-			document.removeEventListener("mousedown", handleMouseDown);
+			document.removeEventListener("mousedown", handleMouseDown, true);
 			document.removeEventListener("keydown", handleEscape);
 		};
 	}, [isOpen]);
-
 
 
 	// Trigger
@@ -282,7 +284,8 @@ export function Dropdown({
 	return (
 		<>
 			{/* Dropdown toggle */}
-			<button
+			<button 
+				type="button"
 				ref={dropdownToggleRef}
 				className={dropdownToggleCss}
 				onMouseDown={(e) => {
@@ -299,9 +302,9 @@ export function Dropdown({
 			{isOpen &&
 				createPortal(
 					<Box  {...boxProps}
-					background={background}
+						background={background}
 						ref={dropdownRef}
-						className={["dropdown", dropdownCss].join(" ")}
+						css={["dropdown", dropdownCss].join(" ")}
 						style={{
 							position: "fixed",
 							top: coordinates.top,
@@ -311,17 +314,19 @@ export function Dropdown({
 						}}
 					>
 						{dropdownHeader && (
-							<div className={`dropdown__header ${dropdownHeader.borderColor ? "border-" + dropdownHeader.borderColor : ""}`}>
+							<div className={`dropdown__header ${dropdownHeader.border ? "dropdown__header--border" : ""}`}>
 								{dropdownHeader.content}
 							</div>
 						)}
 
 						{!tabs && enableSearch && (
-							<Search css="dropdown__search"
-								value={searchTerm}
-								placeholder={searchPlaceholder}
-								onChange={setSearchTerm}
-							/>
+							<div className={`dropdown__search ${searchBorder ? "dropdown__search--border"  : ""}`}>
+								<Search 
+									value={searchTerm}
+									placeholder={searchPlaceholder}
+									onChange={setSearchTerm}
+								/>
+							</div>
 						)}
 
 
@@ -336,6 +341,9 @@ export function Dropdown({
 									searchTerm={searchTerm}
 									forceOpenSubmenus={!!searchTerm}
 									noResultsText={searchNoResultsText}
+									onItemClick={() =>
+										handleOnOpenChange(false)
+									}
 								/>
 							)}
 							{!tabs && !menuItems && (
@@ -347,7 +355,7 @@ export function Dropdown({
 						</div>
 
 						{dropdownFooter && (
-							<div className={`dropdown__footer ${dropdownFooter.borderColor ? "border-" + dropdownFooter.borderColor : ""}`}>
+							<div className={`dropdown__footer ${dropdownFooter.border ? "dropdown__footer--border"  : ""}`}>
 								{dropdownFooter.content}
 							</div>)
 						}
@@ -357,3 +365,4 @@ export function Dropdown({
 		</>
 	);
 }
+export default Dropdown;

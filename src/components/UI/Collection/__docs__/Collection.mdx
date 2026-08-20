@@ -1,0 +1,43 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as CollectionStories from './Collection.stories';
+import CollectionComponent from '../Collection';
+ 
+<Meta of={CollectionStories} />
+ 
+
+# Collection Component
+
+De `Collection` component toont een verzameling van items (`ContentItem`) in verschillende layouts, inclusief selecteerbare items en animaties.
+
+## Belangrijkste functionaliteiten
+
+- **Weergaveopties:** Ondersteuning voor lijst- of kolomweergave via `view` of `CollectionViewSelector`.  
+- **Scrollbaar:** Optionele scrollbare container (`scrollable`, `scrollheight`).  
+- **Styling:** Ondersteunt kleuren (`color`, `colorMute`, `background`, `borderColor`) en randen (`itemBorder`).  
+- **Ronde hoeken:** Met `rounded` (small/medium/large).  
+- **Compact of medium layout:** Via `compact` of `medium`.  
+- **Hoverable items:** Door `hoverable` prop.  
+- **Selecteerbaar:** Enkel- of meervoudige selectie (`selectable`, `selectMultiple`) met `selected` state en `setSelected` callback.  
+- **Animaties:** Smooth open/close en selectie transitions via `framer-motion`.
+
+
+# CollectionViewSelector  Component
+
+`CollectionViewSelector` biedt knoppen waarmee gebruikers kunnen kiezen tussen verschillende weergaven van een collectie: lijst of kolommen.
+
+## Belangrijkste functionaliteiten
+
+- **Weergave-opties:** Lijst of 2, 3 of 4 kolommen.  
+- **Tooltip:** Elke knop heeft een tooltip voor extra context.  
+- **Actieve staat:** Geeft visueel weer welke view geselecteerd is.  
+- **Callback:** `setViewOption` wordt aangeroepen bij selectie van een nieuwe view.
+
+### Default
+
+<Canvas of={CollectionStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

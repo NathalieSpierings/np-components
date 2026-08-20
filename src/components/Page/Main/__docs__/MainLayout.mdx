@@ -1,0 +1,38 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as MainLayoutStories from './MainLayout.stories';
+import MainLayoutComponent from '../MainLayout';
+ 
+<Meta of={MainLayoutStories} />
+ 
+
+# MainLayout
+
+De `MainLayout` component is verantwoordelijk voor de hoofdstructuur van een pagina.  
+Het combineert een header, sidebars, content-area en optionele loading-indicator.
+
+## Belangrijkste functionaliteiten
+
+- **Pagina loader:** toont een `PageLoader` component wanneer `loading` true is.
+- **Sidebar ondersteuning:**  
+  - Dynamisch openen/sluiten van sidebar submenu’s en drawer-menu’s.  
+  - Ondersteuning voor mobiele sidebars.
+- **Header ondersteuning:**  
+  - Toont `pageTitle` en breadcrumbs via `Header` component.  
+  - Kan worden verborgen via layout context.
+- **Menu- en navigatiebeheer:**  
+  - Houdt actieve menu-items bij.  
+  - Ondersteunt drawer-menu-interacties.
+- **Layout context integratie:**  
+  - Respecteert `fullscreen`, `hasSidebars` en `showHeader` vanuit `LayoutContext`.
+- **SVG sprite integratie:**  
+  - Inclusief globale `SvgSprite` voor iconen.
+
+### Default
+
+<Canvas of={MainLayoutStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

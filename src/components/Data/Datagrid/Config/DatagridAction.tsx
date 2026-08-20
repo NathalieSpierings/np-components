@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 
 export type DatagridActionFunc<TData> = (
     item: TData,
-    refresh: () => Promise<void>
 ) => void;
 
 export interface DatagridAction<TData> {
@@ -10,19 +9,17 @@ export interface DatagridAction<TData> {
     icon?: ReactElement;
     action?: DatagridActionFunc<TData>;
     disabled?: (item: TData) => boolean;
-    element?: (item: TData) => ReactElement | null;
+    element?: (item: TData) => ReactElement;
 }
 
 export interface DatagridActionComponentProps<TData> {
     actions: DatagridAction<TData>[];
     item: TData;
-    refresh: () => Promise<void>;
 }
 
 export function DatagridActionComponent<TData>({
     actions,
     item,
-    refresh,
 }: Readonly<DatagridActionComponentProps<TData>>): ReactElement {
     return (
         <td scope="row" data-label="Acties">
@@ -44,7 +41,7 @@ export function DatagridActionComponent<TData>({
                             onClick={(e) => {
                                 e.stopPropagation();
                                 if (!isDisabled) {
-                                    action.action?.(item, refresh);
+                                    action.action?.(item);
                                 }
                             }}
                         >

@@ -19,27 +19,30 @@ export interface ToggleProps extends PropsWithChildren {
     disabled?: boolean;
 }
 
-const Toggle = forwardRef<HTMLInputElement, ToggleProps>(({
-    checked,
-    label,
-    infoText,
-    labelPosition = 'right',
-    color,
-    onChange,
-    onBlur,
-    validationErrorMessage,
-    validationBottomPosition,
-    validationState,
-    css = '',
-    readOnly,
-    disabled,
-    children,
-}, ref
+const Toggle = forwardRef<HTMLInputElement, ToggleProps>(
+(
+    {
+        checked,
+        label,
+        infoText,
+        labelPosition = 'right',
+        color,
+        onChange,
+        onBlur,
+        validationErrorMessage,
+        validationBottomPosition,
+        validationState,
+        css = '',
+        readOnly,
+        disabled,
+        children,
+    },
+    ref
 ) => {
     const formFieldCls = [
         'form-field',
         color ? `form-field-${color}` : '',
-
+        
         validationErrorMessage && 'is-invalid',
         validationState === 'valid' && 'is-valid',
     ]
@@ -47,7 +50,7 @@ const Toggle = forwardRef<HTMLInputElement, ToggleProps>(({
         .join(' ');
 
     const cls = ['switch', css].filter(Boolean).join(' ');
-
+ 
     return (
         <div className={formFieldCls}>
             <div className="toggle-switch">

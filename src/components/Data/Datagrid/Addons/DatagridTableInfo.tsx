@@ -1,23 +1,36 @@
-import React, { ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
+import {DatagridTableInfoProps as DatagridBaseTableInfoProps} from "../Datagrid";
 
-export interface DatagridTableInfoProps {
-    borderBottom?: boolean;
-    borderColor?: ColorDefinitions;
-    children: ReactNode;
-}
+export type DatagridTableInfoComponentProps =
+    Pick<
+        DatagridBaseTableInfoProps,
+        | "tableInfoBorderBottom"
+        | "tableInfoBorderColor"
+    > & {
+        children: ReactNode;
+    };
 
 const DatagridTableInfo = ({
-    borderBottom = false,
-    borderColor = ColorDefinitions.Surface,
-    children,
-}: DatagridTableInfoProps) => {
+    tableInfoBorderBottom = false,
+    tableInfoBorderColor = ColorDefinitions.Surface,
+    children
+}: Readonly<DatagridTableInfoComponentProps>): ReactElement => {
+
     return (
         <div
-            className={`datagrid__info ${borderBottom ? "border-" + borderColor : null
-                }`}
+            className={[
+                "datagrid__info",
+                tableInfoBorderBottom
+                    ? `border-${tableInfoBorderColor}`
+                    : ""
+            ]
+                .filter(Boolean)
+                .join(" ")}
         >
-            <div className="datagrid__info__container">{children}</div>
+            <div className="datagrid__info__container">
+                {children}
+            </div>
         </div>
     );
 };

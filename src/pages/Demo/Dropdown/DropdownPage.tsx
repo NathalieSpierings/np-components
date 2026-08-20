@@ -1,33 +1,44 @@
 import React from "react";
-import { Dropdown, DropdownHorizontalPosition, DropdownVerticalPosition } from "../../../components/Forms/Dropdown/Dropdown";
-import { DropdownMenu } from "../../../components/Forms/Dropdown/DropdownMenu";
+import Dropdown, { DropdownHorizontalPosition, DropdownVerticalPosition } from "../../../components/Forms/Dropdown/Dropdown";
+import DropdownMenu from "../../../components/Forms/Dropdown/DropdownMenu";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Icon from "../../../components/UI/Icons/Icon/Icon";
 
+
+
 const DropdownPage: React.FC = () => {
+
+    const handleMenuItemClick = (item: string) => {
+        console.log(`${item} clicked`);
+    };
 
     return (
         <section className="centered centered--wide">
             <p> Welcome to the dropdown demo page</p>
 
-
+            <h3>Default</h3>
             <Dropdown
                 dropdownToggle={{
-                    label: "Default dropdown",
+                    label: "Click me!",
                     arrow: true
                 }}
-                menuItems={[{
-                    id: '1',
-                    label: 'Menu item 1'
-                },
-                {
-                    id: '2',
-                    label: 'Menu item 2'
-                },
-                {
-                    id: '3',
-                    label: 'Menu item 3'
-                }]}
+                menuItems={[
+                    {
+                        id: "1",
+                        label: "Menu item 1",
+                        onClick: () => handleMenuItemClick("Menu item 1")
+                    },
+                    {
+                        id: "2",
+                        label: "Menu item 2",
+                        onClick: () => handleMenuItemClick("Menu item 2")
+                    },
+                    {
+                        id: "3",
+                        label: "Menu item 3",
+                        onClick: () => handleMenuItemClick("Menu item 3")
+                    }
+                ]}
             />
 
             <div className="mt-4">
@@ -36,194 +47,232 @@ const DropdownPage: React.FC = () => {
                     arrow: true
                 }}
                     verticalPosition={DropdownVerticalPosition.Up}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1',
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2',
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3',
-                    },
-                    {
-                        id: '4',
-                        label: 'Menu item 4',
-                    },
-                    {
-                        id: '5',
-                        label: 'Menu item 5',
-                    },
-                    {
-                        id: '6',
-                        label: 'Menu item 6',
-                    },
-                    {
-                        id: '7',
-                        label: 'Menu item 7',
-                    },
-                    {
-                        id: '8',
-                        label: 'Menu item 8',
-                    },
-                    {
-                        id: '9',
-                        label: 'Menu item 9',
-                    },
-                    {
-                        id: '10',
-                        label: 'Menu item 10',
-                    },
-                    {
-                        id: '11',
-                        label: 'Menu item 11',
-                    },
-                    {
-                        id: '12',
-                        label: 'Menu item 12',
-                    },
-                    {
-                        id: '13',
-                        label: 'Menu item 13',
-                    },
-                    {
-                        id: '14',
-                        label: 'Menu item 14',
-                    },
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        },
+                        {
+                            id: '4',
+                            label: 'Menu item 4',
+                            onClick: () => handleMenuItemClick("Menu item 4")
+                        },
+                        {
+                            id: '5',
+                            label: 'Menu item 5',
+                            onClick: () => handleMenuItemClick("Menu item 5")
+                        },
+                        {
+                            id: '6',
+                            label: 'Menu item 6',
+                            onClick: () => handleMenuItemClick("Menu item 6")
+                        },
+                        {
+                            id: '7',
+                            label: 'Menu item 7',
+                            onClick: () => handleMenuItemClick("Menu item 7")
+                        },
+                        {
+                            id: '8',
+                            label: 'Menu item 8',
+                            onClick: () => handleMenuItemClick("Menu item 8")
+                        },
+                        {
+                            id: '9',
+                            label: 'Menu item 9',
+                            onClick: () => handleMenuItemClick("Menu item 9")
+                        },
+                        {
+                            id: '10',
+                            label: 'Menu item 10',
+                            onClick: () => handleMenuItemClick("Menu item 10")
+                        },
+                        {
+                            id: '11',
+                            label: 'Menu item 11',
+                            onClick: () => handleMenuItemClick("Menu item 11")
+                        },
+                        {
+                            id: '12',
+                            label: 'Menu item 12',
+                            onClick: () => handleMenuItemClick("Menu item 12")
+                        },
+                        {
+                            id: '13',
+                            label: 'Menu item 13',
+                            onClick: () => handleMenuItemClick("Menu item 13")
+                        },
+                        {
+                            id: '14',
+                            label: 'Menu item 14',
+                            onClick: () => handleMenuItemClick("Menu item 14")
+                        },
                     ]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />
             </div>
 
             <div className="mt-4">
-                <Dropdown background={ColorDefinitions.Blue}
+                <h3>Background</h3>
+                <Dropdown
+                    background={ColorDefinitions.Blue}
                     dropdownToggle={{
-                        label: "Color dropdown",
+                        label: "Click me!",
                         arrow: true
                     }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
                 />
 
             </div>
 
-
-
             <div className="mt-4">
+                <h3>Vertical position up</h3>
+
                 <Dropdown dropdownToggle={{
-                    label: "Vertical position up",
+                    label: "Click me!",
                     arrow: true
                 }}
                     verticalPosition={DropdownVerticalPosition.Up}
                     menuItems={[{
                         id: '1',
                         label: 'Menu item 1',
-                        icon: (<Icon icon={IconDefinitions.star} />)
+                        icon: (<Icon icon={IconDefinitions.star} />),
+                        onClick: () => handleMenuItemClick("Menu item 1")
                     },
                     {
                         id: '2',
                         label: 'Menu item 2',
-                        icon: (<Icon icon={IconDefinitions.cog} />)
+                        icon: (<Icon icon={IconDefinitions.cog} />),
+                        onClick: () => handleMenuItemClick("Menu item 2")
                     },
                     {
                         id: '3',
                         label: 'Menu item 3',
-                        icon: (<Icon icon={IconDefinitions.power} />)
+                        icon: (<Icon icon={IconDefinitions.power} />),
+                        onClick: () => handleMenuItemClick("Menu item 3")
                     }]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>Vertical position down</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Vertical position down",
+                    label: "Click me!",
                     arrow: true
                 }}
                     verticalPosition={DropdownVerticalPosition.Down}
                     menuItems={[{
                         id: '1',
                         label: 'Menu item 1',
-                        icon: (<Icon icon={IconDefinitions.star} />)
+                        icon: (<Icon icon={IconDefinitions.star} />),
+                         onClick: () => handleMenuItemClick("Menu item 1")
                     },
                     {
                         id: '2',
                         label: 'Menu item 2',
-                        icon: (<Icon icon={IconDefinitions.cog} />)
+                        icon: (<Icon icon={IconDefinitions.cog} />),
+                         onClick: () => handleMenuItemClick("Menu item 2")
                     },
                     {
                         id: '3',
                         label: 'Menu item 3',
-                        icon: (<Icon icon={IconDefinitions.power} />)
+                        icon: (<Icon icon={IconDefinitions.power} />),
+                         onClick: () => handleMenuItemClick("Menu item 3")
                     }]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>Horizontal position left</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Horizontal position left",
+                    label: "Click me!",
                     arrow: true
                 }}
                     horizontalPosition={DropdownHorizontalPosition.Left}
                     menuItems={[{
                         id: '1',
                         label: 'Menu item 1',
-                        icon: (<Icon icon={IconDefinitions.star} />)
+                        icon: (<Icon icon={IconDefinitions.star} />),
+                         onClick: () => handleMenuItemClick("Menu item 1")
                     },
                     {
                         id: '2',
                         label: 'Menu item 2',
-                        icon: (<Icon icon={IconDefinitions.cog} />)
+                        icon: (<Icon icon={IconDefinitions.cog} />),
+                         onClick: () => handleMenuItemClick("Menu item 2")
                     },
                     {
                         id: '3',
                         label: 'Menu item 3',
-                        icon: (<Icon icon={IconDefinitions.power} />)
+                        icon: (<Icon icon={IconDefinitions.power} />),
+                         onClick: () => handleMenuItemClick("Menu item 3")
                     }]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>Horizontal position right</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Horizontal position right",
+                    label: "Click me!",
                     arrow: true
                 }}
                     horizontalPosition={DropdownHorizontalPosition.Right}
                     menuItems={[{
                         id: '1',
                         label: 'Menu item 1',
-                        icon: (<Icon icon={IconDefinitions.star} />)
+                        icon: (<Icon icon={IconDefinitions.star} />),
+                         onClick: () => handleMenuItemClick("Menu item 1")
                     },
                     {
                         id: '2',
                         label: 'Menu item 2',
-                        icon: (<Icon icon={IconDefinitions.cog} />)
+                        icon: (<Icon icon={IconDefinitions.cog} />),
+                         onClick: () => handleMenuItemClick("Menu item 2")
                     },
                     {
                         id: '3',
                         label: 'Menu item 3',
-                        icon: (<Icon icon={IconDefinitions.power} />)
+                        icon: (<Icon icon={IconDefinitions.power} />),
+                         onClick: () => handleMenuItemClick("Menu item 3")
                     }]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>Custom content</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Custom content",
+                    label: "Click me!",
                     arrow: true
                 }}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
@@ -234,8 +283,9 @@ const DropdownPage: React.FC = () => {
             </div>
 
             <div className="mt-4">
+                <h3>Custom long content</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Custom long content",
+                    label: "Click me!",
                     arrow: true
                 }}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
@@ -254,160 +304,233 @@ const DropdownPage: React.FC = () => {
                 </Dropdown>
             </div>
 
-
             <div className="mt-4">
+                <h3>With header</h3>
                 <Dropdown dropdownToggle={{
-                    label: "With header",
+                    label: "Click me!",
                     arrow: true
                 }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>With header and border</h3>
                 <Dropdown dropdownToggle={{
-                    label: "With header and border",
+                    label: "Click me!",
                     arrow: true
                 }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
-                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), borderColor: ColorDefinitions.Surface }}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
+                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>With footer</h3>
                 <Dropdown dropdownToggle={{
-                    label: "With footer",
+                    label: "Click me!",
                     arrow: true
                 }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
                     dropdownFooter={{ content: (<>Footer content...</>) }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>With footer and border</h3>
                 <Dropdown dropdownToggle={{
-                    label: "With footer and border",
+                    label: "Click me!",
                     arrow: true
                 }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
-                    dropdownFooter={{ content: (<>Footer content...</>), borderColor: ColorDefinitions.Surface }}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
+                    dropdownFooter={{ content: (<>Footer content...</>), border: true }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>With header and footer</h3>
                 <Dropdown dropdownToggle={{
-                    label: "With header and footer",
+                    label: "Click me!",
                     arrow: true
                 }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
-                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), borderColor: ColorDefinitions.Surface }}
-                    dropdownFooter={{ content: (<>Footer content...</>), borderColor: ColorDefinitions.Surface }}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
+                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
+                    dropdownFooter={{ content: (<>Footer content...</>), border: true }}
                 />
             </div>
 
             <div className="mt-4">
+                <h3>With search</h3>
                 <Dropdown dropdownToggle={{
-                    label: "With search",
+                    label: "Click me!",
                     arrow: true
                 }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
-                    enableSearch
-
-                />
-            </div>
-
-            <div className="mt-4">
-                <Dropdown dropdownToggle={{
-                    label: "With header and search",
-                    arrow: true
-                }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: '2',
-                        label: 'Menu item 2'
-                    },
-                    {
-                        id: '3',
-                        label: 'Menu item 3'
-                    }]}
-                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), borderColor: ColorDefinitions.Surface }}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
                     enableSearch
                 />
             </div>
 
             <div className="mt-4">
+                <h3>With search and border</h3>
+                <Dropdown
+                    dropdownToggle={{
+                        label: "Click me!",
+                        arrow: true
+                    }}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
+                    enableSearch
+                    searchBorder
+                />
+            </div>
+
+            <div className="mt-4">
+                <h3>With header and search</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Tabs dropdown",
+                    label: "Click me!",
+                    arrow: true
+                }}
+                    menuItems={[
+                        {
+                            id: "1",
+                            label: "Menu item 1",
+                            onClick: () => handleMenuItemClick("Menu item 1")
+                        },
+                        {
+                            id: "2",
+                            label: "Menu item 2",
+                            onClick: () => handleMenuItemClick("Menu item 2")
+                        },
+                        {
+                            id: "3",
+                            label: "Menu item 3",
+                            onClick: () => handleMenuItemClick("Menu item 3")
+                        }
+                    ]}
+                    dropdownHeader={{
+                        content: (<>Welcome <strong>&nbsp; Guest</strong></>),
+                        border: true
+                    }}
+                    enableSearch
+                />
+            </div>
+
+            <div className="mt-4">
+                <h3>Tabs dropdown</h3>
+                <Dropdown dropdownToggle={{
+                    label: "Click me!",
                     arrow: true
                 }}
                     tabs={[
@@ -419,7 +542,8 @@ const DropdownPage: React.FC = () => {
                             tabId: "tabMenu",
                             content: <DropdownMenu items={[{
                                 id: '1',
-                                label: 'Menu item 1'
+                                label: 'Menu item 1',
+                                 onClick: () => handleMenuItemClick("Menu item 3")
                             },
                             {
                                 id: "2",
@@ -429,31 +553,37 @@ const DropdownPage: React.FC = () => {
                                         id: "3",
                                         icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
                                         label: "Submenu item 1",
+                                         onClick: () => handleMenuItemClick("Submenu item 1")
                                     },
                                     {
                                         id: "4",
                                         label: "Submenu item 2",
+                                         onClick: () => handleMenuItemClick("Submenu item 2")
                                     },
                                     {
                                         id: "5",
                                         icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
                                         label: "Submenu item 3",
+                                         onClick: () => handleMenuItemClick("Submenu item 3")
                                     },
                                 ],
                             },
                             {
                                 id: '6',
                                 icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
-                                label: 'Menu item 3'
+                                label: 'Menu item 3',
+                                 onClick: () => handleMenuItemClick("Menu item 3")
                             },
                             {
                                 id: '7',
-                                label: 'Menu item 4'
+                                label: 'Menu item 4',
+                                 onClick: () => handleMenuItemClick("Menu item 4")
                             },
                             {
                                 id: '8',
                                 icon: <Icon icon={IconDefinitions.checkmark} size={SizeDefinitions.Small} />,
-                                label: 'Menu item 5'
+                                label: 'Menu item 5',
+                                 onClick: () => handleMenuItemClick("Menu item 5")
                             }
                             ]} />,
                         },
@@ -473,9 +603,10 @@ const DropdownPage: React.FC = () => {
             </div>
 
             <div className="mt-4">
+                <h3>Tabs with search</h3>
                 <Dropdown
                     dropdownToggle={{
-                        label: "Tabs with search",
+                        label: "Click me!",
                         arrow: true
                     }}
 
@@ -495,25 +626,30 @@ const DropdownPage: React.FC = () => {
                             menuItems: [
                                 {
                                     id: "1",
-                                    label: "Menu item 1"
+                                    label: "Menu item 1",
+                                     onClick: () => handleMenuItemClick("Menu item 1")
                                 },
                                 {
                                     id: "2",
                                     label: "Menu item 2",
+                                     onClick: () => handleMenuItemClick("Menu item 2"),
                                     items: [
                                         {
                                             id: "3",
                                             label: "Submenu item 1",
+                                             onClick: () => handleMenuItemClick("Submenu item 1")
                                         },
                                         {
                                             id: "4",
                                             label: "Submenu item 2",
+                                             onClick: () => handleMenuItemClick("Submenu item 2")
                                         },
                                     ],
                                 },
                                 {
                                     id: "7",
-                                    label: "Menu item 3"
+                                    label: "Menu item 3",
+                                     onClick: () => handleMenuItemClick("Menu item 3")
                                 }
                             ],
                         },
@@ -533,107 +669,127 @@ const DropdownPage: React.FC = () => {
             </div>
 
             <div className="mt-4">
+                <h3>Multilevel menu dropdown</h3>
                 <Dropdown dropdownToggle={{
-                    label: "Multilevel menu dropdown",
-                    arrow: true
-                }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: "2",
-                        label: "Menu item 2",
-                        items: [
-                            {
-                                id: "3",
-                                label: "Submenu item 1",
-                            },
-                            {
-                                id: "4",
-                                label: "Submenu item 2",
-                                items: [
-                                    {
-                                        id: "5",
-                                        label: "Sub submenu item 1",
-                                    },
-                                    {
-                                        id: "6",
-                                        label: "Sub submenu item 2",
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                    {
-                        id: '7',
-                        label: 'Menu item 3'
-                    }]}
-                />
-            </div>
-
-            <div className="mt-4">
-                <Dropdown
-                    dropdownToggle={{
-                        label: "Multilevel menu and search",
-                        arrow: true
-                    }}
-                    menuItems={[{
-                        id: '1',
-                        label: 'Menu item 1'
-                    },
-                    {
-                        id: "2",
-                        label: "Settings",
-                        items: [
-                            {
-                                id: "3",
-                                label: "Account",
-                            },
-                            {
-                                id: "4",
-                                label: "Profile",
-                                items: [
-                                    {
-                                        id: "5",
-                                        label: "Address",
-                                    },
-                                    {
-                                        id: "6",
-                                        label: "Notifications",
-                                    },
-                                ],
-                            },
-                        ],
-                    },
-                    {
-                        id: '7',
-                        label: 'Menu item 3'
-                    }]}
-                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), borderColor: ColorDefinitions.Surface }}
-                    enableSearch
-                />
-            </div>
-
-            <div className="mt-4">
-                <Dropdown dropdownToggle={{
-                    label: "Icon",
+                    label: "Click me!",
                     arrow: true
                 }}
                     menuItems={[{
                         id: '1',
                         label: 'Menu item 1',
-                        icon: (<Icon icon={IconDefinitions.star} />)
+                        onClick: () => handleMenuItemClick("Menu item 1")
+                    },
+                    {
+                        id: "2",
+                        label: "Menu item 2",
+                        onClick: () => handleMenuItemClick("Menu item 2"),
+                        items: [
+                            {
+                                id: "3",
+                                label: "Submenu item 1",
+                                onClick: () => handleMenuItemClick("Submenu item 1")
+                            },
+                            {
+                                id: "4",
+                                label: "Submenu item 2", 
+                                onClick: () => handleMenuItemClick("Submenu item 2"),
+                                items: [
+                                    {
+                                        id: "5",
+                                        label: "Sub submenu item 1", 
+                                        onClick: () => handleMenuItemClick("Sub submenu item 1")
+                                    },
+                                    {
+                                        id: "6",
+                                        label: "Sub submenu item 2",
+                                         onClick: () => handleMenuItemClick("Sub submenu item 2")
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        id: '7',
+                        label: 'Menu item 3',
+                         onClick: () => handleMenuItemClick("Menu item 3")
+                    }]}
+                />
+            </div>
+
+            <div className="mt-4">
+                <h3>Multilevel menu and search</h3>
+                <Dropdown
+                    dropdownToggle={{
+                        label: "Click me!",
+                        arrow: true
+                    }}
+                    menuItems={[{
+                        id: '1',
+                        label: 'Menu item 1',
+                        onClick: () => handleMenuItemClick("Menu item 1")
+                    },
+                    {
+                        id: "2",
+                        label: "Settings",
+                        onClick: () => handleMenuItemClick("Settings"),
+                        items: [
+                            {
+                                id: "3",
+                                label: "Account",
+                                onClick: () => handleMenuItemClick("Account")
+                            },
+                            {
+                                id: "4",
+                                label: "Profile",
+                                onClick: () => handleMenuItemClick("Profile"),
+                                items: [
+                                    {
+                                        id: "5",
+                                        label: "Address",
+                                        onClick: () => handleMenuItemClick("Address")
+                                    },
+                                    {
+                                        id: "6",
+                                        label: "Notifications",
+                                        onClick: () => handleMenuItemClick("Notifications")
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        id: '7',
+                        label: 'Menu item 3'
+                    }]}
+                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
+                    enableSearch
+                />
+            </div>
+
+            <div className="mt-4">
+                <h3>With icon</h3>
+                <Dropdown
+                    dropdownToggle={{
+                        label: (<Icon icon={IconDefinitions.user} />),
+                        arrow: false
+                    }}
+                    menuItems={[{
+                        id: '1',
+                        label: 'Menu item 1',
+                        icon: (<Icon icon={IconDefinitions.star} />),
+                        onClick: () => handleMenuItemClick("Menu item 1")
                     },
                     {
                         id: '2',
                         label: 'Menu item 2',
-                        icon: (<Icon icon={IconDefinitions.cog} />)
+                        icon: (<Icon icon={IconDefinitions.cog} />),
+                        onClick: () => handleMenuItemClick("Menu item 2")
                     },
                     {
                         id: '3',
                         label: 'Menu item 3',
-                        icon: (<Icon icon={IconDefinitions.power} />)
+                        icon: (<Icon icon={IconDefinitions.power} />),
+                        onClick: () => handleMenuItemClick("Menu item 3")
                     }]}
                     dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
                 />

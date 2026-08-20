@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as HeaderStories from './Header.stories';
+import HeaderComponent from '../Header';
+ 
+<Meta of={HeaderStories} />
+ 
+# Header Component
+
+Het `Header` component wordt gebruikt om de bovenkant van de pagina te structureren en biedt een centrale plek voor de paginatitel, navigatie via breadcrumbs en een hamburgerknop voor mobiele zijbalken. Het component ondersteunt zowel vaste (sticky) headers als interactieve elementen zoals het openen en sluiten van mobiele zijbalken.
+
+## Belangrijkste functionaliteiten
+
+- **Titel en meta-informatie**: Toon de hoofd- of sectietitel van de pagina.
+- **Breadcrumb navigatie**: Geef de hiërarchie van de huidige pagina weer met behulp van `Breadcrumb` items.
+- **Burger Menu voor mobiele zijbalken**: Integreert met het `Burger` component om mobiele zijbalken te openen of te sluiten.
+- **Sticky Header**: Wordt "plakkerig" bovenaan het scherm zodra er gescrold wordt.
+- **Flexibele layout**: Past zich aan afhankelijk van de aanwezigheid van zijbalken en kan optioneel mobiele zijbalken beheren via props.
+- **Customizable via props**: Ondersteunt `Header`, `breadcrumbItems`, `hasSidebars`, en functies voor het beheren van mobiele zijbalken.
+
+Gebruik het `Header` component om een consistente, responsieve en toegankelijke bovenbalk voor je applicatie te creëren, met ondersteuning voor navigatie en mobiele interacties.
+
+### Default
+
+<Canvas of={HeaderStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -1,0 +1,26 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as MarkStories from './Mark.stories';
+import MarkComponent from '../Mark';
+ 
+<Meta of={MarkStories} />
+ 
+
+# Mark Component
+
+Het **`Mark`** component wordt gebruikt om tekst te markeren of te accentueren.
+
+## Belangrijkste functionaliteiten
+
+- **Gemarkeerde tekst**: Omwikkelt de opgegeven `label`-tekst met een `<mark>` element.  
+- **Eenvoudige integratie**: Kan direct in paragrafen worden gebruikt voor visuele nadruk.  
+- **Minimalistisch ontwerp**: Beperkt tot een enkele props (`label`) voor duidelijke focus.
+
+### Default
+
+<Canvas of={MarkStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

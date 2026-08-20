@@ -1,8 +1,5 @@
-export type DatagridColumnFilterType =
-    | "text"
-    | "number"
-    | "date"
-    | "select";
+
+export type DatagridColumnFilterType = "text" | "number" | "date" | "select";
 
 export type DatagridTextFilterOperator =
     | "contains"
@@ -34,22 +31,20 @@ export type DatagridDateFilterOperator =
     | "blank"
     | "notBlank";
 
-export type DatagridFilterOperator =
-    | DatagridTextFilterOperator
-    | DatagridNumberFilterOperator
-    | DatagridDateFilterOperator;
+export type DatagridFilterOperator = | DatagridTextFilterOperator | DatagridNumberFilterOperator | DatagridDateFilterOperator;
 
 export interface DatagridFilterOption {
     label: string;
     value: string;
 }
 
-export interface DatagridColumnFilterConfig<TData = any> {
+
+export interface DatagridColumnFilterConfig<TData = any, TOption = unknown> {
     type: DatagridColumnFilterType;
     multiSelect?: boolean;
     options?: DatagridFilterOption[];
-    optionsSource?: (data: TData[]) => any[];
-    mapOption?: (value: any) => DatagridFilterOption;
+    optionsSource?: (data: TData[]) => TOption[];
+    mapOption?: (value: TOption) => DatagridFilterOption;
 }
 
 export interface DatagridColumnFilterValue {

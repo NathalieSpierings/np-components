@@ -1,34 +1,41 @@
-import React, { ReactElement, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import React, { ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";
+import Button from "../../UI/Button/Button";
 import Icon from "../../UI/Icons/Icon/Icon";
 import Loader, { LoaderVariant } from "../../UI/Loader/Loader";
 import Toolbar from "../../UI/Toolbar/Toolbar";
 import Tooltip from "../../UI/Tooltip/Tooltip";
 import { useDatagridColumnChooser } from "./Addons/DatagridColumnChooser";
-import DatagridFilterToolbar from "./Addons/DatagridFilterToolbar";
-import DatagridSearch from "./Addons/DatagridSearch";
+import { DatagridSidebar, DatagridSidebarFooter, DatagridSidebarHeader } from "./Addons/DatagridSidebar";
 import DatagridTableInfo from "./Addons/DatagridTableInfo";
+import { DatagridTabItem, DatagridTabPane, DatagridTabs } from "./Addons/DatagridTabs";
 import { DatagridAction } from "./Config/DatagridAction";
 import { ColumnFilters, FilterUpdateFunc } from "./Config/DatagridData";
-import { DatagridRowConfig } from "./Config/DatagridRowConfig";
+import { DatagridRowConfig, NestedKeyOf } from "./Config/DatagridRowConfig";
 import { DatagridSortConfig } from "./Config/DatagridSort";
-import { DatagridTabItem, DatagridTabPane, DatagridTabs } from "./DatagridTabs";
-import { isActiveColumnFilter } from "./Filters/DatagridColumnFilter";
+import { DatagridProvider, useDatagridContext } from "./Context/DatagridContext";
+import { DatagridColumnFilterValue, isActiveColumnFilter } from "./Filters/DatagridColumnFilter";
 import DatagridFilterList from "./Filters/DatagridFilterList";
-import Pagination, { PaginationData } from "./Pagination";
+import { getNestedValue } from "./Helpers/datagridTypeHelpers";
+import Pagination, { PaginationData, PaginationInfoPosition, PaginationPosition } from "./Pagination";
 import DatagridTable from "./Table/DatagridTable";
-import { DatagridSidebar, DatagridSidebarFooter, DatagridSidebarHeader } from "./DatagridSidebar";
+
+const DEFAULT_COLUMN_WIDTH = 180;
+const UTILITY_COLUMN_WIDTH = 52;
+const MIN_COLUMN_WIDTH = 80;
 
 export type DatagridPinnedPosition = "left" | "right" | null;
 export type DatagridRowActionsPosition = "left" | "right" | null;
+export type DatagridVariant = "default" | "nested";
+export type DatagridTabberPosition = "left" | "right";
+export type DatagridSidebarPosition = "left" | "right";
+export type DatagridRenderedColumnType = "collapsible" | "checkbox" | "rowActions" | "total" | "data";
 
 export interface DatagridColumnRuntime<TData> extends DatagridRowConfig<TData> {
     width: number;
     visible: boolean;
     pinned: DatagridPinnedPosition;
 }
-
-export type DatagridRenderedColumnType = | "collapsible" | "checkbox" | "rowActions" | "data";
 
 export interface DatagridRenderedColumn<TData> {
     key: string;
@@ -40,81 +47,135 @@ export interface DatagridRenderedColumn<TData> {
     column?: DatagridColumnRuntime<TData>;
 }
 
-export interface Datagridsidebar<TData> {
-    header?: DatagridSidebarHeader;
-    footer?: DatagridSidebarFooter;
-    content?: (item: TData | null) => ReactNode;
+export interface DatagridResizingState {
+    prop: string;
+    startX: number;
+    startWidth: number;
 }
 
-export interface DatagridProps<TData> {
+
+export interface DatagridDataProps<TData> {
     data: TData[];
     dataRaw?: TData[];
-    total: number;
     onFilterUpdate: FilterUpdateFunc<TData>;
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
+    loading: boolean;
+}
+
+export interface DatagridAppearanceProps {
+    enableCompactView?: boolean;
+    enableRowHover?: boolean;
+    // Detailgrid is always nested.
+    variant?: DatagridVariant;
+    fullHeight?: boolean;
+    css?: string;
+}
+
+export interface DatagridPersistenceProps {
+    localStorageKey?: string;
+}
+
+export interface DatagridRowActionProps<TData> {
     rowActions?: DatagridAction<TData>[];
-    rowActionPosition?: DatagridRowActionsPosition,
+    rowActionPosition?: DatagridRowActionsPosition;
+}
+
+export interface DatagridPaginationProps {
     enablePagination?: boolean;
-    paginationPosition?: 'inside table' | 'outside table';
-    paginationRowInfoPosition?: 'left' | 'right';
+    paginationPosition?: PaginationPosition;
+    paginationRowInfoPosition?: PaginationInfoPosition;
+    total: number;
+    pageSizeOptions?: number[];
+}
+
+export interface DatagridColumnFeatureProps {
     enableColumnResize?: boolean;
     enableColumnReorder?: boolean;
     enableColumnVisibility?: boolean;
+    enableColumnPinning?: boolean;
     enableStickyHeader?: boolean;
+    // Shows an extra row at the bottom
+    enableSummaryRow?: boolean;
+}
+
+export interface DatagridColumnMenuProps {
     enableColumnMenu?: boolean;
     enableColumnMenuColumnVisibility?: boolean;
     enableFiltersInHeader?: boolean;
-    enableTabs?: boolean;
-    tabs?: DatagridTabItem[];
-    tabPanes?: DatagridTabPane[];
-    tabberPosition?: 'left' | 'right';
-    enableTabColumnVisibility?: boolean;
-    enableTabFilters?: boolean;
+}
+
+export interface DatagridRowInteractionProps<TData> {
     selectedRow?: TData | string | number;
     rowSingleClickAction?: (item: TData) => void;
     rowDoubleClickAction?: (item: TData) => void;
+}
+
+export interface DatagridCheckboxProps<TData> {
     enableCheckboxes?: boolean;
     checkedItems?: TData[];
     onRowsChecked?: (checkedItems: TData[]) => void;
-    collapsibleRowData?: (item: TData) => ReactElement;
+}
+
+export interface DatagridCollapsibleRowProps<TData> {
+    collapsibleRowData?: React.ComponentType<{
+        item: TData;
+    }>;
+}
+
+export interface DatagridContentProps {
     footerContent?: ReactNode;
     tableHeaderContent?: ReactNode;
     tableFooterContent?: ReactNode;
-    localStorageKey?: string;
+}
 
+export interface DatagridTabsProps {
+    enableTabs?: boolean;
+    tabs?: DatagridTabItem[];
+    tabPanes?: DatagridTabPane[];
+    tabberPosition?: DatagridTabberPosition;
+    enableTabColumnVisibility?: boolean;
+    enableTabFilters?: boolean;
+    tabsMinWidth?: number;
+    tabsMaxWidth?: number;
+}
+
+export interface DatagridSidebarConfig<TData> {
+    header?: DatagridSidebarHeader;
+    footer?: DatagridSidebarFooter;
+    content?: (
+        props: {
+            item: TData | null;
+        }
+    ) => ReactNode;
+}
+
+export interface DatagridSidebarProps<TData> {
+    enableSidebar?: boolean;
+    sidebar?: DatagridSidebarConfig<TData>;
+    sidebarPosition?: DatagridSidebarPosition;
+    sidebarMinWidth?: number;
+    sidebarMaxWidth?: number;
+}
+
+export interface DatagridTableInfoProps {
     enableTableInfo?: boolean;
     tableInfoContent?: ReactElement;
     tableInfoBorderBottom?: boolean;
     tableInfoBorderColor?: ColorDefinitions;
-    enableFilterToolbar?: boolean;
-    filterbarSearchPlaceholder?: string;
-    filterbarRemoveFiltersTooltip?: string;
-    filterbarFilterButtonColor?: ColorDefinitions;
-    filterbarFilterButtonArrow?: boolean;
-    filterbarFilterGhostButton?: boolean;
-    filterbarBorderBottom?: boolean;
-    filterbarBorderColor?: ColorDefinitions;
-    filterbarEnableInfoPopover?: boolean;
-    filterbarInfoPopoverToggleIcon?: IconDefinitions;
-    filterbarInfoPopoverContent?: React.ReactNode;
-    enableCompactView?: boolean;
-    enableSearch?: boolean;
+}
+
+export interface DatagridToolbarProps {
     toolbarTitle?: string | ReactElement;
     toolbarNavItems?: ReactNode;
     toolbarPrefixItems?: ReactNode[];
     toolbarPostfixItems?: ReactNode[];
     toolbarSeparator?: boolean;
     toolbarBorderBottom?: boolean;
-    variant?: "default" | "nested";
+}
 
-    enableSidebar?: boolean;
-    sidebar?: Datagridsidebar<TData>;
-    sidebarPosition?: 'left' | 'right';
-
-    // Loader options
+export interface DatagridLoaderProps {
     loaderDuration?: number;
-    loading: boolean;
     loaderBackground?: ColorDefinitions;
     loaderEnableAnimation?: boolean;
     loaderAnimationColor?: ColorDefinitions;
@@ -122,7 +183,24 @@ export interface DatagridProps<TData> {
     loaderLabelColor?: ColorDefinitions;
     loaderLabels?: string[];
     loaderVariant?: LoaderVariant;
+}
 
+export interface DatagridProps<TData> extends DatagridDataProps<TData>,
+    DatagridAppearanceProps,
+    DatagridPersistenceProps,
+    DatagridRowActionProps<TData>,
+    DatagridPaginationProps,
+    DatagridColumnFeatureProps,
+    DatagridColumnMenuProps,
+    DatagridRowInteractionProps<TData>,
+    DatagridCheckboxProps<TData>,
+    DatagridCollapsibleRowProps<TData>,
+    DatagridContentProps,
+    DatagridTabsProps,
+    DatagridSidebarProps<TData>,
+    DatagridTableInfoProps,
+    DatagridToolbarProps,
+    DatagridLoaderProps {
 }
 
 function Datagrid<TData extends { id: string | number }>({
@@ -133,23 +211,34 @@ function Datagrid<TData extends { id: string | number }>({
     loading,
     properties = [],
     initialSortConfig,
+    variant = "default",
+
     rowActions = [],
-    rowActionPosition = 'right',
+    rowActionPosition = "right",
+
     enableColumnResize = false,
     enableColumnReorder = false,
     enableColumnVisibility = false,
-    enablePagination = true,
-    paginationPosition = 'outside table',
-    paginationRowInfoPosition = 'right',
-    enableTabs,
-    tabs,
-    tabPanes,
-    tabberPosition = 'right',
-    enableTabColumnVisibility,
-    enableTabFilters,
+    enableColumnPinning = false,
     enableColumnMenu,
     enableColumnMenuColumnVisibility,
     enableStickyHeader = true,
+
+    enableSummaryRow = false,
+
+    enablePagination = true,
+    paginationPosition = "outside table",
+    paginationRowInfoPosition = "right",
+    pageSizeOptions,
+    enableTabs,
+    tabs,
+    tabPanes,
+    tabberPosition = "right",
+    tabsMinWidth,
+    tabsMaxWidth,
+    enableTabColumnVisibility,
+    enableTabFilters,
+    enableRowHover = false,
     selectedRow,
     rowSingleClickAction,
     rowDoubleClickAction,
@@ -160,308 +249,152 @@ function Datagrid<TData extends { id: string | number }>({
     footerContent,
     tableHeaderContent,
     tableFooterContent,
-    localStorageKey = "datagrid-columns",
+    localStorageKey,
     enableTableInfo = false,
     tableInfoContent,
     tableInfoBorderBottom,
     tableInfoBorderColor,
-    enableFilterToolbar,
-    filterbarSearchPlaceholder,
-    filterbarRemoveFiltersTooltip,
-    filterbarFilterButtonColor,
-    filterbarFilterButtonArrow,
-    filterbarFilterGhostButton,
-    filterbarBorderBottom = false,
-    filterbarBorderColor = ColorDefinitions.Surface,
-    filterbarEnableInfoPopover,
-    filterbarInfoPopoverToggleIcon,
-    filterbarInfoPopoverContent,
+    enableCompactView = false,
+    enableFiltersInHeader,
+    enableSidebar,
+    sidebarPosition = "right",
+    sidebar,
+    sidebarMinWidth,
+    sidebarMaxWidth,
     toolbarTitle,
     toolbarNavItems,
     toolbarPrefixItems = [],
     toolbarPostfixItems = [],
     toolbarSeparator,
     toolbarBorderBottom = false,
-    enableCompactView = false,
-    enableSearch = false,
-    enableFiltersInHeader,
-    variant,
-    enableSidebar,
-    sidebarPosition = 'right',
-    sidebar,
-
-    // Loader options
-    loaderDuration,    
+    loaderDuration,
     loaderBackground,
     loaderEnableAnimation,
     loaderAnimationColor,
-    loaderEnableLabels,
+    loaderEnableLabels = false,
     loaderLabelColor,
     loaderLabels,
     loaderVariant = "table-overlay",
-
+    fullHeight = true,
+    css = ""
 }: Readonly<DatagridProps<TData>>): ReactElement {
 
-    const STORAGE_KEY = localStorageKey;
-    const DEFAULT_COLUMN_WIDTH = 180;
+
+    const storageKey = localStorageKey ? `datagrid_columns_${localStorageKey}` : undefined;
 
     const gridRef = useRef<HTMLDivElement | null>(null);
-    const searchInput = useRef<HTMLInputElement>(null!);
 
+    const datagridContext = useDatagridContext();
+
+    const isNested = variant === "nested";
     const [showCompact, setShowCompact] = useState(false);
-    const [columnFilters, setColumnFilters] = useState<Record<string, any>>({});
-    const [searchTerm, setSearchTerm] = useState("");
-    const [showSearch, setShowSearch] = useState(false);
+    const compactView = isNested ? datagridContext?.compactView ?? false : showCompact;
 
-    const [sidebarOpen, setSidebarOpen] = useState<boolean | null>(false);
+    const [columnFilters, setColumnFilters] = useState<Record<string, DatagridColumnFilterValue | undefined>>({});
+    const [searchTerm] = useState("");
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [selectedSidebarItem, setSelectedSidebarItem] = useState<TData | null>(null);
-
-
     const [pagination, setPagination] = useState<PaginationData>({
         page: 1,
-        perPage: 25,
+        perPage: 25
     });
-
-    const [sort, setSort] = useState<DatagridSortConfig | undefined>(
-        initialSortConfig
-    );
-
+    const [sort, setSort] = useState<DatagridSortConfig | undefined>(initialSortConfig);
     const useCheckboxes = enableCheckboxes && onRowsChecked !== undefined;
-
-    const [resizing, setResizing] = useState<{
-        prop: string;
-        startX: number;
-        startWidth: number;
-    } | null>(null);
-
+    const [resizing, setResizing] = useState<DatagridResizingState | null>(null);
     const [collapsibleRowIds, setCollapsibleRowIds] = useState<Set<string | number>>(new Set());
 
 
-    // Columns   
+    // Columns
     const [columns, setColumns] = useState<DatagridColumnRuntime<TData>[]>(() => {
 
-        const stored = localStorage.getItem(STORAGE_KEY);
-
-        if (stored) {
-            try {
-                const storedColumns = JSON.parse(stored) as DatagridColumnRuntime<TData>[];
-
-                return properties.map((p) => {
-                    const storedColumn = storedColumns.find((c) => c.prop === p.prop);
-
-                    return {
-                        ...p,
-                        width: storedColumn?.width ?? p.width ?? DEFAULT_COLUMN_WIDTH,
-                        visible: storedColumn?.visible ?? p.visible === true,
-                        pinned: storedColumn?.pinned ?? p.pinned ?? null,
-                    };
-                });
-            } catch {
-                // negeer corrupte localStorage
-            }
+        if (!storageKey) {
+            return getDefaultColumns(properties);
         }
 
-        return properties.map((p) => ({
-            ...p,
-            width: p.width ?? DEFAULT_COLUMN_WIDTH,
-            visible: p.visible === true,
-            pinned: p.pinned ?? null,
-        }));
+        try {
+            const stored = localStorage.getItem(storageKey);
+            const storedColumns = stored ? JSON.parse(stored) : undefined;
+            return getDefaultColumns(properties, storedColumns);
+        } catch {
+            return getDefaultColumns(properties);
+        }
     });
 
 
     useEffect(() => {
-        setColumns((current) =>
-            properties.map((property) => {
-                const existing = current.find(
-                    (column) => column.prop === property.prop
-                );
-
-                return {
-                    ...property,
-                    width: existing?.width ?? property.width ?? DEFAULT_COLUMN_WIDTH,
-                    visible: existing?.visible ?? property.visible === true,
-                    pinned: existing?.pinned ?? property.pinned ?? null,
-                };
-            })
+        setColumns(
+            (current) =>
+                getDefaultColumns(properties, current)
         );
     }, [properties]);
 
-    const resetColumns = () => {
+
+    const resetColumns = useCallback(() => {
         setColumns(
-            properties.map((p) => ({
-                ...p,
-                width: p.width ?? DEFAULT_COLUMN_WIDTH,
-                visible: p.visible === true,
-                pinned: p.pinned ?? null,
-            }))
+            properties.map(
+                (property) => ({
+                    ...property,
+                    width: property.width ?? DEFAULT_COLUMN_WIDTH,
+                    visible: property.visible === true,
+                    pinned: property.pinned ?? null
+                })
+            )
         );
 
         setSort(initialSortConfig);
-    };
 
-    const visibleColumns = useMemo(() => {
-        const visible = columns.filter((c) => c.visible);
-        const left = visible.filter((c) => c.pinned === "left");
-        const center = visible.filter((c) => !c.pinned);
-        const right = visible.filter((c) => c.pinned === "right");
+    }, [properties, initialSortConfig]);
 
-        return [...left, ...center, ...right];
-    }, [columns]);
 
-    const renderColumnValue = (
-        item: TData,
-        column: DatagridColumnRuntime<TData>
-    ): ReactNode => {
-        if (column.useItemOnly) {
-            return column.useItemOnly(item);
-        }
-
-        const rawValue = item[column.prop];
-
-        const transformed = column.transformValue
-            ? column.transformValue(rawValue)
-            : rawValue;
-
-        if (column.wrapValue) {
-            return column.wrapValue(item, transformed);
-        }
-
-        return String(transformed ?? "");
-    };
-
-    const hasPinnedLeftColumns = useMemo(
-        () => visibleColumns.some((column) => column.pinned === "left"),
-        [visibleColumns]
+    const visibleColumns = useMemo(() =>
+        getVisibleColumns(columns), [columns]
     );
 
-    const hasPinnedRightColumns = useMemo(
-        () => visibleColumns.some((column) => column.pinned === "right"),
-        [visibleColumns]
+    const renderedColumns = useMemo(
+        () =>
+            createRenderedColumns(
+                visibleColumns,
+                !!collapsibleRowData,
+                useCheckboxes,
+                rowActions,
+                rowActionPosition
+            ),
+        [visibleColumns, collapsibleRowData, useCheckboxes, rowActions, rowActionPosition]
     );
 
-    const renderedColumns = useMemo<DatagridRenderedColumn<TData>[]>(() => {
-        const rendered: DatagridRenderedColumn<TData>[] = [];
+    const lastColumnIndex = useMemo(() =>
+        getLastColumnIndex(renderedColumns),
+        [renderedColumns]
+    );
 
-        if (collapsibleRowData) {
-            rendered.push({
-                key: "__collapsible",
-                type: "collapsible",
-                width: 50,
-                pinned: hasPinnedLeftColumns ? "left" : null,
-            });
-        }
+    const gridTemplateColumns = useMemo(() =>
+        getGridTemplateColumns(renderedColumns, lastColumnIndex),
+        [renderedColumns, lastColumnIndex]
+    );
 
-        if (useCheckboxes) {
-            rendered.push({
-                key: "__checkbox",
-                type: "checkbox",
-                width: 50,
-                pinned: hasPinnedLeftColumns ? "left" : null,
-            });
-        }
 
-        if (rowActions.length > 0 && rowActionPosition === "left") {
-            rendered.push({
-                key: "__rowActionsLeft",
-                type: "rowActions",
-                width: rowActions.length * 40,
-                pinned: hasPinnedLeftColumns ? "left" : null,
-            });
-        }
-
-        rendered.push(
-            ...visibleColumns.map((column) => ({
-                key: column.prop,
-                type: "data" as const,
-                width: column.width,
-                pinned: column.pinned,
-                column,
-            }))
-        );
-
-        if (rowActions.length > 0 && rowActionPosition === "right") {
-            rendered.push({
-                key: "__rowActionsRight",
-                type: "rowActions",
-                width: rowActions.length * 40,
-                pinned: hasPinnedRightColumns ? "right" : null,
-            });
-        }
-
-        let leftOffset = 0;
-
-        for (const column of rendered) {
-            if (column.pinned === "left") {
-                column.left = leftOffset;
-                leftOffset += column.width;
-            }
-        }
-
-        let rightOffset = 0;
-
-        for (const column of [...rendered].reverse()) {
-            if (column.pinned === "right") {
-                column.right = rightOffset;
-                rightOffset += column.width;
-            }
-        }
-
-        return rendered;
-    }, [collapsibleRowData, useCheckboxes, rowActions.length, rowActionPosition, visibleColumns, hasPinnedLeftColumns, hasPinnedRightColumns]);
-
-    const gridTemplateColumns = useMemo(() => {
-        return renderedColumns.map((column) => `${column.width}px`).join(" ");
-    }, [renderedColumns]);
-
-    const lastPinnedLeft = visibleColumns.filter((column) => column.pinned === "left").at(-1)?.prop;
+    const lastPinnedLeft = visibleColumns.findLast((column) => column.pinned === "left")?.prop;
     const firstPinnedRight = visibleColumns.find((column) => column.pinned === "right")?.prop;
 
-    const getPinnedStyle = (column: DatagridRenderedColumn<TData>): React.CSSProperties => {
-        if (column.pinned === "left") {
-            return {
-                position: "sticky",
-                left: column.left ?? 0,
-                zIndex: column.type === "data" ? 2 : 3,
-            };
-        }
-
-        if (column.pinned === "right") {
-            return {
-                position: "sticky",
-                right: column.right ?? 0,
-                zIndex: column.type === "data" ? 2 : 3,
-            };
-        }
-
-        return {};
-    };
-
+    // Resizing
     useEffect(() => {
-        if (!resizing) return;
+
+        if (!resizing) {
+            return;
+        }
 
         document.body.style.cursor = "col-resize";
         document.body.style.userSelect = "none";
 
         const onPointerMove = (event: globalThis.PointerEvent) => {
-            const nextWidth = Math.max(
-                80,
-                resizing.startWidth + event.clientX - resizing.startX
-            );
-
-            setColumns((current) =>
-                current.map((column) =>
-                    column.prop === resizing.prop
-                        ? { ...column, width: nextWidth }
-                        : column
-                )
+            setColumns(
+                (current) => getResizedColumns(current, resizing, event.clientX)
             );
         };
 
         const onPointerUp = () => {
             setResizing(null);
-            document.body.style.cursor = "";
-            document.body.style.userSelect = "";
+            resetResizeBodyStyle();
         };
 
         globalThis.addEventListener("pointermove", onPointerMove);
@@ -470,83 +403,106 @@ function Datagrid<TData extends { id: string | number }>({
         return () => {
             globalThis.removeEventListener("pointermove", onPointerMove);
             globalThis.removeEventListener("pointerup", onPointerUp);
-            document.body.style.cursor = "";
-            document.body.style.userSelect = "";
+            resetResizeBodyStyle();
         };
+
     }, [resizing]);
 
-    const toggleCollapsibleRow = (id: string | number) => {
-        setCollapsibleRowIds((prev) => {
-            const next = new Set(prev);
 
-            if (next.has(id)) {
-                next.delete(id);
-            } else {
-                next.add(id);
-            }
-
-            return next;
-        });
-    };
-
-    // Save state in local storage
-    useEffect(() => {
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(
-                columns.map(({ prop, width, visible, pinned }) => ({
-                    prop,
-                    width,
-                    visible,
-                    pinned,
-                }))
-            )
+    // Collapsible row
+    const toggleCollapsibleRow =
+        useCallback((id: string | number) => {
+            setCollapsibleRowIds((current) => toggleIdInSet(current, id));
+        }, []
         );
-    }, [columns, STORAGE_KEY]);
 
-    const activeColumnFilters = Object.fromEntries(
-        Object.entries(columnFilters).filter(([, filter]) =>
-            isActiveColumnFilter(filter)
-        )
-    ) as ColumnFilters<TData>;
 
-    // filter update  
+    // Local storage
     useEffect(() => {
-        onFilterUpdate({
+
+        if (!storageKey) {
+            return;
+        }
+
+        localStorage.setItem(storageKey,
+            JSON.stringify(columns.map(({
+                prop,
+                width,
+                visible,
+                pinned
+            }) => ({ prop, width, visible, pinned })))
+        );
+
+    }, [columns, storageKey]);
+
+
+    // Active filters
+    const activeColumnFilters = useMemo(() =>
+        getActiveColumnFilters<TData>(columnFilters),
+        [columnFilters]
+    );
+
+
+    const hasActiveFilters = Object.keys(activeColumnFilters).length > 0;
+
+    const clearFilters = useCallback(() => {
+
+        setColumnFilters({});
+
+        setPagination(
+            (current) => ({
+                ...current,
+                page: 1
+            })
+        );
+    }, []);
+
+
+    // Filter update
+    const propertiesRef = useRef(properties);
+    const onFilterUpdateRef = useRef(onFilterUpdate);
+
+    useEffect(() => {
+        propertiesRef.current = properties;
+    }, [properties]);
+
+    useEffect(() => {
+        onFilterUpdateRef.current = onFilterUpdate;
+    }, [onFilterUpdate]);
+
+    useEffect(() => {
+        onFilterUpdateRef.current({
             searchTerm,
             sort,
-            propertyConfigs: properties,
+            propertyConfigs: propertiesRef.current,
             pagination,
-            columnFilters: activeColumnFilters,
+            columnFilters: activeColumnFilters
         });
-    }, [searchTerm, pagination.page, pagination.perPage, sort, columnFilters]);
+    }, [searchTerm, sort, pagination.page, pagination.perPage, activeColumnFilters]);
 
 
-    // Search const 
-    const updateQ = (q: string) => {
-        setSearchTerm(q);
-        setPagination((p) => ({
-            ...p,
-            page: 1,
-        }));
-    };
+    const hasFilterableColumns = useMemo(() =>
+        visibleColumns.some((column) => !!column.filter),
+        [visibleColumns]
+    );
 
-    // Filters 
-    const hasFilterableColumns = visibleColumns?.some((p) => p.filter) ?? false;
+    // Column chooser
+    const columnChooser = useDatagridColumnChooser<TData>({
+        columns,
+        setColumns,
+        enableColumnReorder,
+        enableColumnVisibility
+    });
 
-
-    // Tabs   
-    // Tab Column chooser
-    const columnChooser = useDatagridColumnChooser<TData>({ columns, setColumns, enableColumnReorder, enableColumnVisibility });
-
+    // Tabs
     const effectiveTabs = useMemo<DatagridTabItem[]>(() => {
-        const extraTabs: DatagridTabItem[] = [];
 
+        const extraTabs: DatagridTabItem[] = [];
         if (enableTabColumnVisibility) {
             extraTabs.push({
                 id: "__columns",
                 title: "Kolommen",
-                icon: <Icon icon={IconDefinitions.window} />,
+                icon: (<Icon icon={IconDefinitions.window} />)
             });
         }
 
@@ -554,26 +510,28 @@ function Datagrid<TData extends { id: string | number }>({
             extraTabs.push({
                 id: "__filters",
                 title: "Filters",
-                icon: <Icon icon={IconDefinitions.filter} />,
+                icon: (<Icon icon={IconDefinitions.filter} />)
             });
         }
 
         return [
             ...extraTabs,
-            ...(tabs ?? []),
+            ...(tabs ?? [])
         ];
-    }, [tabs, enableTabColumnVisibility]);
+    },
+        [tabs, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns]
+    );
+
 
     const effectiveTabPanes = useMemo<DatagridTabPane[]>(() => {
+
         const extraPanes: DatagridTabPane[] = [];
 
         if (enableTabColumnVisibility) {
             extraPanes.push({
                 tabId: "__columns",
                 content: columnChooser.renderColumnChooser(),
-                header: {
-                    content: "Kolommen",
-                },
+                header: { content: "Kolommen" }
             });
         }
 
@@ -588,62 +546,113 @@ function Datagrid<TData extends { id: string | number }>({
                         setColumnFilters={setColumnFilters}
                     />
                 ),
-                header: {
-                    content: "Filters",
-                },
+                header: { content: "Filters" }
             });
         }
 
         return [
             ...extraPanes,
-            ...(tabPanes ?? []),
+            ...(tabPanes ?? [])
         ];
-    }, [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, visibleColumns, columnFilters
-    ]);
+    },
+        [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, visibleColumns, columnFilters]
+    );
 
-    // Toolbar 
-    const postfixElements: ReactNode[] = [];
-    if (toolbarPostfixItems) {
-        postfixElements.push(...toolbarPostfixItems);
-    }
 
-    if (enableCompactView) {
-        postfixElements.push(
-            <Tooltip key="compact" content="Compacte weergave" direction="bottom-left">
-                <Icon
-                    icon={IconDefinitions.vertical_spacing}
-                    variant="circle"
-                    iconCss="pointer"
-                    onClick={() => setShowCompact(!showCompact)}
-                />
-            </Tooltip>
-        );
-    }
+    // Toolbar
+    const postfixElements = useMemo(() =>
+        getToolbarPostfixItems(
+            toolbarPostfixItems,
+            hasActiveFilters,
+            clearFilters,
+            enableCompactView,
+            isNested,
+            setShowCompact
+        ),
+        [toolbarPostfixItems, hasActiveFilters, clearFilters, enableCompactView, isNested]
+    );
 
-    // Table info 
-    const isEnableTableInfo = enableTableInfo && !!tableInfoContent;
 
-    const isNested = variant === "nested";
+    const showToolbar =
+        postfixElements.length > 0 ||
+        toolbarPrefixItems.length > 0 ||
+        toolbarTitle !== undefined ||
+        toolbarNavItems !== undefined;
 
-    const handleRowDoubleClick = (item: TData) => {
-        if (!enableSidebar) {
-            rowDoubleClickAction?.(item);
+
+    // Table info
+    const showTableInfo = enableTableInfo && (!!tableInfoContent || checkedItems.length > 0);
+    const showHeader = showToolbar || showTableInfo;
+
+
+    // Row interactions
+
+    const handleRowSingleClick = useCallback((item: TData) => {
+
+        rowSingleClickAction?.(item);
+
+        if (!enableSidebar || !sidebarOpen) {
             return;
         }
 
         setSelectedSidebarItem(item);
-        setSidebarOpen(true);
+    },
+        [rowSingleClickAction, enableSidebar, sidebarOpen]
+    );
+
+
+    const handleRowDoubleClick = useCallback((item: TData) => {
+
+        if (enableSidebar) {
+            setSelectedSidebarItem(item);
+            setSidebarOpen(true);
+        }
 
         rowDoubleClickAction?.(item);
-    };
+    },
+        [enableSidebar, rowDoubleClickAction]
+    );
 
-    return (
-        <div className={`datagrid pc-layout ${showCompact ? "datagrid--compact" : ""} ${isNested ? "datagrid--nested" : ""}`}>
 
-            {!isNested && (
+    const effectiveRowActions = useMemo<DatagridAction<TData>[]>(() =>
+        rowActions.map(
+            (rowAction) => ({
+                ...rowAction,
+
+                action: (item: TData) => {
+
+                    if (enableSidebar) {
+                        setSelectedSidebarItem(item);
+                        setSidebarOpen(true);
+                    }
+
+                    rowAction.action?.(item);
+                }
+            })
+        ),
+        [rowActions, enableSidebar]
+    );
+
+
+
+    const datagrid = (
+        <div
+            className={[
+                "datagrid",
+                "pc-layout",
+                compactView ? "datagrid--compact" : "",
+                isNested ? "datagrid--nested" : "",
+                enableRowHover ? "datagrid--hover" : "",
+                css
+            ]
+                .filter(Boolean)
+                .join(" ")}
+            style={fullHeight ? { height: "100%" } : undefined}
+        >
+            {showHeader && (
                 <div className="datagrid__header pc-layout__header">
 
-                    {(toolbarPostfixItems || postfixElements.length > 0) && (
+                    {showToolbar && (
                         <Toolbar
                             title={toolbarTitle}
                             navItems={toolbarNavItems}
@@ -654,82 +663,62 @@ function Datagrid<TData extends { id: string | number }>({
                         />
                     )}
 
-                    {enableFilterToolbar && hasFilterableColumns && (
-                        <DatagridFilterToolbar
-                            data={data}
-                            dataRaw={dataRaw}
-                            properties={visibleColumns}
-                            searchTerm={searchTerm}
-                            onSearchChange={updateQ}
-                            columnFilters={columnFilters}
-                            setColumnFilters={setColumnFilters}
-                            searchPlaceholder={filterbarSearchPlaceholder}
-                            removeFiltersTooltip={filterbarRemoveFiltersTooltip}
-                            filterButtonColor={filterbarFilterButtonColor}
-                            filterButtonArrow={filterbarFilterButtonArrow}
-                            filterGhostButton={filterbarFilterGhostButton}
-                            borderBottom={filterbarBorderBottom || isEnableTableInfo}
-                            borderColor={filterbarBorderColor}
-                            enableInfoPopover={filterbarEnableInfoPopover}
-                            infoPopoverToggleIcon={filterbarInfoPopoverToggleIcon}
-                            infoPopoverContent={filterbarInfoPopoverContent}
-                        />
-                    )}
-
-                    {isEnableTableInfo && (
+                    {showTableInfo && (
                         <DatagridTableInfo
-                            borderBottom={tableInfoBorderBottom}
-                            borderColor={tableInfoBorderColor}
+                            tableInfoBorderBottom={tableInfoBorderBottom}
+                            tableInfoBorderColor={tableInfoBorderColor}
                         >
-                            {checkedItems.length > 0 && !tableInfoContent && (
-
-                                <div> U heeft{" "} <strong className="text-primary-30">{checkedItems.length}</strong> {" "} {checkedItems.length === 1 ? "rij" : "rijen"} {" "} geselecteerd</div>
+                            {tableInfoContent ? (
+                                <div>
+                                    {tableInfoContent}
+                                </div>
+                            ) : (
+                                checkedItems.length > 0 && (
+                                    <div> U heeft{" "} <strong className="text-primary-30">{checkedItems.length}</strong> {" "} {checkedItems.length === 1 ? "rij" : "rijen"} {" "} geselecteerd</div>
+                                )
                             )}
-
-                            {enableTableInfo && tableInfoContent && (<div>{tableInfoContent}</div>)}
                         </DatagridTableInfo>
                     )}
 
-                    {showSearch && (
-                        <DatagridSearch
-                            enableSearch={showSearch}
-                            inputRef={searchInput}
-                            searchTerm={searchTerm}
-                            onSearchChange={updateQ}
-                        />
-                    )}
                 </div>
             )}
 
 
             <div className="pc-layout__content">
 
-                {!isNested && enableSidebar && sidebarPosition === 'left' && (
-                    <DatagridSidebar
-                        open={sidebarOpen}
-                        setOpen={setSidebarOpen}
-                        header={sidebar?.header}
-                        footer={sidebar?.footer}
-                        content={
-                            sidebar?.content
-                                ? sidebar.content(selectedSidebarItem)
-                                : null
-                        }
-                        sidebarPosition={sidebarPosition}
-                    />
-                )}
+                {!isNested &&
+                    enableSidebar &&
+                    sidebarPosition === "left" && (
+                        <DatagridSidebar<TData>
+                            open={sidebarOpen}
+                            setOpen={setSidebarOpen}
+                            sidebarPosition={sidebarPosition}
+                            sidebarMinWidth={sidebarMinWidth}
+                            sidebarMaxWidth={sidebarMaxWidth}
+                            header={sidebar?.header}
+                            footer={sidebar?.footer}
+                            item={selectedSidebarItem}
+                            content={sidebar?.content}
+                        />
+                    )}
 
-                {!isNested && enableTabs && tabberPosition === 'left' && (
-                    <DatagridTabs
-                        tabs={effectiveTabs}
-                        tabPanes={effectiveTabPanes}
-                        tabberPosition={tabberPosition}
-                    />
-                )}
 
-                {loading ? (
+                {!isNested &&
+                    enableTabs &&
+                    tabberPosition === "left" && (
+                        <DatagridTabs
+                            tabs={effectiveTabs}
+                            tabPanes={effectiveTabPanes}
+                            tabberPosition={tabberPosition}
+                            tabsMinWidth={tabsMinWidth}
+                            tabsMaxWidth={tabsMaxWidth}
+                        />
+                    )}
+
+
+                {loading && (
                     <Loader
-                        duration={loaderDuration}                        
+                        duration={loaderDuration}
                         loading={loading}
                         background={loaderBackground}
                         enableAnimation={loaderEnableAnimation}
@@ -739,29 +728,32 @@ function Datagrid<TData extends { id: string | number }>({
                         labelColor={loaderLabelColor}
                         variant={loaderVariant}
                     />
-                ) : null}
+                )}
 
 
                 <DatagridTable
                     gridRef={gridRef}
                     data={data}
                     dataRaw={dataRaw}
-                    total={total}
                     loading={loading}
-                    rowActions={rowActions}
+                    rowActions={effectiveRowActions}
                     rowActionPosition={rowActionPosition}
                     enablePagination={enablePagination}
                     paginationPosition={paginationPosition}
                     paginationRowInfoPosition={paginationRowInfoPosition}
+                    total={total}
+                    pageSizeOptions={pageSizeOptions}
                     enableColumnResize={enableColumnResize}
                     enableColumnReorder={enableColumnReorder}
                     enableColumnVisibility={enableColumnVisibility}
+                    enableColumnPinning={enableColumnPinning}
                     enableStickyHeader={enableStickyHeader}
+                    enableSummaryRow={enableSummaryRow}
                     enableColumnMenu={enableColumnMenu}
                     enableColumnMenuColumnVisibility={enableColumnMenuColumnVisibility}
                     enableFiltersInHeader={enableFiltersInHeader}
                     selectedRow={selectedRow}
-                    rowSingleClickAction={rowSingleClickAction}
+                    rowSingleClickAction={handleRowSingleClick}
                     rowDoubleClickAction={handleRowDoubleClick}
                     checkedItems={checkedItems}
                     onRowsChecked={onRowsChecked}
@@ -769,73 +761,478 @@ function Datagrid<TData extends { id: string | number }>({
                     collapsibleRowData={collapsibleRowData}
                     collapsibleRowIds={collapsibleRowIds}
                     toggleCollapsibleRow={toggleCollapsibleRow}
-
                     headerContent={isNested ? undefined : tableHeaderContent}
                     footerContent={isNested ? undefined : tableFooterContent}
-
                     pagination={pagination}
                     setPagination={setPagination}
                     sort={sort}
                     setSort={setSort}
-                    columns={columns}
                     setColumns={setColumns}
-                    visibleColumns={visibleColumns}
                     renderedColumns={renderedColumns}
                     gridTemplateColumns={gridTemplateColumns}
                     resizing={resizing}
                     setResizing={setResizing}
                     resetColumns={resetColumns}
-                    renderColumnValue={renderColumnValue}
+                    renderColumnValue={renderDatagridColumnValue}
                     firstPinnedRight={firstPinnedRight}
                     lastPinnedLeft={lastPinnedLeft}
                     getPinnedStyle={getPinnedStyle}
                     columnChooser={columnChooser}
                     columnFilters={columnFilters}
                     setColumnFilters={setColumnFilters}
+                    isNested={isNested}
+                    lastColumnIndex={lastColumnIndex}
                 />
 
-                {!isNested && enableTabs && tabberPosition === 'right' && (
-                    <DatagridTabs
-                        tabs={effectiveTabs}
-                        tabPanes={effectiveTabPanes}
-                        tabberPosition={tabberPosition}
-                    />
-                )}
 
-                {!isNested && enableSidebar && sidebarPosition === 'right' && (
-                    <DatagridSidebar
+                {!isNested &&
+                    enableTabs &&
+                    tabberPosition === "right" && (
+                        <DatagridTabs
+                            tabs={effectiveTabs}
+                            tabPanes={effectiveTabPanes}
+                            tabberPosition={tabberPosition}
+                            tabsMinWidth={tabsMinWidth}
+                            tabsMaxWidth={tabsMaxWidth}
+                        />
+
+                    )}
+
+
+                {!isNested && enableSidebar && sidebarPosition === "right" && (
+
+                    <DatagridSidebar<TData>
                         open={sidebarOpen}
                         setOpen={setSidebarOpen}
+                        sidebarPosition={sidebarPosition}
+                        sidebarMinWidth={sidebarMinWidth}
+                        sidebarMaxWidth={sidebarMaxWidth}
                         header={sidebar?.header}
                         footer={sidebar?.footer}
-                        content={
-                            sidebar?.content
-                                ? sidebar.content(selectedSidebarItem)
-                                : null
-                        }
-                        sidebarPosition={sidebarPosition}
+                        item={selectedSidebarItem}
+                        content={sidebar?.content}
                     />
                 )}
 
             </div>
 
+
             {!isNested && (
                 <div className="datagrid__footer pc-layout__footer">
-                    {paginationPosition === 'outside table' && enablePagination && (
+
+                    {paginationPosition === "outside table" && enablePagination && (
                         <Pagination
                             total={total}
                             pagination={pagination}
                             setPagination={setPagination}
                             rowInfoPosition={paginationRowInfoPosition}
+                            pageSizeOptions={pageSizeOptions}
                         />
                     )}
-                    <div className="datagrid__footer__content">
-                        {footerContent}
-                    </div>
+
+                    {footerContent && (
+                        <div className="datagrid__footer__content">
+                            {footerContent}
+                        </div>
+                    )}
+
                 </div>
             )}
         </div>
     );
+
+
+    if (isNested) {
+        return datagrid;
+    }
+
+
+    return (
+        <DatagridProvider
+            compactView={showCompact}
+            setCompactView={setShowCompact}
+        >
+            {datagrid}
+        </DatagridProvider>
+    );
 }
 
+
 export default Datagrid;
+
+
+
+
+function getDefaultColumns<TData>(
+    properties: DatagridRowConfig<TData>[],
+    storedColumns?: Partial<DatagridColumnRuntime<TData>>[]
+): DatagridColumnRuntime<TData>[] {
+
+    const propertyMap = new Map<
+        NestedKeyOf<TData>,
+        DatagridRowConfig<TData>
+    >(
+        properties.map(
+            (property) => [property.prop, property]
+        )
+    );
+
+    const used = new Set<NestedKeyOf<TData>>();
+
+    const restoredColumns =
+        storedColumns
+            ?.map(
+                (
+                    stored
+                ): DatagridColumnRuntime<TData> | null => {
+
+                    if (!stored.prop) {
+                        return null;
+                    }
+
+                    const property = propertyMap.get(stored.prop);
+
+                    if (!property) {
+                        return null;
+                    }
+
+                    used.add(stored.prop);
+
+                    return {
+                        ...property,
+                        width:
+                            stored.width ??
+                            property.width ??
+                            DEFAULT_COLUMN_WIDTH,
+                        visible:
+                            stored.visible ??
+                            property.visible === true,
+                        pinned:
+                            stored.pinned ??
+                            property.pinned ??
+                            null
+                    };
+                }
+            )
+            .filter((column): column is DatagridColumnRuntime<TData> => column !== null) ?? [];
+
+    const newColumns = properties.filter((property) => !used.has(property.prop))
+        .map((property): DatagridColumnRuntime<TData> => ({
+            ...property,
+            width: property.width ?? DEFAULT_COLUMN_WIDTH,
+            visible: property.visible === true,
+            pinned: property.pinned ?? null
+        })
+        );
+
+    return [
+        ...restoredColumns,
+        ...newColumns
+    ];
+}
+
+function getVisibleColumns<TData>(
+    columns: DatagridColumnRuntime<TData>[]
+): DatagridColumnRuntime<TData>[] {
+
+    const visible = columns.filter((column) => column.visible);
+    const left = visible.filter((column) => column.pinned === "left");
+    const center = visible.filter((column) => !column.pinned);
+    const right = visible.filter((column) => column.pinned === "right");
+
+    return [
+        ...left,
+        ...center,
+        ...right
+    ];
+}
+
+function applyPinnedOffsets<TData>(
+    columns: DatagridRenderedColumn<TData>[]
+): DatagridRenderedColumn<TData>[] {
+
+    let leftOffset = 0;
+
+    for (const column of columns) {
+
+        if (column.pinned !== "left") {
+            continue;
+        }
+
+        column.left = leftOffset;
+        leftOffset += column.width;
+    }
+
+    let rightOffset = 0;
+
+    for (
+        let index = columns.length - 1;
+        index >= 0;
+        index--
+    ) {
+        const column = columns[index];
+
+        if (column.pinned !== "right") {
+            continue;
+        }
+
+        column.right = rightOffset;
+        rightOffset += column.width;
+    }
+
+    return columns;
+}
+
+function createRenderedColumns<TData>(
+    visibleColumns: DatagridColumnRuntime<TData>[],
+    hasCollapsibleRows: boolean,
+    useCheckboxes: boolean,
+    rowActions: DatagridAction<TData>[],
+    rowActionPosition: DatagridRowActionsPosition
+): DatagridRenderedColumn<TData>[] {
+
+    const hasPinnedLeftColumns = visibleColumns.some((column) => column.pinned === "left");
+    const hasPinnedRightColumns = visibleColumns.some((column) => column.pinned === "right");
+
+    const utilityColumns: DatagridRenderedColumn<TData>[] = [
+        ...(hasCollapsibleRows
+            ? [{
+                key: "__collapsible",
+                type: "collapsible" as const,
+                width: UTILITY_COLUMN_WIDTH,
+                pinned: hasPinnedLeftColumns ? "left" as const : null
+            }]
+            : []),
+        ...(useCheckboxes
+            ? [{
+                key: "__checkbox",
+                type: "checkbox" as const,
+                width: UTILITY_COLUMN_WIDTH,
+                pinned: hasPinnedLeftColumns ? "left" as const : null
+            }]
+            : []),
+        ...(rowActions.length > 0 &&
+            rowActionPosition === "left"
+            ? [{
+                key: "__rowActionsLeft",
+                type: "rowActions" as const,
+                width: rowActions.length * UTILITY_COLUMN_WIDTH,
+                pinned: hasPinnedLeftColumns ? "left" as const : null
+            }]
+            : [])
+    ];
+
+    const dataColumns: DatagridRenderedColumn<TData>[] =
+        visibleColumns.map(
+            (column) => ({
+                key: column.prop,
+                type: "data",
+                width: column.width,
+                pinned: column.pinned,
+                column
+            })
+        );
+
+    const rightActionColumns: DatagridRenderedColumn<TData>[] =
+        rowActions.length > 0 &&
+            rowActionPosition === "right"
+            ? [{
+                key: "__rowActionsRight",
+                type: "rowActions",
+                width: rowActions.length * UTILITY_COLUMN_WIDTH,
+                pinned: hasPinnedRightColumns ? "right" : null
+            }]
+            : [];
+
+    return applyPinnedOffsets([
+        ...utilityColumns,
+        ...dataColumns,
+        ...rightActionColumns
+    ]);
+}
+
+function getPinnedStyle<TData>(
+    column: DatagridRenderedColumn<TData>
+): React.CSSProperties {
+
+    if (column.pinned === "left") {
+        return {
+            position: "sticky",
+            left: column.left ?? 0,
+            zIndex: column.type === "data" ? 2 : 3
+        };
+    }
+
+    if (column.pinned === "right") {
+        return {
+            position: "sticky",
+            right: column.right ?? 0,
+            zIndex: column.type === "data" ? 2 : 3
+        };
+    }
+
+    return {};
+}
+
+function getLastColumnIndex<TData>(
+    renderedColumns: DatagridRenderedColumn<TData>[]
+): number {
+    return renderedColumns
+        .map((column) => column.pinned)
+        .lastIndexOf(null);
+}
+
+function getGridTemplateColumns<TData>(
+    renderedColumns: DatagridRenderedColumn<TData>[],
+    lastColumnIndex: number
+): string {
+    return renderedColumns
+        .map(
+            (column, index) =>
+                index === lastColumnIndex
+                    ? `minmax(${column.width}px, 1fr)`
+                    : `${column.width}px`
+        )
+        .join(" ");
+}
+
+function getResizedColumns<TData>(
+    columns: DatagridColumnRuntime<TData>[],
+    resizing: DatagridResizingState,
+    clientX: number
+): DatagridColumnRuntime<TData>[] {
+
+    const nextWidth =
+        Math.max(
+            MIN_COLUMN_WIDTH,
+            resizing.startWidth +
+            clientX -
+            resizing.startX
+        );
+
+    return columns.map(
+        (column) =>
+            column.prop === resizing.prop
+                ? {
+                    ...column,
+                    width: nextWidth
+                }
+                : column
+    );
+}
+
+function resetResizeBodyStyle(): void {
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+}
+
+function toggleIdInSet(
+    current: Set<string | number>,
+    id: string | number
+): Set<string | number> {
+
+    const next = new Set(current);
+
+    if (next.has(id)) {
+        next.delete(id);
+    } else {
+        next.add(id);
+    }
+
+    return next;
+}
+
+function getActiveColumnFilters<TData>(
+    columnFilters: Record<
+        string,
+        DatagridColumnFilterValue | undefined
+    >
+): ColumnFilters<TData> {
+
+    return Object.fromEntries(Object.entries(columnFilters).filter(([, filter]) => isActiveColumnFilter(filter))) as ColumnFilters<TData>;
+}
+
+function renderDatagridColumnValue<TData>(
+    item: TData,
+    column: DatagridColumnRuntime<TData>
+): ReactNode {
+
+    if (column.useItemOnly) {
+        return column.useItemOnly(item);
+    }
+
+    const rawValue = getNestedValue(item, column.prop);
+
+    let transformed: ReactNode;
+
+    if (column.transformValue) {
+        transformed = column.transformValue(rawValue);
+
+    } else if (rawValue === null || rawValue === undefined) {
+        transformed = "";
+
+    } else if (typeof rawValue === "string" || typeof rawValue === "number" || typeof rawValue === "boolean") {
+        transformed = String(rawValue);
+    } else {
+        transformed = "";
+    }
+
+    if (column.wrapValue) {
+        return column.wrapValue(item, transformed);
+    }
+
+    return transformed;
+}
+
+function getToolbarPostfixItems(
+    toolbarPostfixItems: ReactNode[],
+    hasActiveFilters: boolean,
+    clearFilters: () => void,
+    enableCompactView: boolean,
+    isNested: boolean,
+    setShowCompact: React.Dispatch<React.SetStateAction<boolean>>
+): ReactNode[] {
+
+    const items = [
+        ...toolbarPostfixItems
+    ];
+
+    if (hasActiveFilters) {
+        items.push(
+            <Tooltip
+                key="clear-filters"
+                content="Alle filters wissen"
+                direction="top"
+            >
+                <Button
+                    variant="ghost"
+                    onClick={clearFilters}
+                >
+                    <Icon icon={IconDefinitions.funnel_cross} position="left" />
+                    Filter wissen
+                </Button>
+            </Tooltip>
+        );
+    }
+
+    if (enableCompactView && !isNested) {
+        items.push(
+            <Tooltip
+                key="compact"
+                content="Compacte weergave"
+                direction="top-left"
+            >
+                <Icon
+                    icon={IconDefinitions.vertical_spacing}
+                    variant="circle"
+                    iconCss="pointer"
+                    onClick={() => setShowCompact((current) => !current)
+                    }
+                />
+            </Tooltip>
+        );
+    }
+
+    return items;
+}
+

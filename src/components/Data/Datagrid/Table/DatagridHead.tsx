@@ -1,51 +1,60 @@
-import React, { ReactElement, ReactNode, RefObject, useState } from "react";
-import DatagridMenuDropdown from "../Addons/DatagridMenuDropdown";
-import { DatagridAction } from "../Config/DatagridAction";
-import { DatagridSortConfig } from "../Config/DatagridSort";
-import { DatagridColumnRuntime, DatagridRenderedColumn, DatagridRowActionsPosition } from "../Datagrid";
-import Checkbox from "../../../Forms/Checkbox/Checkbox";
+import React, { ReactElement, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
+import Checkbox from "../../../Forms/Checkbox/Checkbox";
+import DatagridMenuDropdown from "../Addons/DatagridMenuDropdown";
+import { DatagridSortConfig } from "../Config/DatagridSort";
+import { DatagridColumnRuntime, DatagridRenderedColumn } from "../Datagrid";
 import { DatagridColumnFilterValue } from "../Filters/DatagridColumnFilter";
 import DatagridFilterDropdown from "../Filters/DatagridFilterDropdown";
+import { DatagridTableProps } from "./DatagridTable";
+import Tooltip from "../../../UI/Tooltip/Tooltip";
+import React from "react";
 
+export type SetSort = React.Dispatch<React.SetStateAction<DatagridSortConfig | undefined>>;
+export type GetPinnedStyle<TData> = (column: DatagridRenderedColumn<TData>) => React.CSSProperties;
 
-export interface DatagridHeadProps<TData> {
-    gridRef: React.RefObject<HTMLDivElement | null>;
-    data: TData[];
-    dataRaw?: TData[];
-    rowActions: DatagridAction<TData>[];
-    rowActionPosition?: DatagridRowActionsPosition,
-    enableColumnResize: boolean;
-    enableColumnReorder: boolean;
-    enableStickyHeader?: boolean;
-    enableColumnMenu?: boolean;
-    enableColumnMenuColumnVisibility?: boolean;
-    enableFiltersInHeader?: boolean;
-    checkedItems?: TData[];
-    onRowsChecked?: (checkedItems: TData[]) => void;
-    useCheckboxes: boolean;
-    collapsibleRowData?: (item: TData) => ReactElement;
+export type DatagridHeadInheritedProps<TData extends { id: string | number }> = Pick<
+    DatagridTableProps<TData>,
+    | "gridRef"
+    | "data"
+    | "dataRaw"
+    | "rowActions"
+    | "rowActionPosition"
+    | "enableColumnResize"
+    | "enableColumnReorder"
+    | "enableColumnVisibility"
+    | "enableColumnPinning"
+    | "enableStickyHeader"
+    | "enableColumnMenu"
+    | "enableColumnMenuColumnVisibility"
+    | "enableFiltersInHeader"
+    | "checkedItems"
+    | "onRowsChecked"
+    | "useCheckboxes"
+    | "collapsibleRowData"
+    | "renderedColumns"
+    | "gridTemplateColumns"
+    | "resizing"
+    | "setResizing"
+    | "setColumns"
+    | "firstPinnedRight"
+    | "lastPinnedLeft"
+    | "getPinnedStyle"
+    | "columnFilters"
+    | "setColumnFilters"
+    | "lastColumnIndex"
+>;
+
+export interface DatagridHeadProps<TData extends { id: string | number }> extends DatagridHeadInheritedProps<TData> {
     sort?: DatagridSortConfig;
     setSort: React.Dispatch<React.SetStateAction<DatagridSortConfig | undefined>>;
-    renderedColumns: DatagridRenderedColumn<TData>[];
-    gridTemplateColumns: string;
-    resizing: {
-        prop: string;
-        startX: number;
-        startWidth: number;
-    } | null;
-    setResizing: React.Dispatch<
-        React.SetStateAction<{
-            prop: string;
-            startX: number;
-            startWidth: number;
-        } | null>
-    >;
-    setColumns: React.Dispatch<React.SetStateAction<DatagridColumnRuntime<TData>[]>>;
     updateColumnState: (
         prop: string,
         update: Partial<
-            Pick<DatagridColumnRuntime<TData>, "width" | "visible" | "pinned">
+            Pick<
+                DatagridColumnRuntime<TData>,
+                "width" | "visible" | "pinned"
+            >
         >
     ) => void;
     resetColumns: () => void;
@@ -55,14 +64,22 @@ export interface DatagridHeadProps<TData> {
     removeDragPreview: () => void;
     dragProp: React.RefObject<string | null>;
     lastDragTargetProp: React.RefObject<string | null>;
-    firstPinnedRight?: string;
-    lastPinnedLeft?: string;
-    getPinnedStyle: (column: DatagridRenderedColumn<TData>) => React.CSSProperties;
-    columnFilters: Record<string, DatagridColumnFilterValue | undefined>;
-    setColumnFilters: React.Dispatch<React.SetStateAction<Record<string, DatagridColumnFilterValue | undefined>>>;
 }
 
-export function DatagridHead<TData>({
+export type HandleDragOverContext<TData extends { id: string | number }> = Pick<
+    DatagridHeadProps<TData>,
+    | "enableColumnReorder"
+    | "dragProp"
+    | "lastDragTargetProp"
+    | "moveDragPreview"
+    | "gridRef"
+    | "setColumns"
+> & {
+    setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>;
+};
+
+
+export function DatagridHead<TData extends { id: string | number }>({
     gridRef,
     data,
     dataRaw,
@@ -70,6 +87,8 @@ export function DatagridHead<TData>({
     rowActionPosition,
     enableColumnResize,
     enableColumnReorder,
+    enableColumnVisibility,
+    enableColumnPinning,
     enableStickyHeader,
     enableColumnMenu,
     enableColumnMenuColumnVisibility,
@@ -98,330 +117,621 @@ export function DatagridHead<TData>({
     getPinnedStyle,
     columnFilters,
     setColumnFilters,
+    lastColumnIndex
 }: Readonly<DatagridHeadProps<TData>>): ReactElement {
 
     const [dropdownResetKey, setDropdownResetKey] = useState(0);
 
-    const closeHeaderDropdowns = () => {
-        setDropdownResetKey((current) => current + 1);
-    };
-
-    const handleSorting = (prop: string) => {
-        setSort(
-            sort?.prop === prop
-                ? { prop, order: sort.order === "asc" ? "desc" : "asc" }
-                : { prop, order: "asc" }
-        );
-    };
-
-    const startResize = (
-        event: React.PointerEvent<HTMLSpanElement>,
-        column: DatagridColumnRuntime<TData>
-    ) => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        closeHeaderDropdowns();
-
-        event.currentTarget.setPointerCapture?.(event.pointerId);
-
-        setResizing({
-            prop: column.prop,
-            startX: event.clientX,
-            startWidth: column.width,
-        });
-    };
-
-    const getColumnRects = () => {
-        const rects = new Map<string, DOMRect>();
-
-        gridRef.current
-            ?.querySelectorAll<HTMLElement>(".datagrid__grid__hcell")
-            .forEach((cell) => {
-                const key = cell.dataset.columnKey;
-
-                if (key) {
-                    rects.set(key, cell.getBoundingClientRect());
-                }
-            });
-
-        return rects;
-    };
-
-    const animateColumnReorder = (previousRects: Map<string, DOMRect>) => {
-        const cells = gridRef.current?.querySelectorAll<HTMLElement>(
-            ".datagrid__grid__hcell, .datagrid__grid__cell"
-        );
-
-        cells?.forEach((cell) => {
-            const key = cell.dataset.columnKey;
-            if (!key) return;
-
-            const previous = previousRects.get(key);
-            if (!previous) return;
-
-            const current = cell.getBoundingClientRect();
-            const deltaX = previous.left - current.left;
-
-            if (!deltaX) return;
-
-            cell.animate(
-                [
-                    { transform: `translateX(${deltaX}px)` },
-                    { transform: "translateX(0)" },
-                ],
-                {
-                    duration: 180,
-                    easing: "cubic-bezier(.2, 0, .2, 1)",
-                }
-            );
-        });
-    };
-
-    const moveColumnBefore = (draggedProp: string, targetProp: string) => {
-        if (draggedProp === targetProp) return;
-
-        closeHeaderDropdowns();
-
-        const previousRects = getColumnRects();
-
-        setColumns((current) => {
-            const from = current.findIndex((c) => c.prop === draggedProp);
-            const to = current.findIndex((c) => c.prop === targetProp);
-
-            if (from === -1 || to === -1 || from === to) return current;
-
-            const updated = [...current];
-            const [moved] = updated.splice(from, 1);
-            updated.splice(to, 0, moved);
-
-            return updated;
-        });
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                animateColumnReorder(previousRects);
-            });
-        });
-    };
-
-    const getCellStyle = (renderedColumn: DatagridRenderedColumn<TData>): React.CSSProperties => ({
-        width: renderedColumn.width,
-        minWidth: renderedColumn.width,
-        maxWidth: renderedColumn.width,
-        ...getPinnedStyle(renderedColumn),
-    });
-
     return (
-        <div className={`datagrid__grid__head ${enableStickyHeader ? "datagrid__grid__head--sticky" : ""}`}>
-            <div className="datagrid__grid__row" style={{ gridTemplateColumns }}>
+        <div
+            className={[
+                "datagrid__grid__head",
+                enableStickyHeader ? "datagrid__grid__head--sticky" : ""
+            ].filter(Boolean).join(" ")}
+        >
+            <div
+                className="datagrid__grid__row"
+                style={{ gridTemplateColumns }}
+            >
+                {renderedColumns.map(
+                    (renderedColumn, index) => {
 
-                {renderedColumns.map((renderedColumn) => {
-
-                    const getPinnedClass = () => {
-                        if (renderedColumn.pinned === "left") {
-                            return "datagrid__grid__hcell--pinned-left";
+                        if (useCheckboxes && renderedColumn.type === "checkbox") {
+                            return renderCheckboxHeader(
+                                renderedColumn,
+                                data,
+                                checkedItems,
+                                onRowsChecked,
+                                getPinnedStyle
+                            );
                         }
-                        if (renderedColumn.pinned === "right") {
-                            return "datagrid__grid__hcell--pinned-right";
+
+                        if (collapsibleRowData && renderedColumn.type === "collapsible") {
+                            return renderCollapsibleHeader(
+                                renderedColumn,
+                                getPinnedStyle
+                            );
                         }
-                        return "";
-                    };
 
-                    const pinnedClass = getPinnedClass();
+                        if (rowActions.length > 0 && renderedColumn.type === "rowActions") {
+                            return renderRowActionsHeader(
+                                renderedColumn,
+                                index,
+                                rowActionPosition,
+                                lastColumnIndex,
+                                getPinnedStyle
+                            );
+                        }
 
+                        const column = renderedColumn.column;
 
-                     if (useCheckboxes && renderedColumn.type === "checkbox") {
+                        if (!column) {
+                            return null;
+                        }
+
+                        const sortClass =
+                            sort?.prop === column.prop
+                                ? sort.order
+                                : "";
+
+                        const css = [
+                            "datagrid__grid__hcell",
+                            index === lastColumnIndex ? "datagrid__grid__cell--last-column" : "",
+                            getPinnedClass(renderedColumn),
+                            column.prop === lastPinnedLeft ? "datagrid__grid__hcell--pinned-left--last" : "",
+                            column.prop === firstPinnedRight ? "datagrid__grid__hcell--pinned-right--first" : "",
+                            resizing?.prop === column.prop ? "datagrid__grid--resizing" : ""
+                        ].filter(Boolean).join(" ");
+
                         return (
-                            <div
+                            <div role="none"
                                 key={renderedColumn.key}
+                                data-key={column.prop}
                                 data-column-key={renderedColumn.key}
-                                className={[
-                                    "datagrid__grid__hcell",
-                                    "datagrid__grid__hcell--center",
-                                    pinnedClass,
-                                ].filter(Boolean).join(" ")}
-                                style={getCellStyle(renderedColumn)}
-                            >
-                                <Checkbox
-                                    color={ColorDefinitions.Accent}
-                                    checked={data.length > 0 && data.length === checkedItems.length}
-                                    onChange={(checked) => onRowsChecked?.(checked ? data : [])}
-                                />
-                            </div>
-                        );
-                    }
-
-                    if (collapsibleRowData && renderedColumn.type === "collapsible") {
-                        return (
-                            <div
-                                key={renderedColumn.key}
-                                data-column-key={renderedColumn.key}
-                                className={[
-                                    "datagrid__grid__hcell",
-                                    "datagrid__grid__hcell--center",
-                                    pinnedClass,
-                                ].filter(Boolean).join(" ")}
-                                style={getCellStyle(renderedColumn)}
-                            />
-                        );
-                    }
-                  
-                    if (rowActions.length > 0 && renderedColumn.type === "rowActions") {
-                        return (
-                            <div
-                                key={renderedColumn.key}
-                                data-column-key={renderedColumn.key}
-                                className={[
-                                    "datagrid__grid__hcell",
-                                    rowActionPosition === "right"
-                                        ? "datagrid__grid__hcell--right"
-                                        : "",
-                                    pinnedClass,
-                                ].filter(Boolean).join(" ")}
-                                style={getCellStyle(renderedColumn)}
-                            />
-                        );
-                    }
-
-                    const column = renderedColumn.column;
-
-                    if (!column) {
-                        return null;
-                    }
-
-                    const isSorted = sort?.prop === column.prop;
-                    const sortClass = isSorted ? sort.order : "";
-
-                    const css = [
-                        "datagrid__grid__hcell",
-                        pinnedClass,
-                        column.prop === lastPinnedLeft ? "datagrid__grid__hcell--pinned-left--last" : "",
-                        column.prop === firstPinnedRight ? "datagrid__grid__hcell--pinned-right--first" : "",
-                        resizing?.prop === column.prop ? "datagrid__grid--resizing" : "",
-                    ].filter(Boolean).join(" ");
-
-                    return (
-                        <div
-                            key={renderedColumn.key}
-                            data-key={column.prop}
-                            data-column-key={renderedColumn.key}
-                            className={css}
-                            draggable={enableColumnReorder}
-                            style={getCellStyle(renderedColumn)}
-                            onDragStart={(e) => {
-                                if (!enableColumnReorder) {
-                                    e.preventDefault();
-                                    return;
+                                className={css}
+                                draggable={enableColumnReorder}
+                                style={getCellStyle(
+                                    renderedColumn,
+                                    getPinnedStyle
+                                )}
+                                onDragStart={(event) => handleDragStart(
+                                    event,
+                                    column,
+                                    enableColumnReorder,
+                                    dragProp,
+                                    lastDragTargetProp,
+                                    createDragPreview,
+                                    setDropdownResetKey
+                                )
                                 }
-
-                                closeHeaderDropdowns();
-
-                                if (
-                                    (e.target as HTMLElement).closest(".datagrid__grid__hcell__resize-indicator") ||
-                                    (e.target as HTMLElement).closest(".smart-datagrid__grid__hcell__menu")
-                                ) {
-                                    e.preventDefault();
-                                    return;
+                                onDragOver={(event) => handleDragOver(
+                                    event,
+                                    column,
+                                    {
+                                        enableColumnReorder,
+                                        dragProp,
+                                        lastDragTargetProp,
+                                        moveDragPreview,
+                                        gridRef,
+                                        setColumns,
+                                        setDropdownResetKey
+                                    }
+                                )
                                 }
-
-                                dragProp.current = column.prop;
-                                lastDragTargetProp.current = null;
-
-                                createDragPreview(column.title);
-
-                                const img = new Image();
-                                img.src =
-                                    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-
-                                e.dataTransfer.setDragImage(img, 0, 0);
-                            }}
-                            onDragOver={(e) => {
-                                if (!enableColumnReorder) return;
-
-                                e.preventDefault();
-                                moveDragPreview(e);
-
-                                if (!dragProp.current) return;
-                                if (dragProp.current === column.prop) return;
-                                if (lastDragTargetProp.current === column.prop) return;
-
-                                lastDragTargetProp.current = column.prop;
-                                moveColumnBefore(dragProp.current, column.prop);
-                            }}
-                            onDragEnd={() => {
-                                removeDragPreview();
-                                dragProp.current = null;
-                                lastDragTargetProp.current = null;
-                            }}
-                        >
-                            <div
-                                className="datagrid__grid__hcell__content"
-                                onClick={() => handleSorting(column.prop)}
+                                onDragEnd={() => handleDragEnd(
+                                    dragProp,
+                                    lastDragTargetProp,
+                                    removeDragPreview
+                                )
+                                }
                             >
-                                <span className="datagrid__grid__hcell__content__label">
-                                    {column.title}
-                                </span>
-                                <span
-                                    className={[
-                                        "datagrid__grid__hcell__sort-indicator",
-                                        sortClass,
-                                    ].join(" ")}
-                                />
-                            </div>
+                                <button type="button"
+                                    className="datagrid__grid__hcell__content"
+                                    onClick={() => handleSorting(column.prop, sort, setSort)}
+                                >
+                                    <Tooltip overflowTooltip>
+                                        <span className="datagrid__grid__hcell__content__label">
+                                            {column.title}
+                                        </span>
+                                    </Tooltip>
 
-                            {enableFiltersInHeader && column.filter && (
-                                <div className="datagrid__grid__hcell__icon">
-                                    <DatagridFilterDropdown
-                                        key={`filter-${dropdownResetKey}-${column.prop}`}
-                                        column={column}
-                                        dataRaw={dataRaw}
-                                        value={columnFilters[column.prop]}
-                                        onChange={(value) =>
-                                            setColumnFilters((current) => {
-                                                const next = { ...current };
+                                    <span
+                                        className={[
+                                            "datagrid__grid__hcell__sort-indicator",
+                                            sortClass
+                                        ].join(" ")}
+                                    />
+                                </button>
 
-                                                if (!value) {
-                                                    delete next[column.prop];
-                                                } else {
-                                                    next[column.prop] = value;
+                                {enableFiltersInHeader &&
+                                    column.filter && (
+                                        <div className="datagrid__grid__hcell__icon">
+                                            <DatagridFilterDropdown
+                                                key={`filter-${dropdownResetKey}-${column.prop}`}
+                                                column={column}
+                                                dataRaw={dataRaw}
+                                                value={
+                                                    columnFilters[
+                                                    column.prop
+                                                    ]
                                                 }
+                                                onChange={(value) =>
+                                                    updateColumnFilter(
+                                                        column.prop,
+                                                        value,
+                                                        setColumnFilters
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    )}
 
-                                                return next;
-                                            })
+                                {enableColumnMenu && (
+                                    <div className="datagrid__grid__hcell__icon">
+                                        <DatagridMenuDropdown
+                                            key={`menu-${dropdownResetKey}-${column.prop}`}
+                                            enableColumnResize={enableColumnResize}
+                                            enableColumnVisibility={enableColumnVisibility}
+                                            enableColumnPinning={enableColumnPinning}
+                                            column={column}
+                                            sort={sort}
+                                            setSort={setSort}
+                                            updateColumnState={updateColumnState}
+                                            resetColumns={resetColumns}
+                                            renderColumnChooser={renderColumnChooser}
+                                            enableColumnChooserInDropdown={enableColumnMenuColumnVisibility}
+                                        />
+                                    </div>
+                                )}
+
+                                {enableColumnResize && (
+                                    <span
+                                        className="datagrid__grid__hcell__resize-indicator"
+                                        onPointerDown={(event) =>
+                                            startResize(
+                                                event,
+                                                column,
+                                                setResizing,
+                                                setDropdownResetKey
+                                            )
                                         }
                                     />
-                                </div>
-                            )}
-
-                            {enableColumnMenu && (
-                                <div className="datagrid__grid__hcell__icon">
-                                    <DatagridMenuDropdown
-                                        key={`menu-${dropdownResetKey}-${column.prop}`}
-                                        column={column}
-                                        sort={sort}
-                                        setSort={setSort}
-                                        updateColumnState={updateColumnState}
-                                        resetColumns={resetColumns}
-                                        renderColumnChooser={renderColumnChooser}
-                                        enableColumnChooserInDropdown={enableColumnMenuColumnVisibility}
-                                    />
-                                </div>
-                            )}
-
-                            {enableColumnResize && (
-                                <span
-                                    className="datagrid__grid__hcell__resize-indicator"
-                                    onPointerDown={(e) => startResize(e, column)}
-                                />
-                            )}
-                        </div>
-                    );
-                })}
-
+                                )}
+                            </div>
+                        );
+                    }
+                )}
             </div>
         </div>
     );
 }
 
 export default DatagridHead;
+
+
+
+
+function getPinnedClass<TData>(
+    renderedColumn: DatagridRenderedColumn<TData>
+): string {
+
+    if (renderedColumn.pinned === "left") {
+        return "datagrid__grid__hcell--pinned-left";
+    }
+
+    if (renderedColumn.pinned === "right") {
+        return "datagrid__grid__hcell--pinned-right";
+    }
+
+    return "";
+}
+
+function closeHeaderDropdowns(
+    setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>
+): void {
+    setDropdownResetKey((current) => current + 1);
+}
+
+function handleSorting(
+    prop: string,
+    sort: DatagridSortConfig | undefined,
+    setSort: SetSort
+): void {
+    setSort(
+        sort?.prop === prop
+            ? {
+                prop,
+                order: sort.order === "asc" ? "desc" : "asc"
+            }
+            : {
+                prop,
+                order: "asc"
+            }
+    );
+}
+
+function startResize<TData extends { id: string | number }>(
+    event: React.PointerEvent<HTMLSpanElement>,
+    column: DatagridColumnRuntime<TData>,
+    setResizing: DatagridHeadProps<TData>["setResizing"],
+    setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>
+): void {
+    event.preventDefault();
+    event.stopPropagation();
+
+    closeHeaderDropdowns(setDropdownResetKey);
+
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+
+    setResizing({
+        prop: column.prop,
+        startX: event.clientX,
+        startWidth: column.width
+    });
+}
+
+function getColumnRects(
+    gridRef: React.RefObject<HTMLDivElement | null>
+): Map<string, DOMRect> {
+    const rects = new Map<string, DOMRect>();
+
+    gridRef.current
+        ?.querySelectorAll<HTMLElement>(".datagrid__grid__hcell")
+        .forEach((cell) => {
+            const key = cell.dataset.columnKey;
+
+            if (key) {
+                rects.set(key, cell.getBoundingClientRect());
+            }
+        });
+
+    return rects;
+}
+
+function animateColumnReorder(
+    gridRef: React.RefObject<HTMLDivElement | null>,
+    previousRects: Map<string, DOMRect>
+): void {
+    if (!gridRef.current) {
+        return;
+    }
+
+    const headers =
+        gridRef.current.querySelectorAll<HTMLElement>(
+            ".datagrid__grid__hcell"
+        );
+
+    const offsets = new Map<string, number>();
+
+    // Eerst ALLE layout reads
+    headers.forEach((header) => {
+        const key = header.dataset.columnKey;
+
+        if (!key) {
+            return;
+        }
+
+        const previous = previousRects.get(key);
+
+        if (!previous) {
+            return;
+        }
+
+        const current = header.getBoundingClientRect();
+        const deltaX = previous.left - current.left;
+
+        if (deltaX) {
+            offsets.set(key, deltaX);
+        }
+    });
+
+    const cells =
+        gridRef.current.querySelectorAll<HTMLElement>(
+            ".datagrid__grid__hcell, .datagrid__grid__cell"
+        );
+
+    // Daarna ALLE writes
+    cells.forEach((cell) => {
+        const key = cell.dataset.columnKey;
+
+        if (!key) {
+            return;
+        }
+
+        const deltaX = offsets.get(key);
+
+        if (!deltaX) {
+            return;
+        }
+
+        cell.animate(
+            [
+                { transform: `translateX(${deltaX}px)` },
+                { transform: "translateX(0)" }
+            ],
+            {
+                duration: 180,
+                easing: "cubic-bezier(.2, 0, .2, 1)"
+            }
+        );
+    });
+}
+
+
+function moveColumnBefore<TData extends { id: string | number }>(
+    draggedProp: string,
+    targetProp: string,
+    gridRef: React.RefObject<HTMLDivElement | null>,
+    setColumns: DatagridHeadProps<TData>["setColumns"],
+    setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>
+): void {
+    if (draggedProp === targetProp) {
+        return;
+    }
+
+    closeHeaderDropdowns(setDropdownResetKey);
+
+    const previousRects = getColumnRects(gridRef);
+
+    setColumns((current) => {
+        const from = current.findIndex(
+            (column) => column.prop === draggedProp
+        );
+
+        const to = current.findIndex(
+            (column) => column.prop === targetProp
+        );
+
+        if (from === -1 || to === -1 || from === to) {
+            return current;
+        }
+
+        const updated = [...current];
+        const [moved] = updated.splice(from, 1);
+
+        updated.splice(to, 0, moved);
+
+        return updated;
+    });
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            animateColumnReorder(
+                gridRef,
+                previousRects
+            );
+        });
+    });
+}
+
+function getCellStyle<TData>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    getPinnedStyle: GetPinnedStyle<TData>
+): React.CSSProperties {
+    return {
+        width: renderedColumn.width,
+        minWidth: renderedColumn.width,
+        maxWidth: renderedColumn.width,
+        ...getPinnedStyle(renderedColumn)
+    };
+}
+
+function updateColumnFilter<TData extends { id: string | number }>(
+    prop: string,
+    value: DatagridColumnFilterValue | undefined,
+    setColumnFilters: DatagridHeadProps<TData>["setColumnFilters"]
+): void {
+    setColumnFilters((current) => {
+        if (!value) {
+            const { [prop]: _, ...rest } = current;
+            return rest;
+        }
+
+        return {
+            ...current,
+            [prop]: value
+        };
+    });
+}
+
+function renderCheckboxHeader<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    data: TData[],
+    checkedItems: TData[],
+    onRowsChecked: DatagridHeadProps<TData>["onRowsChecked"],
+    getPinnedStyle: DatagridHeadProps<TData>["getPinnedStyle"]
+): ReactElement {
+    return (
+        <div
+            key={renderedColumn.key}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__grid__hcell",
+                "datagrid__grid__hcell--center",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getCellStyle(
+                renderedColumn,
+                getPinnedStyle
+            )}
+        >
+            <Checkbox
+                color={ColorDefinitions.Accent}
+                checked={
+                    data.length > 0 &&
+                    data.length === checkedItems.length
+                }
+                onChange={(checked) =>
+                    onRowsChecked?.(
+                        checked ? data : []
+                    )
+                }
+            />
+        </div>
+    );
+}
+
+function renderCollapsibleHeader<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    getPinnedStyle: DatagridHeadProps<TData>["getPinnedStyle"]
+): ReactElement {
+    return (
+        <div
+            key={renderedColumn.key}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__grid__hcell",
+                "datagrid__grid__hcell--center",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getCellStyle(
+                renderedColumn,
+                getPinnedStyle
+            )}
+        />
+    );
+}
+
+function renderRowActionsHeader<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    index: number,
+    rowActionPosition: DatagridHeadProps<TData>["rowActionPosition"],
+    lastColumnIndex: number,
+    getPinnedStyle: DatagridHeadProps<TData>["getPinnedStyle"]
+): ReactElement {
+    return (
+        <div
+            key={renderedColumn.key}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__grid__hcell",
+                index === lastColumnIndex
+                    ? "datagrid__grid__cell--last-column"
+                    : "",
+                rowActionPosition === "right"
+                    ? "datagrid__grid__hcell--right"
+                    : "",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getCellStyle(
+                renderedColumn,
+                getPinnedStyle
+            )}
+        />
+    );
+}
+
+function handleDragStart<TData extends { id: string | number }>(
+    event: React.DragEvent<HTMLDivElement>,
+    column: DatagridColumnRuntime<TData>,
+    enableColumnReorder: boolean,
+    dragProp: React.RefObject<string | null>,
+    lastDragTargetProp: React.RefObject<string | null>,
+    createDragPreview: (label: string) => void,
+    setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>
+): void {
+    if (!enableColumnReorder) {
+        event.preventDefault();
+        return;
+    }
+
+    closeHeaderDropdowns(setDropdownResetKey);
+
+    const target = event.target as HTMLElement;
+
+    if (
+        target.closest(
+            ".datagrid__grid__hcell__resize-indicator"
+        ) ||
+        target.closest(
+            ".smart-datagrid__grid__hcell__menu"
+        )
+    ) {
+        event.preventDefault();
+        return;
+    }
+
+    dragProp.current = column.prop;
+    lastDragTargetProp.current = null;
+
+    createDragPreview(column.title);
+
+    const image = new Image();
+
+    image.src =
+        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+
+    event.dataTransfer.setDragImage(
+        image,
+        0,
+        0
+    );
+}
+
+function handleDragOver<TData extends { id: string | number }>(
+    event: React.DragEvent<HTMLDivElement>,
+    column: DatagridColumnRuntime<TData>,
+    context: HandleDragOverContext<TData>
+): void {
+    const {
+        enableColumnReorder,
+        dragProp,
+        lastDragTargetProp,
+        moveDragPreview,
+        gridRef,
+        setColumns,
+        setDropdownResetKey
+    } = context;
+
+    if (!enableColumnReorder) {
+        return;
+    }
+
+    event.preventDefault();
+
+    moveDragPreview(event);
+
+    const draggedProp = dragProp.current;
+
+    if (
+        !draggedProp ||
+        draggedProp === column.prop ||
+        lastDragTargetProp.current === column.prop
+    ) {
+        return;
+    }
+
+    lastDragTargetProp.current = column.prop;
+
+    moveColumnBefore(
+        draggedProp,
+        column.prop,
+        gridRef,
+        setColumns,
+        setDropdownResetKey
+    );
+}
+
+function handleDragEnd(
+    dragProp: React.RefObject<string | null>,
+    lastDragTargetProp: React.RefObject<string | null>,
+    removeDragPreview: () => void
+): void {
+    removeDragPreview();
+
+    dragProp.current = null;
+    lastDragTargetProp.current = null;
+}
+
+function handleLabelMouseEnter(
+    event: React.MouseEvent<HTMLSpanElement>
+): void {
+    const element = event.currentTarget;
+
+    if (element.scrollWidth > element.clientWidth) {
+        element.title = element.textContent ?? "";
+    } else {
+        element.removeAttribute("title");
+    }
+}
+

@@ -1,0 +1,31 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as SidebarStories from './Sidebar.stories';
+import SidebarComponent from '../Sidebar';
+ 
+<Meta of={SidebarStories} />
+ 
+
+# Sidebar
+
+`Sidebar` is een flexibel component dat wordt gebruikt voor de navigatie van de applicatie.  
+Het ondersteunt hoofdmenu-items, optionele subsidebars, drawer-secties en een mobiele weergave.
+
+## Belangrijkste functionaliteiten
+
+- **Hoofdmenu:** toont navigatie-items via `MainMenu`.
+- **Sub-sidebar:** optionele extra sidebar voor geselecteerde hoofdmenu-items (`sidebar` prop van `MainMenuItem`).
+- **Drawer:** optioneel uitklapbare drawer voor menu-items die een `sidebarDrawer` definiëren.
+- **Mobiele weergave:** toont een overlay/backdrop en kan eenvoudig gesloten worden.
+- **Account-menu:** mogelijkheid om een `accountMenu` component in te voegen.
+- **Dismiss-buttons:** sluit subsidebar, drawer of mobiele sidebar met één klik.
+
+
+### Default
+
+<Canvas of={SidebarStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

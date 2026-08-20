@@ -1,0 +1,25 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DividerStories from './Divider.stories';
+import DividerComponent from '../Divider';
+ 
+<Meta of={DividerStories} />
+ 
+
+# Divider Component
+
+`Divider` is een component dat een visuele scheidingslijn met een label rendert. De scheidlijn heeft geen label
+
+## Belangrijkste functionaliteiten
+
+- **Kleuraanpassing:** Tekst- en randkleur kunnen worden aangepast met de prop `borderColor`.  
+- Overige properties worden overgeërft van een regulier div-element
+
+### Default
+
+<Canvas of={DividerStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

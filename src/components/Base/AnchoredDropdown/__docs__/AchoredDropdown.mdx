@@ -1,0 +1,21 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as AnchoredDropdownStories from './AnchoredDropdown.stories';
+import AnchoredDropdownComponent from '../AnchoredDropdown';
+ 
+<Meta of={AnchoredDropdownStories} />
+ 
+
+# AnchoredDropdown Component
+
+Basiscomponent voor alle componenten met een dropdown-panel dat niet voor navigatie dient. 
+Staat toe om staat te delen tussen het anchor en het dropdownpane middels een `portal`.
+Klan alleen worden gesloten als er naar beneden wordt gescrolled
+
+### Default
+
+<Canvas of={AnchoredDropdownStories.Default} />
+
+
+### Props
+ 
+<Controls />

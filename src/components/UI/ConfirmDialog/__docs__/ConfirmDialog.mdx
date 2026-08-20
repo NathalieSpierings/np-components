@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ConfirmDialogStories from './ConfirmDialog.stories';
+import ConfirmDialogComponent from '../ConfirmDialog';
+ 
+<Meta of={ConfirmDialogStories} />
+ 
+
+# ConfirmDialog Component
+
+`ConfirmDialog` is een component voor het tonen van modale bevestigingsvensters met aangepaste labels en acties. Meerdere dialogen kunnen achter elkaar worden weergegeven.
+
+## Belangrijkste functionaliteiten
+
+- **Bevestigings- en annuleren-knoppen:** Standaard knoppen voor confirm en dismiss met eigen labels en kleuren.  
+- **Queue van dialogen:** Meerdere confirm-dialogs worden één voor één afgehandeld.  
+- **Asynchrone acties:** `confirmAction` ondersteunt `async` functies voor bijvoorbeeld API calls.  
+- **Animaties:** Modals sluiten met een exit-animatie voordat ze uit de queue verwijderd worden.  
+- **Titel en content:** Ondersteuning voor zowel tekstuele als React-elementen als titel of boodschap.  
+
+
+
+### Default
+
+<Canvas of={ConfirmDialogStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

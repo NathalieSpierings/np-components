@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ModalStories from './Modal.stories';
+import ModalComponent from '../Modal';
+ 
+<Meta of={ModalStories} />
+ 
+
+# Modal Component
+
+De `Modal` component wordt gebruikt om een overlay-venster weer te geven boven de rest van de applicatie.  
+Hij ondersteunt meerdere stijlen (via `variant`), animaties (via **Framer Motion**), en flexibele configuratie van header, content en footer.
+
+## Belangrijkste functionaliteiten
+
+- **Overlay met animatie:** Gebruikt Framer Motion voor zachte overgangseffecten bij openen en sluiten.  
+- **Varianten:** Ondersteunt meerdere `variant`-stijlen zoals `primary`, `warning`, `positive`, enz.  
+- **Header, content & footer:** Elke sectie is configureerbaar via props en `boxProps`.  
+- **Sluitknop:** Bevat standaard een `DismissButton` om het modaal te sluiten.  
+- **Responsief ontwerp:** Past zich visueel aan afhankelijk van inhoud en variant.  
+
+
+### Default
+
+<Canvas of={ModalStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

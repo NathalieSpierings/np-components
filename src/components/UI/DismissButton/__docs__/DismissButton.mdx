@@ -1,0 +1,29 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DismissButtonStories from './DismissButton.stories';
+import DismissButtonComponent from '../DismissButton';
+ 
+<Meta of={DismissButtonStories} />
+ 
+
+# DismissButton Component
+
+`DismissButton` is een flexibele knop voor dismiss/close functionaliteit, zoals het sluiten van modals, meldingen of kaarten.
+
+## Belangrijkste functionaliteiten
+
+- **Icon en label:** Kan alleen een icon tonen of een label toevoegen links of rechts van het icon.  
+- **Cirkelvorm:** Optioneel ronde stijl voor een compact dismiss-pictogram.  
+- **Kleuren en groottes:** Ondersteuning voor verschillende icon-achtergronden, labelkleuren en groottes via `SizeDefinitions` en `ColorDefinitions`.  
+- **Positie:** Kan rechts uitgelijnd worden weergegeven.  
+- **Custom styling:** Extra CSS-classes kunnen meegegeven worden via `dismissCss` of `boxProps`.  
+
+
+### Default
+
+<Canvas of={DismissButtonStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

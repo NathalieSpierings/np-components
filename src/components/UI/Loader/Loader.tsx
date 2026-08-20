@@ -1,32 +1,32 @@
 import React, { FC, useEffect, useState } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 
+export type LoaderVariant = 'centered' | 'screen-overlay' | 'table' | 'table-overlay' ;
 export interface LoaderProps {
     duration?: number;
     loading?: boolean;
     background?: ColorDefinitions;
-    labels?: string[];
-    showLabels?: boolean;
-    labelColor?: ColorDefinitions;
-    showOverlay?: boolean;
-    tableOverlay?: boolean;
-    centered?: boolean;
-    showAnimation?: boolean;
+    enableAnimation?: boolean;
     animationColor?: ColorDefinitions;
+    enableLabels?: boolean;
+    labels?: string[];
+    labelColor?: ColorDefinitions;
+    variant?: LoaderVariant;
+
+
 }
 
 const Loader: FC<LoaderProps> = ({
     duration = 2000,
     loading = false,
     background,
+    enableAnimation = true,
+    animationColor,
+    enableLabels = true,
     labels = ['Gegevens ophalen', 'Een moment geduld'],
     labelColor,
-    showLabels = true,
-    showOverlay = false,
-    tableOverlay,
-    centered,
-    showAnimation = true,
-    animationColor,
+    variant = 'centered',
+
 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -41,7 +41,7 @@ const Loader: FC<LoaderProps> = ({
 
 
     const renderAnimation = () => {
-        if (!showAnimation) return null;
+        if (!enableAnimation) return null;
 
         const colorClass = animationColor ? "bg-" + animationColor : "";
         return (
@@ -54,15 +54,14 @@ const Loader: FC<LoaderProps> = ({
     };
 
     const renderLabels = () => {
-        if (!showLabels) return null;
+        if (!enableLabels) return null;
 
         const textColor = labelColor ? "text-" + labelColor : "";
         const dotColor = labelColor ? "bg-" + labelColor : "";
-        const marginFix = showAnimation ? "" : "mt-none";
 
         return (
-            <div className={`loader__content ${marginFix}`}>
-                <div className={`loader__content__container ${textColor}`}>
+            <div className="loader__info">
+                <div className={`loader__info__container ${textColor}`}>
                     {labels[currentIndex]}
                     <div className="loader__dots">
                         {Array.from({ length: 3 }).map((_, i) => (
@@ -74,35 +73,24 @@ const Loader: FC<LoaderProps> = ({
         );
     };
 
-
-    const css = [
-        "loader",
-        background && `bg-${background}`,
-        showLabels && "has-labels",
-    ]
-        .filter(Boolean)
-        .join(" ");
-
+  
+    const loaderCss = [
+    "loader",
+    background && `bg-${background}`,
+    `loader--${variant}`,
+]
+    .filter(Boolean)
+    .join(" ");
 
     return (
-        tableOverlay ? (
-            <div className={`${css} ${tableOverlay ? 'loader--table-overlay' : ''}  `}>
-                <div className="loader--centered">
-                    <div className="loader__container">
-                        {renderAnimation()}
-                        {renderLabels()}
-                    </div>
-                </div>
+        <div className={loaderCss}>
+            <div className="loader__container">
+                {renderAnimation()}
+                {renderLabels()}
             </div>
-        ) : (
-            <div className={`${css} ${centered ? "loader--centered" : ''} ${showOverlay ? 'loader--overlay' : ''}  `}>
-                <div className="loader__container">
-                    {renderAnimation()}
-                    {renderLabels()}
-                </div>
-            </div>
-        )
+        </div>
     )
+
 };
 
 export default Loader;

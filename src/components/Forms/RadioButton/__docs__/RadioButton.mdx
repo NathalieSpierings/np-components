@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as RadioButtonStories from './RadioButton.stories';
+import RadioButtonComponent from '../RadioButton';
+ 
+<Meta of={RadioButtonStories} />
+ 
+
+# RadioButton Component
+
+Het `RadioButton` component biedt een toegankelijke en consistente manier om keuzerondjes (radio buttons) te gebruiken in formulieren.  
+Het ondersteunt zowel zelfstandig gebruik als integratie met `react-hook-form` via de `FormRadio` variant, waardoor het ideaal is voor gebruik binnen grotere formulieren met validatie.
+
+## Belangrijkste functionaliteiten
+
+- **Label & toegankelijkheid**: Elk radioknopje kan voorzien worden van een label en gebruikt een `sr-only` label voor screen readers.  
+- **Kleurvarianten**: Ondersteuning voor thema-kleuren via de `color` prop (zoals `primary`, `success`, `warning`, enz.).  
+- **Validatie**: Toon foutmeldingen wanneer een waarde verplicht is of onjuist is ingevuld.  
+- **Form-integratie**: Gebruik `FormRadio` om het component naadloos te koppelen aan `react-hook-form` met validatieregels.  
+- **Disabled state**: Radio buttons kunnen gedeactiveerd worden voor read-only situaties.  
+- **Kinderen en extra content**: Je kunt extra JSX-kinderen toevoegen binnen het component voor meer complexe layouts of toelichtingen.
+
+Het component is ideaal voor gebruik binnen keuzegroepen waarin slechts één optie tegelijk geselecteerd mag worden — bijvoorbeeld bij voorkeuren, categorieën of instellingen.
+
+### Default
+
+<Canvas of={RadioButtonStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

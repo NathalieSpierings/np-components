@@ -1,369 +1,281 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, ReactElement, useState } from 'react';
-import { Control, FieldValues, RegisterOptions, useController } from 'react-hook-form';
-import { ColorDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
-import Box, { BoxProps } from '../../Base/Box/Box';
-import Input from '../Input/Input';
-import Checkbox from '../Checkbox/Checkbox';
-import ContentItem from '../../UI/ContentItem/ContentItem';
+import React, { PropsWithChildren, ReactNode, useMemo, useState } from "react";
+import { ColorDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import Search from "../../Base/Search/Search";
+import Collection, { CollectionItem, CollectionItemVariant } from "../../UI/Collection/Collection";
+import { ContentItemType } from "../../UI/ContentItem";
+import Checkbox from "../Checkbox/Checkbox";
 
-export type MultiselectItemPosition = 'item-start' | 'item-center' | 'item-end';
-export type MultiselectJustifyPosition = 'justify-start' | 'justify-center' | 'justify-end';
+export type MultiselectItemId = string | number;
 
-export interface MultiselectItemType {
-    id: string;
-    gap?: string;
-    prefix?: string | ReactElement;
-    prefixItemPosition?: MultiselectItemPosition;
-    prefixGap?: string;
-    content?: string | ReactElement;
-    contentItemPosition?: MultiselectItemPosition;
-    contentJustifyPosition?: MultiselectJustifyPosition;
-    postfix?: string | ReactElement;
-    postfixItemPosition?: MultiselectItemPosition;
-    postfixGap?: string;
-    separatorAfterPrefix?: boolean;
-    separatorAfterMeta?: boolean;
+export interface MultiselectHeader {
+	content?: ReactNode;
+	borderColor?: ColorDefinitions;
 }
-export interface MultiselectProps extends Omit<BoxProps, 'title'> {
-    items: MultiselectItemType[] | undefined;
-    collectionScrollable?: boolean;
-    collectionScrollheight?: string;
-    collectionColorMute?: ColorDefinitions;
-    collectionColor?: ColorDefinitions;
-    collectionBackground?: ColorDefinitions;
-    collectionBorderColor?: ColorDefinitions;
-    collectionItemBorder?: 'bordered' | 'underlined';
-    collectionRounded?: SizeDefinitions;
-    collectionCompact?: boolean;
-    collectionMedium?: boolean;
-    collectionHoverable?: boolean;
-    collectionSelectable?: boolean;
-    collectionSelectMultiple?: boolean;
-    collectionCss?: string;
-    selected: string[];
-    setSelected: (selected: string[]) => void;
-    selectedColor?: ColorDefinitions;
-    validationErrorMessage?: string;
-    showSearch?: boolean;
-    showCheckAll?: boolean;
-    showHeader?: boolean;
-    checkboxColor?: ColorDefinitions;
-    headerBorderColor?: ColorDefinitions;
-    title?: string | ReactElement;
-    searchPlaceholder?: string;
-    searchBackground?: ColorDefinitions;
+export interface MultiselectItem {
+	id: MultiselectItemId;
+	content: ContentItemType | string;
+	disabled?: boolean;
 }
 
+export interface MultiselectProps extends PropsWithChildren {
+	items: MultiselectItem[];
+	selected?: MultiselectItemId[];
+	onSelectionChange?: (selected: MultiselectItemId[]) => void;
+	selectMultiple?: boolean;
 
-//--- Helpers --- //
+	multiselectHeader?: MultiselectHeader;
 
-const isSelected = (option: MultiselectItemType, selected: string[]) => selected.includes(option.id);
+	enableSearch?: boolean;
+	searchPlaceholder?: string;
+	searchNoResultsText?: string;
 
-const defaultSearch = (val: string, q: string) => val.toLowerCase().includes(q.toLowerCase());
-
-const toText = (val: unknown): string => {
-    if (typeof val === 'string' || typeof val === 'number' || typeof val === 'boolean') {
-        return String(val);
-    }
-    return '';
-};
-
-
-const MultiselectHeader = ({
-    showHeader,
-    headerBorderColor,
-    title,
-    validationErrorMessage,
-    showCheckAll,
-    showSearch,
-    allSelected,
-    checkboxColor,
-    selectAll,
-    selectNone,
-    searchTerm,
-    setSearchTerm,
-    searchPlaceholder,
-    searchBackground
-}: {
-    showHeader: boolean;
-    headerBorderColor?: ColorDefinitions;
-    title?: string | ReactElement;
-    validationErrorMessage?: string;
-    showCheckAll: boolean;
-    showSearch: boolean;
-    allSelected: boolean;
-    checkboxColor: ColorDefinitions;
-    selectAll: () => void;
-    selectNone: () => void;
-    searchTerm: string;
-    setSearchTerm: (val: string) => void;
-    searchPlaceholder: string;
-    searchBackground?: ColorDefinitions;
-
-}) => {
-    if (!showHeader) return null;
-
-    return (
-        <div className={`multiselect__header ${headerBorderColor ? 'border-' + headerBorderColor : ''}`}>
-            {title && (
-                <div className="subtitle multiselect__header__title">
-                    <span>{title}</span>
-                    {validationErrorMessage && (
-                        <div className="field-validation-error">
-                            <span>{validationErrorMessage}</span>
-                        </div>
-                    )}
-                </div>
-            )}
-
-            {(showCheckAll || showSearch) && (
-                <div className="multiselect__header__content">
-                    {showCheckAll && (
-                        <div className="multiselect__header__content__checkall">
-                            <Checkbox
-                                checked={allSelected}
-                                color={checkboxColor}
-                                onChange={() => (allSelected ? selectNone() : selectAll())}
-                            />
-                        </div>
-                    )}
-
-                    {showSearch && (
-                        <div className="multiselect__header__content__search">
-                            <Input
-                                onValueChange={setSearchTerm}
-                                label={searchPlaceholder}
-                                value={searchTerm}
-                            />
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
-    );
-};
-
-const MultiselectItem = ({
-    item,
-    selected,
-    setSelected,
-    checkboxColor,
-    collectionItemCls,
-    selectedColor,
-    collectionSelectable,
-    collectionSelectMultiple,
-}: {
-    item: MultiselectItemType;
-    selected: string[];
-    setSelected: (selected: string[]) => void;
-    checkboxColor: ColorDefinitions;
-    collectionItemCls: string;
-    selectedColor: ColorDefinitions;
-    collectionSelectable?: boolean;
-    collectionSelectMultiple?: boolean;
-}) => {
-    const toggleSelect = () => {
-        setSelected(
-            isSelected(item, selected)
-                ? selected.filter((x) => x !== item.id)
-                : [...selected, item.id]
-        );
-    };
-
-    const isItemSelected = isSelected(item, selected);
-    const selectedCheckboxColor = checkboxColor === ColorDefinitions.Primary
-        ? ColorDefinitions.Offwhite
-        : checkboxColor;
-    const checkboxColorToUse = isItemSelected ? selectedCheckboxColor : checkboxColor;
-
-    return (
-        <motion.div
-            key={item.id}
-            layout
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            transition={{ type: 'spring' }}
-            className={`collection__item ${isSelected(item, selected) ? 'selected' : ''} ${collectionItemCls}`}
-            style={{
-                cursor: collectionSelectable || collectionSelectMultiple ? 'pointer' : 'default',
-                ...(selectedColor ? { '--color-selected': `var(--color-${selectedColor})` } : {}),
-            }}
-        >
-            <div className="collection__item__container">
-                <ContentItem key={item.id} item={{
-                    gap: item.gap,
-                    prefixGap: item.prefixGap,
-                    prefixItemPosition: item.prefixItemPosition,
-                    prefix: (
-                        <Checkbox
-                            checked={isSelected(item, selected)}
-                            color={checkboxColorToUse}
-                            onChange={toggleSelect}
-                        />
-                    ),
-                    content: (
-                        <button className="link link-hover" onClick={toggleSelect}>
-                            {item.content}
-                        </button>
-                    ),
-                    contentItemPosition: item.contentItemPosition,
-                    contentJustifyPosition: item.contentJustifyPosition,
-                    postfix: (item.postfix),
-                    postfixItemPosition: item.postfixItemPosition,
-                    postfixGap: item.postfixGap,
-                    separatorAfterPrefix: item.separatorAfterPrefix,
-                    separatorAfterMeta: item.separatorAfterMeta
-                }} />
-            </div>
-        </motion.div>
-    );
-};
-
-const Multiselect = ({
-    items = [],
-    collectionScrollable,
-    collectionScrollheight,
-    collectionColorMute,
-    collectionColor,
-    collectionBackground,
-    collectionBorderColor = ColorDefinitions.Surface,
-    collectionItemBorder = 'underlined',
-    collectionRounded,
-    collectionCompact,
-    collectionMedium,
-    collectionHoverable,
-    collectionSelectable,
-    collectionSelectMultiple,
-    collectionCss,
-    selected,
-    setSelected,
-    selectedColor = ColorDefinitions.Primary,
-    validationErrorMessage,
-    showSearch = true,
-    showCheckAll = true,
-    showHeader = true,
-    headerBorderColor,
-    checkboxColor = ColorDefinitions.Primary,
-    title,
-    searchPlaceholder = 'Zoeken...',
-    searchBackground,
-    children,
-    ...boxProps
-}: MultiselectProps): ReactElement => {
-    const [searchTerm, setSearchTerm] = useState('');
-
-    const allSelected = items.length > 0 && selected.length === items.length;
-    const selectAll = () => setSelected(items.map((x) => x.id));
-    const selectNone = () => setSelected([]);
-
-    items = items.filter((x) => {
-        const text = `${toText(x.prefix)} ${toText(x.content)} ${toText(x.postfix)}`;
-        return defaultSearch(text, searchTerm);
-    });
-
-    const collectionItemCls = [
-        collectionRounded ? `rounded-${collectionRounded}` : '',
-        collectionColorMute ? `text-mute-${collectionColorMute}` : '',
-        collectionColor ? `text-${collectionColor}` : '',
-        collectionBackground ? `bg-${collectionBackground}` : '',
-        collectionBorderColor ? `border-${collectionBorderColor}` : '',
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    const borderClass =
-        collectionBorderColor && collectionItemBorder ? `collection--${collectionItemBorder}` : '';
-
-    const collectionCls = [
-        'collection',
-        collectionCss,
-        collectionScrollable ? 'scroll' : '',
-        borderClass,
-        collectionCompact ? `collection--compact` : '',
-        collectionMedium ? `collection--md` : '',
-        collectionHoverable ? 'collection--hover' : '',
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    return (
-        <Box {...boxProps} css="multiselect">
-            <MultiselectHeader
-                showHeader={showHeader}
-                headerBorderColor={headerBorderColor}
-                title={title}
-                validationErrorMessage={validationErrorMessage}
-                showCheckAll={showCheckAll}
-                showSearch={showSearch}
-                allSelected={allSelected}
-                checkboxColor={checkboxColor}
-                selectAll={selectAll}
-                selectNone={selectNone}
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                searchPlaceholder={searchPlaceholder}
-                searchBackground={searchBackground}
-            />
-
-            <div className="multiselect__content">
-                <div
-                    className={collectionCls}
-                    style={
-                        {
-                            '--collection-scroll-height': collectionScrollheight || '300px',
-                        } as React.CSSProperties
-                    }
-                >
-                    <AnimatePresence>
-                        {items.map((item) => (
-                            <MultiselectItem
-                                key={item.id}
-                                item={item}
-                                selected={selected}
-                                setSelected={setSelected}
-                                checkboxColor={checkboxColor}
-                                collectionItemCls={collectionItemCls}
-                                selectedColor={selectedColor}
-                                collectionSelectable={collectionSelectable}
-                                collectionSelectMultiple={collectionSelectMultiple}
-                            />
-                        ))}
-                    </AnimatePresence>
-                </div>
-            </div>
-        </Box>
-    );
-};
-
-
-export interface FormMultiselectProps extends Omit<MultiselectProps, 'selected' | 'setSelected'> {
-    rules?: Omit<RegisterOptions<FieldValues, string>, 'disabled' | 'valueAsNumber' | 'valueAsDate' | 'setValueAs'>;
-    control: Control<any, any>;
-    name: string;
+	toolbarBorderColor?: ColorDefinitions;
+	validationErrorMessage?: string;
+	enableCheckAll?: boolean;
+	maxHeight?: number;
+	multiselectCss?: string;
+	collectionBorderColor?: ColorDefinitions;
+	collectionBackground?: ColorDefinitions;
+	collectionItemVariant?: CollectionItemVariant;
+	collectionScrollable?: boolean;
+	collectionScrollheight?: string;
+	collectionRounded?: SizeDefinitions;
+	collectionCompact?: boolean;
+	collectionMedium?: boolean;
+	collectionColorMute?: ColorDefinitions;
+	collectionColor?: ColorDefinitions;
 }
 
-export const FormMultiselect: FC<FormMultiselectProps> = (props) => {
-    const { name, control, rules, ...rest } = props;
+function Multiselect({
+	items = [],
+	selected = [],
+	onSelectionChange,
+	selectMultiple = true,
+	multiselectHeader,
+	enableSearch = true,
+	searchPlaceholder = "Zoeken...",
+	searchNoResultsText = "Geen resultaten gevonden",
+	toolbarBorderColor,
+	validationErrorMessage,
+	enableCheckAll = true,
+	maxHeight = 300,
+	multiselectCss = "",
+	collectionBorderColor,
+	collectionBackground,
+	collectionItemVariant = 'default',
+	collectionScrollable,
+	collectionRounded,
+	collectionCompact,
+	collectionMedium,
+	collectionColorMute,
+	collectionColor
+}: Readonly<MultiselectProps>) {
 
-    const { field, fieldState } = useController({
-        name,
-        control,
-        rules,
-    });
+	const [searchTerm, setSearchTerm] = useState("");
 
-    const { invalid, error } = fieldState;
-    const validationErr = invalid ? error?.message! : '';
+	const isSelected = (id: MultiselectItemId) =>
+		selected.some(
+			(selectedId) => selectedId === id
+		);
 
-    return (
-        <Multiselect
-            {...rest}
-            selected={field.value}
-            setSelected={field.onChange}
-            validationErrorMessage={validationErr}
-        />
+
+	const filteredItems = useMemo(() => {
+		const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+
+		if (!normalizedSearchTerm) {
+			return items;
+		}
+
+		return items.filter((item) => {
+			const text =
+				typeof item.content === "string"
+					? item.content
+					: item.content.content;
+
+			if (typeof text !== "string") {
+				return true;
+			}
+
+			return text
+				.toLowerCase()
+				.includes(normalizedSearchTerm);
+		});
+	}, [items, searchTerm]);
+
+	const toggleItem = (
+		item: MultiselectItem,
+		checked: boolean
+	) => {
+		if (item.disabled) {
+			return;
+		}
+
+		if (!checked) {
+			onSelectionChange?.(
+				selected.filter(
+					(selectedId) =>
+						selectedId !== item.id
+				)
+			);
+
+			return;
+		}
+
+		if (!selectMultiple) {
+			onSelectionChange?.([item.id]);
+			return;
+		}
+
+		onSelectionChange?.([
+			...selected.filter(
+				(selectedId) =>
+					selectedId !== item.id
+			),
+			item.id
+		]);
+	};
+
+	const collectionItems = useMemo<CollectionItem[]>(() => {
+		return filteredItems.map((item) => {
+			const checked = isSelected(item.id);
+
+			const content: ContentItemType =
+				typeof item.content === "string"
+					? {
+						content: item.content
+					}
+					: item.content;
+
+
+			return {
+				id: item.id.toString(),
+				selected: checked,
+				disabled: item.disabled,
+				content: {
+					...content,
+					prefix: (
+						<Checkbox
+							color={
+								checked
+									? ColorDefinitions.Offwhite
+									: ColorDefinitions.Accent
+							}
+							checked={checked}
+							disabled={item.disabled}
+							onChange={(value) =>
+								toggleItem(item, value)
+							}
+						/>
+					)
+				}
+			};
+		});
+	}, [filteredItems, selected, selectMultiple, onSelectionChange]);
+
+	const selectableItems = useMemo(() =>
+            items.filter(
+                (item) => !item.disabled
+            ),
+        [items]
     );
-};
 
+	const allItemsChecked =
+		selectableItems.length > 0 &&
+		selectableItems.every((item) =>
+			isSelected(item.id)
+		);
+
+	const someItemsChecked = !allItemsChecked && selectableItems.some((item) =>
+			isSelected(item.id)
+		);
+
+	const selectedCollectionItems = useMemo(
+		() => selected.map((id) => id.toString()),
+		[selected]
+	);
+
+	const handleCheckAll = (checked: boolean) => {
+		if (!selectMultiple) {
+            return;
+        }
+		
+		if (checked) {
+			onSelectionChange?.(
+				selectableItems.map((item) => item.id)
+			);
+
+			return;
+		}
+
+		onSelectionChange?.([]);
+	};
+
+
+	return (
+		<div className={["multiselect", multiselectCss].join(" ")} >
+
+			{multiselectHeader && (
+				<div className={`multiselect__header ${multiselectHeader.borderColor ? "border-" + multiselectHeader.borderColor : ""}`}>
+					{multiselectHeader.content}
+					{validationErrorMessage && (
+						<div className="field-validation-error">
+							<span>{validationErrorMessage}</span>
+						</div>
+					)}
+				</div>
+			)}
+
+			{(enableCheckAll || enableSearch) && (
+				<div className={`multiselect__toolbar ${toolbarBorderColor ? "border-" + toolbarBorderColor : ""}`}>
+					{enableCheckAll && onSelectionChange && (
+						<div className="multiselect__toolbar__checkall">
+							<Checkbox
+								color={ColorDefinitions.Accent}
+								checked={allItemsChecked}
+								indeterminate={someItemsChecked}
+								onChange={handleCheckAll}
+							/>
+						</div>
+					)}
+
+					{enableSearch && (
+						<div className="multiselect__toolbar__search">
+							<Search
+								value={searchTerm}
+								placeholder={searchPlaceholder}
+								onChange={setSearchTerm}
+							/>
+						</div>
+					)}
+				</div>
+			)}
+
+			<div className="multiselect__content" style={{ maxHeight: maxHeight }}>
+				<div className="multiselect__content__container">
+					{collectionItems.length > 0 ? (
+						<Collection
+							items={collectionItems}
+							itemVariant={collectionItemVariant}
+							scrollable={collectionScrollable}
+							scrollheight={maxHeight}
+							rounded={collectionRounded}
+							compact={collectionCompact}
+							medium={collectionMedium}
+							selected={selectedCollectionItems}
+							borderColor={collectionBorderColor}
+							background={collectionBackground}
+							color={collectionColor}
+							colorMute={collectionColorMute}
+						/>
+					) : (
+						<div className="multiselect__no-results">
+							{searchNoResultsText}
+						</div>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+}
 
 export default Multiselect;

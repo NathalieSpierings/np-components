@@ -16,7 +16,8 @@ const ContentItemPage = ({
 
 
             <h3>Default</h3>
-            <ContentItem  item={{
+            <ContentItem  
+            item={{
                 prefix: <Icon icon={IconDefinitions.bell} />,
                 content: <p>Content goes here</p>,
                 postfix: <Icon icon={IconDefinitions.bin} />,

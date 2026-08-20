@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TagsInputStories from './TagsInput.stories';
+import TagsInputComponent from '../TagsInput';
+ 
+<Meta of={TagsInputStories} />
+ 
+
+# TagsInput Component
+
+Het **`TagsInput`** component biedt een intuïtieve manier voor gebruikers om dynamisch tags toe te voegen en te verwijderen binnen een formulier.  
+Het component ondersteunt kleurthema’s, labels en callbacks om de actuele lijst met tags door te geven aan bovenliggende componenten.  
+Het is ideaal voor situaties waarin gebruikers meerdere trefwoorden, labels of categorieën moeten invoeren.
+
+## Belangrijkste functionaliteiten
+
+- **Dynamische tagbeheer**: Gebruikers kunnen tags toevoegen door op `Enter` te drukken en verwijderen via een **DismissButton**.  
+- **Tweewegsdatabinding**: De `selectedTags` callback geeft telkens de bijgewerkte lijst met tags terug aan de parent component.  
+- **Unieke identificatie**: Elke tag krijgt automatisch een unieke ID via `uuidv4()`, wat beheer en rendering betrouwbaar maakt.  
+- **Kleuraanpassing**: Met de `color` prop kan de achtergrondkleur van de tags worden afgestemd op het thema van de applicatie.  
+- **Gebruiksvriendelijke interface**: Ondersteunt optioneel een label en placeholder voor een toegankelijke en duidelijke gebruikerservaring.  
+- **Compact ontwerp**: De componentstructuur blijft overzichtelijk, zelfs bij een groot aantal tags, dankzij de inline-lijstweergave.
+
+### Default
+
+<Canvas of={TagsInputStories.Default} />
+
+
+### Props
+ 
+<Controls />

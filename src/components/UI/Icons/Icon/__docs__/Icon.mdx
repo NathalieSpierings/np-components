@@ -1,0 +1,31 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as IconStories from './Icon.stories';
+import IconComponent from '../Icon';
+ 
+<Meta of={IconStories} />
+ 
+
+# Icon Component
+
+Het **`Icon`** component is een veelzijdige wrapper voor het weergeven van iconen en SVG-elementen, met ondersteuning voor verschillende stijlen, groottes en interactieve staten.
+
+## Belangrijkste functionaliteiten
+
+- **SVG en icon ondersteuning**: Ondersteunt zowel vooraf gedefinieerde iconen (`IconDefinitions`) als custom SVG-elementen.  
+- **Varianten en vormen**: Kies tussen `circle`, `square` of `triangle` voor visuele consistentie.  
+- **Interactieve staten**: Ondersteunt `hover`, `focus`, en dimmed-varianten.  
+- **Grootte en positionering**: Flexibele groottes via `SizeDefinitions` en positionering (`left` of `right`).  
+- **Bestandsspecifieke weergave**: Render speciale icons voor bestandsformaten zoals PDF, DOCX of CSV met geautomatiseerde extensieweergave.  
+- **Klikbare icons**: Voeg optioneel een `onClick`-handler toe voor interactieve functionaliteit.  
+- **Styling via Box**: Integreert naadloos met het `Box` component voor achtergrond-, border- en hoverkleuren.
+
+
+### Default
+
+<Canvas of={IconStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

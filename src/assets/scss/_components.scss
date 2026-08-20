@@ -2,12 +2,12 @@
 
 @layer contentItem, buttons, dismiss, accordion, alert, art, avatar, badge,
 bottomSheet, card, collapsible, columnLayout, columns, dismissableBox,
-collection, dropdown, datagrid, filterbar, drawer, duocolumn, errorPages, gridCollection,
+collection, datagrid, filterbar, drawer, duocolumn, errorPages, gridCollection,
 gridLayout, loader, modal, navs, onboarding, pageOverlay, popover, slider, tabs,
 toastr, toolbar, tooltip, widget, wizard;
 
 @layer contentItem {
-    
+
     .content-item {
         display: flex;
         flex-wrap: nowrap;
@@ -74,9 +74,11 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &__meta {
             flex: 1 1 auto;
+            align-items: flex-start;
             min-width: 0;
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
 
             h1,
             h2,
@@ -283,6 +285,10 @@ toastr, toolbar, tooltip, widget, wizard;
                 color: var(--button-foreground);
                 background: var(--color-background) !important;
             }
+        }
+
+        &--icon {
+            --button-padding: 0.8rem 0 !important;
         }
 
         &--shadow {
@@ -1281,207 +1287,6 @@ toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer collection {
-
-    :root {
-        --collection-item-margin: 1rem;
-        --collection-padding: calc(var(--page-padding-sm)/2) var(--page-padding-sm);
-        --collection-scroll-height: 300px;
-    }
-
-    .collection {
-        --color-hover: var(--shadow-light);
-        --color-selected: var(--shadow-base);
-
-        position: relative;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        border-radius: var(--radius);
-        transition: all 1s;
-
-        @include mixins.MQ-min(lg) {
-            &.list {
-                grid-template-columns: 1fr;
-            }
-
-            &.columns-2 {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            &.columns-3 {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            &.columns-4 {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-
-        &__view {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-inline-start: .5rem;
-            text-align: center;
-            height: 34px;
-            width: 34px;
-            border: 1px solid var(--color-border);
-            transition: all .3s ease;
-            position: relative;
-            cursor: pointer;
-            line-height: 32px;
-            border-radius: var(--radius);
-
-            span {
-                width: 2px;
-                height: 10px;
-                background: var(--color-mute);
-                margin: 0 1px;
-                display: inline-block;
-                -webkit-transition: all .3s ease;
-                transition: all .3s ease;
-            }
-
-            &.active,
-            &:hover {
-                background: var(--color-primary);
-                border-color: var(--color-primary);
-
-                span {
-                    background: var(--color-offwhite);
-                }
-            }
-
-            &:first-child {
-                flex-direction: column;
-
-                span {
-                    height: 2px;
-                    width: 10px;
-                    margin: 1px 0;
-                }
-            }
-
-            @include mixins.MQ-min(lg) {
-                display: flex;
-            }
-        }
-
-        &__item {
-            opacity: 1;
-            color: var(--color-foreground);
-            border: 1px solid transparent;
-            border-radius: var(--radius);
-            transition: width 0.3s ease-in-out;
-            width: 100%;
-            min-width: 0;
-
-            &__container {
-                padding: var(--collection-padding);
-                background: var(--color-background);
-                border-radius: var(--radius);
-            }
-
-            .hide {
-                opacity: 0;
-                transition: scale(0);
-            }
-
-            .animated-checkbox .checkmark-wrap {
-                position: relative;
-            }
-
-            &.selected {
-                .collection__item__container {
-                    background: var(--color-selected);
-                }
-            }
-
-            &.active {}
-
-            &__collapsible {
-                background: var(--color-background);
-                border-radius: var(--radius);
-                border-top: 1px solid transparent;
-                width: 100%;
-
-            }
-
-            &[class*="border-"] {
-                .collection__item__collapsible {
-                    border-top: 1px solid var(--color-border);
-                }
-            }
-        }
-
-        &.scroll {
-            max-height: var(--collection-scroll-height);
-            overflow-y: auto;
-        }
-
-        .form-field,
-        .form-group {
-            margin: 0;
-        }
-
-        &--compact {
-            gap: .5rem;
-            --collection-padding: .35rem var(--page-padding-sm);
-        }
-
-        &--md {
-            --collection-item-margin: var(--page-padding-sm);
-            --collection-padding: var(--page-padding-sm);
-        }
-
-        &--bordered {
-            .collection__item {
-                border: 1px solid var(--color-border) !important;
-            }
-        }
-
-        &--underlined {
-            gap: 0;
-
-            .collection__item {
-                margin-bottom: 0;
-                border-radius: 0;
-                border: 0;
-                border-bottom: 1px solid var(--color-border) !important;
-
-                &:last-child {
-                    border: 0 !important;
-                    border-radius: 0 !important;
-                }
-            }
-        }
-
-        &--hover {
-            .collection__item:hover .collection__item__container {
-                background: var(--color-hover) !important;
-            }
-
-        }
-
-        &--collapsible {
-            .content-item {
-
-                &__prefix,
-                &__postfix {
-                    gap: 0 !important;
-
-                    >div,
-                    >button {
-                        margin-inline-start: 0 !important;
-                    }
-                }
-            }
-        }
-    }
-}
-
 @layer columnLayout {
 
     .column-layout {
@@ -1490,6 +1295,7 @@ toastr, toolbar, tooltip, widget, wizard;
         gap: 0;
         width: 100%;
         min-height: 100vh;
+        height: 100%;
 
         &--aside-right {
             flex-direction: row;
@@ -1524,17 +1330,16 @@ toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             flex-direction: column;
             min-width: 0;
+            height: 100%;
         }
 
         &__main {
             flex: 1 1 auto;
             position: relative;
-            // z-index: 2;
         }
 
         &__aside {
             position: relative;
-            // z-index: 1;
             flex: 0 0 30%;
             border-inline-end: none;
             border-inline-start: 1px solid transparent;
@@ -1579,14 +1384,15 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
-        .dismiss,
-        .burger {
+        >.dismiss,
+        >.burger {
             display: none;
             cursor: pointer;
         }
 
         @include mixins.MQ-max(md) {
             height: 100vh;
+            height: 100%;
             overflow: hidden auto;
 
             &__main,
@@ -1605,7 +1411,6 @@ toastr, toolbar, tooltip, widget, wizard;
             &.main-primary {
 
                 .column-layout__main {
-                    // z-index: 2;
                     transform: translateX(0);
                     opacity: 1;
                     pointer-events: auto;
@@ -1622,7 +1427,6 @@ toastr, toolbar, tooltip, widget, wizard;
                 }
 
                 .column-layout__aside {
-                    //  z-index: 1;
                     opacity: 0;
                     pointer-events: none;
                     transform: translateX(-100%);
@@ -1646,13 +1450,11 @@ toastr, toolbar, tooltip, widget, wizard;
                     .column-layout__aside {
                         transform: translateX(0);
                         opacity: 1;
-                        //  z-index: 3;
                         pointer-events: auto;
                     }
 
                     .column-layout__main {
                         opacity: 0;
-                        // z-index: 1;
                         pointer-events: none;
                         transform: translateX(-100%);
                     }
@@ -1666,7 +1468,6 @@ toastr, toolbar, tooltip, widget, wizard;
 
             &.aside-primary {
                 .column-layout__aside {
-                    // z-index: 2;
                     transform: translateX(0);
                     opacity: 1;
                     pointer-events: auto;
@@ -1683,7 +1484,6 @@ toastr, toolbar, tooltip, widget, wizard;
                 }
 
                 .column-layout__main {
-                    //  z-index: 1;
                     opacity: 0;
                     pointer-events: none;
                     transform: translateX(-100%);
@@ -1714,7 +1514,6 @@ toastr, toolbar, tooltip, widget, wizard;
 
                     .column-layout__aside {
                         opacity: 0;
-                        //  z-index: 1;
                         pointer-events: none;
                         transform: translateX(-100%);
                     }
@@ -1726,8 +1525,8 @@ toastr, toolbar, tooltip, widget, wizard;
                 }
             }
 
-            .dismiss,
-            .burger {
+            >.dismiss,
+            >.burger {
                 display: none;
             }
         }
@@ -1755,6 +1554,8 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &__main,
         &__aside {
+            height: 100%;
+
             &--scrollable {
                 .columns__content {
                     height: calc(100vh - var(--header-height));
@@ -1769,6 +1570,7 @@ toastr, toolbar, tooltip, widget, wizard;
         }
 
         &__content {
+            height: 100%;
             padding: var(--page-padding);
         }
 
@@ -1835,16 +1637,236 @@ toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
+@layer collection {
+
+    :root {
+        --collection-item-margin: 1rem;
+        --collection-padding: var(--page-padding-2xs) var(--page-padding-xs);
+        --collection-scroll-height: 300px;
+    }
+
+    .collection {
+        --color-hover: var(--shadow-light);
+        --color-selected: var(--shadow-base);
+
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        border-radius: var(--radius-xs);
+        transition: all 1s;
+
+        @include mixins.MQ-min(lg) {
+            &.list {
+                grid-template-columns: 1fr;
+            }
+
+            &.columns-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            &.columns-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            &.columns-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        &__view {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-inline-start: .5rem;
+            text-align: center;
+            height: 34px;
+            width: 34px;
+            border: 1px solid var(--color-border);
+            transition: all .3s ease;
+            position: relative;
+            cursor: pointer;
+            line-height: 32px;
+            border-radius: var(--radius-xs);
+
+            span {
+                width: 2px;
+                height: 10px;
+                background: var(--color-mute);
+                margin: 0 1px;
+                display: inline-block;
+                -webkit-transition: all .3s ease;
+                transition: all .3s ease;
+            }
+
+            &.active,
+            &:hover {
+                background: var(--color-primary);
+                border-color: var(--color-primary);
+
+                span {
+                    background: var(--color-offwhite);
+                }
+            }
+
+            &:first-child {
+                flex-direction: column;
+
+                span {
+                    height: 2px;
+                    width: 10px;
+                    margin: 1px 0;
+                }
+            }
+
+            @include mixins.MQ-min(lg) {
+                display: flex;
+            }
+        }
+
+        &__item {
+            width: 100%;
+            min-width: 0;
+            opacity: 1;
+            color: var(--color-foreground);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            transition: width 0.3s ease-in-out;
+
+            &__container {
+                padding: var(--page-padding-2xs) var(--page-padding-xs);
+                background: var(--color-background);
+                border-radius: var(--radius-sm);
+            }
+
+            .hide {
+                opacity: 0;
+                transition: scale(0);
+            }
+
+            .animated-checkbox .checkmark-wrap {
+                position: relative;
+            }
+
+            &.selected {
+                .collection__item__container {
+                    background: var(--color-selected);
+                }
+            }
+
+            &__collapsible {
+                background: var(--color-background);
+                border-radius: var(--radius);
+                border-top: 1px solid transparent;
+                width: 100%;
+
+                &[class*="border-"] {
+                    .collection__item__collapsible {
+                        border-top: 1px solid var(--color-border);
+                    }
+                }
+
+            }
+        }
+
+        &.scroll {
+            max-height: var(--collection-scroll-height);
+            overflow-y: auto;
+        }
+
+        .form-field,
+        .form-group {
+            margin: 0;
+        }
+
+        &--compact {
+            gap: .5rem;
+            --collection-padding: var(--page-padding-3xs) var(--page-padding-xs);
+        }
+
+        &--md {
+            gap: 1.5rem;
+            --collection-padding: var(--page-padding-xs) var(--page-padding-sm);
+        }
+
+        &--bordered {
+            .collection__item {
+                border: 1px solid var(--color-border) !important;
+            }
+        }
+
+        &--underlined {
+            gap: 0;
+
+            .collection__item {
+                margin-bottom: 0;
+                border-radius: 0;
+                border: 0;
+                border-bottom: 1px solid var(--color-border) !important;
+
+                &:last-child {
+                    border: 0 !important;
+                    border-radius: 0 !important;
+                }
+            }
+        }
+
+        &--hover {
+            .collection__item:hover .collection__item__container {
+                background: var(--color-hover) !important;
+            }
+
+        }
+
+        &--collapsible {
+            .content-item {
+
+                &__prefix,
+                &__postfix {
+                    gap: 0 !important;
+
+                    >div,
+                    >button {
+                        margin-inline-start: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}
 
 @layer datagrid {
     .datagrid {
+        height: unset;
+
         --datagrid-header-height: 48px;
         --datagrid-grid-padding: var(--page-padding-2xs) var(--page-padding-sm);
 
+        .form-field,
+        .form-group {
+            margin: 0;
+        }
 
         &--compact {
             --datagrid-grid-padding: 0 var(--page-padding-sm);
         }
+
+        &--nested {
+            .datagrid__grid__footer {
+                padding-left: var(--page-padding-sm);
+                padding-right: var(--page-padding-sm);
+            }
+        }
+
+        &--hover {
+
+            .datagrid__grid .datagrid__grid__body .datagrid__grid__row:hover .datagrid__grid__cell {
+                background: var(--color-hover);
+            }
+
+        }
+
 
         &__header {
             padding: calc(var(--page-padding) / 2) 0;
@@ -1865,7 +1887,7 @@ toastr, toolbar, tooltip, widget, wizard;
             left: -3px;
             width: 5px;
             z-index: 1;
-            cursor: ew-resize;    
+            cursor: ew-resize;
         }
 
         &__grid {
@@ -1901,6 +1923,8 @@ toastr, toolbar, tooltip, widget, wizard;
 
             }
 
+
+
             // Rows & Cells
             &__row {
                 display: grid;
@@ -1916,11 +1940,13 @@ toastr, toolbar, tooltip, widget, wizard;
                         background: var(--color-surface-dark);
                     }
                 }
-                &--empty{
-                    .datagrid__grid__cell{
-                        --datagrid-grid-padding:var(--page-padding-xs) var(--page-padding-sm);
+
+                &--empty {
+                    .datagrid__grid__cell {
+                        --datagrid-grid-padding: var(--page-padding-xs) var(--page-padding-sm);
                     }
                 }
+
             }
 
             &__hcell,
@@ -1930,6 +1956,7 @@ toastr, toolbar, tooltip, widget, wizard;
                 padding: var(--datagrid-grid-padding);
                 transition: background-color 0.3s;
                 background: var(--color-background);
+
 
                 &--right {
                     justify-self: end;
@@ -1943,6 +1970,11 @@ toastr, toolbar, tooltip, widget, wizard;
                 &--pinned-right {
                     position: sticky;
                     background: var(--color-background);
+                }
+
+                &--last-column {
+                    justify-content: flex-end;
+                    text-align: right;
                 }
 
 
@@ -1972,20 +2004,23 @@ toastr, toolbar, tooltip, widget, wizard;
 
                 &__content {
                     display: flex;
-                    align-items: center;
-                    align-self: stretch;
                     flex: 1 1 auto;
+                    min-width: 0;
+                    align-self: stretch;
+                    align-items: center;
                     overflow: hidden;
 
                     &__label {
-                        overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        overflow-wrap: break-word;
                         box-sizing: border-box;
                         cursor: pointer;
                         font-size: var(--fs-sm);
                         font-weight: 600;
+                        overflow: hidden;
+                        display: block;
+                        flex: 1 1 auto;
+                        min-width: 0;
                     }
                 }
 
@@ -2048,16 +2083,29 @@ toastr, toolbar, tooltip, widget, wizard;
                         border-left: 2px solid var(--color-border);
                     }
                 }
-
-
             }
 
             &__cell {
+                position: relative;
                 display: flex;
                 align-items: center;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+
+                &__content {
+                    display: flex;
+                    align-items: center;
+                    align-self: stretch;
+                    flex: 1 1 auto;
+                    overflow: hidden;
+
+                    &__label {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow-wrap: break-word;
+                        box-sizing: border-box;
+                    }
+                }
+
 
                 &--pinned-left {
                     z-index: 30;
@@ -2074,6 +2122,12 @@ toastr, toolbar, tooltip, widget, wizard;
                         border-left: 2px solid var(--color-border);
                     }
                 }
+
+                &--summary {
+                    font-weight: 600;
+                }
+
+
             }
 
             &__collapsible {
@@ -2130,10 +2184,10 @@ toastr, toolbar, tooltip, widget, wizard;
             background: var(--color-surface-dark);
             border-top: 1px solid var(--color-border);
             border-bottom: 1px solid var(--color-border);
-           
+
             border-top-right-radius: var(--radius-sm);
             border-bottom-right-radius: var(--radius-sm);
-           
+
             &.pc-layout__aside {
                 flex-basis: 0;
                 width: 0;
@@ -2145,30 +2199,38 @@ toastr, toolbar, tooltip, widget, wizard;
             &.shown {
                 flex-basis: var(--datagrid-sidebar-width);
                 width: var(--datagrid-sidebar-width);
-                display: block;  
-                border-left: 0; 
+                display: block;
+                border-left: 0;
                 border-right: 1px solid var(--color-border);
             }
 
             .datagrid__resizer {
                 left: -3px;
                 right: auto;
+
+                &:hover {
+                    border-right: 2px solid var(--color-border);
+                }
             }
 
             &--left {
                 border-top-left-radius: var(--radius-sm);
                 border-bottom-left-radius: var(--radius-sm);
 
-                &.shown{
+                &.shown {
                     border-top-right-radius: 0;
                     border-bottom-right-radius: 0;
-                    border-right: 0; 
+                    border-right: 0;
                     border-left: 1px solid var(--color-border);
-                }                
+                }
 
                 .datagrid__resizer {
                     right: -3px;
                     left: auto;
+
+                    &:hover {
+                        border-left: 2px solid var(--color-border);
+                    }
                 }
             }
 
@@ -2207,7 +2269,7 @@ toastr, toolbar, tooltip, widget, wizard;
                 -webkit-overflow-scrolling: touch;
                 flex-grow: 1;
                 overflow-y: auto;
-            }          
+            }
 
             .dismiss {
                 right: .5rem;
@@ -2222,14 +2284,16 @@ toastr, toolbar, tooltip, widget, wizard;
             display: none;
             flex-direction: row-reverse;
             height: 100%;
-           
+
 
             &.shown {
                 display: flex;
                 flex-basis: 35px;
-                 &:has(.datagrid__tabber__pane.shown) {
+
+                &:has(.datagrid__tabber__pane.shown) {
                     flex-basis: calc(35px + var(--datagrid-tabber-width));
-                    .datagrid__tabber__panes{
+
+                    .datagrid__tabber__panes {
                         border: 1px solid var(--color-border);
                         border-left: 0;
                     }
@@ -2239,8 +2303,13 @@ toastr, toolbar, tooltip, widget, wizard;
             .datagrid__resizer {
                 left: -3px;
                 right: auto;
+
+                &:hover {
+                    border-right: 2px solid var(--color-border);
+                }
             }
-           
+
+
 
             &__tabs {
                 display: flex;
@@ -2362,12 +2431,16 @@ toastr, toolbar, tooltip, widget, wizard;
                 .datagrid__resizer {
                     right: -3px;
                     left: auto;
+
+                    &:hover {
+                        border-left: 2px solid var(--color-border);
+                    }
                 }
-              
+
                 &.shown {
-                     &:has(.datagrid__tabber__pane.shown) {
-                        
-                        .datagrid__tabber__panes{
+                    &:has(.datagrid__tabber__pane.shown) {
+
+                        .datagrid__tabber__panes {
                             border: 1px solid var(--color-border);
                             border-right: 0;
                         }
@@ -2379,9 +2452,9 @@ toastr, toolbar, tooltip, widget, wizard;
                     border-right: 0;
                     border-top-left-radius: var(--radius-sm);
                     border-bottom-left-radius: var(--radius-sm);
-                    border-top-right-radius: 0;;
+                    border-top-right-radius: 0;
                     border-bottom-right-radius: 0;
-                    
+
                     &__tab {
                         &::before {
                             left: auto;
@@ -2395,10 +2468,8 @@ toastr, toolbar, tooltip, widget, wizard;
                     }
                 }
             }
-
-            
         }
-    
+
 
         // Grid only
         &:not(:has(.datagrid__sidebar)):not(:has(.datagrid__tabber)) {
@@ -2441,34 +2512,34 @@ toastr, toolbar, tooltip, widget, wizard;
 
         // Sidebar left + tabber left
         &:has(.datagrid__sidebar--left):has(.datagrid__tabber--left) {
-           .datagrid__grid {
+            .datagrid__grid {
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
             }
 
-            &:has(.datagrid__sidebar--left.shown){
+            &:has(.datagrid__sidebar--left.shown) {
                 .datagrid__tabber {
-                    &__tabs{
+                    &__tabs {
                         border-radius: 0;
                     }
-                }    
-            }                  
+                }
+            }
         }
 
         // Sidebar right + tabber right
         &:has(.datagrid__sidebar--right):has(.datagrid__tabber--right) {
-           .datagrid__grid {
+            .datagrid__grid {
                 border-top-right-radius: 0;
                 border-bottom-right-radius: 0;
             }
 
-            &:has(.datagrid__sidebar--right.shown){
+            &:has(.datagrid__sidebar--right.shown) {
                 .datagrid__tabber {
-                    &__tabs{
+                    &__tabs {
                         border-radius: 0;
                     }
-                }    
-            }                  
+                }
+            }
         }
 
 
@@ -2480,11 +2551,11 @@ toastr, toolbar, tooltip, widget, wizard;
                 border-bottom-right-radius: 0;
             }
 
-            &:has(.datagrid__sidebar--left.shown){
+            &:has(.datagrid__sidebar--left.shown) {
                 .datagrid__grid {
                     border-radius: 0;
                 }
-            }        
+            }
         }
 
         // Sidebar right + tabber left
@@ -2495,11 +2566,11 @@ toastr, toolbar, tooltip, widget, wizard;
                 border-bottom-left-radius: 0;
             }
 
-            &:has(.datagrid__sidebar--right.shown){
+            &:has(.datagrid__sidebar--right.shown) {
                 .datagrid__grid {
                     border-radius: 0;
                 }
-            }        
+            }
         }
 
         &__paging {
@@ -2628,9 +2699,17 @@ toastr, toolbar, tooltip, widget, wizard;
                 overflow: hidden;
 
                 &[class*="border-"] {
-                    ~.datagrid__column-picker__search {
+                    ~.search {
                         padding-block: var(--page-padding-sm);
                     }
+                }
+
+                .form-field {
+                    flex: 0 0 40px
+                }
+
+                .search {
+                    flex: 1
                 }
             }
 
@@ -2651,6 +2730,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
             .form-field {
                 margin: 0;
+                margin-right: .5rem;
             }
 
             // Search
@@ -2760,7 +2840,6 @@ toastr, toolbar, tooltip, widget, wizard;
                     margin: 0;
                     padding-inline: var(--page-padding-sm);
                 }
-
             }
 
             &__collection {
@@ -2776,10 +2855,8 @@ toastr, toolbar, tooltip, widget, wizard;
                 &__content {
                     padding: var(--page-padding-xs) var(--page-padding-sm);
 
-                    .form-field,
                     .form-group {
-                        margin: 0;
-                        padding-block: var(--page-padding-xs);
+                        margin-bottom: 1rem !important;
                     }
                 }
 
@@ -2794,10 +2871,7 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
-        .form-field,
-        .form-group {
-            margin: 0;
-        }
+
 
     }
 
@@ -3703,64 +3777,56 @@ toastr, toolbar, tooltip, widget, wizard;
 
 @layer loader {
 
-    :root {
-        --loader-backdrop: rgb(0 0 0 / 50%);
-    }
-
-    .theme-light {
-        --loader-backdrop: rgb(255 255 255 / 50%);
-    }
-
     .loader {
-        position: absolute;
+        --loader-animation-height: 40px;
+
         z-index: 1000;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
 
         &--centered {
             position: fixed;
-            z-index: 1000;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
-        &--table-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: var(--loader-backdrop);
-
-            .loader--centered {
-                position: fixed;
-                z-index: 1000;
-                top: 10%;
-                left: 50%;
-                transform: translate(-50%, -10%);
-            }
+        &--screen-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--backdrop);
         }
 
-        &--overlay {
+        &--table {
+            position: sticky;
+            top: 50%;
+            left: 50%;
+            z-index: 1000;
+            width: max-content;
+            transform: translate(-50%, -50%);
+        }
+
+        &--table-overlay {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            inset: 0;
+            z-index: 1000;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background: var(--loader-backdrop);
+            justify-content: center;
+            background: var(--backdrop-table);
+            pointer-events: none;
         }
 
         &__container {
-            position: relative;
-            display: flex;
+            display: inline-flex;
             flex-direction: column;
             align-items: center;
-            min-width: 15em;
-            cursor: default;
-            word-break: break-all;
-            padding: var(--page-padding);
-            border-radius: var(--radius-md);
+            width: max-content;
+            max-width: 100%;
+            border-radius: var(--radius-sm);
+            padding: var(--page-padding-sm);
             color: var(--color-foreground);
             background: var(--color-background);
         }
@@ -3772,7 +3838,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
             &__item {
                 position: relative;
-                height: 40px;
+                height: var(--loader-animation-height);
                 width: 4px;
                 margin: 0 2px;
                 background-color: var(--color-accent);
@@ -3805,20 +3871,25 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
-        &__content {
-            position: relative;
-            display: none;
-            justify-content: center;
-            width: 100%;
+        &:has(.loader__info) {
+            .loader__object {
+                margin-bottom: var(--page-padding-sm);
+            }
+        }
+
+        &__info {
+            display: grid;
+            justify-items: center;
+            width: max-content;
+            max-width: 100%;
             min-height: 30px;
-            margin-top: 1rem;
+            white-space: nowrap;
 
             &__container {
-                color: var(--color-foreground);
-                position: absolute;
-                bottom: -100%;
-                width: 100%;
+                position: static;
+                width: max-content;
                 opacity: 0;
+                color: var(--color-foreground);
                 animation: loaderLabelSlideUp 1s forwards;
 
                 &.out {
@@ -3853,33 +3924,28 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
-        &.has-labels {
-            .loader__content {
-                display: flex;
-            }
-        }
     }
 
     @keyframes loaderLabelSlideUp {
         0% {
-            bottom: -100%;
+            transform: translateY(100%);
             opacity: 0;
         }
 
         100% {
-            bottom: 0;
+            transform: translateY(0);
             opacity: 1;
         }
     }
 
-    @keyframes oaderLabelSlideOut {
+    @keyframes loaderLabelSlideOut {
         0% {
-            bottom: 0;
+            transform: translateY(0);
             opacity: 1;
         }
 
         100% {
-            bottom: 100%;
+            transform: translateY(-100%);
             opacity: 0;
         }
     }
@@ -3924,7 +3990,7 @@ toastr, toolbar, tooltip, widget, wizard;
             height: auto;
             max-height: 100%;
             margin: 5rem auto;
-            border-radius: var(--radius);
+            border-radius: var(--radius-xs);
         }
 
         &__header {
@@ -3937,10 +4003,11 @@ toastr, toolbar, tooltip, widget, wizard;
             background: var(--color-background);
             padding: var(--page-padding-sm) var(--page-padding);
             border-bottom: 1px solid var(--color-border);
-            border-top-left-radius: var(--radius);
-            border-top-right-radius: var(--radius);
+            border-top-left-radius: var(--radius-xs);
+            border-top-right-radius: var(--radius-xs);
 
             .icon {
+                color: var(--color-foreground);
                 flex: 0 0 auto;
                 order: 1;
                 padding: 0;
@@ -3993,19 +4060,17 @@ toastr, toolbar, tooltip, widget, wizard;
         }
 
         &-primary {
-            .modal__header {
-                .icon {
-                    --color-foreground: var(--color-primary);
-                }
+            .modal__header .icon {
+                --color-foreground: var(--color-primary);
             }
+
         }
 
         &-warning {
-            .modal__header {
-                .icon {
-                    --color-foreground: var(--color-orange);
-                }
+            .modal__header .icon {
+                --color-foreground: var(--color-orange);
             }
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4016,26 +4081,24 @@ toastr, toolbar, tooltip, widget, wizard;
         }
 
         &-negative {
-            .modal__header {
-                .icon {
-                    color: var(--color-red);
-                }
+            .modal__header .icon {
+                --color-foreground: var(--color-rose-30);
             }
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
-                --color-background: var(--color-red) !important;
-                --color-border: var(--color-border-red) !important;
-                --color-shadow: var(--color-shadow-red) !important;
+                --color-background: var(--color-rose-30) !important;
+                --color-border: var(--color-border-rose-30) !important;
+                --color-shadow: var(--color-shadow-rose-30) !important;
             }
         }
 
         &-informational {
-            .modal__header {
-                .icon {
-                    --color-foreground: var(--color-blue);
-                }
+            .modal__header .icon {
+                --color-foreground: var(--color-blue);
             }
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4046,11 +4109,10 @@ toastr, toolbar, tooltip, widget, wizard;
         }
 
         &-positive {
-            .modal__header {
-                .icon {
-                    --color-foreground: var(--color-green);
-                }
+            .modal__header .icon {
+                --color-foreground: var(--color-green);
             }
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4062,6 +4124,8 @@ toastr, toolbar, tooltip, widget, wizard;
     }
 
 }
+
+
 
 @layer navs {
 
@@ -4801,6 +4865,9 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &__nav {
             flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         &__actions {
@@ -4854,8 +4921,10 @@ toastr, toolbar, tooltip, widget, wizard;
         cursor: default;
 
         &-anchor {
-            display: contents;
+            display: block;
+            width: 100%;
         }
+
 
         &--anchored {
             position: fixed;
@@ -5294,9 +5363,4 @@ toastr, toolbar, tooltip, widget, wizard;
             transition: all .3s cubic-bezier(.4, 0, .2, 1);
         }
     }
-}
-
-
-.p2000 {
-    min-height: 150vh;
 }

@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DateInputStories from './DateInput.stories';
+import DateInputComponent from '../DateInput';
+ 
+<Meta of={DateInputStories} />
+ 
+
+# DateInput Component
+
+Het `DateInput` component biedt een gestileerde en gebruiksvriendelijke manier om datums in te voeren binnen formulieren. Het ondersteunt zowel inline gebruik als integratie met `react-hook-form` via de `FormDateInput` variant, inclusief validatie. Dit component maakt gebruik van standaard HTML-date inputs en voegt extra functionaliteit toe zoals labels, kleurvarianten, inline-modus, placeholders en foutmeldingen bij invalid input.
+
+## Belangrijkste functionaliteiten
+
+- **Inline en variant ondersteuning**: Toon een datumveld inline of met een specifieke stylingvariant.
+- **Validatie**: Toon foutmeldingen wanneer een datum niet correct is ingevuld of verplicht is.
+- **Form-integratie**: Gebruik `FormDateInput` om naadloos met `react-hook-form` te werken.
+- **Custom styling**: Pas kleur en variant aan via props.
+- **Live updates**: Veranderingen aan de datum worden direct doorgegeven via de `onChange` callback.
+- **Gebruiksvriendelijk**: Ondersteunt placeholders, labels en gebruik van HTML5 datumtype input.
+
+Het component is ideaal voor gebruik in formulieren waarbij nauwkeurige datumselectie, validatie en consistente styling belangrijk zijn.
+
+
+
+### Default
+
+<Canvas of={DateInputStories.Default} />
+
+
+### Props
+ 
+<Controls />

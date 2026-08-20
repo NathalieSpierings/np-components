@@ -1,4 +1,4 @@
-import { DatagridColumnFilterType } from "./DatagridColumnFilter";
+import { DatagridColumnFilterType, DatagridFilterOperator } from "./DatagridColumnFilter";
 
 export const textOperators = [
     { label: "Bevat", value: "contains" },
@@ -6,7 +6,7 @@ export const textOperators = [
     { label: "Gelijk aan", value: "equals" },
     { label: "Ongeljk aan", value: "notEquals" },
     { label: "Begint met", value: "beginsWith" },
-    { label: "Eindigd met", value: "endsWith" },
+    { label: "Eindigt met", value: "endsWith" },
     { label: "Leeg", value: "blank" },
     { label: "Niet leeg", value: "notBlank" },
 ];
@@ -44,5 +44,17 @@ export function getOperators(type: DatagridColumnFilterType) {
         case "text":
         default:
             return textOperators;
+    }
+}
+
+export function getDefaultOperator( type: DatagridColumnFilterType): DatagridFilterOperator | undefined {
+    switch (type) {
+        case "text":
+            return "contains";
+        case "number":
+        case "date":
+            return "equals";
+        default:
+            return undefined;
     }
 }

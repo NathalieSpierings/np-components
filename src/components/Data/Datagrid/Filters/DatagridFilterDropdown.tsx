@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
-import { ColorDefinitions, IconDefinitions } from "../../../../lib/utils/definitions";
-import { Dropdown } from "../../../Forms/Dropdown/Dropdown";
-import Multiselect, { MultiselectItemType } from "../../../Forms/Multiselect/Multiselect";
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
+import Dropdown from "../../../Forms/Dropdown/Dropdown";
+import Multiselect, { MultiselectItem } from "../../../Forms/Multiselect/Multiselect";
 import { Select } from "../../../Forms/Select/Select";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
 import { DatagridColumnFilterValue, DatagridFilterOption, isActiveColumnFilter } from "./DatagridColumnFilter";
-import { getOperators } from "./DatagridFilterOperators";
+import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
 import Search from "../../../Base/Search/Search";
+import Button from "../../../UI/Button/Button";
+import Tooltip from "../../../UI/Tooltip/Tooltip";
 
 export interface DatagridFilterDropdownProps<TData> {
     column: DatagridRowConfig<TData>;
@@ -24,72 +26,116 @@ export default function DatagridFilterDropdown<TData>({
     onChange,
     enableDropdownToggleLabel = false
 }: Readonly<DatagridFilterDropdownProps<TData>>) {
+
     const filter = column.filter;
 
     const options = useMemo<DatagridFilterOption[]>(() => {
-        if (!filter) return [];
+        if (!filter) {
+            return [];
+        }
 
-        if (filter.options) return filter.options;
+        if (filter.options) {
+            return filter.options;
+        }
 
         if (filter.optionsSource && dataRaw) {
             return filter.optionsSource(dataRaw).map((item) =>
                 filter.mapOption
                     ? filter.mapOption(item)
-                    : { label: String(item), value: String(item) }
+                    : {
+                        label: String(item),
+                        value: String(item)
+                    }
             );
         }
 
         return [];
     }, [filter, dataRaw]);
 
-    if (!filter) return null;
+    const multiselectItems = useMemo<MultiselectItem[]>(() => {
+        return options.map((option) => ({
+            id: option.value,
+            content: option.label
+        }));
+    }, [options]);
 
-    const multiselectItems: MultiselectItemType[] = options.map((option) => ({
-        id: option.value,
-        content: option.label,
-    }));
+    if (!filter) {
+        return null;
+    }
 
-    const update = (patch: Partial<DatagridColumnFilterValue>) => {
+    const defaultOperator = getDefaultOperator(filter.type);
+
+    const update = (
+        patch: Partial<DatagridColumnFilterValue>
+    ) => {
         onChange({
+            operator: value?.operator ?? defaultOperator,
             ...value,
             ...patch,
         });
     };
 
-    const clear = () => onChange(undefined);
 
-    const isBlankOperator = value?.operator === "blank" || value?.operator === "notBlank";
-    const isBetweenOperator = value?.operator === "between";
+    const clear = () => {
+        onChange(undefined);
+    };
+
+
+
+    const isBlankOperator =
+        value?.operator === "blank" ||
+        value?.operator === "notBlank";
+
+    const isBetweenOperator =
+        value?.operator === "between";
 
     const active = isActiveColumnFilter(value);
 
     return (
-        <Dropdown  
+        <Dropdown
             dropdownToggle={{
                 prefix: (<Icon icon={IconDefinitions.filter} color={active ? ColorDefinitions.Primary : undefined} />),
-                label:  enableDropdownToggleLabel ? column.title : undefined,                
-            }}        
+                label: enableDropdownToggleLabel ? column.title : undefined,
+            }}
+            dropdownFooter={{
+                content: (
+                    <div>
+                        <Tooltip content="Filter wissen">
+                            <Button variant="ghost" color={ColorDefinitions.Rose30} onClick={clear} size={SizeDefinitions.Small} >
+                                <Icon icon={IconDefinitions.funnel_cross} />
+                                Filter wissen
+                            </Button>
+                        </Tooltip>
+                    </div>
+                ),
+                border: true
+            }}
+
         >
             <div className="datagrid__filter__dropdown">
                 {filter.type === "select" ? (
                     <Multiselect
                         items={multiselectItems}
                         selected={value?.values ?? []}
-                        setSelected={(selected) =>
-                            onChange({
-                                values: selected,
-                            })
+                        onSelectionChange={(selected) => {
+                            const values = selected.map(String);
+
+                            onChange(
+                                values.length > 0 ? { values } : undefined
+                            );
+                        }}
+                        selectMultiple={
+                            filter.multiSelect ?? false
                         }
-                        collectionSelectMultiple={filter.multiSelect ?? false}
-                        showSearch
-                        showCheckAll={filter.multiSelect ?? false}
+                        enableSearch
+                        enableCheckAll={filter.multiSelect ?? false}
                     />
                 ) : (
                     <>
                         <div>
-
-                            <Select small
-                                value={value?.operator ?? ""}
+                            <Select
+                                small
+                                value={value?.operator ?? getDefaultOperator(filter.type) ?? ""}
                                 defaultLabel="Kies filter..."
                                 onValueChange={(operator) =>
                                     update({

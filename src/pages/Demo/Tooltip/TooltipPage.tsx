@@ -1,9 +1,7 @@
 import React, { ReactElement, useRef, useState } from "react";
-import { Link } from "react-router";
-import Tooltip from "../../../components/UI/Tooltip/Tooltip";
-import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";
-import Icon from "../../../components/UI/Icons/Icon/Icon";
 import { Fieldset } from "../../../components/Typography/Fieldset";
+import Tooltip from "../../../components/UI/Tooltip/Tooltip";
+import { ColorDefinitions } from "../../../lib/utils/definitions";
 
 const TooltipPage = ({
 }): ReactElement => {
@@ -30,6 +28,7 @@ const TooltipPage = ({
     return (
         <section className="centered centered--wide">
             <h3>Welkom to the tooltip demo</h3>
+
 
             <Fieldset legend="Directions" className="mt-4">
                 <div className="row">
@@ -97,20 +96,44 @@ const TooltipPage = ({
             </Fieldset>
 
             <Fieldset legend="OnMobile" className="mt-4">
-             <Tooltip
+                <Tooltip
                     content="I will flip to left on mobile or tablet"
                     direction='right'
                     background={ColorDefinitions.Magenta}>
                     Hover me
-                </Tooltip>   
+                </Tooltip>
 
-<br/><br/>
-                 <Tooltip
+                <br /><br />
+                <Tooltip
                     content="I will flip to right on mobile or tablet"
                     direction='left'
                     background={ColorDefinitions.Magenta}>
                     Hover me
                 </Tooltip>
+            </Fieldset>
+
+
+            <Fieldset legend="Tooltip overflow" className="mt-4">
+               
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="truncate" style={{ maxWidth: '200px' }}>
+                                    <Tooltip overflowTooltip>
+                                        {organisationName}
+                                    </Tooltip>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </Fieldset>
 
 
@@ -132,78 +155,10 @@ const TooltipPage = ({
                         Dit is de volledige tekst die niet volledig zichtbaar is in de container.
                     </Tooltip>
                 </div>
-                <div className="mt-4">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="truncate" style={{ maxWidth: '200px' }}>
-                                    <Tooltip overflowTooltip>
-                                        {organisationName}
-                                    </Tooltip>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div className="mt-4">
-                    <Tooltip
-                        overflowTooltip
-                        direction="bottom"
-                        content={
-                            <>
-                                <strong>Organisatie</strong>
-                                <br />
-                                Dit is extra informatie die buiten de tabelcel mag verschijnen.
-                            </>
-                        }
-                    >
-                        Hover voor details
-                    </Tooltip>
-                </div>
-            </Fieldset>
-
-
-            <Fieldset legend="Tooltips on anchors" className="mt-4">
-                <button
-                    ref={buttonRef}
-                    onMouseEnter={() => setEnabled(true)}
-                    onMouseLeave={() => setEnabled(false)}
-                >
-                    Save
-                </button>
-
-                <Tooltip
-                    mode="anchored"
-                    anchorRef={buttonRef}
-                    enabled={enabled}
-                    content="Opslaan"
-                    direction="top"
-                />
-
-
-                <span
-                    ref={iconRef}
-                    onMouseEnter={() => setShowInfo(true)}
-                    onMouseLeave={() => setShowInfo(false)}
-                >
-                    ℹ️
-                </span>
-
-                <Tooltip
-                    mode="anchored"
-                    anchorRef={iconRef}
-                    enabled={showInfo}
-                    content="Meer informatie"
-                    direction="right"
-                />
+                
 
             </Fieldset>
+
 
             <Fieldset legend="Tooltips on click" className="mt-4">
                 <button
@@ -260,6 +215,50 @@ const TooltipPage = ({
                     direction="top-right"
                 />
             </Fieldset>
+
+            <Fieldset legend="Tooltips on anchors" className="mt-4">
+
+
+                <Tooltip
+                    mode="anchored"
+                    anchorRef={buttonRef}
+                    enabled={enabled}
+                    content="Opslaan"
+                    direction="top"
+                />
+
+
+                <button
+                    ref={buttonRef}
+                    onMouseEnter={() => setEnabled(true)}
+                    onMouseLeave={() => setEnabled(false)}
+                >
+                    Save
+                </button>
+
+            </Fieldset>
+
+            <Fieldset legend="Tooltips on anchor with icon" className="mt-4">
+
+
+                <span
+                    ref={iconRef}
+                    onMouseEnter={() => setShowInfo(true)}
+                    onMouseLeave={() => setShowInfo(false)}
+                >
+                    ℹ️
+                </span>
+
+                <Tooltip
+                    mode="anchored"
+                    anchorRef={iconRef}
+                    enabled={showInfo}
+                    content="Meer informatie"
+                    direction="right"
+                />
+
+            </Fieldset>
+
 
         </section>
     )

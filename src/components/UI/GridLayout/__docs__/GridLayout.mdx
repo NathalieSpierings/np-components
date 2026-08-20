@@ -1,0 +1,53 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as GridLayoutStories from './GridLayout.stories';
+import GridLayoutComponent from '../GridLayout';
+ 
+<Meta of={GridLayoutStories} />
+ 
+
+# GridLayout Component
+
+Deze componenten bieden een flexibele grid-layout structuur met een optionele drawer. Ideaal voor dashboards of interfaces met een zijpaneel dat in- en uitklapbaar is.
+
+## Belangrijkste componenten en functionaliteiten
+
+### GridLayout
+
+- **Beschrijving**: Hoofdcontainer voor een grid-layout met optionele drawer.  
+- **Props**:
+  - `open` – boolean om drawer open of gesloten te zetten.
+  - `openDrawer` – callback om drawer-status te wijzigen.
+  - `drawerContent` – inhoud van de drawer.
+  - `drawerTitle` – titel van de drawer.
+  - `drawerHeaderBorderColor` – kleur van de drawer-header border.
+  - `dividerBorderColor` – kleur van de scheidingslijn in de drawer.
+- **Functionaliteiten**:
+  - Flexibele container voor grid-content.
+  - Ondersteunt een in- en uitklapbare drawer.
+  - Custom styling van drawer en scheidingslijnen.
+
+
+### GridLayoutDrawer
+
+- **Beschrijving**: Drawer component binnen `GridLayout`.  
+- **Props**:
+  - `title` – titel van de drawer.
+  - `headerBorderColor` – kleur van de header border.
+  - `dividerBorderColor` – kleur van de scheidingslijn.
+  - `open` – drawer open/gesloten status.
+  - `openDrawer` – callback om drawer te openen of sluiten.
+- **Functionaliteiten**:
+  - Drawer kan open- en dichtgeklapt worden.
+  - Bevat een header met titel en sluitknop (`DismissButton`).
+  - Ondersteunt custom borders voor header en divider.
+
+
+### Default
+
+<Canvas of={GridLayoutStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

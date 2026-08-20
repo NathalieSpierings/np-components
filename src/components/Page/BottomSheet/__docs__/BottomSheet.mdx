@@ -1,0 +1,28 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as BottomSheetStories from './BottomSheet.stories';
+import BottomSheetComponent from '../BottomSheet';
+ 
+<Meta of={BottomSheetStories} />
+ 
+
+# BottomSheet Component
+
+De `BottomSheet` component wordt gebruikt om tijdelijke content of acties van onderaf het scherm te tonen, zoals extra opties, formulieren of meldingen.
+
+## Belangrijkste functionaliteiten
+
+- **Open en sluitbaar:** Kan worden geopend en gesloten via de `open` prop en de `openBottomSheet` callback.
+- **Dismiss-knop:** Bevat een standaard sluitknop (`DismissButton`) aan de onderkant van het paneel.
+- **Flexibele inhoud:** Ondersteunt elk type child-componenten, zoals tekst, formulieren of knoppen.
+- **Animatie via CSS:** Toont en verbergt de bottom sheet met de class `shown`.
+
+
+### Default
+
+<Canvas of={BottomSheetStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

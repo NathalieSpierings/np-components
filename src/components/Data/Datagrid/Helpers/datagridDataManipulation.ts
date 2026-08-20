@@ -2,6 +2,7 @@ import moment from 'moment';
 import { normalizeDate } from '../../../../lib/helpers/helpers';
 import { DatagridRowConfig } from '../Config/DatagridRowConfig';
 import { DatagridSortConfig } from '../Config/DatagridSort';
+import { getNestedValue } from './datagridTypeHelpers';
 
 const orderMap = {
     desc: -1,
@@ -26,17 +27,19 @@ const getPropConfig = <TData>(
     return config[0];
 };
 
-const getValue = <TData>(val: any, prop: string, propertyConfigs?: DatagridRowConfig<TData>[]): any => {
-    const retVal = val[prop];
+const getValue = <TData>(
+    item: TData, 
+    prop: string, 
+    propertyConfigs?: DatagridRowConfig<TData>[]
+): any => {
+    const rawValue = getNestedValue(item, prop as any);
     const config = getPropConfig(prop, propertyConfigs);
 
-    if (!config) {
-        return retVal;
+    if (!config?.transformValue) {
+        return rawValue;
     }
 
-    const transform = config.transformValue ?? ((x: any) => x);
-
-    return transform(retVal);
+     return config.transformValue(rawValue as any);
 };
 
 export function defaultSort<TData>(
@@ -93,14 +96,6 @@ export const getStringValue = (val: any): string => {
     return val + '';
 };
 
-const _defaultSearch = (val: string, searchTerm: string) => {
-    if (!val || !searchTerm) {
-        return false;
-    }
-
-    return val.toLowerCase().includes(searchTerm.toLowerCase());
-};
-
 
 export const debounce = (func: any, timeout = 300) => {
     let timer: ReturnType<typeof setTimeout>;
@@ -122,8 +117,12 @@ export const defaultSearch = <TData>(
 
     return data.filter(item =>
         propertyConfigs?.some(col => {
-            const rawVal = (item as any)[col.prop];
-            if (rawVal == null) return false;
+            
+            const rawVal = getNestedValue(item, col.prop);
+
+            if (rawVal == null) {
+                return false;
+            }
 
             const filterType = col.filter?.type ?? 'text';
 
@@ -153,4 +152,5 @@ export const defaultSearch = <TData>(
         }) ?? false
     );
 };
+
 

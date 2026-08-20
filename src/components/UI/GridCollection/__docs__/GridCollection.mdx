@@ -1,0 +1,41 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as GridCollectionStories from './GridCollection.stories';
+import GridCollectionComponent from '../GridCollection';
+ 
+<Meta of={GridCollectionStories} />
+ 
+
+# GridCollection Component
+
+`GridCollection` is een containercomponent voor het weergeven van een verzameling items in een grid. De layout van het grid kan worden aangepast via de `view` prop.
+
+## Belangrijkste functionaliteiten
+
+- **Grid-layout:** Items worden automatisch in een grid geplaatst.  
+- **Dynamische weergave:** De `view` prop bepaalt de kolomindeling of andere view-stijlen.  
+- **Flexibel content:** Alle kinderen die in de component worden geplaatst, worden netjes gerenderd binnen het grid.
+
+
+# GridCollectionViewSelector
+
+`GridCollectionViewSelector` is een bedieningscomponent waarmee gebruikers de layout van een grid-collectie kunnen aanpassen.  
+De beschikbare weergaven zijn lijstweergave of meerdere kolommen (2 tot 4 kolommen).
+
+## Belangrijkste functionaliteiten
+
+- **Selecteerbare weergave:** Biedt knoppen voor het kiezen van lijstweergave of een kolomlay-out (2, 3 of 4 kolommen).  
+- **Visuele feedback:** De actieve weergave wordt visueel gemarkeerd.  
+- **Tooltip ondersteuning:** Elke knop toont een tooltip met een korte beschrijving.  
+- **Flexibel gebruik:** De component stuurt de geselecteerde optie terug via de `setViewOption` callback.
+
+
+
+### Default
+
+<Canvas of={GridCollectionStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

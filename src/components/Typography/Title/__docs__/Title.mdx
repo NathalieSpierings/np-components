@@ -1,0 +1,23 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TitleStories from './Title.stories';
+import TitleComponent from '../Title';
+ 
+<Meta of={TitleStories} />
+ 
+
+# Title Component
+
+De `Title` component wordt gebruikt om een pagina- of sectietitel weer te geven. 
+Je kunt de tekst optioneel dempen met de `mute` prop.
+
+---
+
+### Default
+
+<Canvas of={TitleStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -40,7 +40,6 @@ const filterMenuItems = (
         .filter((item): item is DropdownMenuItem => item !== null);
 };
 
-
 export interface DropdownMenuItem {
     id?: string | number;
     label?: ReactNode;
@@ -53,78 +52,21 @@ export interface DropdownMenuItem {
 
 }
 
-export interface DropdownMenuProps {
-    items: DropdownMenuItem[];
-    searchTerm?: string;
-    forceOpenSubmenus?: boolean;
-    noResultsText?: string;
-}
-
-export function DropdownMenu({
-    items,
-    searchTerm = "",
-    forceOpenSubmenus = false,
-    noResultsText = "Geen resultaten"
-
-}: Readonly<DropdownMenuProps>) {
-
-    const filteredItems = filterMenuItems(items, searchTerm);
-
-    const hasIcons = useMemo(
-        () => filteredItems.some(item => !!item.icon),
-        [filteredItems]
-    );
-
-    const hasNestedItems = useMemo(
-        () => filteredItems.some(item => !!item.items?.length),
-        [filteredItems]
-    );
-
-
-    if (filteredItems.length === 0) {
-        return (
-            <div className="dropdown__menu">
-                <div className="dropdown__menu__node">
-                    <div className="dropdown__menu__item disabled">
-                        <div className="dropdown__menu__item__content">
-                            {noResultsText}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-
-    return (
-        <div className="dropdown__menu">
-            {filteredItems.map((item, idx) => (
-                <DropdownMenuNode
-                    key={item.id ?? idx}
-                    item={item}
-                    hasIcons={hasIcons}
-                    hasNestedItems={hasNestedItems}
-                    forceOpenSubmenus={
-                        forceOpenSubmenus || !!searchTerm
-                    }
-                />
-            ))}
-        </div>
-    );
-}
-
 export interface DropdownMenuNodeProps {
     item: DropdownMenuItem;
     forceOpenSubmenus?: boolean;
     hasIcons?: boolean;
     hasNestedItems?: boolean;
+    onItemClick?: () => void;
 }
 
-export function DropdownMenuNode({
+
+function DropdownMenuNode({
     item,
     forceOpenSubmenus = false,
     hasIcons = false,
-    hasNestedItems = false
+    hasNestedItems = false,
+    onItemClick
 }: Readonly<DropdownMenuNodeProps>) {
 
     const itemRef = useRef<HTMLButtonElement>(null);
@@ -229,6 +171,7 @@ export function DropdownMenuNode({
                     onClick={() => {
                         if (!hasChildren && !item.disabled) {
                             item.onClick?.();
+                            onItemClick?.();
                         }
                     }}
                 >
@@ -269,7 +212,12 @@ export function DropdownMenuNode({
                             zIndex: 10000,
                         }}
                     >
-                        <DropdownMenu items={item.items ?? []} />
+                        <DropdownMenu
+                            items={item.items ?? []}
+                            onItemClick={
+                                onItemClick
+                            }
+                        />
                     </div>,
                     document.body
                 )
@@ -277,3 +225,69 @@ export function DropdownMenuNode({
         </div >
     );
 }
+
+
+
+export interface DropdownMenuProps {
+    items: DropdownMenuItem[];
+    searchTerm?: string;
+    forceOpenSubmenus?: boolean;
+    noResultsText?: string;
+    onItemClick?: () => void;
+}
+
+function DropdownMenu({
+    items,
+    searchTerm = "",
+    forceOpenSubmenus = false,
+    noResultsText = "Geen resultaten",
+    onItemClick
+}: Readonly<DropdownMenuProps>) {
+
+    const filteredItems = filterMenuItems(items, searchTerm);
+
+    const hasIcons = useMemo(
+        () => filteredItems.some(item => !!item.icon),
+        [filteredItems]
+    );
+
+    const hasNestedItems = useMemo(
+        () => filteredItems.some(item => !!item.items?.length),
+        [filteredItems]
+    );
+
+    if (filteredItems.length === 0) {
+        return (
+            <div className="dropdown__menu">
+                <div className="dropdown__menu__node">
+                    <div className="dropdown__menu__item disabled" style={{ gridTemplateColumns: '1fr' }}>
+                        <div className="dropdown__menu__item__content">
+                            {noResultsText}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+
+
+    return (
+        <div className="dropdown__menu">
+            {filteredItems.map((item, idx) => (
+                <DropdownMenuNode
+                    key={item.id ?? idx}
+                    item={item}
+                    hasIcons={hasIcons}
+                    hasNestedItems={hasNestedItems}
+                    forceOpenSubmenus={
+                        forceOpenSubmenus || !!searchTerm
+                    }
+                    onItemClick={onItemClick}
+                />
+            ))}
+        </div>
+    );
+}
+
+export default DropdownMenu;

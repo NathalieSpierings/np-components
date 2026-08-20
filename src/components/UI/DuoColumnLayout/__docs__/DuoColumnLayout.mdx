@@ -1,0 +1,43 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DuoColumnLayoutStories from './DuoColumnLayout.stories';
+import DuoColumnLayoutComponent from '../DuoColumnLayout';
+ 
+<Meta of={DuoColumnLayoutStories} />
+ 
+
+# DuoColumnLayout Component
+
+Deze componenten maken een flexibele tweekoloms layout mogelijk, waarin individuele kolommen kunnen worden gestyled en gepositioneerd.
+
+## Belangrijkste componenten en functionaliteiten
+
+### DuoColumnLayout
+- **Beschrijving**: Container voor een duo-kolom layout.  
+- **Props**:
+  - `columnDivider` – voegt een scheidingslijn toe tussen kolommen.
+  - `gap` – bepaalt de ruimte tussen kolommen.
+  - `css` – extra CSS-classes voor custom styling.
+- **Functionaliteiten**:
+  - Flexibele twee-koloms indeling.
+  - Eenvoudig toe te passen scheidingslijnen en kolom-afstanden.
+
+### DuoColumn
+- **Beschrijving**: Individuele kolom binnen een duo-kolom layout.  
+- **Props**:
+  - `background` – achtergrondkleur van de kolom.
+  - `duoColumnCss` – extra CSS-classes voor styling.
+- **Functionaliteiten**:
+  - Toepassen van achtergrondkleur per kolom.
+  - Aanvullende styling via custom CSS.
+  - Geschikt voor combinatie met `DuoColumnLayout` om responsieve of visueel onderscheidende kolommen te creëren.
+
+
+### Default
+
+<Canvas of={DuoColumnLayoutStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

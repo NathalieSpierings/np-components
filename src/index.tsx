@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 
 import "./assets/scss/main.scss";
+import "./assets/scss/demo.scss";
 
 export * from './lib/helpers/helpers';
 export * from './lib/helpers/functions';

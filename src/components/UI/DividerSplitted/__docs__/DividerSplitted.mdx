@@ -1,0 +1,26 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DividedSplittedStories from './DividerSplitted.stories';
+import DividedSplittedComponent from '../DividerSplitted';
+ 
+<Meta of={DividedSplittedStories} />
+ 
+
+# DividerSplitted Component
+
+`DividerSplitted` is een component dat een visuele scheidingslijn met een label rendert. Het label wordt in het midden geplaatst en de lijn kan optioneel van kleur worden voorzien.
+
+## Belangrijkste functionaliteiten
+
+- **Label in het midden:** Het opgegeven label wordt gecentreerd tussen de scheidingslijnen.  
+- **Kleuraanpassing:** Tekst- en randkleur kunnen worden aangepast met `ColorDefinitions`.  
+- **Custom CSS:** Extra styling kan meegegeven worden via `dividerSplittedCss`.  
+
+### Default
+
+<Canvas of={DividerSplittedStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

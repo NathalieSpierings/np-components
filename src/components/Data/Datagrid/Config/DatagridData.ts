@@ -1,10 +1,11 @@
 import { DatagridColumnFilterValue } from "../Filters/DatagridColumnFilter";
 import { PaginationData } from "../Pagination";
-import { DatagridRowConfig } from "./DatagridRowConfig";
+import { DatagridRowConfig, NestedKeyOf } from "./DatagridRowConfig";
 import { DatagridSortConfig } from "./DatagridSort";
 
+
 export type ColumnFilters<TData> = Partial<
-    Record<Extract<keyof TData, string>, DatagridColumnFilterValue>
+    Record<NestedKeyOf<TData>, DatagridColumnFilterValue>
 >;
 
 export interface DatagridGetDataArguments<TData> {

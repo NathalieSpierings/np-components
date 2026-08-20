@@ -1,0 +1,37 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DatepickerStories from './Datepicker.stories';
+import DatepickerComponent from '../Datepicker';
+ 
+<Meta of={DatepickerStories} />
+ 
+
+# DatePicker Component
+
+Het `Datepicker` component biedt een veelzijdige manier om datums te selecteren binnen formulieren. Het ondersteunt enkele datums, datumbereiken, inline-weergave, aangepaste inputvelden, icoontjes, clearable input en validatie. Het component kan ook meerdere datums selecteren en kwartalen weergeven, waardoor het geschikt is voor een breed scala aan toepassingen, van eenvoudige datumvelden tot complexere kalenderinteracties.
+
+### Belangrijkste functionaliteiten
+
+- **Single Date**: Selecteer één datum met optionele placeholder en validatie.
+- **Inline Mode**: Toon de kalender direct in de pagina in plaats van in een dropdown.
+- **Disabled State**: Voorkom dat gebruikers een datum selecteren.
+- **Custom Input**: Gebruik een eigen inputcomponent, bijvoorbeeld met label of styling.
+- **Icon Support**: Toon een kalendericoon en schakel de kalender open bij klikken op het icoon.
+- **Clearable Input**: Maak de geselecteerde datum eenvoudig leeg.
+- **Range Selection**: Selecteer een start- en einddatum met ondersteuning voor één kalender of twee velden.
+- **Quarter Picker**: Selecteer een kwartaal in plaats van een specifieke datum.
+- **Multiple Dates**: Selecteer meerdere losse datums.
+- **Form Integration**: Integreer met `react-hook-form` voor validatie en formulierafhandeling.
+
+Gebruik het `Datepicker` component om intuïtieve en consistente datumselecties in je applicatie te implementeren.
+
+
+### Default datepicker
+
+<Canvas of={DatepickerStories.Default} />
+
+
+
+### Props
+ 
+<Controls />
+

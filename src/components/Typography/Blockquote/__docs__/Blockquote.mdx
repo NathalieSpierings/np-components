@@ -1,0 +1,24 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as BlockquoteStories from './Blockquote.stories';
+import BlockquoteComponent from '../Blockquote';
+ 
+<Meta of={BlockquoteStories} />
+ 
+# Blockquote Component
+
+Het **`Blockquote`** component wordt gebruikt om een citaat of opvallende tekst te markeren, vaak met een optionele bronvermelding.
+
+## Belangrijkste functionaliteiten
+
+- **Citaatweergave**: Weergeeft een bloktekst (`text`) als citaat.  
+- **Bronvermelding**: Optionele `citeText` om de auteur of bron van het citaat te tonen.  
+- **Eenvoudig gebruik**: Minimalistische structuur voor snelle integratie in content.
+### Default
+
+<Canvas of={BlockquoteStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

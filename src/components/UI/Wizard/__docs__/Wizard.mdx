@@ -1,0 +1,39 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as WizardStories from './Wizard.stories';
+import WizardComponent from '../Wizard';
+ 
+<Meta of={WizardStories} />
+ 
+
+# Wizard Component
+
+De `Wizard` component biedt een intuïtieve manier om gebruikers door een reeks stappen te leiden, zoals bij configuraties, formulier-wizards of onboarding-processen.  
+Elke stap heeft een titel, inhoud en optionele validatie. De wizard ondersteunt navigatie tussen stappen en voltooiingsacties.
+
+
+
+## Belangrijkste functionaliteiten
+
+- **Meerdere stappen:** definieer een reeks stappen met titels en componentinhoud.  
+- **Validatie per stap:** elke stap kan een `isValid()` functie hebben om doorgang te bepalen.  
+- **Navigatie:** knoppen “Vorige” en “Volgende”, met uitschakeling op basis van status.  
+- **Voortgangsbalk:** toont de huidige positie binnen het totaal aantal stappen.  
+- **Dropdown-navigatie:** laat gebruikers terugkeren naar eerdere stappen.  
+- **Thema-ondersteuning:** integreert met `ColorDefinitions` voor styling.  
+
+
+# WizardProgressbar
+
+De `WizardProgressbar` component toont visueel de voortgang van een meerstapsproces, zoals binnen een `Wizard`.  
+De voortgang wordt bepaald op basis van het huidige stapnummer en het totaal aantal stappen.
+
+
+### Default
+
+<Canvas of={WizardStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

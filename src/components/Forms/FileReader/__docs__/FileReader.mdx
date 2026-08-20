@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as FileReaderStories from './FileReader.stories';
+import FileReaderomponent from '../FileReader';
+ 
+<Meta of={FileReaderStories} />
+ 
+# FileReader Component
+
+Het `FileReader` component biedt een complete oplossing voor het selecteren en verwerken van bestanden binnen een applicatie. Het combineert een bestandselector (`FileSelect`) met een actieknop om het bestand te verwerken via een callback. Het component ondersteunt uitgebreide stylingopties en configuraties voor zowel de bestandsselector als de knop, waardoor het flexibel inzetbaar is in diverse use-cases.
+
+## Belangrijkste functionaliteiten
+
+- **Bestandselectie**: Selecteer een enkel bestand met optionele bestandstypebeperkingen (`accept` prop).  
+- **Bestand verwerken**: Geef een `processContent` functie mee die het geselecteerde bestand verwerkt zodra de gebruiker op de actieknop klikt.  
+- **Actieknop**: Knop om het bestand te verwerken, met aanpasbare kleur, styling en disabled state tijdens het lezen.  
+- **Custom styling**: Pas kleuren, achtergrond, borders, rounding en CSS aan voor zowel de knop als de file collection.  
+- **Collection ondersteuning**: Toon een overzicht van geselecteerde bestanden, met opties zoals scrollbaar, selecteerbaar, hoverable en verschillende groottes.  
+- **Flexibele configuratie**: Ondersteunt enkele en multiple selectie, compacte weergave, medium-grootte items en diverse visuele varianten.  
+
+Het `FileReader` component is ideaal voor toepassingen waarin gebruikers bestanden moeten uploaden en direct verwerken, met behoud van een consistente en aanpasbare gebruikersinterface.
+
+### Default
+
+<Canvas of={FileReaderStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -1,43 +1,67 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import Checkbox from "../../../Forms/Checkbox/Checkbox";
 import Icon from "../../../UI/Icons/Icon/Icon";
+import Tooltip from "../../../UI/Tooltip/Tooltip";
 import { DatagridAction } from "../Config/DatagridAction";
-import { DatagridColumnRuntime, DatagridRenderedColumn } from "../Datagrid";
+import { DatagridRenderedColumn } from "../Datagrid";
+import { DatagridTableProps } from "./DatagridTable";
 
-export interface DatagridRowProps<TData extends { id: string | number }> {
+
+export type DatagridRowInheritedProps<
+    TData extends { id: string | number }
+> = Pick<
+    DatagridTableProps<TData>,
+    | "rowActions"
+    | "renderedColumns"
+    | "gridTemplateColumns"
+    | "checkedItems"
+    | "onRowsChecked"
+    | "useCheckboxes"
+    | "collapsibleRowData"
+    | "toggleCollapsibleRow"
+    | "rowSingleClickAction"
+    | "rowDoubleClickAction"
+    | "resizing"
+    | "renderColumnValue"
+    | "firstPinnedRight"
+    | "lastPinnedLeft"
+    | "getPinnedStyle"
+    | "lastColumnIndex"
+>;
+
+export interface DatagridRowProps<
+    TData extends { id: string | number }
+> extends DatagridRowInheritedProps<TData> {
     item: TData;
     selected: boolean;
     expanded: boolean;
-    rowActions: DatagridAction<TData>[];
-    renderedColumns: DatagridRenderedColumn<TData>[];
-    gridTemplateColumns: string;
-    checkedItems?: TData[];
-    onRowsChecked?: (checkedItems: TData[]) => void;
-    useCheckboxes: boolean;
-    collapsibleRowData?: (item: TData) => ReactElement;
-    toggleCollapsibleRow: (id: string | number) => void;
-    rowSingleClickAction?: (item: TData) => void;
-    rowDoubleClickAction?: (item: TData) => void;
-    resizing: {
-        prop: string;
-        startX: number;
-        startWidth: number;
-    } | null;
- renderColumnValue: (item: TData, column: DatagridColumnRuntime<TData>) => ReactNode;
-    firstPinnedRight?: string;
-    lastPinnedLeft?: string;
-    getPinnedStyle: (column: DatagridRenderedColumn<TData>) => React.CSSProperties;
 }
 
-export function DatagridRow<TData extends { id: string | number; }>({
+export type RenderDataCellContext<TData extends { id: string | number }> =
+    Pick<
+        DatagridRowProps<TData>,
+        | "item"
+        | "resizing"
+        | "renderColumnValue"
+        | "firstPinnedRight"
+        | "lastPinnedLeft"
+        | "getPinnedStyle"
+        | "lastColumnIndex"
+    >;
+
+
+
+export function DatagridRow<
+    TData extends { id: string | number }
+>({
     item,
     selected,
     expanded,
     rowActions,
     renderedColumns,
-    gridTemplateColumns,   
+    gridTemplateColumns,
     useCheckboxes,
     checkedItems = [],
     onRowsChecked,
@@ -50,21 +74,15 @@ export function DatagridRow<TData extends { id: string | number; }>({
     firstPinnedRight,
     lastPinnedLeft,
     getPinnedStyle,
-
+    lastColumnIndex
 }: Readonly<DatagridRowProps<TData>>): ReactElement {
 
-    // Checkbox handling
-    const handleCheckedItems = (items: TData[]) => {
-        onRowsChecked?.(items);
-    };
-    
     return (
-        <div key={item.id}>
+        <div>
             <div
-                className={["datagrid__grid__row", selected ? "selected" : ""].join(" ")}
+                className={["datagrid__grid__row", selected ? "selected" : ""].filter(Boolean).join(" ")}
                 style={{ gridTemplateColumns }}
-                role="button"
-                tabIndex={0}
+                role="none"
                 onClick={() => rowSingleClickAction?.(item)}
                 onDoubleClick={() => rowDoubleClickAction?.(item)}
                 onKeyDown={(event) => {
@@ -74,172 +92,309 @@ export function DatagridRow<TData extends { id: string | number; }>({
                     }
                 }}
             >
+                {renderedColumns.map(
+                    (renderedColumn, index) => {
 
-                {renderedColumns.map((renderedColumn) => {
+                        if (useCheckboxes && onRowsChecked && renderedColumn.type === "checkbox") {
+                            return renderCheckbox(
+                                renderedColumn,
+                                item,
+                                checkedItems,
+                                onRowsChecked,
+                                getPinnedStyle
+                            );
+                        }
 
-                    let pinnedClass = "";
-                    if (renderedColumn.pinned === "left") {
-                        pinnedClass = "datagrid__grid__cell--pinned-left";
-                    } else if (renderedColumn.pinned === "right") {
-                        pinnedClass = "datagrid__grid__cell--pinned-right";
-                    }
+                        if (renderedColumn.type === "collapsible") {
+                            return renderCollapsible(
+                                renderedColumn,
+                                item,
+                                expanded,
+                                toggleCollapsibleRow,
+                                getPinnedStyle
+                            );
+                        }
 
-                     if (onRowsChecked && renderedColumn.type === "checkbox") {
-                        return (
-                            <div
-                                key={`${item.id}-${renderedColumn.key}`}
-                                data-column-key={renderedColumn.key}
-                                className={[
-                                    "datagrid__grid__cell",
-                                    "datagrid__grid__cell--center",
-                                    pinnedClass,
-                                ].filter(Boolean).join(" ")}
-                                style={getPinnedStyle(renderedColumn)}
-                            >
-                                <Checkbox color={ColorDefinitions.Accent}
-                                    checked={checkedItems.some((x) => x.id === item.id)}
-                                    onChange={
-                                        useCheckboxes
-                                            ? (checked) =>
-                                                handleCheckedItems(
-                                                    checked
-                                                        ? [...checkedItems, item]
-                                                        : checkedItems.filter((x) => x.id !== item.id)
-                                                )
-                                            : undefined
-                                    } />
-                            </div>
+                        if (rowActions.length > 0 && renderedColumn.type === "rowActions") {
+                            return renderRowActions(
+                                renderedColumn,
+                                index,
+                                item,
+                                rowActions,
+                                lastColumnIndex,
+                                getPinnedStyle
+                            );
+                        }
+
+                        return renderDataCell(
+                            renderedColumn,
+                            index,
+                            {
+                                item,
+                                resizing,
+                                renderColumnValue,
+                                firstPinnedRight,
+                                lastPinnedLeft,
+                                getPinnedStyle,
+                                lastColumnIndex
+                            }
                         );
                     }
-
-                    if (renderedColumn.type === "collapsible") {
-                        return (
-                            <div
-                                key={`${item.id}-${renderedColumn.key}`}
-                                data-column-key={renderedColumn.key}
-                                className={[
-                                    "datagrid__grid__cell",
-                                    "datagrid__grid__cell--center",
-                                    pinnedClass,
-                                ].filter(Boolean).join(" ")}
-                                style={getPinnedStyle(renderedColumn)}
-                            >
-                                <button
-                                    type="button"
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        toggleCollapsibleRow(item.id);
-                                    }}
-                                    style={{ cursor: "pointer" }}
-                                >
-                                    {expanded ? (
-                                        <Icon
-                                            icon={IconDefinitions.angle_down}
-                                            size={SizeDefinitions.Small}
-                                            hoverBackground={ColorDefinitions.SurfaceLight}
-                                        />
-                                    ) : (
-                                        <Icon
-                                            icon={IconDefinitions.angle_right}
-                                            size={SizeDefinitions.Small}
-                                            hoverBackground={ColorDefinitions.SurfaceLight}
-                                        />
-                                    )}
-                                </button>
-                            </div>
-                        );
-                    }                   
-
-                    if (rowActions.length > 0 && renderedColumn.type === "rowActions") {
-                        return (
-                            <div
-                                key={`${item.id}-${renderedColumn.key}`}
-                                data-column-key={renderedColumn.key}
-                                className={[
-                                    "datagrid__grid__cell",
-                                    renderedColumn.pinned === "right" ? "datagrid__grid__cell--right" : "",
-                                    pinnedClass,
-                                ].filter(Boolean).join(" ")}
-                                style={getPinnedStyle(renderedColumn)}
-                            >
-                                {rowActions.map((action, index) => {
-                                    const disabled = action.disabled?.(item) ?? false;
-
-                                    if (action.element) {
-                                        return (
-                                            <React.Fragment key={action.label ?? index}>
-                                                {action.element(item)}
-                                            </React.Fragment>
-                                        );
-                                    }
-
-                                    return (
-                                        <button
-                                            key={action.label ?? index}
-                                            type="button"
-                                            disabled={disabled}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                action.action?.(item, async () => undefined);
-                                            }}
-                                        >
-                                            {action.icon}
-                                            {action.label}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        );
-                    }
-
-                    const column = renderedColumn.column;
-
-                    if (!column) {
-                        return null;
-                    }
-
-                    const css = [
-                        "datagrid__grid__cell",
-                        pinnedClass,
-                        column.prop === lastPinnedLeft ? "datagrid__grid__cell--pinned-left--last" : "",
-                        column.prop === firstPinnedRight ? "datagrid__grid__cell--pinned-right--first" : "",
-                        resizing?.prop === column.prop ? "datagrid__grid--resizing" : "",
-                    ].filter(Boolean).join(" ");
-
-                    return (
-                        <div
-                            key={`${item.id}-${renderedColumn.key}`}
-                            className={css}
-                            data-column-key={renderedColumn.key}
-                            style={getPinnedStyle(renderedColumn)}
-                        >
-                            {renderColumnValue(item, column)}
-                        </div>
-                    );
-
-                })}
-
+                )}
             </div>
 
             <AnimatePresence initial={false}>
-                {expanded && collapsibleRowData && (
+                {expanded && collapsibleRowData ? (
                     <div className="datagrid__grid__collapsible">
-                        <div >
-                            <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.25, ease: "easeInOut" }}
-                                style={{ overflow: "hidden" }}
-                                className="datagrid__grid__collapsible__row"
-                            >
-                                {collapsibleRowData(item)}
-                            </motion.div>
-                        </div>
+                        <motion.div
+                            initial={{
+                                height: 0,
+                                opacity: 0
+                            }}
+                            animate={{
+                                height: "auto",
+                                opacity: 1
+                            }}
+                            exit={{
+                                height: 0,
+                                opacity: 0
+                            }}
+                            transition={{
+                                duration: 0.25,
+                                ease: "easeInOut"
+                            }}
+                            style={{ overflow: "hidden" }}
+                            className="datagrid__grid__collapsible__row"
+                        >
+                            {React.createElement(
+                                collapsibleRowData,
+                                { item }
+                            )}
+                        </motion.div>
                     </div>
-                )}
+                ) : null}
             </AnimatePresence>
+        </div>
+    );
+}
 
+
+function getPinnedClass<TData>(
+    renderedColumn: DatagridRenderedColumn<TData>
+): string {
+    if (renderedColumn.pinned === "left") {
+        return "datagrid__grid__cell--pinned-left";
+    }
+
+    if (renderedColumn.pinned === "right") {
+        return "datagrid__grid__cell--pinned-right";
+    }
+
+    return "";
+}
+
+function renderCheckbox<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    item: TData,
+    checkedItems: TData[],
+    onRowsChecked: (checkedItems: TData[]) => void,
+    getPinnedStyle: (
+        column: DatagridRenderedColumn<TData>
+    ) => React.CSSProperties
+): ReactElement {
+
+    const checked = checkedItems.some(
+        (checkedItem) => checkedItem.id === item.id
+    );
+
+    const handleChange = (isChecked: boolean) => {
+        const nextCheckedItems = isChecked
+            ? [...checkedItems, item]
+            : checkedItems.filter(
+                (checkedItem) => checkedItem.id !== item.id
+            );
+
+        onRowsChecked(nextCheckedItems);
+    };
+
+    return (
+        <button
+            type="button"
+            key={`${item.id}-${renderedColumn.key}`}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__grid__cell",
+                "datagrid__grid__cell--center",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getPinnedStyle(renderedColumn)}
+            onClick={(event) => event.stopPropagation()}
+        >
+            <Checkbox
+                color={ColorDefinitions.Accent}
+                checked={checked}
+                onChange={handleChange}
+            />
+        </button>
+    );
+}
+
+function renderCollapsible<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    item: TData,
+    expanded: boolean,
+    toggleCollapsibleRow: (id: string | number) => void,
+    getPinnedStyle: (
+        column: DatagridRenderedColumn<TData>
+    ) => React.CSSProperties
+): ReactElement {
+    return (
+        <div
+            key={`${item.id}-${renderedColumn.key}`}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__grid__cell",
+                "datagrid__grid__cell--center",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getPinnedStyle(renderedColumn)}
+        >
+            <button
+                type="button"
+                onClick={(event) => {
+                    event.stopPropagation();
+                    toggleCollapsibleRow(item.id);
+                }}
+                style={{ cursor: "pointer" }}
+            >
+                <Icon
+                    icon={
+                        expanded
+                            ? IconDefinitions.angle_down
+                            : IconDefinitions.angle_right
+                    }
+                    size={SizeDefinitions.Small}
+                    hoverBackground={ColorDefinitions.SurfaceLight}
+                />
+            </button>
+        </div>
+    );
+}
+
+function renderRowActions<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    index: number,
+    item: TData,
+    rowActions: DatagridAction<TData>[],
+    lastColumnIndex: number,
+    getPinnedStyle: (
+        column: DatagridRenderedColumn<TData>
+    ) => React.CSSProperties
+): ReactElement {
+    return (
+        <div
+            key={`${item.id}-${renderedColumn.key}`}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__grid__cell",
+                renderedColumn.pinned === "right"
+                    ? "datagrid__grid__cell--right"
+                    : "",
+                index === lastColumnIndex
+                    ? "datagrid__grid__cell--last-column"
+                    : "",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getPinnedStyle(renderedColumn)}
+        >
+            {rowActions.map((action, actionIndex) => {
+                const disabled =
+                    action.disabled?.(item) ?? false;
+
+                if (action.element) {
+                    return (
+                        <React.Fragment
+                            key={action.label ?? actionIndex}
+                        >
+                            {action.element(item)}
+                        </React.Fragment>
+                    );
+                }
+
+                return (
+                    <button
+                        key={action.label ?? actionIndex}
+                        type="button"
+                        disabled={disabled}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            action.action?.(item);
+                        }}
+                    >
+                        {action.icon}
+                        {action.label}
+                    </button>
+                );
+            })}
+        </div>
+    );
+}
+
+function renderDataCell<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    index: number,
+    context: RenderDataCellContext<TData>
+): ReactElement | null {
+    const {
+        item,
+        resizing,
+        renderColumnValue,
+        firstPinnedRight,
+        lastPinnedLeft,
+        getPinnedStyle,
+        lastColumnIndex
+    } = context;
+
+    const column = renderedColumn.column;
+
+    if (!column) {
+        return null;
+    }
+
+    const css = [
+        "datagrid__grid__cell",
+        index === lastColumnIndex ? "datagrid__grid__cell--last-column" : "",
+        getPinnedClass(renderedColumn),
+        column.prop === lastPinnedLeft ? "datagrid__grid__cell--pinned-left--last" : "", column.prop === firstPinnedRight
+            ? "datagrid__grid__cell--pinned-right--first" : "", resizing?.prop === column.prop
+            ? "datagrid__grid--resizing" : ""
+    ].filter(Boolean).join(" ");
+
+    const value = (
+        <div className="datagrid__grid__cell__content__label">
+            {renderColumnValue(item, column)}
+        </div>
+    );
+
+    return (
+        <div
+            key={`${item.id}-${renderedColumn.key}`}
+            className={css}
+            data-column-key={renderedColumn.key}
+            style={getPinnedStyle(renderedColumn)}
+        >
+            <div className="datagrid__grid__cell__content">
+                {column.showTooltip ? (
+                    <Tooltip
+                        overflowTooltip
+                        content={column.tooltipContent ?? undefined}
+                    >
+                        {value}
+                    </Tooltip>
+                ) : (
+                    value
+                )}
+            </div>
         </div>
     );
 }

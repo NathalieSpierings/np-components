@@ -1,0 +1,35 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as PageOverlayStories from './PageOverlay.stories';
+import PageOverlayComponent from '../PageOverlay';
+ 
+<Meta of={PageOverlayStories} />
+ 
+
+# PageOverlay Component
+
+De `PageOverlay` component toont een volledige pagina-overlay bovenop de huidige inhoud. Het ondersteunt een dismiss-knop, centrering van de inhoud, scroll tracking en animaties bij openen en sluiten. Deze component is handig voor modale weergaven of tijdelijke navigatie-gebaseerde overlays.
+
+---
+
+## Belangrijkste kenmerken
+
+- **Volledige pagina-overlay**: bedekt de volledige viewport met optionele achtergrondkleur.
+- **Centrale inhoud**: inhoud kan gecentreerd worden met verschillende breedtes via `centeredSize`.
+- **Dismiss-knop**: configureerbare knop om de overlay te sluiten met opties voor label, kleur, grootte, positie en styling.
+- **Scroll tracking**: houdt de scrollpositie bij en biedt deze via `ScrollContext` aan de kinderen.
+- **Animaties**: soepele fade-in en slide-up animatie bij openen en sluiten van de overlay.
+- **Nav-based sluiting**: kan terugnavigeren via `useNavigate` van React Router bij dismiss.
+- **Flexibele styling**: props voor achtergrondkleur en extra CSS.
+
+---
+
+
+### Default
+
+<Canvas of={PageOverlayStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

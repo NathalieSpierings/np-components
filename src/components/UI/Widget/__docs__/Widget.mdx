@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as WidgetStories from './Widget.stories';
+import WidgetComponent from '../Widget';
+ 
+<Meta of={WidgetStories} />
+ 
+
+# Widget Component
+
+De `Widget` component is een veelzijdige container die wordt gebruikt om visueel aantrekkelijke informatieblokken te maken.  
+Hij ondersteunt zowel **verticale** als **horizontale layouts**, met optionele prefix- en postfix-elementen, afbeeldingen of aangepaste inhoud.
+
+---
+
+## Belangrijkste kenmerken
+
+- **Flexibele structuur:** kan tekst, afbeeldingen of React-elementen bevatten.  
+- **Layout-opties:** ondersteunt zowel verticale als horizontale oriëntatie via `horizontal`.  
+- **Styling via props:** combineert dynamische CSS-klassen en kleurthema’s (`imageBackground`, `imageCss`).  
+- **Afbeelding en iconen:** voeg eenvoudig een afbeelding of icoon toe aan de widget.  
+- **Prefix / Postfix:** toon extra elementen vóór of na de hoofdinhoud.  
+- **Interactie:** optionele `onClick` callback maakt widgets aanklikbaar.  
+
+
+
+### Default
+
+<Canvas of={WidgetStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

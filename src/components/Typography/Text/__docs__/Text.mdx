@@ -1,0 +1,51 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TextStories from './Text.stories';
+import TextComponent from '../Text';
+
+<Meta of={TextStories} />
+
+
+# Text Component
+
+Het `Text` component wordt gebruikt om tekst weer te geven met optionele truncatie en tooltip-functionaliteit. 
+Het ondersteunt meerdere regels, uitlijning, gemuteerde stijl en een tooltip bij afgeknotte tekst.
+
+### Default
+
+<Canvas of={TextStories.Default} />
+
+
+### Text posities
+
+#### Left (default)
+<Canvas of={TextStories.PositionLeft} />
+
+#### Center
+<Canvas of={TextStories.PositionCenter} />
+
+#### Right
+<Canvas of={TextStories.PositionRight} />
+
+
+
+### Muted
+
+<Canvas of={TextStories.Default} />
+
+
+
+
+### Regels
+
+#### Een regel
+<Canvas of={TextStories.OneLine} />
+
+#### Twee regels
+<Canvas of={TextStories.TwoLines} />
+
+#### Drie regels
+<Canvas of={TextStories.ThreeLines} />
+
+
+#### Met tooltip
+<Canvas of={TextStories.OneLineWithTooltip} />

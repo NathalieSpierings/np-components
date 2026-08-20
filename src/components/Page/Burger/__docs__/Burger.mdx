@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as BurgerStories from './Burger.stories';
+import BurgerComponent from '../Burger';
+ 
+<Meta of={BurgerStories} />
+ 
+
+# Burger Component
+
+Het `Burger` component wordt gebruikt om een hamburgermenu-knop weer te geven voor navigatie in een interface. Het is ontworpen voor situaties waarin er zijbalken aanwezig zijn, en biedt een eenvoudige manier om mobiele zijbalken te openen of te sluiten. Het component toont drie lijnen en een label "Menu", en kan een callback aanroepen om de zichtbaarheid van de mobiele zijbalk te toggelen.
+
+## Belangrijkste functionaliteiten
+
+- **Conditional Rendering**: Wordt alleen weergegeven als er zijbalken aanwezig zijn (`hasSidebars` is true).
+- **Mobile Toggle**: Roept optioneel een functie aan om de mobiele zijbalk te openen of te sluiten (`setShowSidebarMobile`).
+- **Eenvoudige styling**: Bestaat uit drie lijnen en een titel, typisch voor een hamburger-menu.
+- **Aanpasbaar via props**: Ondersteunt optionele props voor mobiele weergave en statebeheer.
+
+Gebruik het `Burger` component om een consistente en gebruiksvriendelijke hamburgerknop te implementeren voor mobiele of responsive navigatie.
+
+
+### Default
+
+<Canvas of={BurgerStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

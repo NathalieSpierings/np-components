@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as SliderStories from './Slider.stories';
+import SliderComponent from '../Slider';
+ 
+<Meta of={SliderStories} />
+ 
+
+# Slider Component
+
+De `Slider` component biedt een horizontaal scrollbare container waarmee gebruikers door inhoud kunnen bladeren met behulp van pijlen of pijltjestoetsen.  
+Ideaal voor carrousels, taglijsten of horizontale kaartenrijen.
+
+## Belangrijkste functionaliteiten
+
+- **Horizontaal scrollen:** Gebruikers kunnen met de pijlen of het toetsenbord (← en →) horizontaal door de inhoud navigeren.  
+- **Gladde animaties:** Scrollt met een vloeiende overgang dankzij `scrollBy({ behavior: 'smooth' })`.  
+- **Toetsenbordnavigatie:** Ondersteunt sneltoetsen om links en rechts te bladeren.  
+- **Flexibel gebruik:** Alle children worden weergegeven binnen een scrollbare container.  
+- **Responsief ontwerp:** Geschikt voor zowel desktop- als mobiele weergave.  
+
+
+### Default
+
+<Canvas of={SliderStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

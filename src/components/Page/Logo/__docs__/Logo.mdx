@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as LogoStories from './Logo.stories';
+import LogoComponent from '../Logo';
+ 
+<Meta of={LogoStories} />
+ 
+
+# Logo Component
+
+De `Logo`-component wordt gebruikt om een logo weer te geven. Standaard wordt het label "promeetec" gebruikt als er geen label wordt meegegeven.
+
+## Belangrijkste functionaliteiten
+
+- **Optioneel URL-attribuut:** Je kunt een `url` meegeven om het logo van een externe bron te laden.
+- **Label ondersteuning:** Het `label` attribuut toont een tekstlabel onder of bij het logo. Standaardwaarde is `"promeetec"`.
+- **Base64 fallback:** Als er geen URL is opgegeven, wordt een ingebouwde Base64-versie van het logo gebruikt.
+- **Volledig React FC:** Geschikt voor gebruik in functionele componenten met TypeScript en props-interfaces.
+- **Eenvoudig te hergebruiken:** Kan overal in de applicatie worden ingezet zonder extra configuratie.
+
+
+
+### Default
+
+<Canvas of={LogoStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

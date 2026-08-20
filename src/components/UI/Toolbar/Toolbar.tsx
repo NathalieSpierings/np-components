@@ -39,7 +39,7 @@ const Toolbar = ({
                     </div>
                 )}
 
-                 {showSeparator && <div className="toolbar__separator" />}
+                {showSeparator && <div className="toolbar__separator" />}
 
                 {hasActions && (
                     <div className="toolbar__actions">

@@ -1,32 +1,18 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
+import React, { FC, PropsWithChildren, ReactNode, useEffect } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
-import { CollectionViewSelectorOption } from './CollectionViewSelector';
-import ContentItem from '../ContentItem/ContentItem';
+import ContentItem, { ContentItemType } from '../ContentItem/ContentItem';
 import Icon from '../Icons/Icon/Icon';
+import { CollectionViewSelectorOption } from './CollectionViewSelector';
 
-const isSelected = (option: CollectionItemType, selected: string[]) => {
+const isSelected = (option: CollectionItem, selected: string[]) => {
     return selected.includes(option.id ?? '');
 };
 
-export type CollectionItemPosition = 'item-start' | 'item-center' | 'item-end';
-export type contentJustifyPosition = 'justify-start' | 'justify-center' | 'justify-end';
-
-export interface CollectionItemType {
+export type CollectionItemVariant = 'default' | 'bordered' | 'underlined';
+export interface CollectionItem {
     id: string;
-    gap?: string;
-    prefix?: string | ReactElement;
-    prefixItemPosition?: CollectionItemPosition;
-    prefixGap?: string;
-    contentCss?: string;
-    content?: string | ReactElement;
-    contentItemPosition?: CollectionItemPosition;
-    contentJustifyPosition?: contentJustifyPosition;
-    postfix?: string | ReactElement;
-    postfixItemPosition?: CollectionItemPosition;
-    postfixGap?: string;
-    separatorAfterPrefix?: boolean;
-    separatorAfterMeta?: boolean;
+    content: ContentItemType;
     collapsibleContent?: ReactNode;
     defaultOpen?: boolean;
     collapsibleArrowPosition?: 'left' | 'right';
@@ -34,31 +20,31 @@ export interface CollectionItemType {
 }
 
 export interface CollectionProps extends PropsWithChildren {
-    items: CollectionItemType[] | undefined;
+    items: CollectionItem[];
+    itemVariant?: CollectionItemVariant;
     view?: CollectionViewSelectorOption;
     scrollable?: boolean;
-    scrollheight?: string;
+    scrollheight?: number;
     colorMute?: ColorDefinitions;
     color?: ColorDefinitions;
     background?: ColorDefinitions;
     borderColor?: ColorDefinitions;
-    itemBorder?: 'bordered' | 'underlined';
     rounded?: SizeDefinitions;
     compact?: boolean;
     medium?: boolean;
     hoverable?: boolean;
     selectable?: boolean;
     selectMultiple?: boolean;
-    collectionCss?: string;
     selected?: string[];
     setSelected?: (selected: string[]) => void;
-
     activeItem?: string;
     setActiveItem?: (id: string | undefined) => void;
+    collectionCss?: string;
 }
 
 const Collection: FC<CollectionProps> = ({
     items = [],
+    itemVariant = "default",
     view,
     scrollable,
     scrollheight,
@@ -68,11 +54,10 @@ const Collection: FC<CollectionProps> = ({
     color,
     background,
     borderColor,
-    itemBorder,
     rounded,
-    hoverable,
-    selectable,
-    selectMultiple,
+    hoverable = false,
+    selectable = false,
+    selectMultiple = false,
     collectionCss = '',
     selected,
     setSelected,
@@ -124,8 +109,6 @@ const Collection: FC<CollectionProps> = ({
         );
     }, [items]);
 
-  
-
     const handleItemClick = (id: string) => {
         if (!selectable || !setSelected) return;
 
@@ -150,7 +133,7 @@ const Collection: FC<CollectionProps> = ({
         view,
         collectionCss,
         scrollable ? 'scroll' : '',
-        borderColor && itemBorder ? `collection--${itemBorder}` : '',
+        itemVariant ? `collection--${itemVariant}` : '',
         compact ? `collection--compact` : '',
         medium ? `collection--md` : '',
         hoverable ? 'collection--hover' : '',
@@ -160,9 +143,11 @@ const Collection: FC<CollectionProps> = ({
         <div
             className={cls}
             style={
-                {
-                    '--collection-scroll-height': scrollheight || '300px',
-                } as React.CSSProperties
+                scrollheight != null
+                    ? ({
+                        '--collection-scroll-height': `${scrollheight}px`,
+                    } as React.CSSProperties)
+                    : undefined
             }
         >
             <AnimatePresence>
@@ -189,7 +174,7 @@ const Collection: FC<CollectionProps> = ({
                                 <div className={`dot-indicator ${item.active ? 'bg-primary' : ''}`} />
                             )}
 
-                            {item.prefix}
+                            {item.content.prefix}
                         </>
                     );
 
@@ -198,7 +183,7 @@ const Collection: FC<CollectionProps> = ({
                             {item.active && (
                                 <div className={`dot-indicator ${item.active ? 'bg-primary' : ''}`} />
                             )}
-                            {item.postfix}
+                            {item.content.postfix}
 
                             {arrowPosition === 'right' && arrow}
                         </>
@@ -243,19 +228,19 @@ const Collection: FC<CollectionProps> = ({
                                 <ContentItem
                                     item={{
                                         id: item.id,
-                                        gap: item.gap,
-                                        prefixGap: item.prefixGap,
-                                        prefixItemPosition: item.prefixItemPosition,
-                                        prefix: item.prefix || arrowPosition === 'left' ? prefix : undefined,
-                                        contentCss: item.contentCss,
-                                        content: item.content,
-                                        contentItemPosition: item.contentItemPosition,
-                                        contentJustifyPosition: item.contentJustifyPosition,
-                                        postfix: item.postfix || arrowPosition === 'right' ? postfix : undefined,
-                                        postfixItemPosition: item.postfixItemPosition,
-                                        postfixGap: item.postfixGap,
-                                        separatorAfterPrefix: item.separatorAfterPrefix,
-                                        separatorAfterMeta: item.separatorAfterMeta,
+                                        gap: item.content.gap,
+                                        prefixGap: item.content.prefixGap,
+                                        prefixItemPosition: item.content.prefixItemPosition,
+                                        prefix: item.content.prefix || arrowPosition === 'left' ? prefix : undefined,
+                                        contentCss: item.content.contentCss,
+                                        content: item.content.content,
+                                        contentItemPosition: item.content.contentItemPosition,
+                                        contentJustifyPosition: item.content.contentJustifyPosition,
+                                        postfix: item.content.postfix || arrowPosition === 'right' ? postfix : undefined,
+                                        postfixItemPosition: item.content.postfixItemPosition,
+                                        postfixGap: item.content.postfixGap,
+                                        separatorAfterPrefix: item.content.separatorAfterPrefix,
+                                        separatorAfterMeta: item.content.separatorAfterMeta,
                                     }}
                                 />
                             </div>

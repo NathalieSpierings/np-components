@@ -1,0 +1,40 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+import AvatarComponent from '../Avatar';
+ 
+<Meta of={AvatarStories} />
+ 
+
+# Avatar Component
+
+De `Avatar` component toont een enkele avatar die kan bestaan uit initialen, een icoon, een afbeelding of een predefined avatar.
+
+## Belangrijkste functionaliteiten
+
+- **Flexibele content:** Initialen, iconen, URL-afbeeldingen of predefined avatars.
+- **Styling opties:** Border, shadow, vierkant of rond, achtergrondkleur en borderkleur.
+- **Grootte aanpasbaar:** Via `size` prop.
+- **Float-optie:** Laat avatars zweven, bijvoorbeeld in een lijst of naast tekst.
+
+
+# Stacked avatar
+
+De `StackedAvatar` component toont een rij van avatars die elkaar deels overlappen, met een teller voor extra gebruikers die niet zichtbaar zijn.
+
+## Belangrijkste functionaliteiten
+
+- **Meerdere avatars:** Toon een lijst van `ReactElement` avatars.
+- **Teller:** Geeft aan hoeveel extra avatars er zijn met `+{counter}`.
+- **Aanpasbare grootte:** Optionele `size`-prop om de avatar-groep te schalen.
+- **Sleutelbeheer:** Zorgt voor unieke keys bij het renderen van avatars.
+
+
+### Default
+
+<Canvas of={AvatarStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -3,7 +3,7 @@ import { ColorDefinitions } from "../../../lib/utils/definitions";
 
 export type PaginationPosition = "inside table" | "outside table";
 export type PaginationInfoPosition = "left" | "right";
-
+export type PaginationSizes = | "5" | "10" | "25" | "50" | "100";
 export interface PaginationData {
     page: number;
     perPage: number;
@@ -14,11 +14,12 @@ export interface PaginationProps {
     pagination: PaginationData;
     setPagination: (newPagination: PaginationData) => void;
     color?: ColorDefinitions;
-    rowInfoPosition?: 'left' | 'right'
-    maxVisiblePages?: number;
+    rowInfoPosition?: 'left' | 'right';
+    pageSizeOptions?: number[];
 }
 
-const options = [5, 10, 25, 50, 100, 250, 500, 1000];
+const defaultOptions = [5, 10, 25, 50, 100];
+const maxVisiblePages = 4;
 
 const Pagination = ({
     total,
@@ -26,7 +27,7 @@ const Pagination = ({
     setPagination,
     color,
     rowInfoPosition,
-    maxVisiblePages = 4
+    pageSizeOptions = defaultOptions
 }: PaginationProps) => {
 
     const totalPages = Math.max(1, Math.ceil(total / pagination.perPage));
@@ -38,6 +39,15 @@ const Pagination = ({
     if (maxPageNumber - minPageNumber + 1 < maxVisiblePages) {
         minPageNumber = Math.max(maxPageNumber - maxVisiblePages + 1, 1);
     }
+
+    const startRecord = total === 0
+        ? 0
+        : (pagination.page - 1) * pagination.perPage + 1;
+
+    const endRecord = Math.min(
+        pagination.page * pagination.perPage,
+        total
+    );
 
     const visiblePages = useMemo(
         () =>
@@ -61,9 +71,10 @@ const Pagination = ({
     };
 
     return (
-        <div className={`datagrid__paging ${rowInfoPosition} ${color ? 'bg-'+ color :''}`}>
-              <div className="datagrid__pager">
-                <button
+        <div className={`datagrid__paging ${rowInfoPosition} ${color ? 'bg-' + color : ''}`}>
+            <div className="datagrid__pager">
+                <button 
+                    type="button"
                     disabled={pagination.page === 1}
                     className="datagrid__pager__item first"
                     onClick={() => handleClick(1)}
@@ -75,7 +86,8 @@ const Pagination = ({
                     </div>
                 </button>
 
-                <button
+                <button 
+                    type="button"
                     disabled={pagination.page === 1}
                     className="datagrid__pager__item prev"
                     onClick={() => handleClick(pagination.page - 1)}
@@ -88,7 +100,8 @@ const Pagination = ({
                 </button>
 
                 {visiblePages.map((number) => (
-                    <button
+                    <button 
+                    type="button"
                         key={number}
                         className={`datagrid__pager__item ${pagination.page === number ? "bg-primary active" : ""
                             }`}
@@ -100,7 +113,8 @@ const Pagination = ({
                     </button>
                 ))}
 
-                <button
+                <button 
+                    type="button"
                     disabled={pagination.page === totalPages}
                     className="datagrid__pager__item next"
                     onClick={() => handleClick(pagination.page + 1)}
@@ -112,7 +126,8 @@ const Pagination = ({
                     </div>
                 </button>
 
-                <button
+                <button 
+                    type="button"
                     disabled={pagination.page === totalPages}
                     className="datagrid__pager__item last"
                     onClick={() => handleClick(totalPages)}
@@ -133,7 +148,7 @@ const Pagination = ({
                         value={pagination.perPage}
                         onChange={(e) => handleSelect(Number(e.target.value))}
                     >
-                        {options.map((x) => (
+                        {pageSizeOptions.map((x) => (
                             <option key={x} value={x}>
                                 {x}
                             </option>
@@ -142,18 +157,15 @@ const Pagination = ({
                 </div>
 
             </div>
+
             <span className="datagrid__paging__row-summary">
-                <span className="datagrid__paging__row-summary--number">{pagination.page}</span>
+                <span className="datagrid__paging__row-summary--number">{startRecord}</span>
                 <span>tot</span>
-                <span className="datagrid__paging__row-summary--number">{pagination.perPage}</span>
+                <span className="datagrid__paging__row-summary--number">{endRecord}</span>
                 <span>van</span>
                 <span className="datagrid__paging__row-summary--number">{total}</span>
-            </span>
-           
-          
+            </span>         
         </div>
-
-      
     );
 };
 

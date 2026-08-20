@@ -1,0 +1,27 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as QuotationStories from './Quotation.stories';
+import QuotationComponent from '../Quotation';
+ 
+<Meta of={QuotationStories} />
+ 
+
+# Quotation Component
+
+Het **`Quotation`** component wordt gebruikt om korte citaten inline weer te geven met behulp van het HTML `<q>` element.
+
+## Belangrijkste functionaliteiten
+
+- **Inline citaat**: Plaatst de opgegeven tekst in een `<q>` element binnen een paragraaf (`<p>`).  
+- **Eenvoudige API**: Accepteert slechts één prop: `text`, voor de inhoud van het citaat.  
+- **Semantisch correct**: Geschikt voor korte, inline citaten binnen lopende tekst.
+
+
+### Default
+
+<Canvas of={QuotationStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

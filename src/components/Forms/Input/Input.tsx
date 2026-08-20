@@ -7,6 +7,7 @@ export type ValidationState = 'none' | 'invalid' | 'valid';
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'disabled' | 'readOnly'> {
     label?: string;
+    customContent?: ReactNode;
     infoText?: string;
     type?: InputType;
     variant?: InputVariant;
@@ -28,28 +29,29 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
-        label,
-        infoText,
-        type = 'text',
-        variant = 'default',
-        validationErrorMessage,
-        validationBottomPosition,
-        validationState,
-        small,
-        addonPrefix,
-        addonSuffix,
-        color,
-        background,
-        inputCss = '',
-        labelCss = '',
-        formGroupCss = '',
-        className,
-        onChange,
-        onValueChange,
-        readOnly,
-        disabled,
-        ...inputProps
-    },
+    label,
+    infoText,
+    customContent,
+    type = 'text',
+    variant = 'default',
+    validationErrorMessage,
+    validationBottomPosition,
+    validationState,
+    small,
+    addonPrefix,
+    addonSuffix,
+    color,
+    background,
+    inputCss = '',
+    labelCss = '',
+    formGroupCss = '',
+    className,
+    onChange,
+    onValueChange,
+    readOnly,
+    disabled,
+    ...inputProps
+},
     ref
 ): ReactElement => {
 
@@ -115,6 +117,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
             {addonSuffix && (<div className="form-group__suffix">{addonSuffix}</div>)}
 
             {infoText && (<div className="form-text">{infoText}</div>)}
+
+            {customContent}
 
             {validationErrorMessage && (
                 <span

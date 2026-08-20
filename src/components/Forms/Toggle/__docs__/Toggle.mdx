@@ -1,0 +1,31 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ToggleStories from './Toggle.stories';
+import ToggleComponent from '../Toggle';
+ 
+<Meta of={ToggleStories} />
+ 
+
+# Toggle Component
+
+Het **`Toggle`** component is een schakelaar die een binaire (aan/uit) status vertegenwoordigt.  
+Het is ontworpen voor situaties waarin gebruikers een instelling of voorkeur willen in- of uitschakelen, vergelijkbaar met een checkbox maar met een modernere visuele stijl.
+
+## Belangrijkste functionaliteiten
+
+- **Aan/uit functionaliteit**: Maakt het eenvoudig om boolean-waarden te beheren met visuele feedback.  
+- **Labelondersteuning**: Plaats labels links of rechts van de toggle met `labelPosition`.  
+- **Kleurthema’s**: Ondersteunt kleurvarianten via `color`, passend bij het ontwerp van de applicatie.  
+- **Validatie en foutmeldingen**: Toont validatieberichten via `validationErrorMessage` voor consistente formulierfeedback.  
+- **Integratie met React Hook Form**: De `FormToggle`-variant maakt eenvoudige koppeling aan formulieren mogelijk met `useController`.  
+- **Toegankelijkheid**: Inclusief `aria-checked` en een screen-reader-label (`sr-only`) voor betere toegankelijkheid.  
+- **Child-ondersteuning**: Laat aanvullende inhoud toe binnen het element, bijvoorbeeld beschrijvingen of hints.
+
+### Default
+
+<Canvas of={ToggleStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

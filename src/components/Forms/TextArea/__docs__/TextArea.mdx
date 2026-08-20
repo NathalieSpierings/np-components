@@ -1,0 +1,29 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TextAreaStories from './TextArea.stories';
+import TextAreaComponent from '../TextArea';
+ 
+<Meta of={TextAreaStories} />
+ 
+
+# TextArea Component
+
+Het **`TextArea`** component is een veelzijdig invoerveld voor meerregelige tekst, met ondersteuning voor labels, iconen en validatie.  
+Het is ontworpen voor formulieren waarin gebruikers langere invoer moeten kunnen geven, zoals beschrijvingen, opmerkingen of berichten.
+
+## Belangrijkste functionaliteiten
+
+- **Meerregelige invoer**: Gebruikers kunnen tekst over meerdere regels invoeren met configureerbare `rows` en `cols`.  
+- **Addon-ondersteuning**: Ondersteunt iconen vóór, na of bij focus van het veld via `addonIcon`, `addonPosition` en `addonVariant`.  
+- **Validatie-integratie**: Toont foutmeldingen via `validationErrorMessage` voor duidelijke feedback bij ongeldige invoer.  
+- **Stylingopties**: Ondersteunt kleurthema’s (`color`), inline weergave en varianten (`variant`) voor visuele consistentie.  
+- **Label en infotekst**: Biedt contextuele informatie aan gebruikers via `label` en `infoText`.  
+- **Realtime invoerupdates**: Via `onTextInput` worden tekstwijzigingen direct teruggekoppeld naar bovenliggende componenten.  
+- **Toegankelijk ontwerp**: Ondersteunt `autocomplete`, `placeholder` en semantische HTML voor gebruiksvriendelijkheid en toegankelijkheid.
+### Default
+
+<Canvas of={TextAreaStories.Default} />
+
+
+### Props
+ 
+<Controls />

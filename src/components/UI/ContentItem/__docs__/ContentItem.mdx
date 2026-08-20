@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ContentItemStories from './ContentItem.stories';
+import ContentItemComponent from '../ContentItem';
+ 
+<Meta of={ContentItemStories} />
+ 
+
+# ContentItem Component
+
+Het **`ContentItem`** component is een flexibele container voor het weergeven van gestructureerde inhoud, zoals titels, subtitels, acties en aanvullende metadata.  
+Het biedt een consistente manier om informatieblokken op te bouwen die zowel visueel als semantisch duidelijk zijn binnen lijsten of contentsecties.
+
+## Belangrijkste functionaliteiten
+
+- **Titel en subtitel ondersteuning**: Toon bovenliggende en onderliggende tekstinformatie met optionele `metaActions`.  
+- **Content weergave**: Ondersteunt zowel eenvoudige tekst als complexe React-elementen binnen `content`.  
+- **Prefix en postfix elementen**: Voeg iconen, knoppen of andere interactieve elementen toe vóór of na de hoofdinhoud.  
+- **Flexibele positionering**: Bepaal de positie van inhoud, prefix of postfix met `contentPositon`, `prefixPosition` en `postfixPosition`.  
+- **Afstandssturing met gap**: Controleer de ruimte tussen elementen via de `gap`-prop (`0`, `5`, `10`, `15`).  
+- **Visuele consistentie**: Ideaal voor herhaalde contentblokken zoals lijstitems, kaarten of overzichtsregels.  
+
+### Default
+
+<Canvas of={ContentItemStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

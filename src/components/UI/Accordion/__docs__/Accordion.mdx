@@ -1,0 +1,29 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as AccordionStories from './Accordion.stories';
+import AccordionComponent from '../Accordion';
+ 
+<Meta of={AccordionStories} />
+ 
+
+# Accordion
+
+`Accordion` is een component om content in meerdere uitklapbare secties te organiseren.  
+Elke sectie wordt weergegeven met een titel en kan worden open- of dichtgeklapt.
+
+## Belangrijkste functionaliteiten
+
+- **Accordion-secties:** Meerdere `AccordionSection`-componenten kunnen worden toegevoegd.
+- **Standaard open sectie:** Bepaal welke sectie standaard open is via `defaultOpenIndex`.
+- **Kleurconfiguratie:** Pas achtergrondkleur voor headers en content aan, en definieer een accentkleur.
+- **Automatische hoogteberekening:** De hoogte van de content wordt dynamisch aangepast bij openen of venstergrootte-aanpassing.
+- **Toegankelijkheid:** Ondersteunt `aria-expanded` en `aria-hidden` attributen voor screenreaders.
+
+### Default
+
+<Canvas of={AccordionStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

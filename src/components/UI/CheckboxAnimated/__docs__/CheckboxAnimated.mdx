@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as CheckboxAnimatedStories from './CheckboxAnimated.stories';
+import CheckboxAnimatedComponent from '../CheckboxAnimated';
+ 
+<Meta of={CheckboxAnimatedStories} />
+ 
+
+# CheckboxAnimated Component
+
+De `CheckboxAnimated` component is een checkbox met een animatie-effect bij het selecteren en deselecteren. Het ondersteunt zowel **controlled** als **uncontrolled** gebruik en kan optioneel een accentkleur hebben.
+
+## Belangrijkste functionaliteiten
+
+- **Controlled & uncontrolled:** Kan worden gebruikt met `checked` (controlled) of `defaultChecked` (uncontrolled).  
+- **Animaties:** Visueel feedback-effect bij aan/uit zetten met SVG-animatie.  
+- **Accent kleur:** Ondersteuning voor een thematische accentkleur via `accentColor`.  
+- **Toegankelijkheid:** `aria-checked`, `aria-disabled` en screen-reader tekst aanwezig.  
+- **Disabled:** Kan uitgeschakeld worden via `disabled` prop.  
+- **Events:** `onChange` callback voor wijzigingen en `onBlur` voor focus verlies.  
+
+
+### Default
+
+<Canvas of={CheckboxAnimatedStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

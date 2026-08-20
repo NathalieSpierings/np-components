@@ -1,0 +1,35 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as BasicLayoutStories from './BasicLayout.stories';
+import BasicLayoutComponent from '../BasicLayout';
+ 
+<Meta of={BasicLayoutStories} />
+ 
+
+# BasicLayout Component
+
+De `BasicLayout` component biedt een eenvoudige pagina-layout zonder sidebars.  
+Het combineert een header, content-area en optionele pagina loader.
+
+## Belangrijkste functionaliteiten
+
+- **Pagina loader:** toont een `PageLoader` component wanneer `loading` true is.
+- **Header ondersteuning:**  
+  - Toont `pageTitle` en breadcrumbs via `Header` component.  
+  - Header kan worden verborgen via layout context (`showHeader`).
+- **Content area:**  
+  - `Outlet` wordt gebruikt om nested routes te renderen.
+- **Layout context integratie:**  
+  - Respecteert `fullscreen` en `showHeader` vanuit `LayoutContext`.
+- **SVG sprite integratie:**  
+  - Inclusief globale `SvgSprite` voor iconen.
+
+
+### Default
+
+<Canvas of={BasicLayoutStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

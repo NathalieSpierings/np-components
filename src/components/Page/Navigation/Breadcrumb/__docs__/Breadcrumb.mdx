@@ -1,0 +1,31 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as BreadcrumbStories from './Breadcrumb.stories';
+import BreadcrumbComponent from '../Breadcrumb';
+ 
+<Meta of={BreadcrumbStories} />
+ 
+
+# Breadcrumb Component
+
+De `Breadcrumb` component toont een hiërarchische navigatie, zodat gebruikers kunnen zien waar ze zich bevinden in de applicatie en eenvoudig kunnen terugkeren naar vorige pagina’s.
+
+---
+
+## Belangrijkste kenmerken
+
+- **Hiërarchische navigatie**: toont een pad van links naar de huidige pagina.
+- **Actieve pagina markering**: de laatste breadcrumb wordt gemarkeerd als actieve pagina.
+- **Toegankelijk**: ondersteunt `aria-label` voor screenreaders.
+- **Flexibel gebruik**: items worden dynamisch gegenereerd via een array van objecten met `label` en `href`.
+
+---
+
+### Default
+
+<Canvas of={BreadcrumbStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

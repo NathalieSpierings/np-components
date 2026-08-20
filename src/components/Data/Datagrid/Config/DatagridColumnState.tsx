@@ -1,4 +1,4 @@
-export type DatagridPinnedPosition = "left" | "right" | null;
+import { DatagridPinnedPosition } from "../Datagrid";
 
 export interface DatagridColumnState {
   prop: string; 

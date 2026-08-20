@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as LinkStories from './Link.stories';
+import LinkComponent from '../Link';
+ 
+<Meta of={LinkStories} />
+ 
+
+# Link Component
+
+Het **`Link`** component wordt gebruikt om klikbare hyperlinks weer te geven met verschillende stijlen en effecten.
+
+## Belangrijkste functionaliteiten
+
+- **Label**: Geeft de zichtbare tekst van de link weer via de `label` prop.  
+- **Kleuren**: `color` voor standaard tekstkleur, `accentColor` voor extra styling.  
+- **Varianten**: Ondersteunt verschillende stijlen via de `variant` prop:
+  - `default`: normale link
+  - `flat`: knop-achtig met Ripple-effect
+  - `hover`: stijl verandert bij hover
+  - `underlined`: altijd onderstreept
+- **Ripple effect**: `rippleColor` definieert de kleur van het animatie-effect bij `flat` links.  
+- **HTML props**: Ondersteunt alle standaard `<a>` props zoals `href`, `target`, etc.  
+
+
+### Default
+
+<Canvas of={LinkStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -1,22 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
-import Multiselect, { MultiselectItemType } from "../../../Forms/Multiselect/Multiselect";
+import Multiselect, { MultiselectItem, MultiselectItemId } from "../../../Forms/Multiselect/Multiselect";
 import { Select } from "../../../Forms/Select/Select";
 import Button from "../../../UI/Button/Button";
-import Collection, { CollectionItemType } from "../../../UI/Collection/Collection";
+import Collection, { CollectionItem } from "../../../UI/Collection/Collection";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import { DatagridColumnFilterValue, DatagridFilterOption, isActiveColumnFilter } from "./DatagridColumnFilter";
-import { getOperators } from "./DatagridFilterOperators";
+import { DatagridColumnFilterValue, DatagridFilterOperator, DatagridFilterOption, isActiveColumnFilter } from "./DatagridColumnFilter";
+import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
 import Search from "../../../Base/Search/Search";
 
 export interface DatagridFilterListProps<TData> {
     dataRaw?: TData[];
     columns: DatagridRowConfig<TData>[];
     columnFilters: Record<string, DatagridColumnFilterValue | undefined>;
-    setColumnFilters: React.Dispatch<
-        React.SetStateAction<Record<string, DatagridColumnFilterValue | undefined>>
-    >;
+    setColumnFilters: React.Dispatch<React.SetStateAction<Record<string, DatagridColumnFilterValue | undefined>>>;
 }
 
 export default function DatagridFilterList<TData>({
@@ -25,6 +23,7 @@ export default function DatagridFilterList<TData>({
     columnFilters,
     setColumnFilters,
 }: Readonly<DatagridFilterListProps<TData>>) {
+
     const [activeItem, setActiveItem] = useState<string | undefined>();
 
     const filterColumns = useMemo(
@@ -39,7 +38,7 @@ export default function DatagridFilterList<TData>({
         setColumnFilters((current) => {
             const next = { ...current };
 
-            if (!value || !isActiveColumnFilter(value)) {
+            if (!value) {
                 delete next[prop];
             } else {
                 next[prop] = value;
@@ -49,15 +48,16 @@ export default function DatagridFilterList<TData>({
         });
     };
 
-    const collectionItems = useMemo<CollectionItemType[]>(() => {
+    const collectionItems = useMemo<CollectionItem[]>(() => {
         return filterColumns.map((column) => {
             const filter = column.filter;
-            const value = columnFilters[column.prop];
-            const active = isActiveColumnFilter(value);
 
             if (!filter) {
                 return undefined;
             }
+
+            const value = columnFilters[column.prop];
+            const active = isActiveColumnFilter(value);
 
             const options: DatagridFilterOption[] =
                 filter.options ??
@@ -72,13 +72,19 @@ export default function DatagridFilterList<TData>({
                     )
                     : []);
 
-            const multiselectItems: MultiselectItemType[] = options.map((option) => ({
+
+            const multiselectItems: MultiselectItem[] = options.map(option => ({
                 id: option.value,
-                content: option.label,
+                content: {
+                    content: option.label
+                }
             }));
+
+            const defaultOperator = getDefaultOperator(filter.type);
 
             const update = (patch: Partial<DatagridColumnFilterValue>) => {
                 setFilterValue(column.prop, {
+                    operator: value?.operator ?? defaultOperator,
                     ...value,
                     ...patch,
                 });
@@ -86,24 +92,27 @@ export default function DatagridFilterList<TData>({
 
             const clear = () => setFilterValue(column.prop, undefined);
 
-            const isBlankOperator =
-                value?.operator === "blank" || value?.operator === "notBlank";
 
+            const isBlankOperator = value?.operator === "blank" || value?.operator === "notBlank";
             const isBetweenOperator = value?.operator === "between";
+
+            const selectedValues: MultiselectItemId[] = value?.values ?? [];
 
             return {
                 id: column.prop,
                 defaultOpen: active,
                 active: active,
-                content: (
-                    <div className="datagrid__filter__collection__item">
-                        <span>{column.title ?? column.prop}</span>
+                content: {
+                    content: (
+                        <div className="datagrid__filter__collection__item">
+                            <span>{column.title ?? column.prop}</span>
 
-                        {active && (
-                            <span className="datagrid__filter__collection__item--active" />
-                        )}
-                    </div>
-                ),
+                            {active && (
+                                <span className="datagrid__filter__collection__item--active" />
+                            )}
+                        </div>
+                    )
+                },
                 collapsibleArrowPosition: "left",
                 collapsibleContent: (
                     <>
@@ -111,25 +120,29 @@ export default function DatagridFilterList<TData>({
                             {filter.type === "select" ? (
                                 <Multiselect
                                     items={multiselectItems}
-                                    selected={value?.values ?? []}
-                                    setSelected={(selected) =>
-                                        setFilterValue(column.prop, {
-                                            values: selected,
-                                        })
+                                    selected={selectedValues}
+                                    onSelectionChange={(selected) => {
+                                        const values = selected.map(String);
+
+                                        setFilterValue(
+                                            column.prop,
+                                            selected.length > 0 ? { values } : undefined
+                                        )
                                     }
-                                    collectionSelectMultiple={filter.multiSelect ?? false}
-                                    showSearch
-                                    showCheckAll={filter.multiSelect ?? false}
+                                    }
+                                    selectMultiple={filter.multiSelect ?? false}
+                                    enableSearch
+                                    enableCheckAll={filter.multiSelect ?? false}
                                 />
                             ) : (
                                 <>
                                     <Select
                                         small
-                                        value={value?.operator ?? ""}
+                                        value={value?.operator ?? defaultOperator ?? ""}
                                         defaultLabel="Kies filter..."
                                         onValueChange={(operator) =>
                                             update({
-                                                operator: operator as any,
+                                                operator: operator as DatagridFilterOperator,
                                                 value: "",
                                                 valueTo: "",
                                             })
@@ -176,7 +189,7 @@ export default function DatagridFilterList<TData>({
 
                         {active && (
                             <div className="datagrid__filter__collection__footer">
-                                <Button onClick={clear} size={SizeDefinitions.Small}>
+                                <Button onClick={clear} variant="ghost" color={ColorDefinitions.Rose30} size={SizeDefinitions.Small}>
                                     <Icon icon={IconDefinitions.funnel_cross} />
                                     Filter wissen
                                 </Button>
@@ -185,14 +198,13 @@ export default function DatagridFilterList<TData>({
                     </>
                 ),
             };
-        }).filter(Boolean) as CollectionItemType[];
-    }, [filterColumns, columnFilters, dataRaw, setColumnFilters]);
+        }).filter(Boolean) as CollectionItem[];
+    }, [filterColumns, columnFilters, dataRaw]);
 
     return (
         <Collection
             borderColor={ColorDefinitions.Surface}
             items={collectionItems}
-            hoverable
             compact
             collectionCss="datagrid__filter__collection"
             activeItem={activeItem}

@@ -63,10 +63,10 @@
     --columns: 12;
     --gap: 1.5rem;
 
-    --scrollbar-size: 12px;
-    --scrollbar-track: transparent;
-    --scrollbar-thumb: var(--color-theme-600);
-    --scrollbar-thumb-hover: var(--color-theme-700);
+    --scrollbar-width: 10px;
+	--scrollbar-background: var(--color-theme-600);
+	--scrollbar-thumb: var(--color-theme-300);
+	--scrollbar-thumb-hover: var(--color-theme-400);
 
     --accessibility-focus-outline-style: dashed;
     --accessibility-focus-outline-offset: 3px;
@@ -93,9 +93,6 @@
 
     // Colors
     --backdrop: rgb(0 0 0 / 50%);
-    --backdrop-light: rgb(255 255 255 / 50%);
-    --backdrop-table: color-mix(in oklab, var(--color-surface) 50%, white 5%); 
-
     --shadow-base: rgb(0 0 0 / 12%);
     --shadow-base-inverse: rgb(255 255 255 / 12%);
     --shadow-light: rgb(0 0 0 / 6%);
@@ -176,18 +173,16 @@
 	}
 }
 
-:root,
-.theme-light{
-  --backdrop: color-mix(in oklab, var(--color-surface) 50%, white 5%); //oklab-mix($value, 15, white);
-}
-
 .theme-dimmed,
 .theme-dark{
-    --backdrop: color-mix(in oklab, var(--color-surface) 50%, white 5%); //oklab-mix($value, 15, white);
-
 	.form-group{
 		--input-disabled-border: var(--color-border-surface-light);
 	}
+
+    .form-field{
+        --form-field-background: var(--color-theme-100);	
+        --form-field-accent: var(--color-theme-100);
+    }
 	
 	.bg-surface-light{
 		.form-field{
@@ -202,6 +197,8 @@
 			--input-disabled-border: var(--color-border-surface-light);
 		}
 	}
+
+    
 	
 	.bg-surface-dark {
 		.form-field{

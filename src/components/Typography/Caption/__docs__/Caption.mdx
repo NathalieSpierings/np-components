@@ -1,0 +1,25 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as CaptionStories from './Caption.stories';
+import CaptionComponent from '../Caption';
+ 
+<Meta of={CaptionStories} />
+ 
+# Caption Component
+
+Het **`Caption`** component wordt gebruikt om secundaire of ondersteunende kopjes weer te geven, meestal als onderschrift of kleine titel.
+
+## Belangrijkste functionaliteiten
+
+- **Kopje renderen**: Rendered de inhoud in een `<h5>` HTML-element.  
+- **Optioneel gedempt**: Met de prop `mute` kan de tekst visueel gedempt worden (`text-mute` CSS-class).  
+- **Children support**: Kan elk kind-element of tekst bevatten.  
+
+### Default
+
+<Canvas of={CaptionStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

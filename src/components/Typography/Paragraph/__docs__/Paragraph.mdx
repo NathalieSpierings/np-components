@@ -1,0 +1,26 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ParagraphStories from './Paragraph.stories';
+import ParagraphComponent from '../Paragraph';
+ 
+<Meta of={ParagraphStories} />
+ 
+
+# Paragraph Component
+
+Het **`Paragraph`** component wordt gebruikt om een HTML-paragraaf (`<p>`) weer te geven met extra flexibiliteit zoals focusbeheer via `tabIndex`.
+
+## Belangrijkste functionaliteiten
+
+- **Standaard paragraaf**: Render een HTML `<p>` element voor tekstinhoud.  
+- **Focusbeheer**: Ondersteunt `tabIndex` om keyboard navigatie en focus te regelen.  
+- **Uitbreidbaar**: Ondersteunt standaard HTML-attributen zoals `className`, `style`, `id`, enzovoort.
+
+
+### Default
+
+<Canvas of={ParagraphStories.Default} />
+
+
+### Props
+ 
+<Controls />

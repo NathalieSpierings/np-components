@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories';
+import SelectComponent from '../Select';
+ 
+<Meta of={SelectStories} />
+ 
+
+# Select Component
+
+Het **`Select`** component is een uitgebreid selectievak met ondersteuning voor labels, validatie, iconen en verschillende visuele varianten.  
+Het is ontworpen om naadloos te passen binnen formulieren en combineert gebruiksvriendelijkheid met een moderne, consistente styling.
+
+## Belangrijkste functionaliteiten
+
+- **Standaard en eenvoudige varianten**: Met de `variant` prop kan het component visueel worden aangepast (`default` of `simple`).  
+- **Kleurvariaties**: Gebruik `color` om het thema van het selectievak aan te passen aan jouw huisstijl via `ColorDefinitions`.  
+- **Inline weergave**: Dankzij de `inline` prop kan het veld compact worden weergegeven naast andere invoervelden.  
+- **Icons en prefixen**: Met `addonIcon`, `addonVariant` en `addonPosition` kan een icoon toegevoegd worden vóór of na het veld, bijvoorbeeld om de betekenis van de selectie te verduidelijken.  
+- **Validatie en feedback**: De `validationErrorMessage` toont duidelijke foutmeldingen bij ongeldige invoer.  
+- **Formulierintegratie**: Via het `FormSelect` component is directe integratie met **React Hook Form** mogelijk, inclusief validatie via `rules`.  
+- **Toegankelijkheid**: Ondersteunt labels, foutmeldingen en `infoText` voor extra context aan de gebruiker.
+
+
+### Default
+
+<Canvas of={SelectStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

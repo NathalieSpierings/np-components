@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DescriptionListStories from './DescriptionList.stories';
+import DescriptionListComponent from '../DescriptionList';
+ 
+<Meta of={DescriptionListStories} />
+ 
+
+# DescriptionList Component
+
+Het DescriptionList component wordt gebruikt om een lijst van definities of eigenschappen weer te geven in de vorm van `<dl>`, `<dt>` en `<dd>` elementen.
+
+
+## Belangrijkste functionaliteiten
+
+Data-driven: Toont dynamisch items gebaseerd op de data prop.
+
+Structuur: Gebruikt `<dt>` voor labels en `<dd>` voor bijbehorende tekst, wat semantisch correct is voor definities.
+
+Flexibel: Elk item kan een optionele id bevatten; anders wordt een index gebruikt als key.
+
+Eenvoudig te integreren: Vereist slechts een array van objecten met label en text.
+
+
+### Default
+
+<Canvas of={DescriptionListStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

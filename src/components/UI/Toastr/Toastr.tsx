@@ -38,7 +38,7 @@ const ToastrItem = ({ item, onClose }: ToastrItemTypeProps): ReactElement => {
             tint = ColorDefinitions.Green;
             break;
         case 'negative':
-            tint = ColorDefinitions.Red;
+            tint = ColorDefinitions.Rose30;
             break;
         case 'informational':
             tint = ColorDefinitions.Blue;

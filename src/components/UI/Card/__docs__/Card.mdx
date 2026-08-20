@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as CardStories from './Card.stories';
+import CardComponent from '../Card';
+ 
+<Meta of={CardStories} />
+ 
+
+# Card Component
+
+
+De `Card` component is een container voor content met optionele header, footer en interactieve functionaliteiten zoals collapsible sections en sticky headers.
+
+## Belangrijkste functionaliteiten
+
+- **Header:** Optioneel met titel (`title`) en actieknoppen (`headerActions`).
+- **Footer:** Ondersteunt links en rechts content (`footerLeftContent` / `footerRightContent`).
+- **Afbeelding:** Kan een afbeelding tonen bovenaan de kaart (`imageUrl`).
+- **Collapsible:** Kaart kan inklapbaar zijn (`collapsible`) met animatie.
+- **Sticky header:** Header kan sticky worden bij scrollen (`headerSticky`).
+- **Tabs:** Ondersteunt tab-achtige stijl met `tabs`.
+- **Scrollbare content:** Content kan scrollbaar zijn (`scrollableContent`) en/of fluid (`fluidContent`).
+- **Animaties:** Gebruik van `framer-motion` voor smooth expand/collapse animaties.
+- **Custom styling:** CSS-klasse via `cardCss` en extra props via `boxProps`.
+
+
+### Default
+
+<Canvas of={CardStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -1,0 +1,36 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TooltipStories from './Tooltip.stories';
+import TooltipComponent from '../Tooltip';
+ 
+<Meta of={TooltipStories} />
+ 
+
+
+# Tooltip Component
+
+De `Tooltip` component toont aanvullende informatie bij een element wanneer de gebruiker erover hovert, het focust of aanraakt.  
+Deze tooltip ondersteunt meerdere richtingen, vertraagde weergave, HTML-rendering en dynamische achtergrondkleuren.
+
+---
+
+## Belangrijkste kenmerken
+
+- **Vertraagde weergave:** toon de tooltip na een instelbare `delay`.  
+- **Flexibele posities:** plaats de tooltip aan elke kant van het doel (`top`, `bottom`, `left`, `right`, enz.).  
+- **Achtergrondkleur:** stel een eigen kleur in via `background` (`ColorDefinitions`).  
+- **HTML-ondersteuning:** render veilige HTML via `renderHtml`.  
+- **Schakel uit:** via `disabled` kun je de tooltip tijdelijk uitschakelen.  
+- **Pijlweergave:** optie om de richtingpijl (`arrow`) te tonen of te verbergen.  
+- **Overflowmodus:** gebruik `overflowTooltip` om tooltips op overlopende tekst te tonen (zoals bij ellipsis).  
+
+---
+
+### Default
+
+<Canvas of={TooltipStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

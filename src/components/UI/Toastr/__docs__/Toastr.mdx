@@ -1,0 +1,35 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ToastrStories from './Toastr.stories';
+import ToastrComponent from '../Toastr';
+ 
+<Meta of={ToastrStories} />
+ 
+
+# Toastr Component
+
+De `Toastr` component biedt gebruikers visuele feedback via tijdelijk weergegeven meldingen, zoals waarschuwingen, foutmeldingen of succesberichten.  
+De meldingen kunnen in verschillende posities op het scherm verschijnen en verdwijnen automatisch na een ingestelde duur of handmatig via een sluitknop.
+
+---
+
+## Belangrijkste functionaliteiten
+
+- **Meerdere varianten:** Ondersteunt `default`, `positive`, `negative`, `informational` en `warning`.  
+- **Verschillende posities:** Plaats toasts links, rechts, in het midden, boven of onder in het scherm.  
+- **Automatisch verwijderen:** Meldingen verdwijnen na een ingestelde tijdsduur (`duration`).  
+- **Manueel sluiten:** Elke melding bevat een `DismissButton` om deze direct te sluiten.  
+- **Animaties met Framer Motion:** Vloeiende in- en uitfade-animaties afhankelijk van de positie.  
+- **Kleurthema’s:** De achtergrondkleur kan dynamisch worden ingesteld met `background` of automatisch bepaald op basis van de variant.  
+- **Toegankelijkheid:** Eenvoudig uitbreidbaar met semantische meldingen of aria-labels.  
+
+
+
+### Default
+
+<Canvas of={ToastrStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

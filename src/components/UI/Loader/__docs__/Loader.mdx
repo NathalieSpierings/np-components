@@ -1,0 +1,28 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as LoaderStories from "./Loader.stories.tsx";
+import LoaderComponent from '../Loader';
+ 
+<Meta of={LoaderStories} />
+
+# Loader
+
+The loader component can be used to display a small animation and text to the user while waiting for data to load.
+
+### Default Loader
+
+<Canvas of={LoaderStories.Default} />
+
+
+
+#### Arguments
+
+- **loading**  – A boolean indicating whether the loader should be displayed.
+- **duration**  – A number (in milliseconds) for how long each label is shown before switching to the next one. Default is 2000.
+- **background**  – A value from the ColorDefinitions enum to set the background color of the loader.
+- **labels**  – An array of strings to be shown as rotating loading messages. Default is ["Gegevens ophalen", "Een moment geduld"].
+- **showLabels**  – A boolean to control whether the text labels are shown. Default is true.
+- **labelColor**  – A value from ColorDefinitions to set the color of the label text and dots.
+- **showOverlay**  – A boolean to control whether a fullscreen overlay is displayed behind the loader.
+- **centered**  – A boolean to center the loader in the viewport.
+- **showAnimation**  – A boolean to show or hide the loading animation. Default is true.
+- **animationColor**  – A value from ColorDefinitions to set the color of the animated bars.

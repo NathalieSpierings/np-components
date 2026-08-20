@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as SearchInputStories from './SearchInput.stories';
+import SearchInputComponent from '../SearchInput';
+ 
+<Meta of={SearchInputStories} />
+ 
+
+# SearchInput Component
+
+Het `SearchInput` component biedt een gestileerde invoer voor zoekfunctionaliteit, inclusief een geïntegreerd zoekicoon.  
+Het is gebaseerd op het standaard `Input` component en breidt dit uit met specifieke eigenschappen en styling voor zoekvelden.  
+Dit maakt het ideaal voor gebruik in navigatiebalken, filterpanelen of dashboards waar gebruikers snel gegevens willen doorzoeken.
+
+## Belangrijkste functionaliteiten
+
+- **Zoekicoon geïntegreerd**: Automatisch voorzien van een zoekicoon (`IconDefinitions.search`) dat de functie van het veld duidelijk maakt.  
+- **Inline layout**: Het invoerveld wordt standaard inline weergegeven voor een compacte, nette layout.  
+- **Placeholder ondersteuning**: Toon een standaardtekst (“Zoeken...”) die kan worden aangepast via de `placeholder` prop.  
+- **Input event handling**: Gebruik de `onTextInput` callback om live zoekresultaten te tonen of zoekacties te starten bij het typen.  
+- **Herbruikbare basis**: Gebaseerd op het generieke `Input` component, waardoor consistentie met andere invoervelden behouden blijft.  
+- **Kleine icoonweergave**: Het icoon wordt weergegeven met `SizeDefinitions.Small` om visueel subtiel maar duidelijk te zijn.
+
+Het component is ideaal voor zoekbalken binnen applicaties of formulieren waar gebruikers direct tekst kunnen invoeren om resultaten te filteren of te zoeken.
+
+
+### Default
+
+<Canvas of={SearchInputStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

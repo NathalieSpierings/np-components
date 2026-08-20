@@ -1,0 +1,31 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as DatagridStories from './Datagrid.stories';
+import DatagridComponent from '../Datagrid';
+ 
+<Meta of={DatagridStories} />
+ 
+ De datagrid ondersteunt kolom breedte aanpassen, kolommen rangschikken en kolommen toevoegen of verwijderen.
+
+ De volgende opties zul je dan op true moeten zetten:
+
+- enableColumnResize
+- enableColumnReorder
+- enableColumnVisibility
+
+Op de kolom dien je de property defaultVisible = true te zetten als je deze kolom 
+standaard wilt tonen. Zet je deze property niet dan zal de kolom ook niet zichtbaar zijn. De kolom kan 
+je wel selecteren in de dropdown.
+
+Als je op de knop standaard kolommen herstellen klikt dan zullen alleen die kolommen 
+weer zichtbaar worden waarbij je de defaultVisible=true property hebt gezet.
+
+De voorkeuren worden opgeslagen in localstorage. Je kan zelf een datatableLocalStorageKey meegeven.
+
+### Default
+
+<Canvas of={DatagridStories.Default} />
+
+
+### Props
+ 
+<Controls />

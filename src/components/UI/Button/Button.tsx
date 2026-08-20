@@ -7,6 +7,7 @@ export type ButtonVariant = 'outline' | 'flat' | 'ghost';
 export interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'type'> {
     variant?: ButtonVariant;
     circle?: boolean;
+    iconOnly?: boolean;
     rounded?: boolean;
     shadow?: boolean;
     raised?: boolean;
@@ -25,6 +26,7 @@ const Button: React.FC<ButtonProps> = ({
     variant,
     color,
     circle = false,
+    iconOnly = false,
     rounded = false,
     shadow = false,
     raised = false,
@@ -39,6 +41,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
     const cls = [
         'btn',
+        iconOnly && 'btn--icon',
         variant ? `btn-${variant}` : '',
         shadow ? `btn--shadow` : '',
         raised ? `btn--raised` : '',

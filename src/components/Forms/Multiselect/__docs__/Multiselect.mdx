@@ -1,0 +1,48 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as MultiselectStories from './Multiselect.stories';
+import MultiselectComponent from '../Multiselect';
+ 
+<Meta of={MultiselectStories} />
+ 
+# Multiselect Component
+
+Het **Multiselect** component biedt een gebruiksvriendelijke manier om meerdere opties tegelijk te selecteren uit een lijst.  
+Het combineert visuele feedback, zoekfunctionaliteit en animaties voor een dynamische en toegankelijke gebruikerservaring.
+
+## Belangrijkste functionaliteiten
+
+- **Meervoudige selectie**  
+  Gebruikers kunnen meerdere items tegelijk selecteren of deselecteren.  
+  Dankzij de geïntegreerde `Checkbox` componenten is de status van elk item direct zichtbaar.
+
+- **Zoekfunctionaliteit**  
+  Met de ingebouwde zoekbalk (optioneel via `showSearch`) kunnen gebruikers items filteren op basis van tekstinhoud.
+
+- **Selecteer alles / deselecteer alles**  
+  Via de `showCheckAll` optie kunnen gebruikers snel alle items selecteren of deselecteren.
+
+- **Dynamische animaties**  
+  Door gebruik van `framer-motion` worden items soepel weergegeven, verwijderd of herordend.
+
+- **Volledige visuele controle**  
+  Stijlen zijn volledig aanpasbaar via `ColorDefinitions`, `SizeDefinitions` en diverse *Collection*-opties,  
+  waaronder kleur, randstijl, afronding en achtergrondkleur.
+
+- **Header en foutmeldingen**  
+  Toon een koptekst (`title`) met validatiefouten (`validationErrorMessage`) voor verbeterde formulierfeedback.
+
+- **Integratie met react-hook-form**  
+  De `FormMultiselect` variant koppelt het component eenvoudig aan formulieren, inclusief validatieregels en controllerondersteuning.
+
+Dit component is ideaal voor scenario’s waarin gebruikers meerdere keuzes moeten kunnen maken uit een dynamische lijst —  
+zoals het selecteren van tags, gebruikers, categorieën of permissies.
+
+### Default
+
+<Canvas of={MultiselectStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

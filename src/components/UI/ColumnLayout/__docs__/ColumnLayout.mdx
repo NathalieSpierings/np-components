@@ -1,0 +1,60 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ColumnLayoutStories from './ColumnLayout.stories';
+import ColumnLayoutComponent from '../ColumnLayout';
+ 
+<Meta of={ColumnLayoutStories} />
+ 
+
+Deze set van componenten maakt het mogelijk om een dynamische, kolom-gebaseerde layout te creëren met hoofd- en zijkolom.  
+De layout ondersteunt optioneel een toggleable view waarbij de hoofd- of zijkolom zichtbaar kan worden gemaakt/verbergen.
+
+## Belangrijkste componenten en functionaliteiten
+
+### ColumnLayout
+- **Beschrijving**: De container voor de volledige kolom-layout.  
+- **Props**:
+  - `toggleableView` – maakt de kolommen in/uitklapbaar.
+  - `asidePosition` – bepaalt of de zijkolom links of rechts staat.
+- **Functionaliteiten**:
+  - Detecteert automatisch aanwezigheid van een zijkolom.
+  - Biedt context (`ColumnLayoutContext`) voor zichtbaarheid van hoofd- en zijkolom.
+  - Dynamische CSS-classes afhankelijk van layout en toggleable status.
+
+### ColumnLayoutAside
+- **Beschrijving**: Component voor de zijkolom.  
+- **Functionaliteiten**:
+  - Gebruikt context om te bepalen of de aside getoond wordt.
+  - Dynamische zichtbaarheid (`shown` / `not-shown`) bij toggleable layout.
+
+### ColumnLayoutMain
+- **Beschrijving**: Hoofdinhoud van de layout.  
+- **Functionaliteiten**:
+  - Kan een optionele `ColumnLayoutHeader` bevatten.
+  - Header kan een sluitknop (`DismissButton`) tonen wanneer toggleable view actief is.
+  - Alle overige children worden in de hoofdinhoud gerenderd.
+
+### ColumnLayoutHeader
+- **Beschrijving**: Header component voor gebruik binnen `ColumnLayoutMain`.  
+- **Props**:
+  - `border` – bepaalt of de header een border heeft.
+  - `borderColor` – kleur van de border.
+- **Functionaliteiten**:
+  - Stijlbare header die optioneel met sluitknop kan worden uitgebreid in toggleable layout.
+
+### ColumnLayoutContext
+- **Beschrijving**: Context voor communicatie tussen `ColumnLayout`, `Main` en `Aside`.
+- **Functionaliteiten**:
+  - Biedt functies `showMain`, `showAside`.
+  - Houdt status bij `isMainVisible` en of de layout toggleable is (`toggleableView`).
+
+
+
+### Default
+
+<Canvas of={ColumnLayoutStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

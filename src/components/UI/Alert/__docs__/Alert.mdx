@@ -1,0 +1,30 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as AlertStories from './Alert.stories';
+import AlertComponent from '../Alert';
+ 
+<Meta of={AlertStories} />
+ 
+
+# Alert
+
+De `Alert` component toont meldingen aan gebruikers met verschillende varianten en optionele dismiss-functionaliteit.
+
+## Belangrijkste functionaliteiten
+
+- **Variant ondersteuning:** `default`, `informational`, `positive`, `negative`, `warning`.
+- **Dismissable:** Kan optioneel worden gesloten via een knop.
+- **Sticky:** Kan vastgezet worden zodat het altijd zichtbaar blijft tijdens scrollen.
+- **Animaties:** Smooth animatie bij openen en sluiten via `framer-motion`.
+- **Iconen:** Automatisch aangepast aan het type variant.
+- **Aanpasbare styling:** Extra CSS-classes via `alertCss`.
+
+
+### Default
+
+<Canvas of={AlertStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

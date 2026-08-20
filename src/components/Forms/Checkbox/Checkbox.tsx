@@ -41,8 +41,7 @@ const Checkbox = forwardRef(({
 }: CheckboxProps,
     ref: React.Ref<any>
 ) => {
-
-    const [checkedState, setCheckedState] = useState(!!defaultChecked);
+     const [checkedState, setCheckedState] = useState(!!defaultChecked);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -90,7 +89,7 @@ const Checkbox = forwardRef(({
             <div className={cls} >
                 <label htmlFor={id}>
                     <span className="sr-only">{label}</span> {/* screen-reader only */}
-                    <input  
+                    <input
                         type="checkbox"
                         id={id}
                         ref={(node) => {
@@ -103,7 +102,7 @@ const Checkbox = forwardRef(({
                             }
                         }}
                         disabled={disabled}
-                        readOnly={readOnly}                      
+                        readOnly={readOnly}
                         checked={checked ?? checkedState}
                         onKeyDown={disabled ? undefined : handleKeyDown}
                         onChange={(e) => {

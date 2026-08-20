@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as MainMenuStories from './MainMenu.stories';
+import MainMenuComponent from '../MainMenu';
+ 
+<Meta of={MainMenuStories} />
+ 
+
+# MainMenu Component
+
+De `MainMenu` component biedt een flexibele verticale navigatie voor applicaties. Het menu ondersteunt items die bovenaan of onderaan worden geplaatst, toont actieve items, en kan optioneel een themaswitch of accountmenu bevatten.
+
+---
+
+## Belangrijkste kenmerken
+
+- **Top- en bottom-plaatsing**: menu-items kunnen gescheiden worden weergegeven bovenaan of onderaan de navigatie.
+- **Actieve item markering**: geeft duidelijk aan welk menu-item actief is.
+- **Drawer ondersteuning**: menu-items kunnen een drawer openen in plaats van een pagina te navigeren.
+- **Tooltip ondersteuning**: geeft een korte uitleg bij elk menu-item.
+- **Themaswitch integratie**: kan optioneel een dark/light mode switch weergeven.
+- **Accountmenu integratie**: ondersteund het tonen van account-gerelateerde acties.
+
+---
+
+### Default
+
+<Canvas of={MainMenuStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import ButtonComponent from '../Button';
+ 
+<Meta of={ButtonStories} />
+ 
+
+# Button Component
+
+De `Button` component biedt een flexibele manier om interactieve knoppen te maken met verschillende stijlen, kleuren en animaties.
+
+## Belangrijkste functionaliteiten
+
+- **Varianten:** Ondersteunt `outline` en `flat` stijlen via de `variant` prop.
+- **Vormopties:** Kan rond (`circle`) of afgerond (`rounded`) worden gemaakt.
+- **Diepte-effecten:** Opties voor `shadow` en `raised`.
+- **Kleuren:** Ondersteunt gedefinieerde kleurthema’s via de `color` prop.
+- **Grootte:** Gebruik `size` om de knop aan te passen (bijv. small, medium, large).
+- **Fluid:** Knop kan de volledige breedte innemen met `fluid`.
+- **Ripple-effect:** Kan een klik-ripple animatie tonen met `ripple`, `rippleColor` en `rippleDuration`.
+
+
+
+### Default
+
+<Canvas of={ButtonStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

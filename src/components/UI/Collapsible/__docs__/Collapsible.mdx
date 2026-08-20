@@ -1,0 +1,28 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as CollapsibleStories from './Collapsible.stories';
+import CollapsibleComponent from '../Collapsible';
+ 
+<Meta of={CollapsibleStories} />
+ 
+
+# Collapsible Component
+
+De `Collapsible` component biedt een eenvoudige manier om secties in- en uit te klappen met een visueel animatie-effect.
+
+## Belangrijkste functionaliteiten
+
+- **Toggle-knop:** Klikken op de header vouwt de inhoud in of uit.
+- **Animaties:** Smooth animaties bij het openen en sluiten met `framer-motion`.
+- **Custom title:** Ondersteunt zowel `string` als `ReactElement` als header.
+- **Styling:** Extra CSS-klassen kunnen toegevoegd worden via `collapseCss`.
+- **Controlled state:** Het in- of uitgeklapt zijn wordt gecontroleerd via `collapsed` en `setCollapsed`.
+
+### Default
+
+<Canvas of={CollapsibleStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

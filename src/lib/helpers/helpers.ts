@@ -57,3 +57,14 @@ export const normalizeDate = (value: any): Date | null => {
 
     return null;
 };
+
+export const formatCurrency = (value: number | null | undefined): string => {
+    if (value == null || Number.isNaN(value)) {
+        return '€ 0,00';
+    }
+
+    return `€ ${value.toLocaleString('nl-NL', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })}`;
+};

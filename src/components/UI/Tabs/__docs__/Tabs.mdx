@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TabsStories from './Tabs.stories';
+import TabsComponent from '../Tabs';
+ 
+<Meta of={TabsStories} />
+ 
+
+# Tabs Component
+
+De `Tabs` component biedt een intuïtieve manier om gerelateerde inhoud te organiseren in afzonderlijke tabbladen.  
+Ondersteunt zowel horizontale als verticale weergaven, met visuele accenten en iconenopties.
+
+## Belangrijkste functionaliteiten
+
+- **Ondersteuning voor varianten:** Kies tussen standaard, *pills*-stijl of verticale tabs.  
+- **Accentkleur:** Gebruik de `accentColor` prop om de actieve tabkleur aan te passen.  
+- **Iconen:** Elk tabblad kan een icoon aan de linker- of rechterkant bevatten.  
+- **Dynamische inhoud:** Elke tab bevat zijn eigen `Component` die rendert wanneer het tabblad actief is.  
+- **Animatie (pills-variant):** De actieve tab wordt visueel gemarkeerd met een verschuivende selectorbalk.  
+- **Toegankelijkheid:** ARIA-attributen zoals `role="tablist"` en `role="tab"` verbeteren de toegankelijkheid.  
+- **Disabled tabs:** Tabs kunnen worden uitgeschakeld voor interactie.  
+
+
+### Default
+
+<Canvas of={TabsStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as FileSelectStories from './FileSelect.stories';
+import FileSelectComponent from '../FileSelect';
+ 
+<Meta of={FileSelectStories} />
+ 
+
+# FileSelect Component
+
+Het `FileSelect` component biedt een intuïtieve en uitgebreide interface voor het selecteren van bestanden, met ondersteuning voor drag-and-drop en traditionele bestandsselectie. Het component kan meerdere bestanden beheren, geeft feedback over bestandsgrootte en type, en toont geselecteerde bestanden in een overzichtelijke collectie. Daarnaast ondersteunt het foutafhandeling via modals wanneer bestanden niet aan de ingestelde voorwaarden voldoen.
+
+## Belangrijkste functionaliteiten
+
+- **Drag-and-drop ondersteuning**: Sleep bestanden direct naar de dropzone om ze te selecteren.  
+- **Traditionele selectie**: Selecteer bestanden via een standaard file input knop.  
+- **Meerdere bestanden**: Ondersteuning voor single of multiple bestandselectie, inclusief aantal en totale grootteweergave.  
+- **Bestandstypevalidatie**: Beperk selectie tot specifieke bestandstypes en geef foutmeldingen bij invalid input.  
+- **Maximum bestandsgrootte**: Controleer de totale bestandsgrootte en geef visuele feedback.  
+- **Visuele collectie**: Toon geselecteerde bestanden met iconen, naam, grootte en optionele verwijderknoppen.  
+- **Custom styling**: Pas kleuren, achtergrond, borders, rounding en andere CSS-eigenschappen aan voor zowel dropzone als collectie.  
+- **Foutafhandeling**: Toon modals met duidelijke foutmeldingen bij verkeerde bestandselecties.  
+
+Het `FileSelect` component is ideaal voor applicaties die een krachtige en gebruiksvriendelijke bestandsupload ervaring nodig hebben, met consistente visuele feedback en flexibele configuratieopties.
+
+### Default
+
+<Canvas of={FileSelectStories.Default} />
+
+
+### Props
+ 
+<Controls />

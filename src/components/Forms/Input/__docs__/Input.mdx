@@ -1,0 +1,34 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as InputStories from './Input.stories';
+import InputComponent from '../Input';
+ 
+<Meta of={InputStories} />
+ 
+
+# Input Component
+
+Het `Input` component is een veelzijdige invoercomponent die verschillende stijlen, varianten en integraties ondersteunt.  
+Het vormt de basis voor tekstinvoer in formulieren en biedt uitbreidingsopties zoals icoonadd-ons, foutvalidatie, inline-weergave en ondersteuning voor `react-hook-form`.
+
+## Belangrijkste functionaliteiten
+
+- **Meerdere invoertypes**: Ondersteunt `text`, `password`, `email`, `number` en `date`.  
+- **Visuele varianten**: Kies tussen een klassieke (`default`) of vereenvoudigde (`simple`) stijl.  
+- **Addon-iconen**: Voeg een icoon toe vóór, binnen of na de input (via `addonVariant` en `addonPosition`).  
+- **Kleur- en grootteopties**: Volledige controle over kleuren en afmetingen via `ColorDefinitions` en `SizeDefinitions`.  
+- **Inline invoervelden**: Combineer meerdere inputs op één regel voor compacte formulieren.  
+- **Validatie**: Toon foutmeldingen met `validationErrorMessage` en integreer moeiteloos met `react-hook-form`.  
+- **FormInput-integratie**: De `FormInput` wrapper koppelt het component direct aan formulieren met veldvalidatie en `Controller` ondersteuning.  
+- **StaticInput**: Gebruik `StaticInput` om niet-bewerkbare tekstvelden te tonen met hetzelfde visuele ontwerp.
+
+Het `Input` component is ontworpen voor flexibiliteit en consistentie binnen een UI-bibliotheek en vormt een essentieel onderdeel van elk formulier.
+
+### Default
+
+<Canvas of={InputStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

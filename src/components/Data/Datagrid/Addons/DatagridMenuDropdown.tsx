@@ -1,13 +1,16 @@
 import React, { ReactElement, ReactNode, useState } from "react";
 import { IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
-import { Dropdown } from "../../../Forms/Dropdown/Dropdown";
-import { DropdownMenu } from "../../../Forms/Dropdown/DropdownMenu";
+import Dropdown from "../../../Forms/Dropdown/Dropdown";
+import DropdownMenu from "../../../Forms/Dropdown/DropdownMenu";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridSortConfig } from "../Config/DatagridSort";
 import { DatagridColumnRuntime } from "../Datagrid";
 
 interface DatagridMenuDropdownProps<TData> {
     column: DatagridColumnRuntime<TData>;
+    enableColumnResize: boolean;
+    enableColumnPinning: boolean;
+    enableColumnVisibility: boolean;
     sort?: DatagridSortConfig;
     setSort: React.Dispatch<React.SetStateAction<DatagridSortConfig | undefined>>;
     updateColumnState: (
@@ -20,9 +23,11 @@ interface DatagridMenuDropdownProps<TData> {
 }
 
 
-
 export function DatagridMenuDropdown<TData>({
     column,
+    enableColumnResize,
+    enableColumnPinning,
+    enableColumnVisibility,
     sort,
     setSort,
     updateColumnState,
@@ -31,23 +36,25 @@ export function DatagridMenuDropdown<TData>({
     enableColumnChooserInDropdown,
 }: Readonly<DatagridMenuDropdownProps<TData>>): ReactElement {
 
-    const [open, setOpen] = useState(false);  
+    const [open, setOpen] = useState(false);
 
     const menuItems = [
-        {
+
+        column.sortable ? {
             icon: <Icon icon={IconDefinitions.arrow_up} size={SizeDefinitions.Small} />,
             label: "Sorteer oplopend",
             selected: sort?.prop === column.prop && sort.order === "asc",
             onClick: () => setSort({ prop: column.prop, order: "asc" }),
-        },
-        {
+        } : undefined,
+        column.sortable ? {
             icon: <Icon icon={IconDefinitions.arrow_down} size={SizeDefinitions.Small} />,
             label: "Sorteer aflopend",
             selected: sort?.prop === column.prop && sort.order === "desc",
             onClick: () => setSort({ prop: column.prop, order: "desc" }),
-        },
-        { divider: true },
-        {
+        } : undefined,
+        column.sortable ? { divider: true } : undefined,
+
+        enableColumnPinning ? {
             icon: <Icon icon={IconDefinitions.pin} size={SizeDefinitions.Small} />,
             label: "Pin column",
             items: [
@@ -76,19 +83,19 @@ export function DatagridMenuDropdown<TData>({
                     onClick: () => updateColumnState(column.prop, { pinned: "right" }),
                 },
             ],
-        },
-        {
+        } : undefined,
+        enableColumnResize ? {
             label: "Autosize",
             onClick: () =>
                 updateColumnState(column.prop, {
                     width: Math.max(120, column.title.length * 20),
                 }),
-        },
-        { divider: true },
-        {
+        } : undefined,
+        enableColumnResize ? { divider: true } : undefined,
+        enableColumnVisibility || enableColumnResize || enableColumnPinning ? {
             label: "Reset kolommen",
             onClick: resetColumns,
-        },
+        } : undefined,
     ];
 
     const tabs = [
@@ -101,7 +108,7 @@ export function DatagridMenuDropdown<TData>({
     const tabPanes = [
         {
             tabId: "tabMenu",
-            content: <DropdownMenu items={menuItems} />,
+            content: <DropdownMenu items={menuItems.filter((item): item is NonNullable<typeof item> => item !== undefined)} />,
         },
         ...(enableColumnChooserInDropdown
             ? [{

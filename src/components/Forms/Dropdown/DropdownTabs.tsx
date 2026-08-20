@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Search from "../../Base/Search/Search";
-import { DropdownMenu, DropdownMenuItem } from "./DropdownMenu";
+import DropdownMenu, { DropdownMenuItem } from "./DropdownMenu";
 
 export interface DropdownTabItem {
   id: string;
@@ -26,7 +26,7 @@ export interface DropdownTabsProps {
   tabPanes: DropdownTabPane[];
 }
 
-export function DropdownTabs({
+function DropdownTabs({
   tabs,
   tabPanes
 }: Readonly<DropdownTabsProps>) {
@@ -94,3 +94,4 @@ export function DropdownTabs({
     </div>
   );
 }
+export default DropdownTabs;

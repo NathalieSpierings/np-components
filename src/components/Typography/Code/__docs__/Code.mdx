@@ -1,0 +1,27 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as CodeStories from './Code.stories';
+import CodeComponent from '../Code';
+ 
+<Meta of={CodeStories} />
+ 
+
+# Code Component
+
+Het **`Code`** component wordt gebruikt om inline code of korte codefragmenten weer te geven.
+
+## Belangrijkste functionaliteiten
+
+- **Inline code**: Toont de `label` prop binnen een `<code>` element.  
+- **Semantisch correct**: Geschikt voor documentatie, tutorials of codevoorbeelden.  
+- **Eenvoudig in gebruik**: Vereist slechts één prop (`label`) om de code weer te geven.
+
+
+### Default
+
+<Canvas of={CodeStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

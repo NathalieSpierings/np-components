@@ -1,0 +1,28 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as HeadingStories from './Heading.stories';
+import HeadingComponent from '../Heading';
+ 
+<Meta of={HeadingStories} />
+ 
+
+# Heading / Headline Component
+
+Het **`Heading`** component wordt gebruikt om semantische kopteksten (h1 t/m h6) in de UI te renderen.  
+
+## Belangrijkste functionaliteiten
+
+- **Variant selectie**: Met de prop `variant` kan het type koptekst worden gekozen (`h1` t/m `h6`).  
+- **Custom CSS**: `headlineCss` kan worden gebruikt om extra CSS-klassen toe te voegen aan de koptekst.  
+- **Children support**: Toont de inhoud van de koptekst, inclusief tekst of andere React-elementen.  
+- **Flexibel gebruik**: Vervangt direct HTML `<h1>`–`<h6>` elementen met consistente styling via props.  
+
+
+### Default
+
+<Canvas of={HeadingStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

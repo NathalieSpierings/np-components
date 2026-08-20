@@ -1,0 +1,27 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as SmallStories from './Small.stories';
+import SmallComponent from '../Small';
+ 
+<Meta of={SmallStories} />
+ 
+
+# Small Component
+
+Het **`Small`** component wordt gebruikt om tekst semantisch klein weer te geven, bijvoorbeeld voor voetnoten of secundaire informatie.
+
+## Belangrijkste functionaliteiten
+
+- **Kleine tekst**: Rendered de inhoud in een `<small>` HTML-element.  
+- **Optioneel gedempt**: Met de prop `mute` kan de tekst visueel gedempt worden weergegeven (`text-mute` CSS-class).  
+- **Children support**: Kan elk kind-element of tekst bevatten.
+
+
+### Default
+
+<Canvas of={SmallStories.Default} />
+
+
+### Props
+ 
+<Controls />
+
