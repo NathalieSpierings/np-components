@@ -5,7 +5,8 @@ import { normalizeDate } from '../../../../lib/helpers/helpers';
 import { DatagridGetDataArguments } from '../Config/DatagridData';
 import { DatagridColumnFilterValue, isActiveColumnFilter } from '../Filters/DatagridColumnFilter';
 import { defaultSearch, defaultSort } from '../Helpers/datagridDataManipulation';
-import { getNestedValue, NestedKeyOf } from '../../..';
+import { NestedKeyOf } from '../Config/DatagridRowConfig';
+import { getNestedValue } from '../Helpers/datagridTypeHelpers';
 
 export type Status = "error" | "success" | "pending";
 

@@ -5,7 +5,6 @@ import ContentItem from '../../ContentItem/ContentItem';
 import Icon from '../../Icons/Icon/Icon';
 import Collection, { CollectionItem } from '../Collection';
 import CollectionViewSelector, { CollectionViewSelectorOption } from '../CollectionViewSelector';
-import React from 'react';
 
 const meta = {
     component: Collection,

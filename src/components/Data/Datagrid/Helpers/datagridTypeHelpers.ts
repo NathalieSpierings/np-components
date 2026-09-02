@@ -36,4 +36,3 @@ export function getNestedValue<
     item as unknown,
   ) as NestedValue<TData, TProp>;
 }
-

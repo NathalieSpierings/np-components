@@ -1,7 +1,7 @@
-import { FC, PropsWithChildren, ReactElement, useCallback, useEffect } from 'react';
+import React, { FC, PropsWithChildren, ReactElement, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ColorDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import DismissButton from '../../UI/DismissButton/DismissButton';
-import React from 'react';
 
 export interface DrawerProps extends PropsWithChildren {
     title?: string;
@@ -55,7 +55,8 @@ const Drawer: FC<DrawerProps> = ({
         }
     }, [open]);
 
-    return (
+    const drawerContent = (
+
         <>
             <div
                 className={`drawer  ${background ? "bg-" + background : ''} ${extraWide ? 'drawer--extra-wide' : ''} drawer--${position} ${open ? 'shown' : ''} ${drawerCss} `}
@@ -83,9 +84,11 @@ const Drawer: FC<DrawerProps> = ({
                 </div>
             </div>
 
-            {useOverlay ? <button className="drawer__overlay" onClick={() => openDrawer(false)}></button> : null}
+            {useOverlay ? <button type="button" className="drawer__overlay" onClick={() => openDrawer(false)}></button> : null}
         </>
-    );
+    )
+
+    return createPortal(drawerContent, document.body);
 };
 
 export default Drawer;

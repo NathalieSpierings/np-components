@@ -1,6 +1,5 @@
 import { Children, FC, PropsWithChildren, useMemo, useState } from "react";
 import { ColumnLayoutContext } from "./ColumnLayoutContext";
-import React from "react";
 
 export interface ColumnLayoutProps extends PropsWithChildren {
 	className?: string;

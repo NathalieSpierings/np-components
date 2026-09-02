@@ -1,6 +1,5 @@
 import { PropsWithChildren } from "react";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
-import React from "react";
 
 
 export interface ColumnsAsideProps extends PropsWithChildren {

@@ -1284,61 +1284,60 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 				outline: transparent;
 			}
 		}
-	}
+	
 
-	.tags {
-		list-style: none;
-
-		&__item {
-			position: relative;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
+		&__tags {
 			list-style: none;
-			width: auto;
-			min-height: 28px;
-			border-radius: 0.5rem;
-			padding: 0.25rem var(--page-padding) 0.25rem var(--page-padding-sm);
-			color: var(--color-foreground);
-			background: var(--color-theme-600);
-			margin-inline-end: 0.5rem;
 
-			&:last-child {
-				margin-inline-end: 0;
-			}
+			&__item {
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				list-style: none;
+				width: auto;
+				min-height: 28px;
+				border-radius: 0.5rem;
+				padding: 0.25rem var(--page-padding) 0.25rem var(--page-padding-sm);
+				color: var(--color-foreground);
+				background: var(--color-theme-600);
+				margin-inline-end: 0.5rem;
 
-			&__title {
-				flex: 1;
-				&.dismissable  {
-					margin-right: 1rem;
+				&:last-child {
+					margin-inline-end: 0;
+				}
+
+				&__title {
+					flex: 1;
+					&.dismissable  {
+						margin-right: 1rem;
+					}
+				}
+
+				>.dismiss {
+					position: absolute !important;
+					top: .5rem !important;
+					right: .5rem !important;
 				}
 			}
 
-			>.dismiss {
-				position: absolute !important;
-				top: .5rem !important;
-				right: .5rem !important;
+			&__prefix {
+				margin-right: 1rem;
 			}
-		}
 
-		&__prefix {
-			margin-right: 1rem;
+			display: flex;
+			flex-wrap: wrap;
+			padding: 0;
+			margin: 0;
+			margin-inline-end: 1rem;
 		}
-
-		display: flex;
-		flex-wrap: wrap;
-		padding: 0;
-		margin: 0;
-		margin-inline-end: 1rem;
 	}
 
 	.has-prefix {
-		.tags-input {
-			.tags {
+		.tags-input .tags-input__tags {
 				--input-offset-left: 3.5rem;
 				padding-left: var(--input-offset-left);
 			}
-		}
 	}
 
 }
@@ -1837,6 +1836,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
     }
 
 }
+
 
 @layer multiSelect {
 

@@ -6,7 +6,7 @@ import Button from "../../../UI/Button/Button";
 import Collection, { CollectionItem } from "../../../UI/Collection/Collection";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import { DatagridColumnFilterValue, DatagridFilterOperator, DatagridFilterOption, isActiveColumnFilter } from "./DatagridColumnFilter";
+import { DatagridColumnFilterValue, DatagridFilterOperator, DatagridFilterOption, getUniqueFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
 import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
 import Search from "../../../Base/Search/Search";
 
@@ -59,7 +59,7 @@ export default function DatagridFilterList<TData>({
             const value = columnFilters[column.prop];
             const active = isActiveColumnFilter(value);
 
-            const options: DatagridFilterOption[] =
+            const options: DatagridFilterOption[] = getUniqueFilterOptions(
                 filter.options ??
                 (filter.optionsSource && dataRaw
                     ? filter.optionsSource(dataRaw).map((item) =>
@@ -70,8 +70,8 @@ export default function DatagridFilterList<TData>({
                                 value: String(item),
                             }
                     )
-                    : []);
-
+                    : [])
+            );
 
             const multiselectItems: MultiselectItem[] = options.map(option => ({
                 id: option.value,

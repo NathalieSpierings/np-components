@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useLayoutEffect, useRef, useState } from "react";
+import React, { ReactElement, ReactNode, useState } from "react";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
 import Checkbox from "../../../Forms/Checkbox/Checkbox";
 import DatagridMenuDropdown from "../Addons/DatagridMenuDropdown";
@@ -8,12 +8,11 @@ import { DatagridColumnFilterValue } from "../Filters/DatagridColumnFilter";
 import DatagridFilterDropdown from "../Filters/DatagridFilterDropdown";
 import { DatagridTableProps } from "./DatagridTable";
 import Tooltip from "../../../UI/Tooltip/Tooltip";
-import React from "react";
 
 export type SetSort = React.Dispatch<React.SetStateAction<DatagridSortConfig | undefined>>;
 export type GetPinnedStyle<TData> = (column: DatagridRenderedColumn<TData>) => React.CSSProperties;
 
-export type DatagridHeadInheritedProps<TData extends { id: string | number }> = Pick<
+export type DatagridHeadInheritedProps< TData extends { id: string | number }> = Pick<
     DatagridTableProps<TData>,
     | "gridRef"
     | "data"
@@ -67,16 +66,16 @@ export interface DatagridHeadProps<TData extends { id: string | number }> extend
 }
 
 export type HandleDragOverContext<TData extends { id: string | number }> = Pick<
-    DatagridHeadProps<TData>,
-    | "enableColumnReorder"
-    | "dragProp"
-    | "lastDragTargetProp"
-    | "moveDragPreview"
-    | "gridRef"
-    | "setColumns"
-> & {
-    setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>;
-};
+        DatagridHeadProps<TData>,
+        | "enableColumnReorder"
+        | "dragProp"
+        | "lastDragTargetProp"
+        | "moveDragPreview"
+        | "gridRef"
+        | "setColumns"
+    > & {
+        setDropdownResetKey: React.Dispatch<React.SetStateAction<number>>;
+    };
 
 
 export function DatagridHead<TData extends { id: string | number }>({
@@ -195,41 +194,41 @@ export function DatagridHead<TData extends { id: string | number }>({
                                     getPinnedStyle
                                 )}
                                 onDragStart={(event) => handleDragStart(
-                                    event,
-                                    column,
-                                    enableColumnReorder,
-                                    dragProp,
-                                    lastDragTargetProp,
-                                    createDragPreview,
-                                    setDropdownResetKey
-                                )
-                                }
-                                onDragOver={(event) => handleDragOver(
-                                    event,
-                                    column,
-                                    {
+                                        event,
+                                        column,
                                         enableColumnReorder,
                                         dragProp,
                                         lastDragTargetProp,
-                                        moveDragPreview,
-                                        gridRef,
-                                        setColumns,
+                                        createDragPreview,
                                         setDropdownResetKey
-                                    }
-                                )
+                                    )
+                                }
+                                onDragOver={(event) => handleDragOver(
+                                        event,
+                                        column,
+                                        {
+                                            enableColumnReorder,
+                                            dragProp,
+                                            lastDragTargetProp,
+                                            moveDragPreview,
+                                            gridRef,
+                                            setColumns,
+                                            setDropdownResetKey
+                                        }
+                                    )
                                 }
                                 onDragEnd={() => handleDragEnd(
-                                    dragProp,
-                                    lastDragTargetProp,
-                                    removeDragPreview
-                                )
+                                        dragProp,
+                                        lastDragTargetProp,
+                                        removeDragPreview
+                                    )
                                 }
                             >
                                 <button type="button"
                                     className="datagrid__grid__hcell__content"
                                     onClick={() => handleSorting(column.prop, sort, setSort)}
                                 >
-                                    <Tooltip overflowTooltip>
+                                     <Tooltip overflowTooltip>
                                         <span className="datagrid__grid__hcell__content__label">
                                             {column.title}
                                         </span>
@@ -722,16 +721,3 @@ function handleDragEnd(
     dragProp.current = null;
     lastDragTargetProp.current = null;
 }
-
-function handleLabelMouseEnter(
-    event: React.MouseEvent<HTMLSpanElement>
-): void {
-    const element = event.currentTarget;
-
-    if (element.scrollWidth > element.clientWidth) {
-        element.title = element.textContent ?? "";
-    } else {
-        element.removeAttribute("title");
-    }
-}
-

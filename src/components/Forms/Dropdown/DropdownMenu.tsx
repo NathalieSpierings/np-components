@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { DropdownCoordinates } from "./Dropdown";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Icon from "../../UI/Icons/Icon/Icon";
+import { DropdownCoordinates } from "./Dropdown";
 
 const filterMenuItems = (
     items: DropdownMenuItem[],

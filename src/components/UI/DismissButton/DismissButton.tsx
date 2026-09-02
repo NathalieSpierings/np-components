@@ -71,7 +71,7 @@ const DismissButton: FC<DismissButtonProps> = ({
     }
 
     return (
-        <button className={cls} onClick={onClick}>
+        <button type="button" className={cls} onClick={onClick}>
             {content}
         </button>
     );

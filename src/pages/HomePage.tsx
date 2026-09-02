@@ -1,16 +1,18 @@
 import React, { ReactElement } from "react";
-import { Link } from "react-router";
+import useBreadcrumb from "../lib/hooks/useBreadcrumb";
+import usePageTitle from "../lib/hooks/usePageTitle";
 
 const HomePage = ({
 }): ReactElement => {
 
-    return (
-        <>
-        <h3>Welkom to the Homepage</h3>
-            <ul>
-                <li><Link to='./demo'>Go to the demo's</Link>            </li>
-            </ul>
-        </>
+    usePageTitle("Home", []);
+
+    useBreadcrumb([
+        { label: "Home", href: "/" },
+    ]);
+    
+    return (       
+       <h3>Welkom to the home page</h3>
     )
 }
 

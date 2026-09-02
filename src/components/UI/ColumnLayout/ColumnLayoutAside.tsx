@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
-import React from "react";
 
 
 export interface ColumnLayoutAsideProps extends PropsWithChildren {

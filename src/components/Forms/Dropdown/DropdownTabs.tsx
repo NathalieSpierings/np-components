@@ -46,6 +46,7 @@ function DropdownTabs({
       <div className="dropdown__tabber__tabs">
         {tabs.map((tab, idx) => (
           <button
+            type="button"
             key={tab.id ?? idx}
             disabled={tab.disabled}
             className={activeTab === tab.id ? "dropdown__tabber__tab active" : "dropdown__tabber__tab"}

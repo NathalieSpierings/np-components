@@ -911,6 +911,38 @@
 
 @layer general {
 
+	 table {
+        position: relative;
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border: none;
+        margin: 0;
+        padding: 0;
+        text-align: left;
+
+        th {
+            color: var(--color-foreground);
+            font-weight: 600;
+        }
+
+        th,
+        td {
+            padding: var(--page-padding-2xs) var(--page-padding-sm);
+            color: inherit;
+        }
+
+
+        .form-field,
+        .form-group {
+            margin: 0;
+        }
+
+
+    }
+	
 	.scrollable {
 		max-height: 25vh;
 		overflow-y: auto;

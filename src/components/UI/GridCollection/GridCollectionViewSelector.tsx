@@ -15,7 +15,8 @@ const GridCollectionViewSelector: React.FC<GridCollectionViewSelectorProps> = ({
     return (
         <>
             <Tooltip content="Lijst weergave" direction="bottom-left">
-                <button
+                <button 
+                type="button"
                     className={`grid-collection--view-option ${defaultView == 'list' ? 'active' : null}`}
                     onClick={() => setViewOption('list')}
                 >
@@ -26,7 +27,8 @@ const GridCollectionViewSelector: React.FC<GridCollectionViewSelectorProps> = ({
             </Tooltip>
 
             <Tooltip content="2 kolommen" direction="bottom-left">
-                <button
+                <button 
+                type="button"
                     className={`grid-collection--view-option ${defaultView == 'columns-2' ? 'active' : null}`}
                     onClick={() => setViewOption('columns-2')}
                 >
@@ -37,6 +39,7 @@ const GridCollectionViewSelector: React.FC<GridCollectionViewSelectorProps> = ({
 
             <Tooltip content="4 kolommen" direction="bottom-left">
                 <button
+                    type="button"
                     className={`grid-collection--view-option ${defaultView == 'columns-3' ? 'active' : null}`}
                     onClick={() => setViewOption('columns-3')}
                 >
@@ -48,6 +51,7 @@ const GridCollectionViewSelector: React.FC<GridCollectionViewSelectorProps> = ({
 
             <Tooltip content="4 kolommen" direction="bottom-left">
                 <button
+                    type="button"
                     className={`grid-collection--view-option ${defaultView == 'columns-4' ? 'active' : null}`}
                     onClick={() => setViewOption('columns-4')}
                 >

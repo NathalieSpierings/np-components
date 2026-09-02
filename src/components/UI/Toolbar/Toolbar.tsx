@@ -9,6 +9,8 @@ export interface ToolbarProps {
     postfixItems?: ReactNode[];
     borderBottom?: boolean;
     borderColor?: ColorDefinitions;
+    compact?: boolean;
+    toolbarCss?: string;
 }
 
 const Toolbar = ({
@@ -18,13 +20,15 @@ const Toolbar = ({
     prefixItems = [],
     postfixItems = [],
     borderBottom = false,
-    borderColor = ColorDefinitions.Surface
+    borderColor = ColorDefinitions.Surface,
+    compact = false,
+    toolbarCss = ''
 }: ToolbarProps) => {
 
     const hasActions = prefixItems.length > 0 || postfixItems.length > 0;
 
     return (
-        <div className={`toolbar ${borderBottom ? 'border-' + borderColor : null}`}>
+        <div className={`toolbar ${borderBottom ? 'border-' + borderColor : ''} ${compact ? 'toolbar--compact': ''} ${toolbarCss}`}>
 
             {title && (
                 <div className="toolbar__header">

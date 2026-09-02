@@ -10,7 +10,6 @@ import { DatagridGetDataArguments } from '../../../Data/Datagrid/Config/Datagrid
 import Datagrid from '../../../Data/Datagrid/Datagrid';
 import Loader from '../Loader';
 import { useTableQueryClientFilter } from '../../../Data/Datagrid/Hooks/useTableQueryClientFilter';
-import React from 'react';
 
 const queryClient = new QueryClient();
 

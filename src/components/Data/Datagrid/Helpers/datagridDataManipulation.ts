@@ -96,7 +96,6 @@ export const getStringValue = (val: any): string => {
     return val + '';
 };
 
-
 export const debounce = (func: any, timeout = 300) => {
     let timer: ReturnType<typeof setTimeout>;
     return (...args: any[]) => {
@@ -152,5 +151,3 @@ export const defaultSearch = <TData>(
         }) ?? false
     );
 };
-
-

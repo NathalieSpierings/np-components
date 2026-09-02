@@ -1,13 +1,13 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
+import { IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import { LayoutProvider } from '../../../Providers/LayoutContext/LayoutContext';
 import Avatar from '../../../UI/Avatar/Avatar';
+import { SidebarMenuPlacement } from '../../Navigation/MainMenu';
 import { SidebarAccount } from '../../Sidebar/SidebarAccount';
 import MainLayout from '../MainLayout';
-import { SidebarMenuPlacement } from '../../Navigation/MainMenu';
 
 
 const meta: Meta<typeof MainLayout> = {

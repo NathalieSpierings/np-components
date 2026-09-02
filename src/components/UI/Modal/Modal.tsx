@@ -1,31 +1,35 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FC, ReactElement } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import Box, { BoxProps } from '../../Base/Box/Box';
 import Icon from '../../UI/Icons/Icon/Icon';
 import DismissButton from '../DismissButton/DismissButton';
-import React from 'react';
 
 export type ModalVariant = 'default' | 'primary' | 'warning' | 'informational' | 'positive' | 'negative';
 export type ModalActionPosition = 'left' | 'center' | 'right';
+export type ModalSize = 'default' | 'sm' | 'md' | 'lg' ;
+
 
 export interface ModalProps extends BoxProps {
     title?: string;
-    titleContent?: ReactElement;
+    titleContent?: ReactNode;
     variant?: ModalVariant;
+    size?: ModalSize;
     headerBoxProps?: BoxProps;
     footerBoxProps?: BoxProps;
-    footerActions?: ReactElement;
-    footerActionPosition?: ModalActionPosition;
+    footerActions?: ReactNode;
+    footerActionPosition?: 'left' | 'center' | 'right';
     background?: ColorDefinitions;
     isOpen: boolean;
     onClose?: () => void;
+    enableDismiss?: boolean;
 }
 
 const Modal: FC<ModalProps> = ({
     title,
     titleContent,
     variant,
+    size = "default",
     headerBoxProps = { borderColor: ColorDefinitions.Surface },
     footerBoxProps = { borderColor: ColorDefinitions.Surface },
     footerActions,
@@ -34,6 +38,7 @@ const Modal: FC<ModalProps> = ({
     isOpen,
     onClose = () => { },
     children,
+    enableDismiss = true,
 }) => {
     
     const overlayVariants = {
@@ -55,6 +60,13 @@ const Modal: FC<ModalProps> = ({
         },
     };
 
+    const cls = [
+        'modal',
+        background ? `bg--${background}` : '',
+        variant ? `modal-${variant}` : '',
+        size ? `modal--${size}` : ''
+    ].filter(Boolean).join(' ');
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -66,7 +78,7 @@ const Modal: FC<ModalProps> = ({
                     className="modal-backdrop"
                 >
                     <motion.div
-                        className={`modal ${background ? "bg-" + background : ''} ${variant ? "modal-" + variant : ''}`}
+                        className={cls}
                         initial={{ opacity: 0, scale: 0.75 }}
                         animate={{
                             opacity: 1,
@@ -86,7 +98,7 @@ const Modal: FC<ModalProps> = ({
                             ) : null}
                             {title ? <h3>{title}</h3> : <>{titleContent}</>}
 
-                            <DismissButton right={true} onClick={onClose} />
+                            {enableDismiss ? <DismissButton right={true} onClick={onClose} /> : null}
                         </Box>
                         <div className="modal__content">{children}</div>
                         <Box

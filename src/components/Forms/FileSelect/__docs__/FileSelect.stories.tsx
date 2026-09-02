@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Button } from '../../..';
 import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import FileSelect from '../FileSelect';
-import React from 'react';
 
 const meta: Meta<typeof FileSelect> = {
     title: 'Forms/FileSelect',

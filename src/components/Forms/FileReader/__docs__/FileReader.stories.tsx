@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import FileSelect from '../../../Forms/FileSelect/FileSelect';
 import FileReader from '../FileReader';
-import React from 'react';
 
 const meta: Meta<typeof FileReader> = {
     title: 'Forms/FileReader',

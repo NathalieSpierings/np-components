@@ -2,7 +2,6 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import styled from 'styled-components';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../../lib/utils/definitions';
 import Icon from '../Icon';
-import React from 'react';
 
 const meta: Meta<typeof Icon> = {
     title: 'Foundation/Icons',
@@ -358,10 +357,10 @@ export const Position: StoryFn = (args) => {
     return (
         <>
             <p>The position gives an extra space between the icon and the text on the button</p>
-            <button>
+            <button type="button">
                 <Icon icon={IconDefinitions.calendar_day} position="left" /> button
             </button>
-            <button>
+            <button type="button">
                 button
                 <Icon icon={IconDefinitions.calendar_day} position="right" />{' '}
             </button>

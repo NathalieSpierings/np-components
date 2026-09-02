@@ -7,7 +7,6 @@ import ColumnLayoutAside from '../ColumnLayoutAside';
 import ColumnLayoutContent from '../ColumnLayoutContent';
 import ColumnLayoutHeader from '../ColumnLayoutHeader';
 import ColumnLayoutMain from '../ColumnLayoutMain';
-import React from 'react';
 
 const meta: Meta<typeof ColumnLayout> = {
     title: 'Layout/Column layout',
@@ -88,7 +87,7 @@ export const TabsAndFixedHeader: StoryFn = () => {
 
                             ),
                             postfix: (
-                                <button className="btn btn--shadow btn-primary">Opslaan</button>
+                                <button type="button" className="btn btn--shadow btn-primary">Opslaan</button>
                             )
                         }
                     } />

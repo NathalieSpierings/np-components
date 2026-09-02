@@ -244,6 +244,7 @@ export enum IconDefinitions {
     'book' = 'book',
     'briefcase' = 'briefcase',
     'building' = 'building',
+    'building_hospital' = 'building_hospital',
     'bulb' = 'bulb',
     'burger' = 'burger',
     'calendar' = 'calendar',

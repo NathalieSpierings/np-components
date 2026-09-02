@@ -1,7 +1,7 @@
-import React from 'react';
-import Box from '../Box';
 import { render, screen } from '@testing-library/react';
+import React from 'react';
 import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
+import Box from '../Box';
 
 describe('Box', () => {
     it('renders children', () => {

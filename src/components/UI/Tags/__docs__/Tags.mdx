@@ -1,0 +1,33 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as TagsStories from './Tags.stories';
+import TagsComponent from '../Tags';
+ 
+<Meta of={TagsStories} />
+ 
+
+# Tags Component
+
+De `Tags component` wordt gebruikt om een verzameling labels, categorieën of kenmerken compact en overzichtelijk weer te geven.
+
+Tags kunnen optioneel verwijderd worden en er kan ondersteuning worden toegevoegd om nieuwe tags toe te voegen. Hierdoor is de component geschikt voor zowel alleen-lezen situaties als interactieve invoer.
+---
+
+## Belangrijkste functionaliteiten
+
+- **Meerdere tags:** Geef eenvoudig een lijst van tags weer via de tags prop.
+- **Tags verwijderen:** Met onRemove kan een gebruiker een bestaande tag verwijderen.
+- **Tags toevoegen:** Met onAdd kan een nieuwe tag aan de verzameling worden toegevoegd.
+- **Responsive weergave:** Tags worden automatisch over meerdere regels verdeeld wanneer er onvoldoende ruimte beschikbaar is.
+- **Compacte weergave:** Iedere tag bestaat uit een label en, indien van toepassing, een knop om de tag te verwijderen.
+- **Optionele interactie:** Wanneer onAdd of onRemove niet wordt meegegeven, worden de bijbehorende acties niet getoond.
+- **Eigen styling:** Via tagsCss kan aanvullende styling aan de component worden toegevoegd.
+
+### Default
+
+<Canvas of={TagsStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

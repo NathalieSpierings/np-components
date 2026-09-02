@@ -1,6 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import FormDisplayList from '../FormDisplayList';
-import React from 'react';
 
 const meta: Meta<typeof FormDisplayList> = {
     title: 'Forms/DisplayList',

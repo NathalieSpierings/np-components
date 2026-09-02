@@ -1,7 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { useState } from 'react';
 import SearchInput from '../SearchInput';
-import React from 'react';
 
 const meta: Meta<typeof SearchInput> = {
     title: 'Forms/SearchInput',

@@ -7,7 +7,7 @@
   "source": "src/index.html",
   "scripts": {
     "scss:watch": "cpx \"src/assets/scss/**\" dist/assets/scss -v -w",
-    "start": "parcel -p 8081",
+    "start": "parcel -p 8086",
     "https": "parcel -p 1235 --https",
     "build": "parcel build",
     "check": "tsc --noEmit",

@@ -23,6 +23,7 @@ function Detailgrid<TData extends { id: string | number }>({
     enableStickyHeader = true,
     enablePagination = true,
     paginationRowInfoPosition = "left",
+    initialPageSize = 10,
     pageSizeOptions,
     enableRowHover = false,
     selectedRow,
@@ -43,6 +44,8 @@ function Detailgrid<TData extends { id: string | number }>({
     toolbarPostfixItems = [],
     toolbarSeparator,
     toolbarBorderBottom = false,
+    toolbarCss = '',
+    toolbarCompact = false,
     loaderDuration,
     loaderBackground,
     loaderEnableAnimation,
@@ -51,7 +54,6 @@ function Detailgrid<TData extends { id: string | number }>({
     loaderLabelColor,
     loaderLabels,
     loaderVariant = "table-overlay",
-    fullHeight = true,
     css = ""
 }: Readonly<DatagridProps<TData>>): ReactElement {
     return (
@@ -77,6 +79,7 @@ function Detailgrid<TData extends { id: string | number }>({
             enablePagination={enablePagination}
             paginationPosition = "inside table"
             paginationRowInfoPosition={paginationRowInfoPosition}
+            initialPageSize={initialPageSize}
             pageSizeOptions={pageSizeOptions}
             enableRowHover={enableRowHover}
             selectedRow={selectedRow}
@@ -97,6 +100,8 @@ function Detailgrid<TData extends { id: string | number }>({
             toolbarPostfixItems={toolbarPostfixItems}
             toolbarSeparator={toolbarSeparator}
             toolbarBorderBottom={toolbarBorderBottom}
+             toolbarCompact={toolbarCompact}
+            toolbarCss={toolbarCss}
             loaderDuration={loaderDuration}
             loaderBackground={loaderBackground}
             loaderEnableAnimation={loaderEnableAnimation}
@@ -104,8 +109,7 @@ function Detailgrid<TData extends { id: string | number }>({
             loaderEnableLabels={loaderEnableLabels}
             loaderLabelColor={loaderLabelColor}
             loaderLabels={loaderLabels}
-            loaderVariant={loaderVariant}
-            fullHeight={fullHeight}
+            loaderVariant={loaderVariant}            
             css={css}
         />
     )

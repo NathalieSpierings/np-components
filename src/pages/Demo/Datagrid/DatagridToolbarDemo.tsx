@@ -13,6 +13,7 @@ import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definition
 const DatagridToolbarDemo: React.FC = () => {
 
     const [toggleChecked, setToggleChecked] = useState(true);
+    const [checkedItems, setCheckedItems] = useState<ProductGetModel[]>([]);
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -27,6 +28,8 @@ const DatagridToolbarDemo: React.FC = () => {
             total={total || 0}
             loading={status === "pending"}
             onFilterUpdate={setTableOptions}
+
+            
             toolbarTitle={<Title size="md">All products</Title>}
             toolbarBorderBottom={true}
             toolbarPrefixItems={[
@@ -44,6 +47,10 @@ const DatagridToolbarDemo: React.FC = () => {
                     labelPosition="left"
                 />
             ]}
+            enableCheckboxes
+            checkedItems={checkedItems}
+            onRowsChecked={setCheckedItems}
+            enableTableInfo={checkedItems.length > 0}
             enableCompactView={true}
             properties={defaultProductColumns() as any}
         />

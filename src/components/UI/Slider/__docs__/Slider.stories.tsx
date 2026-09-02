@@ -12,7 +12,6 @@ import ArtVerbruiksmiddel from '../../../Base/Art/ArtVerbruiksmiddel';
 import Button from '../../Button/Button';
 import Widget from '../../Widget/Widget';
 import Slider from '../Slider';
-import React from 'react';
 
 const meta: Meta<typeof Slider> = {
     title: 'UI kit/Slider',

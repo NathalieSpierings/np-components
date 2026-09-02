@@ -37,7 +37,6 @@ $shades: (
   "havanna": ("base": #F5BD6E, "5": #fdf0ce, "10": #fbe2b3, "20":#f8d397, "30": #e7b062),
   "orange": ("base": #FFB064, "5": #ffefe0, "10": #ffdfc1, "20": #ffc893, "30": #F38E40),
   "salmon": ("base": #FF8B68, "5": #ffe5c6, "10": #ffcbab, "20":#ffb290, "30":#d26345),
-  "red": ("base": #dc6a7a, "5": #fceff0, "10": #f6d0d2, "20": #ea9195, "30": #A5313B),
   "soft-pink": ("base": #fba19d, "5": #feeae9, "10": #fdd5d3, "20":#fcc0be, "30": #b36160),
   "nude": ("base": #E1A299, "5": #F1D5D1, "10": #F5C9C0, "20": #E6B7AF, "30": #D3948B),
   "rose": ("base": #f88392, "5": #ffe8e9, "10": #ffcfd3, "20":#ff9ca6, "30": #dc6a7a),
@@ -49,64 +48,82 @@ $shades: (
 
 $themes: (
   light: (
-    theme-100: #fffffe,
-    theme-200: #fefcfc,
-    theme-300: #f9f7f5,
-    theme-400: #f2eeeb,
-    theme-500: #eae6e3,
-    theme-600: #d8d5d2,
-    theme-700: #cfcbc9,
-    theme-800: #c5c2bf,
-    theme-900: #bbb8b6,
-    text-light: #a2a1a0,
-    text: #3c3c3c,
-    text-dark: #000000,
-    primary: #ff8b5d,
-		primary-5: #FFDCCE, 
-		primary-10: #FFC5AE, 
-		primary-20: #FFAE8E,
-		primary-30: #EC6636,
-    dark: #3F3F3F,
-  ),
-  dimmed: (theme-100: #989898,
-    theme-200: #808080,
-    theme-300: #727272,
-    theme-400: #676767,
-    theme-500: #616161,
-    theme-600: #5b5b5b,
-    theme-700: #565656,
-    theme-800: #505050,
-    theme-900: #4a4a4a,
-    text-light: #A8A8A8,
-    text: #D3D3D3,
-    text-dark: #fdfdfd,
-    primary: #ff8b5d,
-		primary-5: #FFDCCE, 
-		primary-10: #FFC5AE, 
-		primary-20: #FFAE8E,
-		primary-30: #EC6636,
-    dark: #3F3F3F,
-  ),
-  dark: (theme-100: #656565,
-    theme-200: #4b4b4b,
-    theme-300: #414141,
-    theme-400: #373737,
-    theme-500: #303030,
-    theme-600: #2b2b2b,
-    theme-700: #252525,
-    theme-800: #202020,
-    theme-900: #1a1a1a,
-    text-light: #878787,
-    text: #cdcdcd,
-    text-dark: #fdfdfd,
-    primary: #ff8b5d,
-		primary-5: #FFDCCE, 
-		primary-10: #FFC5AE, 
-		primary-20: #FFAE8E,
-		primary-30: #EC6636,
-    dark: #0D0D0D,
-  )
+		theme-100: #fffffe,
+		theme-200: #fefcfc,
+		theme-300: #f9f7f5,
+		theme-400: #f2eeeb,
+		theme-500: #eae6e3,
+		theme-600: #d8d5d2,
+		theme-700: #cfcbc9,
+		theme-800: #c5c2bf,
+		theme-900: #bbb8b6,
+		text-light: #a2a1a0,
+		text: #3c3c3c,
+		text-dark: #000000,
+		primary: #ff8b5d,
+		primary-5: #ffdcce,
+		primary-10: #ffc5ae,
+		primary-20: #ffae8e,
+		primary-30: #ec6636,
+		dark: #3f3f3f,
+		"red": #FF8A8A,
+		red-5: #fceff0,
+		red-10: #f6d0d2,
+		red-20: #ea9195,
+		red-30: #A5313B,		
+	),
+	dimmed: (
+		theme-100: #848383,
+		theme-200: #7c7c7b,
+		theme-300: #646463,
+		theme-400: #6d6d6c,
+		theme-500: #5a5a59,
+		theme-600: #565655,
+		theme-700: #515150,
+		theme-800: #4d4d4c,
+		theme-900: #484847,
+		text-light: #a8a8a8,
+		text: #d3d3d3,
+		text-dark: #fdfdfd,
+		primary: #ff8b5d,
+		primary-5: #ffdcce,
+		primary-10: #ffc5ae,
+		primary-20: #ffae8e,
+		primary-30: #ec6636,
+		dark: #3f3f3f,
+		"red": #f38b94,
+		red-5: #fde8ea,
+		red-10: #f599a1,
+		red-20: #d9656f,
+		red-30: #ae5159,
+	),
+	dark: (
+		theme-100: #656565,
+		theme-200: #4b4b4b,
+		theme-300: #414141,
+		theme-400: #373737,
+		theme-500: #303030,
+		theme-600: #2b2b2b,
+		theme-700: #252525,
+		theme-800: #202020,
+		theme-900: #1a1a1a,
+		text-light: #878787,
+		text: #cdcdcd,
+		text-dark: #fdfdfd,
+		primary: #ff8b5d,
+		primary-5: #ffdcce,
+		primary-10: #ffc5ae,
+		primary-20: #ffae8e,
+		primary-30: #ec6636,
+		dark: #0d0d0d,
+		"red": #f1707b,
+		red-5: #fde8ea,
+		red-10: #f599a1,
+		red-20: #d9656f,
+		red-30: #ae5159,
+	)
 );
+
 
 
 $theme-aliases: (
@@ -421,24 +438,28 @@ $theme-high: (
 $theme-all: list.join($theme-low, $theme-high);
 
 // Theme
-@if $theme ==light {
-  @if list.index($theme-low, $name) {
-    @return oklab-mix($value, 10, black);
-  }
 
-  @if list.index($theme-high, $name) {
-    @return oklab-mix($value, 30, white);
-  }
-}
+    @if $theme == light {
+      @if list.index($theme-low, $name) {
+          @return oklab-mix($value, 10, black);
+      }
 
-@if $theme !=light {
+      @if list.index($theme-high, $name) {
+          @return oklab-mix($value, 30, white);
+      }
+    }
 
-  @if list.index($theme-all, $name) {
-    @return oklab-mix($value, 17, white);
-  }
-}
+    @if $theme != light {
+      @if $theme == dimmed and $name == theme-300 {
+        @return oklab-mix($value, 25, white);
+    }
+    
+      @if list.index($theme-all, $name) {
+          @return oklab-mix($value, 20, white);
+      }
+    }
 
-@return oklab-mix($value, 50, white);
+    @return oklab-mix($value, 50, white);
 }
 
 // Generate css-variables for themes

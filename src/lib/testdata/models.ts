@@ -13,7 +13,6 @@ export type OrderStatus =  | "Nieuw"  | "In behandeling"  | "Verzonden"  | "Afge
 export type BetaalStatus = "Betaald" | "Open" | "Terugbetaald";
 export type BetaalMethode =  | "iDEAL"  | "Creditcard"  | "PayPal"  | "Apple Pay"  | "Google Pay";
 export type Vervoerder = "PostNL" | "DHL" | "DPD" | "GLS" | "Trunkrs";
-
 export interface AfmetingenModel {
   gewicht: number;
   lengte: number;
@@ -552,42 +551,57 @@ const orderOpmerkingen: string[] = [
   "Product zorgvuldig verpakken.",
 ];
 
+
+
+const random = (): number => {
+    const values = new Uint32Array(1);
+    crypto.getRandomValues(values);
+
+    return values[0] / (0xffffffff + 1);
+};
+
 const randomItem = <T>(items: readonly T[]): T => {
-  if (items.length === 0) {
-    throw new Error("randomItem kan niet worden gebruikt met een lege array.");
-  }
+    if (items.length === 0) {
+        throw new Error("randomItem kan niet worden gebruikt met een lege array.");
+    }
 
-  return items[Math.floor(Math.random() * items.length)];
+    return items[Math.floor(random() * items.length)];
 };
 
-const randomNumber = (min: number, max: number, decimals = 0): number => {
-  if (min > max) {
-    throw new Error(
-      "De minimale waarde mag niet groter zijn dan de maximale waarde."
-    );
-  }
 
-  const value = Math.random() * (max - min) + min;
+const randomNumber = (
+    min: number,
+    max: number,
+    decimals = 0
+): number => {
+    if (min > max) {
+        throw new Error(
+            "De minimale waarde mag niet groter zijn dan de maximale waarde."
+        );
+    }
 
-  return Number(value.toFixed(decimals));
+    const value = random() * (max - min) + min;
+
+    return Number(value.toFixed(decimals));
 };
+
 
 const randomInteger = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(random() * (max - min + 1)) + min;
 };
 
 const randomBoolean = (percentageTrue = 50): boolean => {
-  return Math.random() * 100 < percentageTrue;
+    return random() * 100 < percentageTrue;
 };
 
 const randomDate = (start: Date, end: Date): Date => {
-  if (start.getTime() > end.getTime()) {
-    throw new Error("De startdatum mag niet na de einddatum liggen.");
-  }
+    if (start.getTime() > end.getTime()) {
+        throw new Error("De startdatum mag niet na de einddatum liggen.");
+    }
 
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  );
+    return new Date(
+        start.getTime() + random() * (end.getTime() - start.getTime())
+    );
 };
 
 const addDays = (date: Date, days: number): Date => {
@@ -980,8 +994,8 @@ export const combineerProductenMetOrders = (
   }));
 };
 
-export const AANTAL_PRODUCTEN = 100;
-export const AANTAL_ORDERS = 300;
+export const AANTAL_PRODUCTEN = 500;
+export const AANTAL_ORDERS = 2500;
 
 export const productsMock: ProductGetModel[] =  generateProducts(AANTAL_PRODUCTEN);
 export const ordersMock: OrderGetModel[] = generateOrders(  productsMock,  AANTAL_ORDERS);

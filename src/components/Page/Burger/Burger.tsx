@@ -12,7 +12,7 @@ const Burger: React.FC<BurgerProps> = ({ hasSidebars, showSidebarMobile, setShow
     };
 
     return hasSidebars ? (
-        <button className="burger" onClick={toggleMobileSidebars}>
+        <button type="button" className="burger" onClick={toggleMobileSidebars}>
             <div className="burger__line"></div>
             <div className="burger__line"></div>
             <div className="burger__title">Menu</div>

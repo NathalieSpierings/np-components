@@ -17,11 +17,11 @@ describe('EventStopper', () => {
         const parentClick = jest.fn();
 
         render(
-            <div onClick={parentClick}>
+            <button type="button" onClick={parentClick}>
                 <EventStopper>
                     Test content
                 </EventStopper>
-            </div>
+            </button>
         );
 
         fireEvent.click(screen.getByText('Test content'));

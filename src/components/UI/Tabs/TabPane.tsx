@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 const TabPane: FC<{ children: ReactNode }> = ({ children }) => {
   return <>{children}</>;

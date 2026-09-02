@@ -3,7 +3,6 @@ import { ColorDefinitions, SizeDefinitions } from '../../../lib/utils/definition
 import Button from '../../UI/Button/Button';
 import FileSelect from '../FileSelect/FileSelect';
 import { CollectionItemVariant } from '../../UI/Collection/Collection';
-import React from 'react';
 
 export interface FileReaderProps {
     processContent: (file: File) => void;

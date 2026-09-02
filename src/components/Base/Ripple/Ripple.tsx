@@ -57,10 +57,7 @@ const useDebouncedRippleCleanUp = (
     }, [rippleCount, duration, cleanUpFunction]);
 };
 
-const Ripple: FC<RippleProps> = ({ 
-    duration = 850, 
-    color = '#fff' 
-}) => {
+const Ripple: FC<RippleProps> = ({ duration = 850, color = '#fff' }) => {
     const [rippleArray, setRippleArray] = useState<{ x: number; y: number; size: number }[]>([]);
 
     const isColorDifinition = Object.values(ColorDefinitions).includes(color as ColorDefinitions);

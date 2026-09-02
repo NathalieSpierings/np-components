@@ -58,7 +58,9 @@ const InternalAccordionSection: React.FC<InternalAccordionSectionProps> = ({
 
     return (
         <div className={`accordion__item ${headerBackground ? "border-" + headerBackground : ''}`} aria-expanded={isActive}>
-            <button className={`accordion__header ${headerBackground ? "bg-" + headerBackground : ''}`}
+            <button 
+            type="button"
+            className={`accordion__header ${headerBackground ? "bg-" + headerBackground : ''}`}
                 onClick={() => setActiveIndex(index)}
             >
                 {title}

@@ -3,7 +3,6 @@ import React from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Ripple from '../Ripple';
 
-
 describe('Ripple', () => {
     afterEach(() => {
         jest.useRealTimers();

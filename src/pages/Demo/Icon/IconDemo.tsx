@@ -130,6 +130,7 @@ const IconDemo = ({
 
             <h2>Sizes</h2>
            <div className="flex gap-1 mb-5">
+                <Icon icon={IconDefinitions.warning} size={SizeDefinitions.Tiny} />
                 <Icon icon={IconDefinitions.warning} size={SizeDefinitions.ExtraSmall} />
                 <Icon icon={IconDefinitions.warning} size={SizeDefinitions.Small} />
                 <Icon icon={IconDefinitions.warning} />
@@ -141,6 +142,7 @@ const IconDemo = ({
             </div>
 
             <div className="flex gap-1 mb-5">
+                <Icon icon={IconDefinitions.warning} variant="square" size={SizeDefinitions.Tiny} />
                 <Icon icon={IconDefinitions.warning} variant="square" size={SizeDefinitions.ExtraSmall} />
                 <Icon icon={IconDefinitions.warning} variant="square" size={SizeDefinitions.Small} />
                 <Icon icon={IconDefinitions.warning} variant="square" />
@@ -152,6 +154,7 @@ const IconDemo = ({
             </div>
 
             <div className="flex gap-1 mb-5">
+                <Icon icon={IconDefinitions.warning} variant="circle" size={SizeDefinitions.Tiny} />
                 <Icon icon={IconDefinitions.warning} variant="circle" size={SizeDefinitions.ExtraSmall} />
                 <Icon icon={IconDefinitions.warning} variant="circle" size={SizeDefinitions.Small} />
                 <Icon icon={IconDefinitions.warning} variant="circle" />

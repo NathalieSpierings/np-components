@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Divider from '../Divider';
-import React from 'react';
 
 const meta: Meta<typeof Divider> = {
     title: 'UI kit/Divider',

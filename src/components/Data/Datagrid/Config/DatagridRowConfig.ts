@@ -15,7 +15,7 @@ export type Primitive =
     | undefined
     | Date;
 
-export type DatagridTotalType = "sum";
+
 
 
 export type NestedKeyOf<T> = T extends Primitive

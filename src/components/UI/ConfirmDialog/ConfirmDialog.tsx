@@ -1,18 +1,17 @@
-import { ReactElement, useEffect, useState } from 'react';
-import { ColorDefinitions } from '../../../lib/utils/definitions';
-
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { ColorDefinitions, IconDefinitions } from '../../../lib/utils/definitions';
 import Button from '../Button/Button';
 import Modal, { ModalVariant } from '../Modal/Modal';
-import React from 'react';
+import { Icon } from '../Icons/Icon';
 
 export type ConfirmDialogItemType = {
     title?: string;
-    titleContent?: ReactElement;
-    message?: string | ReactElement;
+    titleContent?: ReactNode;
+    message?: ReactNode;
     variant?: ModalVariant;
-    confirmLabel: string;
-    confirmAction: () => Promise<void>;
-    dismissLabel: string;
+    confirmLabel?: ReactNode;
+    confirmAction?: () => (Promise<void> | void);
+    dismissLabel?: string;
 };
 
 export interface ConfirmDialogItemProps {
@@ -29,6 +28,7 @@ const ConfirmDialogItem = ({
     buttonConfirmColor = ColorDefinitions.Primary,
 }: ConfirmDialogItemProps): ReactElement => {
     const [modalOpen, setModalOpen] = useState(open);
+    const [isLoading, setIsLoading] = useState(false);
 
     return ( 
             <Modal
@@ -37,21 +37,28 @@ const ConfirmDialogItem = ({
                 titleContent={item.titleContent}
                 variant={item.variant}
                 onClose={onClose}
+                enableDismiss={!isLoading}
                 footerActions={
                     <>
-                        <Button
-                            disabled={!modalOpen}
+                        {item.confirmLabel === undefined ? null : <Button
+                            disabled={!modalOpen || isLoading}
+                            
                             shadow={true}
                             color={buttonConfirmColor}
                             onClick={async () => {
                                 setModalOpen(true);
-                                await item.confirmAction();
+                                setIsLoading(true);
+                                if (item.confirmAction) {
+                                    await item?.confirmAction();
+                                }
                                 onClose();
+                                setIsLoading(false);
                             }}
                         >
+                            {isLoading ? <Icon icon={IconDefinitions.loading} /> : null}
                             {item.confirmLabel}
-                        </Button>
-                        <Button onClick={onClose}>{item.dismissLabel}</Button>
+                        </Button>}
+                        {item.dismissLabel === undefined ? null : <Button onClick={onClose} disabled={isLoading}>{item.dismissLabel}</Button>}
                     </>
                 }
             >

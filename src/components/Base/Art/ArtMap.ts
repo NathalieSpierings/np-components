@@ -16,6 +16,7 @@ import ArtVerbruiksmiddelen from './ArtVerbruiksmiddel';
 
 export const ArtMap: Record<ArtDefinitions, React.FC<React.SVGProps<SVGSVGElement>>> = {
     [ArtDefinitions.Contract]: ArtContract,
+    [ArtDefinitions.Suite]: ArtSuite,
     [ArtDefinitions.Document]: ArtDocument,
     [ArtDefinitions.Dossier]: ArtDossier,
     [ArtDefinitions.Igo]: ArtIgo,

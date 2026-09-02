@@ -72,6 +72,7 @@ const MainMenu: FC<MainMenuProps> = ({
                         ) : (
                             <Tooltip content={item.tooltip} direction="right">
                                 <button
+                                    type="button"
                                     className={`menu__item__link ${activeDawerMenuItem === item.id ? 'active' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -107,6 +108,7 @@ const MainMenu: FC<MainMenuProps> = ({
                         ) : (
                             <Tooltip content={item.tooltip} direction="right">
                                 <button
+                                    type="button"
                                     className={`menu__item__link ${activeDawerMenuItem === item.id ? 'active' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();

@@ -86,6 +86,7 @@ export interface DatagridPaginationProps {
     paginationPosition?: PaginationPosition;
     paginationRowInfoPosition?: PaginationInfoPosition;
     total: number;
+    initialPageSize?: number;
     pageSizeOptions?: number[];
 }
 
@@ -172,6 +173,8 @@ export interface DatagridToolbarProps {
     toolbarPostfixItems?: ReactNode[];
     toolbarSeparator?: boolean;
     toolbarBorderBottom?: boolean;
+    toolbarCss?: string;
+    toolbarCompact?: boolean;
 }
 
 export interface DatagridLoaderProps {
@@ -229,6 +232,7 @@ function Datagrid<TData extends { id: string | number }>({
     enablePagination = true,
     paginationPosition = "outside table",
     paginationRowInfoPosition = "right",
+    initialPageSize = 25,
     pageSizeOptions,
     enableTabs,
     tabs,
@@ -267,6 +271,8 @@ function Datagrid<TData extends { id: string | number }>({
     toolbarPostfixItems = [],
     toolbarSeparator,
     toolbarBorderBottom = false,
+    toolbarCss = '',
+    toolbarCompact = false,
     loaderDuration,
     loaderBackground,
     loaderEnableAnimation,
@@ -296,7 +302,7 @@ function Datagrid<TData extends { id: string | number }>({
     const [selectedSidebarItem, setSelectedSidebarItem] = useState<TData | null>(null);
     const [pagination, setPagination] = useState<PaginationData>({
         page: 1,
-        perPage: 25
+        perPage: initialPageSize
     });
     const [sort, setSort] = useState<DatagridSortConfig | undefined>(initialSortConfig);
     const useCheckboxes = enableCheckboxes && onRowsChecked !== undefined;
@@ -647,19 +653,21 @@ function Datagrid<TData extends { id: string | number }>({
             ]
                 .filter(Boolean)
                 .join(" ")}
-            style={fullHeight ? { height: "100%" } : undefined}
+            style={fullHeight ? { height: "95%" } : undefined}
         >
             {showHeader && (
                 <div className="datagrid__header pc-layout__header">
 
                     {showToolbar && (
-                        <Toolbar
+                       <Toolbar
                             title={toolbarTitle}
                             navItems={toolbarNavItems}
                             showSeparator={toolbarSeparator}
                             prefixItems={toolbarPrefixItems}
                             postfixItems={postfixElements}
                             borderBottom={toolbarBorderBottom}
+                            toolbarCss={toolbarCss}
+                            compact={toolbarCompact}
                         />
                     )}
 

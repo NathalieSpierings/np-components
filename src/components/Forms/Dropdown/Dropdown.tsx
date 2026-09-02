@@ -1,12 +1,12 @@
-import React, { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import Box, { BoxProps } from "../../Base/Box/Box";
+import Search from "../../Base/Search/Search";
 import ContentItem from "../../UI/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import DropdownMenu, { DropdownMenuItem } from "./DropdownMenu";
 import DropdownTabs, { DropdownTabItem, DropdownTabPane } from "./DropdownTabs";
-import Search from "../../Base/Search/Search";
-import Box, { BoxProps } from "../../Base/Box/Box";
 
 export enum DropdownVerticalPosition { Up = "up", Down = "down" }
 export enum DropdownHorizontalPosition { Left = "left", Right = "right" }

@@ -5,7 +5,7 @@ import Multiselect, { MultiselectItem } from "../../../Forms/Multiselect/Multise
 import { Select } from "../../../Forms/Select/Select";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import { DatagridColumnFilterValue, DatagridFilterOption, isActiveColumnFilter } from "./DatagridColumnFilter";
+import { DatagridColumnFilterValue, DatagridFilterOption, getUniqueFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
 import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
 import Search from "../../../Base/Search/Search";
 import Button from "../../../UI/Button/Button";
@@ -35,7 +35,7 @@ export default function DatagridFilterDropdown<TData>({
         }
 
         if (filter.options) {
-            return filter.options;
+            return getUniqueFilterOptions(filter.options);
         }
 
         if (filter.optionsSource && dataRaw) {

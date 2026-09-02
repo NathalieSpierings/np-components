@@ -71,3 +71,16 @@ export function isActiveColumnFilter(
 
     return !!filter.value;
 }
+
+export function getUniqueFilterOptions(
+    options: DatagridFilterOption[]
+): DatagridFilterOption[] {
+    return Array.from(
+        new Map(
+            options.map((option) => [
+                option.value,
+                option
+            ])
+        ).values()
+    );
+}

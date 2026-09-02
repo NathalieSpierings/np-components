@@ -13,7 +13,7 @@ export interface CollapsibleProps extends PropsWithChildren {
 const Collapsible: FC<CollapsibleProps> = ({ title, collapsed, setCollapsed, children, collapseCss = '' }) => {
     return (
         <div className={`collapsible ${collapsed ? 'shown' : ''} ${collapseCss}`}>
-            <button className="collapsible__header" onClick={() => setCollapsed(!collapsed)} >
+            <button type="button" className="collapsible__header" onClick={() => setCollapsed(!collapsed)} >
                 <ContentItem item={{
                     id: 'collapsibleHeader',
                     content: <span>{title}</span>,

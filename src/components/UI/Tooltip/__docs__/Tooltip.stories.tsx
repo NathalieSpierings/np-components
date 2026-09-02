@@ -4,7 +4,6 @@ import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import { Input } from '../../../Forms/Input/Input';
 import Tooltip from '../Tooltip';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import React from 'react';
 
 const meta: Meta<typeof Tooltip> = {
     title: 'UI kit/Tooltip',
@@ -176,6 +175,7 @@ export const Anchors: StoryFn = () => {
     return (
         <>
             <button
+                type="button"
                 ref={buttonRef}
                 onMouseEnter={() => setEnabled(true)}
                 onMouseLeave={() => setEnabled(false)}
@@ -217,7 +217,8 @@ export const OnClick: StoryFn = () => {
 
     return (
         <>
-            <button
+            <button 
+                type="button"
                 ref={buttonRef}
                 onClick={() => setOpen(v => !v)}
             >

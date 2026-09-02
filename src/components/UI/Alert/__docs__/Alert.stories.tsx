@@ -26,7 +26,7 @@ export const Default: StoryFn = () => {
         <Alert shown={true}>
                 <p>
                     {' '}
-                    This is an default message. <button className="link action-link ">More Info.</button>
+                    This is an default message. <button type="button" className="link action-link ">More Info.</button>
                 </p>
             </Alert>
     );
@@ -37,7 +37,7 @@ export const Informational: StoryFn = () => {
         <Alert shown={true} variant="informational">
                 <p>
                     {' '}
-                    This is an informational message. <button className="link action-link">More Info.</button>
+                    This is an informational message. <button type="button" className="link action-link">More Info.</button>
                 </p>
             </Alert>
     );
@@ -48,7 +48,7 @@ export const Positive: StoryFn = () => {
         <Alert shown={true} variant="positive">
                 <p>
                     {' '}
-                    This is an positive message. <button className="link action-link">More Info.</button>
+                    This is an positive message. <button type="button" className="link action-link">More Info.</button>
                 </p>
             </Alert>
     );
@@ -59,7 +59,7 @@ export const Negative: StoryFn = () => {
        <Alert shown={true} variant="negative">
                 <p>
                     {' '}
-                    This is an negative message. <button className="link action-link">More Info.</button>
+                    This is an negative message. <button type="button" className="link action-link">More Info.</button>
                 </p>
             </Alert>
     );
@@ -70,7 +70,7 @@ export const Warning: StoryFn = () => {
        <Alert shown={true} variant="warning">
                 <p>
                     {' '}
-                    This is an warning message. <button className="link action-link">More Info.</button>
+                    This is an warning message. <button type="button" className="link action-link">More Info.</button>
                 </p>
             </Alert>
     );
@@ -87,7 +87,7 @@ export const Sticky: Story = {
         children: (
             <p>
                 {' '}
-                This is an sticky message. <button className="link action-link">More Info.</button>
+                This is an sticky message. <button type="button" className="link action-link">More Info.</button>
             </p>
         ),
     },

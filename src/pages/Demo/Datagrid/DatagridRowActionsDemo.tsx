@@ -8,7 +8,7 @@ import Icon from "../../../components/UI/Icons/Icon/Icon";
 import Tooltip from "../../../components/UI/Tooltip/Tooltip";
 import { defaultProductColumns } from "../../../lib/testdata/mock";
 import { ProductGetModel, getProductsQuery } from "../../../lib/testdata/models";
-import { IconDefinitions } from "../../../lib/utils/definitions";
+import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";
 
 
 const RowActionsDemo: React.FC = () => {
@@ -63,7 +63,7 @@ const RowActionsDemo: React.FC = () => {
                 action: (item) => { alert(`Bekijk order ${item.naam}`) }
             },
             {
-                icon: <Tooltip content="Verwijder"><Icon icon={IconDefinitions.bin} hover={true} iconCss="pointer" /></Tooltip>,
+                icon: <Tooltip content="Verwijder"><Icon icon={IconDefinitions.bin} color={ColorDefinitions.Red} hover={true} iconCss="pointer" /></Tooltip>,
                 action: (item) => { alert(`Verwijder order ${item.naam}`) }
             }]}
         />

@@ -1,8 +1,8 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
+import { useState } from 'react';
 import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
-import TagsInput, { TagItem } from '../TagsInput';
-import React, { useState } from 'react';
 import { Icon } from '../../../UI/Icons/Icon';
+import TagsInput, { TagsInputTagItem } from '../TagsInput';
 
 const meta: Meta<typeof TagsInput> = {
     title: 'Forms/TagsInput',
@@ -13,7 +13,7 @@ const meta: Meta<typeof TagsInput> = {
 export default meta;
 type Story = StoryObj<typeof TagsInput>;
 
-const tagItems: TagItem[] = [{
+const tagItems: TagsInputTagItem[] = [{
     id: '1',
     title: 'New York'
 },
@@ -23,7 +23,7 @@ const tagItems: TagItem[] = [{
 }]
 
 export const Default: StoryFn = () => {
-    const [selectedTags, setSelectedTags] = useState<TagItem[]>(tagItems);
+    const [selectedTags, setSelectedTags] = useState<TagsInputTagItem[]>(tagItems);
     const [textInput, setTextInput] = useState<string>("");
    
     return (
@@ -39,7 +39,7 @@ export const Default: StoryFn = () => {
 };
 
 export const SelectedTags: StoryFn = () => {
-    const [selectedTags, setSelectedTags] = useState<TagItem[]>(tagItems);
+    const [selectedTags, setSelectedTags] = useState<TagsInputTagItem[]>(tagItems);
     const [textInput, setTextInput] = useState<string>("");
 
     return (
@@ -53,7 +53,7 @@ export const SelectedTags: StoryFn = () => {
 };
 
 export const Colored: StoryFn = () => {
-    const [selectedTags, setSelectedTags] = useState<TagItem[]>(tagItems);
+    const [selectedTags, setSelectedTags] = useState<TagsInputTagItem[]>(tagItems);
     const [textInput, setTextInput] = useState<string>("");
 
     return (
@@ -69,7 +69,7 @@ export const Colored: StoryFn = () => {
 };
 
 export const PreAndPostFix: StoryFn = () => {
-    const [selectedTags, setSelectedTags] = useState<TagItem[]>(tagItems);
+    const [selectedTags, setSelectedTags] = useState<TagsInputTagItem[]>(tagItems);
     const [textInput, setTextInput] = useState<string>("");
 
 

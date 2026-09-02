@@ -7,7 +7,6 @@ import Button from '../../../UI/Button/Button';
 import Card from '../../../UI/Card/Card';
 import Icon from '../../../UI/Icons/Icon/Icon';
 import PageOverlay from '../PageOverlay';
-import React from 'react';
 
 const meta: Meta<typeof PageOverlay> = {
     title: 'UI Kit/PageOverlay',

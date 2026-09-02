@@ -26,6 +26,12 @@ const DatagridNestedDemo: React.FC = () => {
             loading={status === "pending"}
             onFilterUpdate={setTableOptions}
             collapsibleRowData={ProductOrders}
+        initialPageSize={10}
+             enableColumnPinning
+            enableColumnVisibility
+            enableColumnMenu
+            enableColumnMenuColumnVisibility
+
             enableCompactView
             enableColumnReorder
             enableColumnResize

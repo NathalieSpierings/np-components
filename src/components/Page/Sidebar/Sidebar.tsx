@@ -119,6 +119,7 @@ const Sidebar: FC<SidebarProps> = ({
             {/* Backdrop */}
             {mobileSidebarsShown && (
                 <button
+                    type="button"
                     className="sidebar-backdrop"
                     onClick={(e) => {
                         e.stopPropagation();

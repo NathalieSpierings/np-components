@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Control, FieldValues, Path, RegisterOptions, useController } from 'react-hook-form';
-import { DateInput, DateInputProps } from '../..';
 import { ValidationState } from '../Input/Input';
+import DateInput, { DateInputProps } from './DateInput';
 
 
 export interface FormDateInputProps<

@@ -1,13 +1,14 @@
-import React, { ChangeEvent, ReactElement, useRef, useState } from 'react';
+import { ChangeEvent, DragEventHandler, ReactElement, useRef, useState } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import { filesize, hasKlantnummerAtEndOfFileName, matchFileType, matchKlantNummer } from '../../../lib/utils/files';
-import Alert from '../../UI/Alert/Alert';
 import Button from '../../UI/Button/Button';
 import { Collection, CollectionItemVariant } from '../../UI/Collection';
 import { DividerSplitted } from '../../UI/DividerSplitted';
 import Icon from '../../UI/Icons/Icon/Icon';
 import Modal from '../../UI/Modal/Modal';
 import Tooltip from '../../UI/Tooltip/Tooltip';
+import Title from '../../Typography/Title/Title';
+import Alert from '../../UI/Alert/Alert';
 
 export interface FileuploadValidationError {
     fileName: string;

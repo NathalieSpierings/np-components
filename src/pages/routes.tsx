@@ -1,39 +1,65 @@
 import React from "react";
+import { matchPath } from "react-router";
+import ErrorPage from "../components/Page/ErrorPage/ErrorPage";
+import { proxyPrefix } from "../config";
+import ButtonDemo from "./Demo/Button/ButtonDemo";
 import CollectionPage from "./Demo/Collection/CollectionPage";
 import ContentItemPage from "./Demo/ContentItem/ContentItemPage";
-import DatagridDemo from "./Demo/Datagrid/DatagridDemo";
-import DatagridTableInfoDemo from "./Demo/Datagrid/DatagridTableInfoDemo";
-import DatagridToolbarDemo from "./Demo/Datagrid/DatagridToolbarDemo";
-import DropdownPage from "./Demo/Dropdown/DropdownPage";
-import TooltipPage from "./Demo/Tooltip/TooltipPage";
-import DemoPage from "./DemoPage";
-import HomePage from "./HomePage";
-import DatagridLoadingDemo from "./Demo/Datagrid/DatagridLoadingDemo";
-import ToolbarDemo from "./Demo/Toolbar/ToolbarDemo";
-import DescriptionListDemo from "./Demo/Typography/DescriptionList";
-import DismissButtonDemo from "./Demo/DismissButton/DismissButtonDemo";
-import DatagridAllDemo from "./Demo/Datagrid/DatagridAllDemo";
 import ColumnFilterDemo from "./Demo/Datagrid/ColumnFilterDemo";
+import ColumnPinningDemo from "./Demo/Datagrid/ColumnPinningDemo";
 import ColumnReorderDemo from "./Demo/Datagrid/ColumnReorderDemo";
 import ColumnResizeDemo from "./Demo/Datagrid/ColumnResizeDemo";
-import ColumnVisibilityDemo from "./Demo/Datagrid/ColumnVisibilityDemo";
-import DatagridNestedDemo from "./Demo/Datagrid/DatagridNestedDemo";
-import DatagridSelectedRowDemo from "./Demo/Datagrid/DatagridSelectedRowDemo";
 import ColumnStickyDemo from "./Demo/Datagrid/ColumnStickyDemo";
-import DatagridTabsDemo from "./Demo/Datagrid/DatagridTabsDemo";
-import DatagridSidebarDemo from "./Demo/Datagrid/DatagridSidebarDemo";
-import DatagridSidebarAndTabsDemo from "./Demo/Datagrid/DatagridSidebarAndTabsDemo";
-import DatagridRowActionsDemo from "./Demo/Datagrid/DatagridRowActionsDemo";
-import ColumnPinningDemo from "./Demo/Datagrid/ColumnPinningDemo";
+import ColumnTotalRowDemo from "./Demo/Datagrid/ColumnTotalRowDemo";
+import ColumnVisibilityDemo from "./Demo/Datagrid/ColumnVisibilityDemo";
+import DatagridAllDemo from "./Demo/Datagrid/DatagridAllDemo";
 import DatagridCheckboxDemo from "./Demo/Datagrid/DatagridCheckboxDemo";
-import IconDemo from "./Demo/Icon/IconDemo";
-import ButtonDemo from "./Demo/Button/ButtonDemo";
-import DatagridPagerDemo from "./Demo/Datagrid/DatagridPagerDemo";
+import DatagridDemo from "./Demo/Datagrid/DatagridDemo";
 import DatagridHeaderFooterDemo from "./Demo/Datagrid/DatagridHeaderFooterDemo";
+import DatagridLoadingDemo from "./Demo/Datagrid/DatagridLoadingDemo";
+import DatagridNestedDemo from "./Demo/Datagrid/DatagridNestedDemo";
+import DatagridNestedDetailsDemo from "./Demo/Datagrid/DatagridNestedDetailsDemo";
+import DatagridPagerDemo from "./Demo/Datagrid/DatagridPagerDemo";
+import DatagridRowActionsDemo from "./Demo/Datagrid/DatagridRowActionsDemo";
+import DatagridSelectedRowDemo from "./Demo/Datagrid/DatagridSelectedRowDemo";
+import DatagridSidebarAndTabsDemo from "./Demo/Datagrid/DatagridSidebarAndTabsDemo";
+import DatagridSidebarDemo from "./Demo/Datagrid/DatagridSidebarDemo";
+import DatagridTableInfoDemo from "./Demo/Datagrid/DatagridTableInfoDemo";
+import DatagridTabsDemo from "./Demo/Datagrid/DatagridTabsDemo";
+import DatagridToolbarDemo from "./Demo/Datagrid/DatagridToolbarDemo";
+import DatagridTest from "./Demo/Datagrid/Test/DatagridTest";
+import DismissButtonDemo from "./Demo/DismissButton/DismissButtonDemo";
+import DropdownPage from "./Demo/Dropdown/DropdownPage";
+import IconDemo from "./Demo/Icon/IconDemo";
 import ModalDemo from "./Demo/Modal/ModalDemo";
 import MultiselectDemo from "./Demo/Multiselect/MultiSelectDemo";
-import ColumnTotalRowDemo from "./Demo/Datagrid/ColumnTotalRowDemo";
-import DatagridTest from "./Demo/Datagrid/Test/DatagridTest";
+import TagsPage from "./Demo/Tags/TagsPage";
+import ToolbarDemo from "./Demo/Toolbar/ToolbarDemo";
+import TooltipPage from "./Demo/Tooltip/TooltipPage";
+import DescriptionListDemo from "./Demo/Typography/DescriptionList";
+import DemoPage from "./DemoPage";
+import HomePage from "./HomePage";
+import ThemePage from "./ThemePage";
+import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetailsAndNestedDetailsDemo";
+import LayoutPage from "./Demo/LayoutPage";
+
+
+export const getInitialMenuItem = (pathname: string) => {
+
+	if (matchPath(proxyPrefix + '/', pathname)) {
+		return 'home'
+	}
+
+	if (matchPath(proxyPrefix + '/demo/*', pathname)) {
+		return "demo";
+	}
+
+	if (matchPath(proxyPrefix + '/theme/*', pathname)) {
+		return "theme";
+	}
+
+	return undefined;
+}
 
 
 export const routes = [
@@ -44,6 +70,22 @@ export const routes = [
 	{
 		path: "/demo",
 		element: <DemoPage />,
+	},
+	{
+		path: "/demo/layout",
+		element: <LayoutPage />
+	},
+	{
+		path: "/demo/theme",
+		element: <ThemePage />
+	},
+	{
+		path: "/demo/tags",
+		element: <TagsPage />
+	},
+	{
+		path: '/demo/dg-details-and-nested-details',
+		element: <DatagridDetailsAndNestedDetailsDemo />
 	},
 	{
 		path: "/demo/dg-test",
@@ -79,19 +121,19 @@ export const routes = [
 		element: <ColumnVisibilityDemo />
 	},
 	{
-		path: '/demo/dg-all',
+		path: "/demo/dg-all",
 		element: <DatagridAllDemo />
 	},
 	{
-		path: '/demo/dg-checkbox',
+		path: "/demo/dg-checkbox",
 		element: <DatagridCheckboxDemo />
 	},
 	{
-		path: '/demo/dg',
+		path: "/demo/dg",
 		element: <DatagridDemo />
 	},
 	{
-		path: '/demo/dg-headerfooter',
+		path: "/demo/dg-headerfooter",
 		element: <DatagridHeaderFooterDemo />
 	},
 	{
@@ -101,6 +143,10 @@ export const routes = [
 	{
 		path: "/demo/dg-nested",
 		element: <DatagridNestedDemo />
+	},
+	{
+		path: "/demo/dg-nested-detail",
+		element: <DatagridNestedDetailsDemo />
 	},
 	{
 		path: "/demo/dg-pager",
@@ -134,8 +180,6 @@ export const routes = [
 		path: "/demo/dg-toolbar",
 		element: <DatagridToolbarDemo />
 	},
-
-
 	{
 		path: "/demo/btn",
 		element: <ButtonDemo />
@@ -181,3 +225,11 @@ export const routes = [
 		element: <IconDemo />
 	}
 ];
+
+
+export const errorRoutes = [
+	{
+		path: "*",
+		element: <ErrorPage />,
+	},
+]

@@ -1,10 +1,9 @@
 import React, { ReactElement, useCallback, useEffect, useState } from "react";
+import { Breadcrumb, ColumnLayout, ColumnLayoutContent, ColumnLayoutHeader, ColumnLayoutMain, ContentItem, DatagridGetDataArguments, TabPane, TabPanes, Tabs, Title, Toolbar, useLayoutContext } from "../../../../components";
+import { ProductGetModel } from "../../../../lib/testdata/models";
+import { ColorDefinitions } from "../../../../lib/utils/definitions";
 import DatagridTest1 from "./DatagridTest1";
 import DatagridTest2 from "./DatagridTest2";
-import { useLayoutContext, ColumnLayout, ColumnLayoutMain, ColumnLayoutHeader, ContentItem, Title, Breadcrumb, ColumnLayoutContent, Toolbar, Tabs, TabPanes, TabPane, DatagridGetDataArguments } from "../../../../components";
-import { ColorDefinitions } from "../../../../lib/utils/definitions";
-import { getProductsForTest1Query, ProductGetModel } from "../../../../lib/testdata/models";
-import { useQuery } from "@tanstack/react-query";
 
 
 const title = 'Datagrid test';

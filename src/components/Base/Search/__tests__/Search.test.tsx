@@ -135,12 +135,12 @@ describe('Search', () => {
         const parentClick = jest.fn();
 
         render(
-            <div onClick={parentClick}>
+            <button type="button" onClick={parentClick}>
                 <Search
                     value=""
                     onChange={jest.fn()}
                 />
-            </div>
+            </button>
         );
 
         fireEvent.click(screen.getByRole('textbox'));

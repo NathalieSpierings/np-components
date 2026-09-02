@@ -40,7 +40,7 @@ const DismissButtonDemo = ({
             <DismissButton right={true} circle={true}/>
 
 
-            <h2>Sizes</h2>
+            <h2>Sizes with label</h2>
             <DismissButton label="sluiten" labelPosition="right" size={SizeDefinitions.Tiny} />
             <DismissButton label="sluiten" labelPosition="right" size={SizeDefinitions.ExtraSmall} />
             <DismissButton label="sluiten" labelPosition="right" size={SizeDefinitions.Small} />
@@ -52,7 +52,7 @@ const DismissButtonDemo = ({
 
 
 
-            <h2>Sizes</h2>
+            <h2>Sizes circle and label</h2>
             <DismissButton circle={true} label="sluiten" labelPosition="right" size={SizeDefinitions.Tiny} />
             <DismissButton circle={true} label="sluiten" labelPosition="right" size={SizeDefinitions.ExtraSmall} />
             <DismissButton circle={true} label="sluiten" labelPosition="right" size={SizeDefinitions.Small} />
@@ -61,6 +61,27 @@ const DismissButtonDemo = ({
             <DismissButton circle={true} label="sluiten" labelPosition="right" size={SizeDefinitions.ExtraLarge} />
             <DismissButton circle={true} label="sluiten" labelPosition="right" size={SizeDefinitions.ExtraLarge2} />
             <DismissButton circle={true} label="sluiten" labelPosition="right" size={SizeDefinitions.ExtraLarge3} />
+
+
+            <h2>Sizes circle </h2>
+            <DismissButton circle={true} size={SizeDefinitions.Tiny} />
+            <DismissButton circle={true} size={SizeDefinitions.ExtraSmall} />
+            <DismissButton circle={true} size={SizeDefinitions.Small} />
+            <DismissButton circle={true} size={SizeDefinitions.Medium} background={ColorDefinitions.Blue} />
+            <DismissButton circle={true} size={SizeDefinitions.Large} />
+            <DismissButton circle={true} size={SizeDefinitions.ExtraLarge} />
+            <DismissButton circle={true} size={SizeDefinitions.ExtraLarge2} />
+            <DismissButton circle={true} size={SizeDefinitions.ExtraLarge3} />
+
+             <h2>Sizes</h2>
+            <DismissButton size={SizeDefinitions.Tiny} />
+            <DismissButton size={SizeDefinitions.ExtraSmall} />
+            <DismissButton size={SizeDefinitions.Small} />
+            <DismissButton labelColor={ColorDefinitions.Blue} size={SizeDefinitions.Medium} />
+            <DismissButton size={SizeDefinitions.Large} />
+            <DismissButton size={SizeDefinitions.ExtraLarge} />
+            <DismissButton size={SizeDefinitions.ExtraLarge2} />
+            <DismissButton size={SizeDefinitions.ExtraLarge3} />
 
 
         </section>

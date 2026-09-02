@@ -2,13 +2,12 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { ReactElement, useEffect, useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
+import { IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import { Avatar } from '../../../UI/Avatar';
+import { Icon } from '../../../UI/Icons/Icon';
 import { SidebarMenuPlacement } from '../../Navigation/MainMenu';
 import Sidebar from '../Sidebar';
 import { SidebarAccount } from '../SidebarAccount';
-import { Icon } from '../../../UI/Icons/Icon';
-import React from 'react';
 const meta: Meta<typeof Sidebar> = {
     title: 'Page/Aside/Sidebar',
     component: Sidebar,
@@ -42,7 +41,7 @@ const TemplateSidebarAccountMenu = () => {
                 prefix: <Avatar size={SizeDefinitions.Small} icon={IconDefinitions.user} iconDuotone={true} />,
             }}
             dropdownHeader={{
-               border: true,
+                border: true,
                 content: (
                     <>
                         <span>Welkom &nbsp;</span>
@@ -207,7 +206,6 @@ const menuItems1 = [
 export const Default: StoryFn = () => {
     const currentMenuItem = 'home';
     const [hasSidebars, setHasSidebars] = useState<boolean>(true);
-    const [showHeader, setShowHeader] = useState<boolean>(true);
 
     const [activeMenuItem, setActiveMenuItem] = useState<string | null>(currentMenuItem || null);
     const [sidebarSubOpen, setSidebarSubOpen] = useState<boolean>(false);
@@ -277,7 +275,6 @@ export const Default: StoryFn = () => {
 export const WithBottomMenuItems: StoryFn = () => {
     const currentMenuItem = 'home';
     const [hasSidebars, setHasSidebars] = useState<boolean>(true);
-    const [showHeader, setShowHeader] = useState<boolean>(true);
 
     const [activeMenuItem, setActiveMenuItem] = useState<string | null>(currentMenuItem || null);
     const [sidebarSubOpen, setSidebarSubOpen] = useState<boolean>(false);
@@ -348,7 +345,6 @@ export const WithBottomMenuItems: StoryFn = () => {
 export const WithAccountDropdown: StoryFn = () => {
     const currentMenuItem = 'home';
     const [hasSidebars, setHasSidebars] = useState<boolean>(true);
-    const [showHeader, setShowHeader] = useState<boolean>(true);
 
     const [activeMenuItem, setActiveMenuItem] = useState<string | null>(currentMenuItem || null);
     const [sidebarSubOpen, setSidebarSubOpen] = useState<boolean>(false);

@@ -9,18 +9,18 @@ type SubtypeOf<TParent, TChild extends TParent> = TChild;
 // Tag items keys need to be valid react keys for use in animations (framer-motion)
 export type TagItemKey = SubtypeOf<React.Key, string | number | bigint>;
 
-export interface TagItem {
+export interface TagsInputTagItem {
     id: TagItemKey;
     title: ReactNode;
     color?: ColorDefinitions;
 }
 
 export interface TagsInputProps {
-    selectedTags: TagItem[];
-    setSelectedTags: (dispatch: (previousValue: TagItem[]) => TagItem[]) => void;
+    selectedTags: TagsInputTagItem[];
+    setSelectedTags: (dispatch: (previousValue: TagsInputTagItem[]) => TagsInputTagItem[]) => void;
     textInput: string;
     setTextInput: (value: string) => void;
-    onChange?: (items: TagItem[]) => void;
+    onChange?: (items: TagsInputTagItem[]) => void;
     onFocus?: FocusEventHandler<HTMLInputElement>;
     color?: ColorDefinitions;
     label?: string;
@@ -54,7 +54,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
     const onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
         const inputValue = event.currentTarget.value.trim();
         if (event.key === "Enter" && inputValue !== "") {
-            const newTags: TagItem[] = [
+            const newTags: TagsInputTagItem[] = [
                 ...selectedTags,
                 {
                     id: inputValue,
@@ -119,10 +119,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
 };
 
 export interface TagListProps {
-    selectedTags: TagItem[], 
+    selectedTags: TagsInputTagItem[], 
     color?: ColorDefinitions, 
     onRemove?: (idToRemove: TagItemKey) => void
-    setSelectedTags?: (dispatch: (oldValues: TagItem[]) => TagItem[]) => void;
+    setSelectedTags?: (dispatch: (oldValues: TagsInputTagItem[]) => TagsInputTagItem[]) => void;
     addonPrefix? : ReactNode
 }
 
@@ -136,13 +136,13 @@ export const TagsList = ({
     const hasRemoveButton = onRemove || setSelectedTags ;
     const handleRemove = (idToRemove: TagItemKey) => {
             onRemove?.(idToRemove);
-            const dispach = (oldValues : TagItem[]) => oldValues.filter(({id}) => id != idToRemove);
+            const dispach = (oldValues : TagsInputTagItem[]) => oldValues.filter(({id}) => id != idToRemove);
             setSelectedTags?.(dispach);
         } ;
 
-    return <ul className="tags shown" id="tags">
+    return <ul className="tags-input__tags shown" id="tags">
         <AnimatePresence initial={false}>
-            {addonPrefix ? <div className="tags__prefix">{addonPrefix}</div> : undefined}
+            {addonPrefix ? <div className="tags-input__tags__prefix">{addonPrefix}</div> : undefined}
             {selectedTags.map(tag => (
                 <motion.div
                     key={tag.id}
@@ -151,9 +151,9 @@ export const TagsList = ({
                     exit={{ opacity: 0, scaleY: 0 }}
                     transition={{ duration: 0.3 }}
                     style={{ originX: 0 }}
-                    className={`tags__item bg-${tag.color ?? color}`}
+                    className={`tags-input__tags__item bg-${tag.color ?? color}`}
                 >
-                    <span className={`tags__item__title ${hasRemoveButton ? "dismissable" : undefined}`}>{tag.title}</span>
+                    <span className={`tags-input__tags__item__title ${hasRemoveButton ? "dismissable" : undefined}`}>{tag.title}</span>
 
                     {hasRemoveButton ? <DismissButton circle onClick={() => handleRemove(tag.id)} right size={SizeDefinitions.ExtraSmall} /> : null}
                 </motion.div>

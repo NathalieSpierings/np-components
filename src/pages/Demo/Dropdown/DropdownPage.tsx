@@ -795,6 +795,39 @@ const DropdownPage: React.FC = () => {
                 />
             </div>
 
+<div className="mt-4">
+                <h3>With icon and label</h3>
+                <Dropdown
+                    dropdownToggle={{
+                        label: (
+                            <>
+                            <Icon icon={IconDefinitions.building_hospital} />
+                            <span>My label</span>
+                            </>
+                        ),
+                        arrow: false
+                    }}
+                    menuItems={[{
+                        id: '1',
+                        label: 'Menu item 1',
+                        icon: (<Icon icon={IconDefinitions.star} />),
+                        onClick: () => handleMenuItemClick("Menu item 1")
+                    },
+                    {
+                        id: '2',
+                        label: 'Menu item 2',
+                        icon: (<Icon icon={IconDefinitions.cog} />),
+                        onClick: () => handleMenuItemClick("Menu item 2")
+                    },
+                    {
+                        id: '3',
+                        label: 'Menu item 3',
+                        icon: (<Icon icon={IconDefinitions.power} />),
+                        onClick: () => handleMenuItemClick("Menu item 3")
+                    }]}
+                    dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>) }}
+                />
+            </div>
         </section>
     )
 }

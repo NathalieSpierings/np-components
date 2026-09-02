@@ -4,7 +4,6 @@ import Icon from '../../../UI/Icons/Icon/Icon';
 import Dropdown, { DropdownHorizontalPosition, DropdownVerticalPosition } from '../Dropdown';
 import DropdownMenu from '../DropdownMenu';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import React from 'react';
 
 const meta: Meta<typeof Dropdown> = {
     title: 'Forms/Dropdown',
@@ -46,6 +45,8 @@ export const Default: StoryFn = () => {
     );
 };
 
+
+
 export const DropdownMenuClick: StoryFn = () => {
 
     const handleMenuItemClick = (item: string) => {
@@ -78,6 +79,8 @@ export const DropdownMenuClick: StoryFn = () => {
         />
     );
 };
+
+
 
 export const LongMenu: StoryFn = () => {
     return (
@@ -361,7 +364,7 @@ export const WithHeaderAndBorder: StoryFn = () => {
                 id: '3',
                 label: 'Menu item 3'
             }]}
-            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
+            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true, }}
         />
     );
 };
@@ -408,7 +411,7 @@ export const WithFooterAndBorder: StoryFn = () => {
                 id: '3',
                 label: 'Menu item 3'
             }]}
-            dropdownFooter={{ content: (<>Footer content...</>), border: true }}
+            dropdownFooter={{ content: (<>Footer content...</>), border: true, }}
         />
     );
 };
@@ -431,8 +434,8 @@ export const WithHeaderAndFooter: StoryFn = () => {
                 id: '3',
                 label: 'Menu item 3'
             }]}
-            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
-            dropdownFooter={{ content: (<>Footer content...</>), border: true }}
+            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true, }}
+            dropdownFooter={{ content: (<>Footer content...</>), border: true, }}
         />
     );
 };
@@ -481,7 +484,7 @@ export const WithSearchAndBorderBottom: StoryFn = () => {
                 label: 'Menu item 3'
             }]}
             enableSearch
-            searchBorder
+            searchBorder={true}
 
         />
     );
@@ -506,7 +509,7 @@ export const WithHeaderAndSearch: StoryFn = () => {
                 id: '3',
                 label: 'Menu item 3'
             }]}
-            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
+            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true, }}
             enableSearch
         />
     );
@@ -724,7 +727,7 @@ export const MultiLevelMenuAndSearch: StoryFn = () => {
                 id: '7',
                 label: 'Menu item 3'
             }]}
-            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true }}
+            dropdownHeader={{ content: (<>Welcome <strong>&nbsp; Guest</strong></>), border: true, }}
             enableSearch
         />
     );

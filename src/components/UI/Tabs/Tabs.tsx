@@ -1,5 +1,5 @@
-import React, { FC, useRef, useEffect, ReactNode } from "react";
-import { IconDefinitions, SizeDefinitions, ColorDefinitions } from "../../../lib/utils/definitions";
+import React, { FC, ReactNode, useEffect, useRef } from "react";
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import { Icon } from "../Icons/Icon";
 
 export interface TabItem<TIndex extends React.Key | null | undefined = React.Key | null | undefined> {

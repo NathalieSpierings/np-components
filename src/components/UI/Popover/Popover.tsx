@@ -30,7 +30,11 @@ export const Popover: FC<PopoverProps> = ({
 
     const [open, setOpen] = useState(false);
 
-    const closePopover = () => {
+    const closePopover = (event: Event) => {
+        if (contentRef.current?.contains(event.target as Node) || popoverToggleRef.current?.contains(event.target as Node) ) {
+            return;
+        }
+
         setOpen(false);
     };
 
@@ -134,8 +138,7 @@ export const Popover: FC<PopoverProps> = ({
         contentEl.style.visibility = "visible";
     };
 
-    const togglePopover = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const togglePopover = () => {
         setOpen(prev => !prev);
     };
 
@@ -177,7 +180,7 @@ export const Popover: FC<PopoverProps> = ({
 
     return (
         <div className="popover">
-            <button ref={popoverToggleRef} onClick={togglePopover} className="popover__toggle">
+            <button type="button" ref={popoverToggleRef} onClick={togglePopover} className="popover__toggle">
                 <Icon icon={toggleIcon} />
             </button>
             <Box

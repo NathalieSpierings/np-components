@@ -2,7 +2,6 @@ import { FC, PropsWithChildren } from "react";
 import { useColumnLayout } from "../../../components/UI/ColumnLayout/ColumnLayoutContext";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 import DismissButton from "../DismissButton/DismissButton";
-import React from "react";
 
 export interface ColumnLayoutHeaderProps extends PropsWithChildren {
   enableFixedHeader?: boolean;
@@ -27,7 +26,7 @@ const ColumnLayoutHeader: FC<ColumnLayoutHeaderProps> = ({
       {children}
 
       {showBurger && enableBurger && (
-        <button className="burger burger--sm" onClick={() => setIsShown(true)}  aria-label="Panel openen">
+        <button type="button" className="burger burger--sm" onClick={() => setIsShown(true)}  aria-label="Panel openen">
           <span className="burger__line" />
           <span className="burger__line" />
           <span className="burger__line" />

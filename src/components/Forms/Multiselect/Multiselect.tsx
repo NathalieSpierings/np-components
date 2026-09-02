@@ -62,7 +62,7 @@ function Multiselect({
 	multiselectCss = "",
 	collectionBorderColor,
 	collectionBackground,
-	collectionItemVariant = 'default',
+	collectionItemVariant = "default",
 	collectionScrollable,
 	collectionRounded,
 	collectionCompact,

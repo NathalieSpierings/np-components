@@ -38,7 +38,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
 
     return (
         <div className="slider">
-            <button onClick={scrollLeft}>
+            <button type="button" onClick={scrollLeft}>
                 <Icon
                     icon={IconDefinitions.angle_left}
                     background={ColorDefinitions.SurfaceLight}
@@ -55,7 +55,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
             <div className="slider__container" ref={containerRef}>
                 {children}
             </div>
-            <button onClick={scrollRight}>
+            <button type="button" onClick={scrollRight}>
                 <Icon
                     icon={IconDefinitions.angle_right}
                     rounded={SizeDefinitions.Full}

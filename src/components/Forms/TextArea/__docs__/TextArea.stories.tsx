@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { Button, FormInput, FormTextArea, Icon } from '../../..';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import TextArea from '../TextArea';
-import React from 'react';
 
 const meta: Meta<typeof TextArea> = {
     title: 'Forms/TextArea',

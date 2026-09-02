@@ -8,7 +8,6 @@ import FormInline from '../../FormInline';
 import Input from '../Input';
 import StaticInput from '../StaticInput';
 import FormInput from '../FormInput';
-import React from 'react';
 
 const meta: Meta<typeof Input> = {
     title: 'Forms/Input',

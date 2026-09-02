@@ -1,15 +1,12 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import moment from 'moment';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { ColorDefinitions,  IconDefinitions, SizeDefinitions } from '../../../..';
-import Button from '../../../UI/Button/Button';
-import FormInline from '../../FormInline';
-import FormInput from '../../Input/FormInput';
+import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import DateInput from '../DateInput';
-import { Icon } from '../../../UI/Icons/Icon';
-import { StaticInput } from '../../Input';
-import FormDateInput from '../FormDateInput';
+import moment from 'moment';
+import { useForm } from 'react-hook-form';
+import Button from '../../../UI/Button/Button';
+import FormInput from '../../Input/FormInput';
+import { ColorDefinitions, FormDateInput, Icon, IconDefinitions, SizeDefinitions, StaticInput } from '../../../..';
+import FormInline from '../../FormInline';
 
 const meta: Meta<typeof DateInput> = {
     title: 'Forms/DateInput',

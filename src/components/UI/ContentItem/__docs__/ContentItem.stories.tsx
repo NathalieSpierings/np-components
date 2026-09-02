@@ -4,7 +4,6 @@ import Subtitle from '../../../Typography/Subtitle/Subtitle';
 import Title from '../../../Typography/Title/Title';
 import { Icon } from '../../Icons/Icon';
 import ContentItem from '../ContentItem';
-import React from 'react';
 
 
 const meta: Meta<typeof ContentItem> = {

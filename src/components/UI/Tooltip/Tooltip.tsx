@@ -1,12 +1,4 @@
-import React, {
-	FC,
-	PropsWithChildren,
-	ReactNode,
-	RefObject,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, {	FC,	PropsWithChildren,	ReactNode,	RefObject,	useEffect,	useRef,	useState} from 'react';
 import { createPortal } from 'react-dom';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 
@@ -229,27 +221,6 @@ const Tooltip: FC<TooltipProps> = props => {
 
 		return anchor.getBoundingClientRect();
 	};
-
-	// const getAnchorRect = (): DOMRect | null => {
-	// 	const anchor = getAnchorElement();
-
-	// 	if (!anchor) {
-	// 		return null;
-	// 	}
-
-	// 	if (isAnchored) {
-	// 		return anchor.getBoundingClientRect();
-	// 	}
-
-	// 	const range = anchor.ownerDocument.createRange();
-	// 	range.selectNodeContents(anchor);
-
-	// 	const rect = range.getBoundingClientRect();
-
-	// 	return rect.width === 0 && rect.height === 0
-	// 		? anchor.getBoundingClientRect()
-	// 		: rect;
-	// };
 
 	const isTextOverflowing = (): boolean => {
 		const anchor = getAnchorElement();
