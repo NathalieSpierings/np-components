@@ -1,10 +1,15 @@
-import React, { memo, useState } from "react";
-import { Button, ContentItem, DatagridGetDataArguments, Detailgrid, Icon, useTableQueryClientFilter } from "../../../components";
-import { defaultOrderColumns } from "../../../lib/testdata/mock";
-import { getOrdersForProduct, OrderGetModel, ProductGetModel } from "../../../lib/testdata/models";
-import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
+import { memo, useState } from "react";
+import { defaultOrderColumns } from "../../../../lib/testdata/mock";
+import { getOrdersForProduct, OrderGetModel, ProductGetModel } from "../../../../lib/testdata/models";
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
+import { DatagridGetDataArguments } from "../Config/DatagridData";
+import { useTableQueryClientFilter } from "../Hooks/useTableQueryClientFilter";
+import Detailgrid from "../../Detailgrid/Detailgrid";
+import ContentItem from "../../../UI/ContentItem/ContentItem";
+import Button from "../../../UI/Button/Button";
+import Icon from "../../../UI/Icons/Icon/Icon";
 
-const ProductOrdersTable = ({ productId }: { productId: string }) => {
+const ProductWithOrdersNestedTable = ({ productId }: { productId: string }) => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<OrderGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -21,7 +26,7 @@ const ProductOrdersTable = ({ productId }: { productId: string }) => {
             dataRaw={dataRaw}
             total={total || 0}
             loading={status === "pending"}
-            onFilterUpdate={setTableOptions}            
+            onFilterUpdate={setTableOptions}
             variant="nested"
             enableColumnResize
             enableColumnReorder
@@ -32,11 +37,11 @@ const ProductOrdersTable = ({ productId }: { productId: string }) => {
             enableColumnMenu
             enableColumnMenuColumnVisibility
             selectedRow={selected}
-            rowSingleClickAction={(row) => {
+            rowSingleClickAction={(row: OrderGetModel) => {
                 setSelected(row)
                 console.log(`Clicked row: nested row ${row.klantNaam}`);
             }}
-            rowDoubleClickAction={(row) => {
+            rowDoubleClickAction={(row: OrderGetModel) => {
                 setSelected(row)
                 console.log(`Double clicked nested row ${row.klantNaam}`);
             }}
@@ -66,7 +71,7 @@ const ProductOrdersTable = ({ productId }: { productId: string }) => {
     );
 };
 
-export const ProductOrders = memo(({ item }: { item: ProductGetModel }) => (
-    <ProductOrdersTable productId={item.id.toString()}/>
+export const ProductWithOrdersNested = memo(({ item }: { item: ProductGetModel }) => (
+    <ProductWithOrdersNestedTable productId={item.id.toString()}/>
 )
 );

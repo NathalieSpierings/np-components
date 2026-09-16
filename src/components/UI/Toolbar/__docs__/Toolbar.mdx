@@ -1,0 +1,32 @@
+import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import * as ToolbarStories from './Toolbar.stories';
+import ToolbarComponent from '../Toolbar';
+ 
+<Meta of={ToolbarStories} />
+ 
+
+# Toolbar Component
+
+De `Toolbar` component wordt gebruikt om een werkbalk op te bouwen met een titel, navigatie en verschillende actie-items. De component ondersteunt items aan zowel de linker- als rechterzijde en kan worden aangepast met onder andere separators, borders en een compacte weergave.
+
+## Belangrijkste functionaliteiten
+
+- **Titel:** Toon een titel in de toolbar.
+- **Prefix items:** Voeg actie-items toe aan de linkerzijde van het actiegedeelte.
+- **Postfix items:** Voeg actie-items toe aan de rechterzijde van het actiegedeelte.
+- **Navigatie:** Voeg navigatie-items toe en positioneer deze links of rechts.
+- **Separator:** Toon optioneel een scheidingslijn tussen de navigatie en overige toolbar-inhoud.
+- **Border:** Voeg optioneel een onderrand toe en bepaal de kleur via ColorDefinitions.
+- **Compacte weergave:** Gebruik compact voor een compactere variant van de toolbar.
+- **Flexibele inhoud:** De titel en navigatie ondersteunen React-elementen, waardoor bijvoorbeeld tekst, buttons, iconen of andere componenten gebruikt kunnen worden.
+
+
+### Default
+
+<Canvas of={ToolbarStories.Default} />
+
+
+### Props
+ 
+<Controls />
+

@@ -30,11 +30,11 @@ const DatagridSelectedRowDemo: React.FC = () => {
                 selectedRow={selected}
                 rowSingleClickAction={(row) => {
                     setSelected(row)
-                    console.log(`Clicked row: ${row.naam}`);
+                    alert(`Clicked row: ${row.naam}`);
                 }}
                 rowDoubleClickAction={(row) => {
                     setSelected(row)
-                    console.log(`Double clicked row ${row.naam}`);
+                    alert(`Double clicked row ${row.naam}`);
                 }}
                 properties={defaultProductColumns() as any}
             />

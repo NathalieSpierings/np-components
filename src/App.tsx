@@ -54,6 +54,7 @@ const TemplateLayout = () => {
             tooltip: 'Home',
             iconName: IconDefinitions.home,
             placement: SidebarMenuPlacement.Top,
+            sidebar: <SidebarDemo />,
             url: '/'
         },
         {
@@ -62,7 +63,7 @@ const TemplateLayout = () => {
             tooltip: 'Demo',
             iconName: IconDefinitions.paint_palette,
             placement: SidebarMenuPlacement.Top,
-            sidebar: <SidebarDemo />,
+            // sidebar: <SidebarDemo />,
             url: '/demo'
         },       
     ]

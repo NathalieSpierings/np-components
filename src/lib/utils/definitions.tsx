@@ -199,6 +199,7 @@ export enum CenteredSizeDefinition {
 export enum ArtDefinitions {
     Contract = 'Contract',
     Document = 'Document',
+    Suite = 'Suite',
     Dossier = 'Dossier',
     Igo = 'Igo',
     Ketenzorg = 'Ketenzorg',
@@ -463,6 +464,7 @@ export enum IconDefinitions {
     'tablet' = 'tablet',
     'table_refresh' = 'table_refresh',
     'table_cog' = 'table_cog',
+    'tag' = 'tag',
     'themes' = 'themes',
     'thumbs_down' = 'thumbs_down',
     'thumbs_up' = 'thumbs_up',

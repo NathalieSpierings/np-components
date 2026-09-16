@@ -1,6 +1,6 @@
-import React, { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
-import {DatagridTableInfoProps as DatagridBaseTableInfoProps} from "../Datagrid";
+import { DatagridTableInfoProps as DatagridBaseTableInfoProps } from "../Datagrid";
 
 export type DatagridTableInfoComponentProps =
     Pick<

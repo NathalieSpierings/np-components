@@ -9,6 +9,10 @@ const SidebarDemo: React.FC = () => {
             title: "Default"
         },
         {
+            url: "/demo/dg-fullheight",
+            title: "Full height"
+        },
+        {
             url: '/demo/dg-details-and-nested-details',
             title: "Details and nested details"
         },
@@ -167,6 +171,10 @@ const SidebarDemo: React.FC = () => {
         {
             url: '/demo/dropdown',
             title: "Dropdown"
+        },
+        {
+            url: '/demo/forms',
+            title: "Form controls"
         },
     ];
 

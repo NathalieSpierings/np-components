@@ -3,17 +3,17 @@ import { DatagridGetDataArguments } from "../../../components/Data/Datagrid/Conf
 import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import { useTableQueryClientFilter } from "../../../components/Data/Datagrid/Hooks/useTableQueryClientFilter";
 import { defaultProductColumns } from "../../../lib/testdata/mock";
-import { ProductGetModel, getProductsQuery } from "../../../lib/testdata/models";
-import { ProductOrders } from "./ProductOrdersTable";
+import { ProductMetOrdersModel, getProductsWithOrdersQuery } from "../../../lib/testdata/models";
+import { ProductOrdersNested } from "./DatagridNestedDetailsDemo";
 
 
 const DatagridNestedDemo: React.FC = () => {
 
-     const [selected, setSelected] = useState<ProductGetModel | undefined>();
+     const [selected, setSelected] = useState<ProductMetOrdersModel | undefined>();
 
-    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductMetOrdersModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
-        queryFn: getProductsQuery(),
+        queryFn: getProductsWithOrdersQuery(),
         filters: tableOptions
     });
 
@@ -25,13 +25,15 @@ const DatagridNestedDemo: React.FC = () => {
             total={total || 0}
             loading={status === "pending"}
             onFilterUpdate={setTableOptions}
-            collapsibleRowData={ProductOrders}
-        initialPageSize={10}
-             enableColumnPinning
+            collapsibleRowData={ProductOrdersNested}
+            hasCollapsibleRow={(product) =>
+                product.orders.length > 0
+            }
+            initialPageSize={10}
+            enableColumnPinning
             enableColumnVisibility
             enableColumnMenu
             enableColumnMenuColumnVisibility
-
             enableCompactView
             enableColumnReorder
             enableColumnResize

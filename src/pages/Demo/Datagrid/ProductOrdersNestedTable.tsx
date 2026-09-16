@@ -1,10 +1,10 @@
 import React, { memo, useState } from "react";
 import { Button, ContentItem, DatagridGetDataArguments, Detailgrid, Icon, useTableQueryClientFilter } from "../../../components";
 import { defaultOrderColumns } from "../../../lib/testdata/mock";
-import { getOrdersForProduct, OrderGetModel, ProductGetModel } from "../../../lib/testdata/models";
+import { getOrdersForProduct, OrderGetModel, ProductMetOrdersModel } from "../../../lib/testdata/models";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 
-const ProductOrdersTable = ({ productId }: { productId: string }) => {
+const ProductOrdersNestedTable = ({ productId }: { productId: string }) => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<OrderGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -66,7 +66,7 @@ const ProductOrdersTable = ({ productId }: { productId: string }) => {
     );
 };
 
-export const ProductOrders = memo(({ item }: { item: ProductGetModel }) => (
-    <ProductOrdersTable productId={item.id.toString()}/>
+export const ProductOrdersNested = memo(({ item }: { item: ProductMetOrdersModel }) => (
+    <ProductOrdersNestedTable productId={item.id.toString()}/>
 )
 );

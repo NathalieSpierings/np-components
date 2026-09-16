@@ -84,7 +84,7 @@ export function useDatagridColumnChooser<TData>({
         removeDragPreview();
 
         const preview = document.createElement("div");
-        preview.className = "datagrid__grid__drag__tooltip";
+        preview.className = "datagrid__drag__tooltip";
         preview.innerHTML = `
             <div class="icon icon--sm">
                 <svg><use xlink:href="#svg_icon_move" /></svg>
@@ -218,7 +218,7 @@ export function DatagridColumnChooser<TData>({
                         onChange={setAllColumnsVisible}
                         indeterminate={someColumnsVisible && !allColumnsVisible}
                     />
-                )}              
+                )}
                 <Search
                     type="search"
                     value={searchTerm}

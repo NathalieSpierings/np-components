@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
+import Search from "../../../Base/Search/Search";
 import Multiselect, { MultiselectItem, MultiselectItemId } from "../../../Forms/Multiselect/Multiselect";
 import { Select } from "../../../Forms/Select/Select";
 import Button from "../../../UI/Button/Button";
@@ -8,7 +9,6 @@ import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
 import { DatagridColumnFilterValue, DatagridFilterOperator, DatagridFilterOption, getUniqueFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
 import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
-import Search from "../../../Base/Search/Search";
 
 export interface DatagridFilterListProps<TData> {
     dataRaw?: TData[];

@@ -106,7 +106,6 @@ const DatagridNestedDetailsDemo: React.FC = () => {
 
     const [selected, setSelected] = useState<ProductGetModel | undefined>();
 
-
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
         queryFn: getProductsQuery(),

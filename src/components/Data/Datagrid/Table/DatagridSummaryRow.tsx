@@ -7,11 +7,11 @@ const getPinnedClass = <TData,>(
     renderedColumn: DatagridRenderedColumn<TData>
 ): string => {
     if (renderedColumn.pinned === "left") {
-        return "datagrid__grid__cell--pinned-left";
+        return "datagrid__cell--pinned-left";
     }
 
     if (renderedColumn.pinned === "right") {
-        return "datagrid__grid__cell--pinned-right";
+        return "datagrid__cell--pinned-right";
     }
 
     return "";
@@ -27,18 +27,18 @@ const getCellClassName = <TData,>(
     const column = renderedColumn.column;
 
     return [
-        "datagrid__grid__cell datagrid__grid__cell--summary",
+        "datagrid__cell grid__cell--summary",
         index === lastColumnIndex
-            ? "datagrid__grid__cell--last-column"
+            ? "datagrid__cell--last-column"
             : "",
         getPinnedClass(renderedColumn),
         lastPinnedLeft !== undefined &&
             column?.prop === lastPinnedLeft
-            ? "datagrid__grid__cell--pinned-left--last"
+            ? "datagrid__cell--pinned-left--last"
             : "",
         firstPinnedRight !== undefined &&
             column?.prop === firstPinnedRight
-            ? "datagrid__grid__cell--pinned-right--first"
+            ? "datagrid__cell--pinned-right--first"
             : ""
     ]
         .filter(Boolean)
@@ -49,6 +49,7 @@ const calculateSummaryTotals = <TData,>(
     data: TData[],
     renderedColumns: DatagridRenderedColumn<TData>[]
 ): Map<string, number> => {
+
     const summaryColumns = renderedColumns
         .filter(
             (
@@ -71,6 +72,8 @@ const calculateSummaryTotals = <TData,>(
         for (const column of summaryColumns) {
             const value = getNestedValue(item, column.prop);
 
+
+
             if (typeof value !== "number" || !Number.isFinite(value)) {
                 continue;
             }
@@ -81,7 +84,6 @@ const calculateSummaryTotals = <TData,>(
             );
         }
     }
-
     return totals;
 };
 
@@ -111,7 +113,6 @@ export interface DatagridSummaryRowProps<TData> {
 export default function DatagridSummaryRow<TData>({
     data,
     renderedColumns,
-    gridTemplateColumns,
     firstPinnedRight,
     lastPinnedLeft,
     getPinnedStyle,
@@ -138,11 +139,9 @@ export default function DatagridSummaryRow<TData>({
         [data, renderedColumns]
     );
 
+
     return (
-        <div
-            className="datagrid__grid__row"
-            style={{ gridTemplateColumns }}
-        >
+        <div className="pc-layout__footer datagrid__footer-row datagrid__row">
             {renderedColumns.map((renderedColumn, index) => {
                 const column = renderedColumn.column;
 
@@ -157,7 +156,7 @@ export default function DatagridSummaryRow<TData>({
                     firstPinnedRight
                 );
 
-                
+
                 if (renderedColumn.type !== "data" || !column) {
                     return (
                         <div
@@ -167,12 +166,12 @@ export default function DatagridSummaryRow<TData>({
                             style={getPinnedStyle(renderedColumn)}
                         >
                             {isSummaryLabelColumn && (
-                                <div className="datagrid__grid__cell__content">
+                                <div className="datagrid__cell__content">
                                     <Tooltip
                                         overflowTooltip
                                         content="Totaal"
                                     >
-                                        <div className="datagrid__grid__cell__content__label">
+                                        <div className="datagrid__cell__content__label">
                                             Totaal
                                         </div>
                                     </Tooltip>
@@ -202,8 +201,8 @@ export default function DatagridSummaryRow<TData>({
                         data-column-key={renderedColumn.key}
                         style={getPinnedStyle(renderedColumn)}
                     >
-                        <div className="datagrid__grid__cell__content">
-                            <div className="datagrid__grid__cell__content__label">
+                        <div className="grid__cell__content">
+                            <div className="grid__cell__content__label">
                                 {showLabelInsideSummary ? (
                                     <>
                                         <span>Totaal </span>

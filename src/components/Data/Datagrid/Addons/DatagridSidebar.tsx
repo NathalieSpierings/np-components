@@ -49,8 +49,8 @@ export function DatagridSidebar<TData>({
 
     return (
         <div
-            className={["pc-layout__aside datagrid__sidebar",
-                `datagrid__sidebar--${sidebarPosition}`,
+            className={["pc-layout__aside datagrid-layout__sidebar",
+                `datagrid-layout__sidebar--${sidebarPosition}`,
                 open ? "shown" : ""
             ].filter(Boolean).join(" ")}
             style={{ "--datagrid-sidebar-width": `${width}px` } as React.CSSProperties}
@@ -64,9 +64,9 @@ export function DatagridSidebar<TData>({
                 />
             )}
 
-            <div className="datagrid__sidebar__container">
+            <div className="datagrid-layout__sidebar__container">
                 <div
-                    className={["datagrid__sidebar__header", header?.borderColor ? `border-${header.borderColor}` : ""]
+                    className={["datagrid-layout__sidebar__header", header?.borderColor ? `border-${header.borderColor}` : ""]
                         .filter(Boolean)
                         .join(" ")}
                 >
@@ -81,13 +81,13 @@ export function DatagridSidebar<TData>({
                     />
                 </div>
 
-                <div className="datagrid__sidebar__content">
+                <div className="datagrid-layout__sidebar__content">
                     {content?.({ item })}
                 </div>
 
                 {footer && (
                     <div
-                        className={["datagrid__sidebar__footer", footer.borderColor ? `border-${footer.borderColor}` : ""]
+                        className={["datagrid-layout__sidebar__footer", footer.borderColor ? `border-${footer.borderColor}` : ""]
                             .filter(Boolean)
                             .join(" ")}
                     >

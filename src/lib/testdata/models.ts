@@ -1,28 +1,34 @@
 import { NotFoundError } from "../errors";
 
 export type ProductCategorie = "Wonen" | "Huishouden" | "Tuin";
-export type ProductSubcategorie = "Meubels"  | "Verlichting"  | "Decoratie"  | "Keuken"  | "Schoonmaken"  | "Wassen"  | "Tuinmeubelen"  | "Gereedschap"  | "Planten"  | "Bewatering"  | "Buiten koken";
-export type ProductMerk = "HomeStyle"  | "Nordic Living"  | "Pure Living"  | "Woon&Co"  | "Comfort Home"  | "CleanHouse"  | "Daily Home"  | "KeukenPlus"  | "Praktisch Thuis"  | "GardenPro"  | "GreenLife"  | "SunGarden"  | "BuitenBest"  | "Tuinmaat";
-export type ProductKleur = "Wit"  | "Zwart"  | "Grijs"  | "Antraciet"  | "Beige"  | "Taupe"  | "Bruin"  | "Groen"  | "Blauw"  | "Naturel";
-export type ProductMateriaal =  | "Hout"  | "Metaal"  | "Kunststof"  | "Bamboe"  | "Glas"  | "Keramiek"  | "Rotan"  | "Aluminium"  | "Textiel"  | "RVS";
-export type ProductLeverancier =  | "Van Dijk Groothandel"  | "Jansen Home Supply"  | "Buitenleven Distributie"  | "Holland Living BV";
-export type Land =  | "Nederland"  | "België"  | "Duitsland"  | "Denemarken"  | "Zweden"  | "Polen"  | "Italië";
-export type ProductStatus =  | "Actief"  | "Nieuw"  | "Uitlopend"  | "Tijdelijk niet leverbaar";
+export type ProductSubcategorie = "Meubels" | "Verlichting" | "Decoratie" | "Keuken" | "Schoonmaken" | "Wassen" | "Tuinmeubelen" | "Gereedschap" | "Planten" | "Bewatering" | "Buiten koken";
+export type ProductMerk = "HomeStyle" | "Nordic Living" | "Pure Living" | "Woon&Co" | "Comfort Home" | "CleanHouse" | "Daily Home" | "KeukenPlus" | "Praktisch Thuis" | "GardenPro" | "GreenLife" | "SunGarden" | "BuitenBest" | "Tuinmaat";
+export type ProductKleur = "Wit" | "Zwart" | "Grijs" | "Antraciet" | "Beige" | "Taupe" | "Bruin" | "Groen" | "Blauw" | "Naturel";
+export type ProductMateriaal = | "Hout" | "Metaal" | "Kunststof" | "Bamboe" | "Glas" | "Keramiek" | "Rotan" | "Aluminium" | "Textiel" | "RVS";
+export type ProductLeverancier = | "Van Dijk Groothandel" | "Jansen Home Supply" | "Buitenleven Distributie" | "Holland Living BV";
+export type Land = | "Nederland" | "België" | "Duitsland" | "Denemarken" | "Zweden" | "Polen" | "Italië";
+export type ProductStatus = | "Actief" | "Nieuw" | "Uitlopend" | "Tijdelijk niet leverbaar";
 export type Magazijn = "Eindhoven" | "Tilburg" | "Utrecht" | "Zwolle" | "Venlo";
-export type OrderStatus =  | "Nieuw"  | "In behandeling"  | "Verzonden"  | "Afgeleverd"  | "Retour aangemeld"  | "Geannuleerd";
+export type OrderStatus = | "Nieuw" | "In behandeling" | "Verzonden" | "Afgeleverd" | "Retour aangemeld" | "Geannuleerd";
 export type BetaalStatus = "Betaald" | "Open" | "Terugbetaald";
-export type BetaalMethode =  | "iDEAL"  | "Creditcard"  | "PayPal"  | "Apple Pay"  | "Google Pay";
+export type BetaalMethode = | "iDEAL" | "Creditcard" | "PayPal" | "Apple Pay" | "Google Pay";
 export type Vervoerder = "PostNL" | "DHL" | "DPD" | "GLS" | "Trunkrs";
-export interface AfmetingenModel {
-  gewicht: number;
-  lengte: number;
-  breedte: number;
-  hoogte: number;
-}
 
-export interface BetaalgegevensModel {
-  betaalStatus: BetaalStatus;
-  betaalMethode: BetaalMethode;
+export interface UserModel {
+    id: string;
+    active: boolean;
+    displayName: string;
+    type: string;
+    gender: string;
+    initials: string;
+    firstName: string;
+    infix: string;
+    lastName: string;
+    formalName: string;
+    emailAddress: string;
+    isDSEmployee: boolean;
+    organisationId: string;
+    agbCode: string;
 }
 
 export interface ProductGetModel {
@@ -85,6 +91,18 @@ export interface OrderGetModel {
 
 export interface ProductMetOrdersModel extends ProductGetModel {
   orders: OrderGetModel[];
+}
+
+export interface AfmetingenModel {
+  gewicht: number;
+  lengte: number;
+  breedte: number;
+  hoogte: number;
+}
+
+export interface BetaalgegevensModel {
+  betaalStatus: BetaalStatus;
+  betaalMethode: BetaalMethode;
 }
 
 interface ProductConfiguratie {
@@ -554,54 +572,54 @@ const orderOpmerkingen: string[] = [
 
 
 const random = (): number => {
-    const values = new Uint32Array(1);
-    crypto.getRandomValues(values);
+  const values = new Uint32Array(1);
+  crypto.getRandomValues(values);
 
-    return values[0] / (0xffffffff + 1);
+  return values[0] / (0xffffffff + 1);
 };
 
 const randomItem = <T>(items: readonly T[]): T => {
-    if (items.length === 0) {
-        throw new Error("randomItem kan niet worden gebruikt met een lege array.");
-    }
+  if (items.length === 0) {
+    throw new Error("randomItem kan niet worden gebruikt met een lege array.");
+  }
 
-    return items[Math.floor(random() * items.length)];
+  return items[Math.floor(random() * items.length)];
 };
 
 
 const randomNumber = (
-    min: number,
-    max: number,
-    decimals = 0
+  min: number,
+  max: number,
+  decimals = 0
 ): number => {
-    if (min > max) {
-        throw new Error(
-            "De minimale waarde mag niet groter zijn dan de maximale waarde."
-        );
-    }
+  if (min > max) {
+    throw new Error(
+      "De minimale waarde mag niet groter zijn dan de maximale waarde."
+    );
+  }
 
-    const value = random() * (max - min) + min;
+  const value = random() * (max - min) + min;
 
-    return Number(value.toFixed(decimals));
+  return Number(value.toFixed(decimals));
 };
 
 
 const randomInteger = (min: number, max: number): number => {
-    return Math.floor(random() * (max - min + 1)) + min;
+  return Math.floor(random() * (max - min + 1)) + min;
 };
 
 const randomBoolean = (percentageTrue = 50): boolean => {
-    return random() * 100 < percentageTrue;
+  return random() * 100 < percentageTrue;
 };
 
 const randomDate = (start: Date, end: Date): Date => {
-    if (start.getTime() > end.getTime()) {
-        throw new Error("De startdatum mag niet na de einddatum liggen.");
-    }
+  if (start.getTime() > end.getTime()) {
+    throw new Error("De startdatum mag niet na de einddatum liggen.");
+  }
 
-    return new Date(
-        start.getTime() + random() * (end.getTime() - start.getTime())
-    );
+  return new Date(
+    start.getTime() + random() * (end.getTime() - start.getTime())
+  );
 };
 
 const addDays = (date: Date, days: number): Date => {
@@ -616,13 +634,13 @@ const pad = (value: number, length = 5): string => {
 };
 
 const createPostcode = (
-    postcodeStart: number,
-    id: number
+  postcodeStart: number,
+  id: number
 ): string => {
-    const nummer = postcodeStart + Math.floor(id / postcodeLetters.length);
-    const letters = postcodeLetters[id % postcodeLetters.length];
+  const nummer = postcodeStart + Math.floor(id / postcodeLetters.length);
+  const letters = postcodeLetters[id % postcodeLetters.length];
 
-    return `${nummer} ${letters}`;
+  return `${nummer} ${letters}`;
 };
 
 const createEan = (id: number): string => {
@@ -876,8 +894,7 @@ export const generateOrders = (
 
     const bedragNaKorting = bedragVoorKorting * (1 - korting / 100);
 
-    const verzendKosten =
-      bedragNaKorting >= 50 ? 0 : randomItem([4.95, 5.95, 6.95]);
+    const verzendKosten = bedragNaKorting >= 50 ? 0 : randomItem([4.95, 5.95, 6.95]);
 
     const totaalBedrag =
       status === "Geannuleerd"
@@ -920,7 +937,7 @@ export const generateOrders = (
         250
       )}${randomItem(["", "", "", "A", "B"])}`,
 
-      postcode: createPostcode(plaatsConfiguratie.postcodeStart,    id),
+      postcode: createPostcode(plaatsConfiguratie.postcodeStart, id),
 
       plaats: plaatsConfiguratie.plaats,
       provincie: plaatsConfiguratie.provincie,
@@ -997,14 +1014,20 @@ export const combineerProductenMetOrders = (
 export const AANTAL_PRODUCTEN = 500;
 export const AANTAL_ORDERS = 2500;
 
-export const productsMock: ProductGetModel[] =  generateProducts(AANTAL_PRODUCTEN);
-export const ordersMock: OrderGetModel[] = generateOrders(  productsMock,  AANTAL_ORDERS);
-export const productsMetOrdersMock: ProductMetOrdersModel[] =  combineerProductenMetOrders(productsMock, ordersMock);
+export const productsMock: ProductGetModel[] = generateProducts(AANTAL_PRODUCTEN);
+
+// Ongeveer 70% van de producten krijgt orders.
+// De overige producten hebben gegarandeerd geen orders.
+const productsWithOrdersMock = productsMock.filter(() => randomBoolean(70));
+
+export const ordersMock: OrderGetModel[] = generateOrders(productsWithOrdersMock, AANTAL_ORDERS);
+
+export const productsMetOrdersMock: ProductMetOrdersModel[] = combineerProductenMetOrders(productsMock, ordersMock);
 
 
 export const getProductsForTest1Query = () => {
 
-  const mockData =  generateProducts(85000);
+  const mockData = generateProducts(85000);
 
   return {
     queryKey: ["ProductsForTest1"],
@@ -1026,7 +1049,7 @@ export const getProductsForTest1Query = () => {
         });
       }
 
-       return resp.mockData.map(prod => ({
+      return resp.mockData.map(prod => ({
         ...prod,
         beschikbaarVanaf: new Date(prod.beschikbaarVanaf),
         laatstePrijsWijziging: new Date(prod.laatstePrijsWijziging),
@@ -1036,7 +1059,7 @@ export const getProductsForTest1Query = () => {
 };
 export const getProductsForTest2Query = () => {
 
-  const mockData =  generateProducts(3300);
+  const mockData = generateProducts(3300);
 
   return {
     queryKey: ["ProductsForTest2"],
@@ -1058,7 +1081,7 @@ export const getProductsForTest2Query = () => {
         });
       }
 
-       return resp.mockData.map(prod => ({
+      return resp.mockData.map(prod => ({
         ...prod,
         beschikbaarVanaf: new Date(prod.beschikbaarVanaf),
         laatstePrijsWijziging: new Date(prod.laatstePrijsWijziging),
@@ -1070,7 +1093,7 @@ export const getProductsForTest2Query = () => {
 
 export const getProductsQuery = (aantalRecords?: number) => {
 
-  const mockData =  generateProducts(aantalRecords ?? AANTAL_PRODUCTEN);
+  const mockData = generateProducts(aantalRecords ?? AANTAL_PRODUCTEN);
 
   return {
     queryKey: ["Products"],
@@ -1092,13 +1115,22 @@ export const getProductsQuery = (aantalRecords?: number) => {
         });
       }
 
-       return resp.mockData.map(prod => ({
+      return resp.mockData.map(prod => ({
         ...prod,
         beschikbaarVanaf: new Date(prod.beschikbaarVanaf),
         laatstePrijsWijziging: new Date(prod.laatstePrijsWijziging),
       })) as ProductGetModel[];
     }
   };
+};
+
+export const getProductsWithOrdersQuery = () => {
+    return {
+        queryKey: ["ProductsWithOrders"],
+        queryFn: async () => {
+            return productsMetOrdersMock;
+        }
+    };
 };
 
 export const getOrdersQuery = () => {
@@ -1158,9 +1190,9 @@ export const getOrdersForProduct = (productId: string) => {
         .filter(order => order.productId.toString() === productId)
         .map(order => ({
           ...order,
-           orderDatum: new Date(order.orderDatum),
-        leverDatum: new Date(order.leverDatum),
-        verzendDatum: new Date(order.verzendDatum),
+          orderDatum: new Date(order.orderDatum),
+          leverDatum: new Date(order.leverDatum),
+          verzendDatum: new Date(order.verzendDatum),
         })) as OrderGetModel[];
 
       return productOrders;
@@ -1180,8 +1212,6 @@ export interface ProductServerQueryArgs {
     merk?: string;
   };
 }
-
-
 
 export const getProductsServerQuery = (args: ProductServerQueryArgs) => {
   return {
