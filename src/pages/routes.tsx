@@ -44,7 +44,21 @@ import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetails
 import LayoutPage from "./Demo/LayoutPage";
 import DatagridHeightDemo from "./Demo/Datagrid/DatagridHeightDemo";
 import FormsDemo from "./Demo/Forms/FormsDemo";
-import ColumnLayoutDemo from "./Demo/ColumnLayout/ColumnLayoutDemo";
+import ColumnsScrollable from "./Demo/ColumnLayout/Columns/ColumnsScroll";
+import ColumnLayoutColumnsDemo from "./Demo/ColumnLayout/Columns/ColumnLayoutColumnsDemo";
+import ColumnLayoutToggleFromAsideDemo from "./Demo/ColumnLayout/ToggleFromAside";
+import WithTabs from "./Demo/ColumnLayout/WithTabs";
+import MainPrimary from "./Demo/ColumnLayout/MainPrimary";
+import MainOnlyNoHeader from "./Demo/ColumnLayout/MainOnlyNoHeader";
+import MainOnly from "./Demo/ColumnLayout/MainOnly";
+import MainAndAsideWithHeader from "./Demo/ColumnLayout/MainAndAsideWithHeader";
+import MainAndAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideNoHeader";
+import MainAndAsideMainNoHeader from "./Demo/ColumnLayout/MainAndAsideMainNoHeader";
+import MainAndAsideAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideAsideNoHeader";
+import AsideRight from "./Demo/ColumnLayout/AsideRight";
+import AsidePrimary from "./Demo/ColumnLayout/AsidePrimary";
+import AsideLeft from "./Demo/ColumnLayout/AsideLeft";
+import ColumnLayoutPage from "./Demo/ColumnLayout/ColumnLayoutPage";
 
 
 export const getInitialMenuItem = (pathname: string) => {
@@ -76,17 +90,77 @@ export const routes = [
 		element: <LayoutPage />
 	},
 	{
+		path: "/demo/columnlayout",
+		element: <ColumnLayoutPage/>
+	},
+
+	{
+		path: "/demo/columnlayout-aside-left",
+		element: <AsideLeft />
+	},
+	{
+		path: "/demo/columnlayout-aside-primary",
+		element: <AsidePrimary />
+	},
+	{
+		path: "/demo/columnlayout-aside-right",
+		element: <AsideRight />
+	},
+	{
+		path: "/demo/columnlayout-main-and-aside-aside-no-header",
+		element: <MainAndAsideAsideNoHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-and-aside-main-no-header",
+		element: <MainAndAsideMainNoHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-and-aside-no-header",
+		element: <MainAndAsideNoHeader />
+	},
+	{
+		path: "/demo/columnlayout",
+		element: <MainAndAsideWithHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-only",
+		element: <MainOnly />
+	},
+	{
+		path: "/demo/columnlayout-main-only-no-header",
+		element: <MainOnlyNoHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-primary",
+		element: <MainPrimary />
+	},
+	{
+		path: "/demo/columnlayout-tabs",
+		element: <WithTabs />
+	},
+	{
+		path: "/demo/columnlayout-toggle-from-aside",
+		element: <ColumnLayoutToggleFromAsideDemo />
+	},
+	{
+		path: "/demo/columnlayout-columns",
+		element: <ColumnLayoutColumnsDemo />
+	},
+	{
+		path: "/demo/columnlayout-columns-aside-scrollable",
+		element: <ColumnsScrollable />
+	},
+
+
+
+	{
 		path: "/demo/theme",
 		element: <ThemePage />
 	},
 	{
 		path: "/demo/forms",
 		element: <FormsDemo />
-	},
-	{
-		path: "/demo/columnlayout",
-		element: <ColumnLayoutDemo />
-	},
+	},	
 	{
 		path: "/demo/tags",
 		element: <TagsPage />
@@ -235,7 +309,9 @@ export const routes = [
 	{
 		path: "/demo/icon",
 		element: <IconDemo />
-	}
+	},
+
+
 ];
 
 

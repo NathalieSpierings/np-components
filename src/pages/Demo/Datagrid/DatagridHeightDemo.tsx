@@ -20,12 +20,11 @@ const DatagridHeightDemo: React.FC = () => {
         filters: tableOptions
     });
 
-    const [datagridHeight, setDatagridHeight] = useState<DatagridHeight>("default");
 
-    const toggleHeight = () => {
-        setDatagridHeight(current => current === "default" ? "full" : "default");
-    };
+    const [fullHeight, setFullHeight] = useState(false);
+    
 
+    
     return (
         <>
             <fieldset className="fieldset">
@@ -37,8 +36,8 @@ const DatagridHeightDemo: React.FC = () => {
                 </dl>
             </fieldset>
 
-            <Datagrid
-                height={datagridHeight}
+            <Datagrid 
+                fullHeight={fullHeight}
                 data={data || []}
                 dataRaw={dataRaw}
                 total={total || 0}
@@ -62,7 +61,7 @@ const DatagridHeightDemo: React.FC = () => {
                 toolbarTitle={<Title size="md">Alle products</Title>}
                 toolbarBorderBottom={true}
                 toolbarPrefixItems={[
-                    <Button key="height" onClick={toggleHeight}>{datagridHeight === 'default' ? "full" : "default"} height</Button>
+                    <Button key="height" onClick={() => setFullHeight(!fullHeight)}>{fullHeight ? "default" : "full"} height</Button>
 
                 ]}
                 toolbarPostfixItems={[

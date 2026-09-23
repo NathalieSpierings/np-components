@@ -1,18 +1,30 @@
-import { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren } from "react";
 
-export interface ColumnLayoutContentProps extends PropsWithChildren{
-	css?: string;
- }
+export interface ColumnLayoutContentProps extends PropsWithChildren {
+    css?: string;
+}
 
 const ColumnLayoutContent: FC<ColumnLayoutContentProps> = ({
-	children,
-	 css = ''
+    children,
+    css = "",
 }) => {
-	return (
-		<div className={`column-layout__content ${css}`}>
-			{children}
-		</div>
-	);
+    const cssClass = [
+        "column-layout__content",
+        css,
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    return (
+        <div className="pc-layout__content">
+            <div className="pc-layout__main">
+                <div className={cssClass}>
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default ColumnLayoutContent;
+

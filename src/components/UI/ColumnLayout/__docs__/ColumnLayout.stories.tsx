@@ -7,6 +7,7 @@ import ColumnLayoutAside from '../ColumnLayoutAside';
 import ColumnLayoutContent from '../ColumnLayoutContent';
 import ColumnLayoutHeader from '../ColumnLayoutHeader';
 import ColumnLayoutMain from '../ColumnLayoutMain';
+import React from 'react';
 
 const meta: Meta<typeof ColumnLayout> = {
     title: 'Layout/Column layout',

@@ -39,7 +39,7 @@ const TemplateSidebarAccountMenu: React.FC<TemplateSidebarAccountMenuProps> = ({
         <SidebarAccount
 
             dropdownToggle={{
-                prefix: (<Avatar size={SizeDefinitions.Small} icon={IconDefinitions.user} />),
+                prefix: (<Avatar border icon={IconDefinitions.user} />),
                 arrow: false
             }}
             dropdownHeader={{

@@ -458,43 +458,9 @@
 
 @layer layout {
 
-	.centered {
-		padding: 0 var(--page-padding);
-		width: 100%;
-
-		@include mixins.MQ-min(lg) {
-			margin: 0 auto;
-			max-width: 1345px !important;
-
-			&--small {
-				max-width: 740px !important;
-			}
-
-			&--slim {
-				max-width: 1010px !important;
-			}
-
-			&--narrow {
-				max-width: 1150px !important;
-			}
-
-			&--wide {
-				max-width: 1440px !important;
-			}
-
-			&--full {
-				max-width: 85vw !important;
-			}
-		}
-
-		@include mixins.MQ-max(md) {
-			padding: 0 var(--page-padding);
-		}
-	}
-
 	.page {		
 		width: 100%;
-		height: 100vh;
+		height: 100%;
 
 		&__container {
 			display: flex;
@@ -519,6 +485,10 @@
 		}
 	}
 
+	.eventstopper:has(.pc-layout){
+		height: 100%;
+	}
+	
 	.pc-layout {
 		position: relative;
 		display: flex;
@@ -526,115 +496,91 @@
 		min-height: 0;
 		min-width: 0;
 		overflow: visible;
- 
-	:where(.pc-layout__header, .pc-layout__footer) {
-		flex: 0 0 auto;
-	}
- 
-	:where(.pc-layout__content) {
-		display: flex;
-		flex: 0 0 auto;
-		min-height: 0;
-		min-width: 0;
-		align-items: stretch;
-		overflow: visible;
-		position: relative;
-	}
- 
-	:where(.pc-layout__main) {
-		flex: 1 1 0;
-		min-height: 0;
-		min-width: 0;
-		overflow: visible;
-		position: relative;
-	}
- 
-	:where(.pc-layout__aside) {
-		flex: 0 0 0;
-		min-height: 0;
-		min-width: 0;
-		overflow: visible;
-		position: relative;
-		transition: flex-basis 0.2s;
-	}
- 
-	:where(.pc-layout__aside.shown) {
-		flex-basis: var(--root-aside-width);
-	}
- 
-	:where(.pc-layout__aside--left.shown) {
-		border-right: 1px solid var(--border-color);
-	}
- 
-	:where(.pc-layout__aside--right.shown) {
-		border-left: 1px solid var(--border-color);
-	}
- 
- 
-	// Full height (expliciet via modifier, OF impliciet omdat er ergens
-	// dieper een .pc-layout--full-height in zit die de resterende ruimte
-	// nodig heeft, bv. in main of in een aside)
-	&:where(.pc-layout--full-height, :has(.pc-layout--full-height)) {
-		height: 100%;
-		overflow: hidden;
- 
-		> :where(.pc-layout__content) {
+
+		:where(.pc-layout__header, .pc-layout__footer) {
+			flex: 0 0 auto;
+		}
+
+		:where(.pc-layout__content) {
+			display: flex;
+			flex: 0 0 auto;
+			min-height: 0;
+			min-width: 0;
+			align-items: stretch;
+			overflow: visible;
+			position: relative;
+		}
+
+		:where(.pc-layout__main) {
 			flex: 1 1 0;
 			min-height: 0;
-			// Blijft de vangnet-scrollcontainer voor content die GEEN
-			// __main/__aside gebruikt (bv. content met platte kindjes,
-			// zoals in het oorspronkelijke voorbeeld). Zodra __main/__aside
-			// er wel zijn, vullen die hun eigen hoogte precies (stretch)
-			// en scrollt hier dus nooit iets - onschadelijk om aan te laten.
-			overflow: auto;
- 
-			// main en elke aside zijn zelf onafhankelijke scrolcontainers:
-			// lange content (ook gewone content, niet per se een nested
-			// pc-layout) scrollt binnen zijn eigen kolom i.p.v. dat de
-			// hele rij (main + asides) samen scrollt.
-			> :where(.pc-layout__main),
-			> :where(.pc-layout__aside) {
+			min-width: 0;
+			overflow: visible;
+			position: relative;
+		}
+
+		:where(.pc-layout__aside) {
+			flex: 0 0 0;
+			min-height: 0;
+			min-width: 0;
+			overflow: visible;
+			position: relative;
+			transition: flex-basis 0.2s;
+		}
+
+		:where(.pc-layout__aside.shown) {
+			flex-basis: var(--root-aside-width);
+		}
+
+		:where(.pc-layout__aside--left.shown) {
+			border-right: 1px solid var(--color-border);
+		}
+
+		:where(.pc-layout__aside--right.shown) {
+			border-left: 1px solid var(--color-border);
+		}
+
+		&:where(.pc-layout--full-height, :has(.pc-layout--full-height)) {
+			height: 100%;
+			overflow: hidden;
+
+			> :where(.pc-layout__content) {
+				flex: 1 1 0;
 				min-height: 0;
-				overflow-y: auto;
+				overflow: auto;
+
+				> :where(.pc-layout__main),
+				> :where(.pc-layout__aside) {
+					min-height: 0;
+					overflow-y: auto;
+				}
 			}
 		}
-	}
- 
- 
-	//Scrollable
-	&:where(.pc-layout--scrollable) {
-		overflow: auto;
- 
-		> :where(.pc-layout__content) {
-			flex: 0 0 auto;
-			overflow: visible;
+
+		&:where(.pc-layout--scrollable) {
+			overflow: auto;
+
+			> :where(.pc-layout__content) {
+				flex: 0 0 auto;
+				overflow: visible;
+			}
 		}
-	}
- 
- 
-	// Fixed header
-	&:where(.pc-layout--fixed) {
-		> :where(.pc-layout__header) {
-			position: sticky;
-			top: 0;
-			z-index: 10;
-			background: inherit;
+
+		&:where(.pc-layout--fixed) {
+			> :where(.pc-layout__header) {
+				position: sticky;
+				top: 0;
+				z-index: 10;
+				background: inherit;
+			}
 		}
-	}
- 
- 
-	// Nested full-height layout: werkt op elke nesting-diepte, via main
-	// zowel als via een aside. Alleen het/de direct-kind-pc-layout(s) dat
-	// zelf full-height is OF ergens dieper een full-height nakomeling
-	// bevat (een "relay"-laag) krijgt de groei-behandeling — een
-	// sibling-pc-layout zonder full-height ergens in zijn eigen boom
-	// blijft gewoon op zijn eigen content aansluiten.
-	:where(.pc-layout__main:has(.pc-layout--full-height)),
-	:where(.pc-layout__aside:has(.pc-layout--full-height)) {
+
+		:where(.pc-layout__main:has(.pc-layout--full-height)),
+		:where(.pc-layout__aside:has(.pc-layout--full-height)) {
 			display: flex;
 			flex-direction: column;
 			overflow: hidden;
- 
+
 			> :where(.pc-layout--full-height),
 			> :where(.pc-layout:has(.pc-layout--full-height)) {
 				flex: 1 1 0;
@@ -644,6 +590,7 @@
 			}
 		}
 	}
+
 }
 
 @layer typography {

@@ -568,13 +568,15 @@
 
 @layer sidebarAccount {
     .sidebar-account {
-        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 5rem;
-        padding: calc(var(--page-padding-sm) / 2) 0;
-        margin-bottom: var(--page-padding-sm);
+        display: flex;
+        padding-block: var(--page-padding-xs);
+
+        .dropdown__toggle>.content-item {
+            gap: 0 !important;
+        }
     }
 
 }
@@ -635,6 +637,11 @@
                     border-left: 2px solid var(--sb-main-menu-accent-color);
                 }
             }
+
+            &:has(.sidebar-account) {
+                height: auto;
+                border-top: 1px solid var(--sb-main-border);
+            }
         }
     }
 }
@@ -678,7 +685,7 @@
         width: 100%;
         margin-bottom: var(--page-padding-sm);
         padding: calc(var(--page-padding-sm) / 2) 0;
-      
+
         svg {
             color: inherit;
             width: 1.8em;

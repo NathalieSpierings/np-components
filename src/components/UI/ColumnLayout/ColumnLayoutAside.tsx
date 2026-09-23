@@ -1,30 +1,38 @@
-import { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
-
+import { useColumnLayout } from "./ColumnLayoutContext";
 
 export interface ColumnLayoutAsideProps extends PropsWithChildren {
-	borderColor?: ColorDefinitions;
-	css?: string;
+    borderColor?: ColorDefinitions;
+    css?: string;
 }
 
 const ColumnLayoutAside: FC<ColumnLayoutAsideProps> = ({
-	borderColor = ColorDefinitions.Surface,
-	css,
-	children,
-	...props
+    borderColor = ColorDefinitions.Surface,
+    css,
+    children,
+    ...props
 }) => {
-	const cssClass = [
-		"column-layout__aside",
-		borderColor && `border-${borderColor}`,
-		css
-	].filter(Boolean)
-		.join(" ");
+    const { asidePosition } = useColumnLayout();
 
-	return (
-		<div className={cssClass} {...props}>
-			{children}
-		</div>
-	);
+    const cssClass = [
+        "pc-layout__aside",
+        `pc-layout__aside--${asidePosition}`,
+        "column-layout__aside",
+        "shown",
+        borderColor && `border-${borderColor}`,
+        css,
+    ]
+        .filter(Boolean)
+        .join(" ");
+
+    return (
+        <aside className={cssClass} {...props}>
+            <div className="pc-layout pc-layout--full-height">
+                {children}
+            </div>
+        </aside>
+    );
 };
 
 ColumnLayoutAside.displayName = "ColumnLayoutAside";

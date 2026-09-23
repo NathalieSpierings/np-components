@@ -1,5 +1,6 @@
 import React from "react";
 import SidebarMenu, { SidebarMenuItem } from "../components/Page/Navigation/SidebarMenu/SidebarMenu";
+import SidebarContentPanel from "../components/Page/Sidebar/SidebarContentPanel/SidebarContentPanel";
 
 const SidebarDemo: React.FC = () => {
 
@@ -107,19 +108,13 @@ const SidebarDemo: React.FC = () => {
         }
     ];
 
+
     const uiItems: SidebarMenuItem[] = [
         {
             title: "Theme",
             url: "/demo/theme",
         },
-        {
-            title: "Layout",
-            url: "/demo/layout",
-        },
-        {
-            title: "Column Layout",
-            url: "/demo/columnlayout",
-        },
+
         {
             url: '/demo/tags',
             title: "Tags"
@@ -173,17 +168,52 @@ const SidebarDemo: React.FC = () => {
         },
     ];
 
+    const layoutItems: SidebarMenuItem[] = [
+        {
+            title: "Layout",
+            url: "/demo/layout",
+        },
+        {
+            title: "Column Layout",
+            url: "/demo/columnlayout",
+        },
+        { title: 'Default', url: '/demo/columnlayout' },
+        { title: 'Aside left', url: '/demo/columnlayout-aside-left' },
+        { title: 'Aside right', url: '/demo/columnlayout-aside-right' },
+        { title: 'Mobile primary viw aside', url: '/demo/columnlayout-aside-primary' },
+        { title: 'Mobile primary viw main', url: '/demo/columnlayout-main-primary' },
+        { title: 'Main and aside | aside no header', url: '/demo/columnlayout-main-and-aside-aside-no-header' },
+        { title: 'Main and aside | main no header', url: '/demo/columnlayout-main-and-aside-main-no-header' },
+        { title: 'Main and aside | no header', url: '/demo/columnlayout-main-and-aside-no-header' },
+        { title: 'Main only', url: '/demo/columnlayout-main-only' },
+        { title: 'Main only | no header', url: '/demo/columnlayout-main-only-no-header' },
+        { title: 'Tabs', url: '/demo/columnlayout-tabs' },
+        { title: 'Toggle mobile from aside', url: '/demo/columnlayout-toggle-from-aside' },
+        { title: 'Columns inside main', url: '/demo/columnlayout-columns' },
+        { title: 'Columns aside scrollable', url: '/demo/columnlayout-columns-aside-scrollable' },
+    ]
+
 
     return (
         <>
-            <h4>UI</h4>
+            <SidebarContentPanel>
+                <h4>Layout</h4>
+            </SidebarContentPanel>
+            <SidebarMenu menuItems={layoutItems} />
+
+            <SidebarContentPanel>
+                <h4>UI elements</h4>
+            </SidebarContentPanel>
             <SidebarMenu menuItems={uiItems} />
 
-
-            <h4>Forms</h4>
+            <SidebarContentPanel>
+                <h4>Form elements</h4>
+            </SidebarContentPanel>
             <SidebarMenu menuItems={formItems} />
 
-            <h4>Datagrid</h4>
+            <SidebarContentPanel>
+                <h4>Datagrid</h4>
+            </SidebarContentPanel>
             <SidebarMenu menuItems={datagridItems} />
 
         </>
