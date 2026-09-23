@@ -428,10 +428,10 @@
 		}
 	}
 
-	// Scrollbar
-	/* WebKit (Chrome, Edge, Safari) */
+	// Chrome / Edge / Safari
 	::-webkit-scrollbar {
 		width: var(--scrollbar-width);
+		height: var(--scrollbar-width);
 	}
 
 	::-webkit-scrollbar-track {
@@ -439,19 +439,21 @@
 	}
 
 	::-webkit-scrollbar-thumb {
-		background: var(--scrollbar-thumb);
+		background-color: var(--scrollbar-thumb);
 		border-radius: 999px;
 	}
 
 	::-webkit-scrollbar-thumb:hover {
-		background: var(--scrollbar-thumb-hover);
+		background-color: var(--scrollbar-thumb-hover);
 	}
 
-	/* Firefox */
-	* {
-		scrollbar-width: thin;
-		scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-background);
-	}	
+	// Firefox
+	@supports not selector(::-webkit-scrollbar) {
+		* {
+			scrollbar-width: thin;
+			scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-background);
+		}
+	}
 }
 
 @layer layout {
@@ -490,11 +492,13 @@
 		}
 	}
 
-	.page {
+	.page {		
 		width: 100%;
 		height: 100vh;
 
 		&__container {
+			display: flex;
+			flex-direction: column;
 			height: 100%;
 			min-height: 0;
 			transition: var(--page-transition);
@@ -503,69 +507,144 @@
 		}
 
 		&__content {
+			display: flex;
+			flex-direction: column;
 			height: 100%;
+			min-height: 0;
+
 		}
 
 		&--fullscreen {
 			--page-container-padding: 0;
 		}
 	}
-	
+
 	.pc-layout {
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		height: 100%;
 		min-height: 0;
 		min-width: 0;
+		overflow: visible;
+ 
+	:where(.pc-layout__header, .pc-layout__footer) {
+		flex: 0 0 auto;
+	}
+ 
+	:where(.pc-layout__content) {
+		display: flex;
+		flex: 0 0 auto;
+		min-height: 0;
+		min-width: 0;
+		align-items: stretch;
+		overflow: visible;
 		position: relative;
-
-		:where(.pc-layout__header, .pc-layout__footer) {
-			flex: 0 0 auto;
-		}
-
-		:where(.pc-layout__content) {
-			display: flex;
-			flex: 1 1 auto;
+	}
+ 
+	:where(.pc-layout__main) {
+		flex: 1 1 0;
+		min-height: 0;
+		min-width: 0;
+		overflow: visible;
+		position: relative;
+	}
+ 
+	:where(.pc-layout__aside) {
+		flex: 0 0 0;
+		min-height: 0;
+		min-width: 0;
+		overflow: visible;
+		position: relative;
+		transition: flex-basis 0.2s;
+	}
+ 
+	:where(.pc-layout__aside.shown) {
+		flex-basis: var(--root-aside-width);
+	}
+ 
+	:where(.pc-layout__aside--left.shown) {
+		border-right: 1px solid var(--border-color);
+	}
+ 
+	:where(.pc-layout__aside--right.shown) {
+		border-left: 1px solid var(--border-color);
+	}
+ 
+ 
+	// Full height (expliciet via modifier, OF impliciet omdat er ergens
+	// dieper een .pc-layout--full-height in zit die de resterende ruimte
+	// nodig heeft, bv. in main of in een aside)
+	&:where(.pc-layout--full-height, :has(.pc-layout--full-height)) {
+		height: 100%;
+		overflow: hidden;
+ 
+		> :where(.pc-layout__content) {
+			flex: 1 1 0;
 			min-height: 0;
-			min-width: 0;
-			position: relative;
-		}
-
-		:where(.pc-layout__main) {
-			flex: 1 1 auto;
-			min-width: 0;
-			min-height: 0;
+			// Blijft de vangnet-scrollcontainer voor content die GEEN
+			// __main/__aside gebruikt (bv. content met platte kindjes,
+			// zoals in het oorspronkelijke voorbeeld). Zodra __main/__aside
+			// er wel zijn, vullen die hun eigen hoogte precies (stretch)
+			// en scrollt hier dus nooit iets - onschadelijk om aan te laten.
 			overflow: auto;
-			position: relative;
-		}
-
-		:where(.pc-layout__aside) {
-			flex: 0 0 0;
-			min-width: 0;
-			overflow: hidden;
-			transition: flex-basis .2s;
-			position: relative;
-		}
-		
-
-		:where(.pc-layout__aside.shown) {
-			flex-basis: var(--root-aside-width);
-		}
-
-		:where(.pc-layout__aside--left.shown) {
-			border-right: 1px solid var(--border-color);
-		}
-
-		:where(.pc-layout__aside--right.shown) {
-			border-left: 1px solid var(--border-color);
+ 
+			// main en elke aside zijn zelf onafhankelijke scrolcontainers:
+			// lange content (ook gewone content, niet per se een nested
+			// pc-layout) scrollt binnen zijn eigen kolom i.p.v. dat de
+			// hele rij (main + asides) samen scrollt.
+			> :where(.pc-layout__main),
+			> :where(.pc-layout__aside) {
+				min-height: 0;
+				overflow-y: auto;
+			}
 		}
 	}
-
-	.eventstopper:has(.pc-layout){
-		height: 100%;
+ 
+ 
+	//Scrollable
+	&:where(.pc-layout--scrollable) {
+		overflow: auto;
+ 
+		> :where(.pc-layout__content) {
+			flex: 0 0 auto;
+			overflow: visible;
+		}
+	}
+ 
+ 
+	// Fixed header
+	&:where(.pc-layout--fixed) {
+		> :where(.pc-layout__header) {
+			position: sticky;
+			top: 0;
+			z-index: 10;
+			background: inherit;
+		}
+	}
+ 
+ 
+	// Nested full-height layout: werkt op elke nesting-diepte, via main
+	// zowel als via een aside. Alleen het/de direct-kind-pc-layout(s) dat
+	// zelf full-height is OF ergens dieper een full-height nakomeling
+	// bevat (een "relay"-laag) krijgt de groei-behandeling — een
+	// sibling-pc-layout zonder full-height ergens in zijn eigen boom
+	// blijft gewoon op zijn eigen content aansluiten.
+	:where(.pc-layout__main:has(.pc-layout--full-height)),
+	:where(.pc-layout__aside:has(.pc-layout--full-height)) {
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+ 
+			> :where(.pc-layout--full-height),
+			> :where(.pc-layout:has(.pc-layout--full-height)) {
+				flex: 1 1 0;
+				height: auto;
+				min-height: 0;
+				min-width: 0;
+			}
+		}
 	}
 }
-
 
 @layer typography {
 
@@ -908,40 +987,44 @@
 
 }
 
-
 @layer general {
 
-	 table {
-        position: relative;
-        display: table;
-        table-layout: fixed;
-        width: 100%;
-        border-collapse: collapse;
-        border-spacing: 0;
-        border: none;
-        margin: 0;
-        padding: 0;
-        text-align: left;
+	.eventstopper{
+		height: 100%;
+	}
 
-        th {
-            color: var(--color-foreground);
-            font-weight: 600;
-        }
+	table {
+		position: relative;
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+		border-collapse: collapse;
+		border-spacing: 0;
+		border: none;
+		margin: 0;
+		padding: 0;
+		text-align: left;
 
-        th,
-        td {
-            padding: var(--page-padding-2xs) var(--page-padding-sm);
-            color: inherit;
-        }
+		th {
+			color: var(--color-foreground);
+			font-weight: 600;
+		}
 
-
-        .form-field,
-        .form-group {
-            margin: 0;
-        }
+		th,
+		td {
+			padding: var(--page-padding-2xs) var(--page-padding-sm);
+			color: inherit;
+		}
 
 
-    }
+		.form-field,
+		.form-group {
+			margin: 0;
+		}
+
+
+	}
+
 	
 	.scrollable {
 		max-height: 25vh;
@@ -985,28 +1068,31 @@
 		border-width: 0;
 	}
 
-	.dot-indicator{
+	.dot-indicator {
 		--dot-indicator-size: 10px;
-		width:var(--dot-indicator-size);
-		height:var(--dot-indicator-size);
+		width: var(--dot-indicator-size);
+		height: var(--dot-indicator-size);
 		border-radius: var(--radius-full);
 		background: var(--color-background);
 
-		&--xs{
+		&--xs {
 			--dot-indicator-size: 6px;
 		}
-		&--sm{
+
+		&--sm {
 			--dot-indicator-size: 8px;
 		}
-		&--md{
+
+		&--md {
 			--dot-indicator-size: 12px;
 		}
-		&--lg{
+
+		&--lg {
 			--dot-indicator-size: 14px;
 		}
 	}
 
-	.search {		
+	.search {
 		z-index: 1;
 		display: flex;
 		align-items: center;
@@ -1024,14 +1110,14 @@
 			width: 100%;
 			padding: var(--page-padding-3xs) var(--page-padding-xs);
 			min-height: 36px;
-			
+
 			&:focus-within {
 				border-color: var(--color-primary);
 				box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 23%, transparent), 0 0 0 1px var(--color-primary);
 			}
 
-			.icon{
-				flex:0 0 40px;
+			.icon {
+				flex: 0 0 40px;
 			}
 		}
 
@@ -1041,6 +1127,7 @@
 			background: transparent;
 		}
 	}
+
 	.separator-h {
 		display: block;
 		background-color: var(--color-border);
@@ -1305,6 +1392,30 @@
 @layer utiltities {
 	.border-none {
 		border: 0 none !important;
+	}
+
+	.border-dashed {
+		border-style: dashed;
+	}
+
+	.border-dotted {
+		border-style: dotted;
+	}
+	
+	.border-w1{
+		border-width: 1px;
+	}
+
+	.border-w2{
+		border-width: 2px;
+	}
+
+	.border-w4{
+		border-width: 4px;
+	}
+
+	.border-w6{
+		border-width: 6px;
 	}
 
 	.selected {

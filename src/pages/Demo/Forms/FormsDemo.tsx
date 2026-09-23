@@ -1,10 +1,13 @@
 import React, { ReactElement, useState } from "react";
-import { Checkbox, RadioButton, Toggle } from "../../../components";
+import { Checkbox, PasswordInput, RadioButton, Toggle } from "../../../components";
 import FormInline from "../../../components/Forms/FormInline/FormInline";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 
 
 const FormsDemo = (): ReactElement => {
+    const [defaultPassword, setDefaultPassword] = useState('');
+    const [password, setPassword] = useState('');
+
     const [checked, setChecked] = useState(false);
     const [radioChecked, setRadioChecked] = useState('');
     const [toggleChecked, setToggleChecked] = useState(false);
@@ -12,6 +15,29 @@ const FormsDemo = (): ReactElement => {
     return (
         <div className="grid">
             <div className="bg-surface-light p-3">
+
+                <h3>Password</h3>
+                <PasswordInput
+                    name="password"
+                    label="Password"
+                    onChange={(e) => setDefaultPassword(e.target.value)}
+                    value={defaultPassword} />
+
+                <h3>OnTextInput</h3>
+                <PasswordInput name="password" label="Password" onTextInput={setPassword} value={password} />
+
+
+                <h3>WithPasswordCheck</h3>
+                <PasswordInput
+                    name="password"
+                    label="Password"
+                    value={password}
+                    usePasswordCheck={true}
+                    onTextInput={setPassword}
+                    onKeyUp={() => handleKeyUp}
+                />
+
+
 
                 <h3>Checkbox</h3>
                 <Checkbox
@@ -102,9 +128,9 @@ const FormsDemo = (): ReactElement => {
 
                 <h3 className="mt-3">Toggle</h3>
                 <Toggle label="I am a default toggle switch" checked={toggleChecked} onChange={setToggleChecked} />
-                <Toggle label="I am a accent toggle switch" checked={toggleChecked} onChange={setToggleChecked} color={ColorDefinitions.Accent}/>
+                <Toggle label="I am a accent toggle switch" checked={toggleChecked} onChange={setToggleChecked} color={ColorDefinitions.Accent} />
                 <Toggle label="I am a colored toggle switch" checked={toggleChecked} onChange={setToggleChecked} color={ColorDefinitions.Blue} />
-                <Toggle label="I am a primary toggle switch" checked={toggleChecked} onChange={setToggleChecked} color={ColorDefinitions.Primary}/>
+                <Toggle label="I am a primary toggle switch" checked={toggleChecked} onChange={setToggleChecked} color={ColorDefinitions.Primary} />
 
 
                 <h3 className="mt-3">Toggle validation </h3>

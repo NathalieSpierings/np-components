@@ -1,15 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, PropsWithChildren, ReactNode, useEffect } from 'react';
+import React, { FC, KeyboardEvent, ReactNode, useState } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import ContentItem, { ContentItemType } from '../ContentItem/ContentItem';
 import Icon from '../Icons/Icon/Icon';
 import { CollectionViewSelectorOption } from './CollectionViewSelector';
 
-const isSelected = (option: CollectionItem, selected: string[]) => {
-    return selected.includes(option.id ?? '');
-};
-
 export type CollectionItemVariant = 'default' | 'bordered' | 'underlined';
+
 export interface CollectionItem {
     id: string;
     content: ContentItemType;
@@ -17,9 +14,12 @@ export interface CollectionItem {
     defaultOpen?: boolean;
     collapsibleArrowPosition?: 'left' | 'right';
     active?: boolean;
+    background?: ColorDefinitions;
+    borderColor?: ColorDefinitions;
+    collectionItemCss?: string;
 }
 
-export interface CollectionProps extends PropsWithChildren {
+export interface CollectionProps {
     items: CollectionItem[];
     itemVariant?: CollectionItemVariant;
     view?: CollectionViewSelectorOption;
@@ -42,9 +42,46 @@ export interface CollectionProps extends PropsWithChildren {
     collectionCss?: string;
 }
 
+
+const cx = (...classes: Array<string | false | null | undefined>) => classes.filter(Boolean).join(' ');
+
+const NESTED_INTERACTIVE_SELECTOR = [
+    'a[href]',
+    'button',
+    'input',
+    'select',
+    'textarea',
+    'label',
+    '[role="button"]',
+    '[role="checkbox"]',
+    '[role="switch"]',
+    '[role="link"]',
+    '[role="menuitem"]',
+    '[contenteditable="true"]',
+    '[data-collection-ignore]',
+].join(', ');
+
+const isFromNestedInteractive = (event: React.SyntheticEvent<HTMLElement>): boolean => {
+    const container = event.currentTarget;
+    const target = event.target as HTMLElement | null;
+    const interactive = target?.closest(NESTED_INTERACTIVE_SELECTOR);
+
+    return !!interactive && interactive !== container && container.contains(interactive);
+};
+
+const getNewSelection = (id: string, selected: string[], selectMultiple: boolean): string[] => {
+    if (!selectMultiple) return [id];
+
+    return selected.includes(id)
+        ? selected.filter(itemId => itemId !== id)
+        : [...selected, id];
+};
+
+
+
 const Collection: FC<CollectionProps> = ({
     items = [],
-    itemVariant = "default",
+    itemVariant = 'default',
     view,
     scrollable,
     scrollheight,
@@ -59,196 +96,165 @@ const Collection: FC<CollectionProps> = ({
     selectable = false,
     selectMultiple = false,
     collectionCss = '',
-    selected,
+    selected = [],
     setSelected,
     activeItem,
-    setActiveItem
+    setActiveItem,
 }) => {
 
-    const [internalActiveItem, setInternalActiveItem] = React.useState<string | undefined>(
-        items.find((item) => item.defaultOpen)?.id
-    );
+    const isControlled = setActiveItem !== undefined;
+    const [internalActiveItem, setInternalActiveItem] = useState<string>();
+    const [hasToggled, setHasToggled] = useState(false);
 
-    const [manuallyClosedItems, setManuallyClosedItems] = React.useState<string[]>([]);
-
-    const defaultOpenItem = items.find(
-        (item) => item.defaultOpen && !manuallyClosedItems.includes(item.id)
-    )?.id;
-
-    const currentActiveItem = activeItem ?? internalActiveItem ?? defaultOpenItem;
-
-    const setCurrentActiveItem = setActiveItem ?? setInternalActiveItem;
-
-    React.useEffect(() => {
-        if (!defaultOpenItem) return;
-        if (currentActiveItem) return;
-
-        setCurrentActiveItem(defaultOpenItem);
-    }, [defaultOpenItem, currentActiveItem, setCurrentActiveItem]);
+    const defaultOpenItem = items.find(item => item.defaultOpen)?.id;
+    const resolvedActiveItem = isControlled ? activeItem : internalActiveItem;
+    const currentActiveItem = hasToggled ? resolvedActiveItem : resolvedActiveItem ?? defaultOpenItem;
 
     const toggleOpen = (id: string) => {
-        if (currentActiveItem === id) {
-            setManuallyClosedItems((current) => [...current, id]);
-            setCurrentActiveItem(undefined);
+        const next = currentActiveItem === id ? undefined : id;
+        setHasToggled(true);
+
+        if (isControlled) {
+            setActiveItem(next);
+        } else {
+            setInternalActiveItem(next);
+        }
+    };
+
+    const canSelect = selectable && !!setSelected;
+    const selectedSet = new Set(selected);
+
+    const handleActivate = (id: string, hasCollapsibleContent: boolean) => {
+        if (hasCollapsibleContent) {
+            toggleOpen(id);
             return;
         }
 
-        setManuallyClosedItems((current) =>
-            current.filter((itemId) => itemId !== id)
-        );
-
-        setCurrentActiveItem(id);
-    };
-
-    useEffect(() => {
-        const activeDefaultOpenIds = new Set(items.filter((item) => item.defaultOpen).map((item) => item.id)
-        );
-
-        setManuallyClosedItems((current) =>
-            current.filter((id) => activeDefaultOpenIds.has(id))
-        );
-    }, [items]);
-
-    const handleItemClick = (id: string) => {
-        if (!selectable || !setSelected) return;
-
-        const currentSelected = selected ?? [];
-
-        if (selectMultiple) {
-            const isAlreadySelected = currentSelected.includes(id);
-            const newSelection = isAlreadySelected
-                ? currentSelected.filter((itemId) => itemId !== id)
-                : [...currentSelected, id];
-            setSelected(newSelection);
-        } else {
-            setSelected([id]);
+        if (canSelect) {
+            setSelected(getNewSelection(id, selected, selectMultiple));
         }
     };
 
-    const hasCollapsibleItems = items.some((item) => !!item.collapsibleContent);
+    const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>, id: string, hasCollapsibleContent: boolean) => {
+        if (event.target !== event.currentTarget) return;
 
-    const cls = [
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleActivate(id, hasCollapsibleContent);
+        }
+    };
+
+    const hasCollapsibleItems = items.some(item => !!item.collapsibleContent);
+    const roundedCls = rounded && `rounded-${rounded}`;
+
+    const collectionCls = cx(
         'collection',
-        hasCollapsibleItems ? 'collection--collapsible' : '',
+        hasCollapsibleItems && 'collection--collapsible',
         view,
         collectionCss,
-        scrollable ? 'scroll' : '',
-        itemVariant ? `collection--${itemVariant}` : '',
-        compact ? `collection--compact` : '',
-        medium ? `collection--md` : '',
-        hoverable ? 'collection--hover' : '',
-    ].filter(Boolean).join(' ');
+        scrollable && 'scroll',
+        `collection--${itemVariant}`,
+        compact && 'collection--compact',
+        medium && 'collection--md',
+        hoverable && 'collection--hover',
+    );
+
+    const collectionStyle = scrollheight == null
+        ? undefined
+        : ({ '--collection-scroll-height': `${scrollheight}px` } as React.CSSProperties);
+
+
+
+    const renderItemButton = (id: string,isInteractive: boolean, isOpen: boolean, isSelected: boolean, hasCollapsibleContent: boolean) => {
+        return isInteractive
+            ? {
+                role: 'button',
+                tabIndex: 0,
+                onClick: (event: React.MouseEvent<HTMLDivElement>) => {
+                    if (isFromNestedInteractive(event)) return;
+                    handleActivate(id, hasCollapsibleContent);
+                },
+                onKeyDown: (event: KeyboardEvent<HTMLDivElement>) => handleKeyDown(event, id, hasCollapsibleContent),
+                'aria-expanded': hasCollapsibleContent ? isOpen : undefined,
+                'aria-pressed': !hasCollapsibleContent ? isSelected : undefined,
+            }
+            : {};
+    }
+
 
     return (
-        <div
-            className={cls}
-            style={
-                scrollheight != null
-                    ? ({
-                        '--collection-scroll-height': `${scrollheight}px`,
-                    } as React.CSSProperties)
-                    : undefined
-            }
-        >
+        <div className={collectionCls} style={collectionStyle}>
             <AnimatePresence>
-                {items?.map((item, idx) => {
-
+                {items.map(item => {
+                    const { id, content } = item;
                     const arrowPosition = item.collapsibleArrowPosition ?? 'left';
                     const hasCollapsibleContent = !!item.collapsibleContent;
-                    const isOpen = currentActiveItem === item.id;
+                    const isOpen = hasCollapsibleContent && currentActiveItem === id;
+                    const isSelected = selectedSet.has(id);
+                    const isInteractive = hasCollapsibleContent || canSelect;
 
-                    const arrow = hasCollapsibleContent ? (
-                        <motion.div
-                            animate={{ rotate: isOpen ? 180 : 0 }}
-                            transition={{ duration: 0.2 }}
-                        >
+                    const arrow = hasCollapsibleContent && (
+                        <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
                             <Icon icon={IconDefinitions.angle_down} />
                         </motion.div>
+                    );
+
+                    const showArrowLeft = hasCollapsibleContent && arrowPosition === 'left';
+                    const showArrowRight = hasCollapsibleContent && arrowPosition === 'right';
+
+                    const prefix = (content.prefix || showArrowLeft || item.active) ? (
+                        <>
+                            {showArrowLeft && arrow}
+                            {item.active && <div className="dot-indicator bg-primary" />}
+                            {content.prefix}
+                        </>
                     ) : undefined;
 
-                    const prefix = (
+                    const postfix = (content.postfix || showArrowRight) ? (
                         <>
-                            {arrowPosition === 'left' && arrow}
-
-                            {item.active && (
-                                <div className={`dot-indicator ${item.active ? 'bg-primary' : ''}`} />
-                            )}
-
-                            {item.content.prefix}
+                            {content.postfix}
+                            {showArrowRight && arrow}
                         </>
-                    );
+                    ) : undefined;
 
-                    const postfix = (
-                        <>
-                            {item.active && (
-                                <div className={`dot-indicator ${item.active ? 'bg-primary' : ''}`} />
-                            )}
-                            {item.content.postfix}
+                    const itemBackground = item.background ?? background;
+                    const itemBorderColor = item.borderColor ?? borderColor;
 
-                            {arrowPosition === 'right' && arrow}
-                        </>
-                    );
-
-                    const cls = [
+                    const itemCls = cx(
                         'collection__item',
-                        hasCollapsibleContent && isOpen ? 'active' : '',
-                        isSelected(item, selected || []) ? 'selected' : '',
-                        colorMute ? `text-mute-${colorMute}` : ``,
-                        color ? `text-${color}` : ``,
-                        background ? `bg-${background}` : ``,
-                        borderColor ? `border-${borderColor}` : ``,
-                        rounded ? `rounded-${rounded}` : '',
-                    ]
-                        .filter(Boolean)
-                        .join(' ');
+                        isOpen && 'active',
+                        isSelected && 'selected',
+                        colorMute && `text-mute-${colorMute}`,
+                        color && `text-${color}`,
+                        itemBackground && `bg-${itemBackground}`,
+                        itemBorderColor && `border-${itemBorderColor}`,
+                        roundedCls,
+                        item.collectionItemCss,
+                    );
+
+                    const interactiveProps = renderItemButton(id, isInteractive, isOpen, isSelected, hasCollapsibleContent);
 
                     return (
                         <motion.div
-                            key={item.id || idx}
+                            key={id}
                             layout
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.8, opacity: 0 }}
                             transition={{ type: 'spring' }}
-                            className={cls}
-                            style={{ cursor: selectable || selectMultiple || hasCollapsibleContent ? 'pointer' : 'default' }}
+                            className={itemCls}
                         >
                             <div
-                                className={`collection__item__container ${rounded ? `rounded-${rounded}` : ''}`}
-                                onClick={() => {
-                                    if (hasCollapsibleContent) {
-                                        toggleOpen(item.id);
-                                        return;
-                                    }
-
-                                    if ((selectable || selectMultiple) && setSelected) {
-                                        handleItemClick(item.id);
-                                    }
-                                }}
+                                className={cx('collection__item__container', roundedCls)}
+                                style={{ cursor: isInteractive ? 'pointer' : 'default' }}
+                                {...interactiveProps}
                             >
-                                <ContentItem
-                                    item={{
-                                        id: item.id,
-                                        gap: item.content.gap,
-                                        prefixGap: item.content.prefixGap,
-                                        prefixItemPosition: item.content.prefixItemPosition,
-                                        prefix: item.content.prefix || arrowPosition === 'left' ? prefix : undefined,
-                                        contentCss: item.content.contentCss,
-                                        content: item.content.content,
-                                        contentItemPosition: item.content.contentItemPosition,
-                                        contentJustifyPosition: item.content.contentJustifyPosition,
-                                        postfix: item.content.postfix || arrowPosition === 'right' ? postfix : undefined,
-                                        postfixItemPosition: item.content.postfixItemPosition,
-                                        postfixGap: item.content.postfixGap,
-                                        separatorAfterPrefix: item.content.separatorAfterPrefix,
-                                        separatorAfterMeta: item.content.separatorAfterMeta,
-                                    }}
-                                />
+                                <ContentItem item={{ ...content, id, prefix, postfix }} />
                             </div>
 
                             <AnimatePresence initial={false}>
-                                {hasCollapsibleContent && isOpen && (
+                                {isOpen && (
                                     <motion.div
-                                        className={`collection__item__collapsible ${borderColor ? 'border-' + borderColor : ''}`}
+                                        className={cx('collection__item__collapsible', borderColor && `border-${borderColor}`)}
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: 'auto', opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
@@ -269,7 +275,6 @@ const Collection: FC<CollectionProps> = ({
                         </motion.div>
                     );
                 })}
-
             </AnimatePresence>
         </div>
     );

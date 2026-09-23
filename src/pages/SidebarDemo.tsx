@@ -24,7 +24,6 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-all",
             title: "All"
         },
-
         {
             url: "/demo/dg-checkbox",
             title: "Checkboxes"
@@ -70,11 +69,6 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-pager",
             title: "Pager"
         },
-
-
-    ];
-
-    const datagridColumnItems: SidebarMenuItem[] = [
         {
             title: "Column Filters",
             url: "/demo/dg-column-filter",
@@ -99,9 +93,6 @@ const SidebarDemo: React.FC = () => {
             title: "Column Visibility",
             url: "/demo/dg-column-sticky",
         },
-    ];
-
-    const datagridRowItems: SidebarMenuItem[] = [
         {
             title: "Row totals",
             url: "/demo/dg-total-row",
@@ -121,9 +112,13 @@ const SidebarDemo: React.FC = () => {
             title: "Theme",
             url: "/demo/theme",
         },
-         {
+        {
             title: "Layout",
             url: "/demo/layout",
+        },
+        {
+            title: "Column Layout",
+            url: "/demo/columnlayout",
         },
         {
             url: '/demo/tags',
@@ -179,27 +174,18 @@ const SidebarDemo: React.FC = () => {
     ];
 
 
-
-
     return (
         <>
-            <h4>Datagrid</h4>
-            <SidebarMenu menuItems={datagridItems} />
-
-
-            <h6>Column options</h6>
-            <SidebarMenu menuItems={datagridColumnItems} />
-
-            <h6>Row options</h6>
-            <SidebarMenu menuItems={datagridRowItems} />
-
-
             <h4>UI</h4>
             <SidebarMenu menuItems={uiItems} />
 
 
             <h4>Forms</h4>
             <SidebarMenu menuItems={formItems} />
+
+            <h4>Datagrid</h4>
+            <SidebarMenu menuItems={datagridItems} />
+
         </>
     )
 }

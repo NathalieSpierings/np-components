@@ -44,6 +44,7 @@ import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetails
 import LayoutPage from "./Demo/LayoutPage";
 import DatagridHeightDemo from "./Demo/Datagrid/DatagridHeightDemo";
 import FormsDemo from "./Demo/Forms/FormsDemo";
+import ColumnLayoutDemo from "./Demo/ColumnLayout/ColumnLayoutDemo";
 
 
 export const getInitialMenuItem = (pathname: string) => {
@@ -52,7 +53,7 @@ export const getInitialMenuItem = (pathname: string) => {
 		return 'home'
 	}
 
-	if (matchPath(proxyPrefix + '/demo/*', pathname)) {
+	if (matchPath(proxyPrefix + "/demo/*", pathname)) {
 		return "demo";
 	}
 
@@ -69,6 +70,7 @@ export const routes = [
 		path: "/demo",
 		element: <DemoPage />,
 	},
+	
 	{
 		path: "/demo/layout",
 		element: <LayoutPage />
@@ -80,6 +82,10 @@ export const routes = [
 	{
 		path: "/demo/forms",
 		element: <FormsDemo />
+	},
+	{
+		path: "/demo/columnlayout",
+		element: <ColumnLayoutDemo />
 	},
 	{
 		path: "/demo/tags",

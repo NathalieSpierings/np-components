@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { ReactNode, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Dropdown, { DropdownHorizontalPosition, DropdownVerticalPosition } from "../../Forms/Dropdown/Dropdown";
 import { DropdownMenuItem } from "../../Forms/Dropdown/DropdownMenu";
@@ -78,6 +78,13 @@ function Tags<T = TagItem>({
 
     const [isAdding, setIsAdding] = useState(false);
     const [value, setValue] = useState("");
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (isAdding) {
+            inputRef.current?.focus();
+        }
+    }, [isAdding]);
 
     const close = () => {
         setValue("");
@@ -106,7 +113,7 @@ function Tags<T = TagItem>({
         }
     };
 
-    const canRemoveTag = !enableMinimalOneTag || tags.length > 1 || !readOnly;
+    const canRemoveTag = !readOnly && (!enableMinimalOneTag || tags.length > 1);
 
     const dropdownItems = useMemo<DropdownMenuItem[]>(() => {
         if (!dataSource || !dataSourceId || !dataSourceLabel) {
@@ -188,7 +195,7 @@ function Tags<T = TagItem>({
                 {!readOnly && !hasDataSource && onAdd && (
                     isAdding ? (
                         <input
-                            autoFocus
+                            ref={inputRef}
                             className={color ? `tags__input border-${color}` : "tags__input"}
                             value={value}
                             placeholder={placeholder}
