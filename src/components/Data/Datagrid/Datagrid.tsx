@@ -17,11 +17,12 @@ import { DatagridProvider, useDatagridContext } from "./Context/DatagridContext"
 import { DatagridColumnFilterValue, isActiveColumnFilter } from "./Filters/DatagridColumnFilter";
 import DatagridFilterList from "./Filters/DatagridFilterList";
 import { getNestedValue } from "./Helpers/datagridTypeHelpers";
-import Pagination, { PaginationData, PaginationInfoPosition, PaginationPosition } from "./Pagination";
+import { PaginationData, PaginationInfoPosition } from "./Pagination";
 import DatagridTable from "./Table/DatagridTable";
 
 const DEFAULT_COLUMN_WIDTH = 180;
-const UTILITY_COLUMN_WIDTH = 52;
+const UTILITY_COLUMN_WIDTH = 48;
+const COLLAPSIBLE_COLUMN_WIDTH = 52;
 const MIN_COLUMN_WIDTH = 80;
 
 export type DatagridPinnedPosition = "left" | "right" | null;
@@ -61,6 +62,7 @@ export interface DatagridDataProps<TData> {
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
     loading: boolean;
+    getRowKey?: (item: TData) => string | number;
 }
 
 export interface DatagridAppearanceProps {
@@ -83,7 +85,6 @@ export interface DatagridRowActionProps<TData> {
 
 export interface DatagridPaginationProps {
     enablePagination?: boolean;
-    paginationPosition?: PaginationPosition;
     paginationRowInfoPosition?: PaginationInfoPosition;
     total: number;
     initialPageSize?: number;
@@ -122,6 +123,7 @@ export interface DatagridCollapsibleRowProps<TData> {
     collapsibleRowData?: React.ComponentType<{
         item: TData;
     }>;
+    hasCollapsibleRow?: (item: TData) => boolean;
 }
 
 export interface DatagridContentProps {
@@ -209,16 +211,15 @@ export interface DatagridProps<TData> extends DatagridDataProps<TData>,
 function Datagrid<TData extends { id: string | number }>({
     data,
     dataRaw,
+    getRowKey,
     total,
     onFilterUpdate,
     loading,
     properties = [],
     initialSortConfig,
     variant = "default",
-
     rowActions = [],
     rowActionPosition = "right",
-
     enableColumnResize = false,
     enableColumnReorder = false,
     enableColumnVisibility = false,
@@ -226,11 +227,8 @@ function Datagrid<TData extends { id: string | number }>({
     enableColumnMenu,
     enableColumnMenuColumnVisibility,
     enableStickyHeader = true,
-
     enableSummaryRow = false,
-
     enablePagination = true,
-    paginationPosition = "outside table",
     paginationRowInfoPosition = "right",
     initialPageSize = 25,
     pageSizeOptions,
@@ -250,6 +248,7 @@ function Datagrid<TData extends { id: string | number }>({
     checkedItems = [],
     onRowsChecked,
     collapsibleRowData,
+    hasCollapsibleRow,
     footerContent,
     tableHeaderContent,
     tableFooterContent,
@@ -416,11 +415,9 @@ function Datagrid<TData extends { id: string | number }>({
 
 
     // Collapsible row
-    const toggleCollapsibleRow =
-        useCallback((id: string | number) => {
-            setCollapsibleRowIds((current) => toggleIdInSet(current, id));
-        }, []
-        );
+    const toggleCollapsibleRow = useCallback((id: string | number) => {
+        setCollapsibleRowIds((current) => toggleIdInSet(current, id));
+    }, []);
 
 
     // Local storage
@@ -592,7 +589,6 @@ function Datagrid<TData extends { id: string | number }>({
 
 
     // Row interactions
-
     const handleRowSingleClick = useCallback((item: TData) => {
 
         rowSingleClickAction?.(item);
@@ -606,7 +602,6 @@ function Datagrid<TData extends { id: string | number }>({
         [rowSingleClickAction, enableSidebar, sidebarOpen]
     );
 
-
     const handleRowDoubleClick = useCallback((item: TData) => {
 
         if (enableSidebar) {
@@ -618,7 +613,6 @@ function Datagrid<TData extends { id: string | number }>({
     },
         [enableSidebar, rowDoubleClickAction]
     );
-
 
     const effectiveRowActions = useMemo<DatagridAction<TData>[]>(() =>
         rowActions.map(
@@ -639,27 +633,21 @@ function Datagrid<TData extends { id: string | number }>({
         [rowActions, enableSidebar]
     );
 
-
-
     const datagrid = (
+
         <div
             className={[
-                "datagrid",
-                "pc-layout",
-                compactView ? "datagrid--compact" : "",
-                isNested ? "datagrid--nested" : "",
-                enableRowHover ? "datagrid--hover" : "",
+                fullHeight && !isNested ? 'pc-layout pc-layout--full-height' : 'pc-layout',
+                'datagrid-layout',
                 css
-            ]
-                .filter(Boolean)
-                .join(" ")}
-            style={fullHeight ? { height: "95%" } : undefined}
+            ].filter(Boolean).join(" ")}
         >
+            {/* header */}
             {showHeader && (
-                <div className="datagrid__header pc-layout__header">
+                <div className="pc-layout__header datagrid-layout__header">
 
                     {showToolbar && (
-                       <Toolbar
+                        <Toolbar
                             title={toolbarTitle}
                             navItems={toolbarNavItems}
                             showSeparator={toolbarSeparator}
@@ -691,9 +679,23 @@ function Datagrid<TData extends { id: string | number }>({
                 </div>
             )}
 
+            {/* body */}
+            <div className="pc-layout__content datagrid-viewport">
 
-            <div className="pc-layout__content">
+                {/* tabs */}
+                {!isNested &&
+                    enableTabs &&
+                    tabberPosition === "left" && (
+                        <DatagridTabs
+                            tabs={effectiveTabs}
+                            tabPanes={effectiveTabPanes}
+                            tabberPosition={tabberPosition}
+                            tabsMinWidth={tabsMinWidth}
+                            tabsMaxWidth={tabsMaxWidth}
+                        />
+                    )}
 
+                {/* sidebar */}
                 {!isNested &&
                     enableSidebar &&
                     sidebarPosition === "left" && (
@@ -711,19 +713,7 @@ function Datagrid<TData extends { id: string | number }>({
                     )}
 
 
-                {!isNested &&
-                    enableTabs &&
-                    tabberPosition === "left" && (
-                        <DatagridTabs
-                            tabs={effectiveTabs}
-                            tabPanes={effectiveTabPanes}
-                            tabberPosition={tabberPosition}
-                            tabsMinWidth={tabsMinWidth}
-                            tabsMaxWidth={tabsMaxWidth}
-                        />
-                    )}
-
-
+                {/* datagrid-root */}
                 {loading && (
                     <Loader
                         duration={loaderDuration}
@@ -743,11 +733,11 @@ function Datagrid<TData extends { id: string | number }>({
                     gridRef={gridRef}
                     data={data}
                     dataRaw={dataRaw}
+                    getRowKey={getRowKey}
                     loading={loading}
                     rowActions={effectiveRowActions}
                     rowActionPosition={rowActionPosition}
                     enablePagination={enablePagination}
-                    paginationPosition={paginationPosition}
                     paginationRowInfoPosition={paginationRowInfoPosition}
                     total={total}
                     pageSizeOptions={pageSizeOptions}
@@ -767,10 +757,11 @@ function Datagrid<TData extends { id: string | number }>({
                     onRowsChecked={onRowsChecked}
                     useCheckboxes={useCheckboxes}
                     collapsibleRowData={collapsibleRowData}
+                    hasCollapsibleRow={hasCollapsibleRow}
                     collapsibleRowIds={collapsibleRowIds}
                     toggleCollapsibleRow={toggleCollapsibleRow}
-                    headerContent={isNested ? undefined : tableHeaderContent}
-                    footerContent={isNested ? undefined : tableFooterContent}
+                    headerContent={tableHeaderContent}
+                    footerContent={tableFooterContent}
                     pagination={pagination}
                     setPagination={setPagination}
                     sort={sort}
@@ -790,25 +781,13 @@ function Datagrid<TData extends { id: string | number }>({
                     setColumnFilters={setColumnFilters}
                     isNested={isNested}
                     lastColumnIndex={lastColumnIndex}
+                    compactView={compactView}
+                    enableRowHover={enableRowHover}
                 />
 
 
-                {!isNested &&
-                    enableTabs &&
-                    tabberPosition === "right" && (
-                        <DatagridTabs
-                            tabs={effectiveTabs}
-                            tabPanes={effectiveTabPanes}
-                            tabberPosition={tabberPosition}
-                            tabsMinWidth={tabsMinWidth}
-                            tabsMaxWidth={tabsMaxWidth}
-                        />
-
-                    )}
-
-
+                {/* sidebar */}
                 {!isNested && enableSidebar && sidebarPosition === "right" && (
-
                     <DatagridSidebar<TData>
                         open={sidebarOpen}
                         setOpen={setSidebarOpen}
@@ -822,33 +801,34 @@ function Datagrid<TData extends { id: string | number }>({
                     />
                 )}
 
-            </div>
-
-
-            {!isNested && (
-                <div className="datagrid__footer pc-layout__footer">
-
-                    {paginationPosition === "outside table" && enablePagination && (
-                        <Pagination
-                            total={total}
-                            pagination={pagination}
-                            setPagination={setPagination}
-                            rowInfoPosition={paginationRowInfoPosition}
-                            pageSizeOptions={pageSizeOptions}
+                {/* tabber */}
+                {!isNested &&
+                    enableTabs &&
+                    tabberPosition === "right" && (
+                        <DatagridTabs
+                            tabs={effectiveTabs}
+                            tabPanes={effectiveTabPanes}
+                            tabberPosition={tabberPosition}
+                            tabsMinWidth={tabsMinWidth}
+                            tabsMaxWidth={tabsMaxWidth}
                         />
+
                     )}
 
-                    {footerContent && (
-                        <div className="datagrid__footer__content">
-                            {footerContent}
-                        </div>
-                    )}
+            </div>
+            {/* end body */}
 
+
+            {/* footer */}
+              {footerContent && (
+                // <div className="datagrid__footer__content">
+                 <div className="pc-layout__footer datagrid-layout__footer">
+                    {footerContent}
                 </div>
             )}
         </div>
-    );
 
+    )
 
     if (isNested) {
         return datagrid;
@@ -867,8 +847,6 @@ function Datagrid<TData extends { id: string | number }>({
 
 
 export default Datagrid;
-
-
 
 
 function getDefaultColumns<TData>(
@@ -1007,7 +985,7 @@ function createRenderedColumns<TData>(
             ? [{
                 key: "__collapsible",
                 type: "collapsible" as const,
-                width: UTILITY_COLUMN_WIDTH,
+                width: COLLAPSIBLE_COLUMN_WIDTH,
                 pinned: hasPinnedLeftColumns ? "left" as const : null
             }]
             : []),
@@ -1243,4 +1221,3 @@ function getToolbarPostfixItems(
 
     return items;
 }
-

@@ -1,7 +1,7 @@
 import React from "react";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import DatagridFilterDropdown from "./DatagridFilterDropdown";
 import { DatagridColumnFilterValue } from "./DatagridColumnFilter";
+import DatagridFilterDropdown from "./DatagridFilterDropdown";
 
 export interface DatagridFiltersProps<TData> {
     dataRaw?: TData[];

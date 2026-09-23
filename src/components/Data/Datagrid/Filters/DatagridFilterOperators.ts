@@ -47,7 +47,7 @@ export function getOperators(type: DatagridColumnFilterType) {
     }
 }
 
-export function getDefaultOperator( type: DatagridColumnFilterType): DatagridFilterOperator | undefined {
+export function getDefaultOperator(type: DatagridColumnFilterType): DatagridFilterOperator | undefined {
     switch (type) {
         case "text":
             return "contains";

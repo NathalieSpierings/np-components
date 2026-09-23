@@ -1,85 +1,80 @@
-import React, { FC, InputHTMLAttributes, ReactElement, forwardRef, useMemo, useState } from 'react';
+import React, { InputHTMLAttributes, ReactElement, forwardRef, useMemo, useState } from 'react';
 import { Control, FieldPath, FieldPathValue, FieldValues, Path, RegisterOptions, useController } from 'react-hook-form';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import { DismissButton } from '../../UI/DismissButton';
 import Icon from '../../UI/Icons/Icon/Icon';
 
-function usePasswordStrength(password: string) {
-    return useMemo(() => {
-        let score = 0;
+const compName = "PasswordInput";
 
-        const hasUpper = /[A-Z]/.test(password);
-        const hasLower = /[a-z]/.test(password);
-        const hasUpperLower = hasUpper && hasLower;
+const getPasswordStrength = (password: string) => {
+    let score = 0;
 
-        const hasNumber = /\d/.test(password);
-        const hasLetter = /[a-zA-Z]/.test(password);
-        const hasNumberAndLetter = hasNumber && hasLetter;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasUpperLower = hasUpper && hasLower;
 
-        const hasSpecial = /[!%&@#$^*?_~]/.test(password);
-        const hasLength = password.length > 7;
+    const hasNumber = /\d/.test(password);
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNumberAndLetter = hasNumber && hasLetter;
 
-        if (hasUpperLower) score++;
-        if (hasNumberAndLetter) score++;
-        if (hasSpecial) score++;
-        if (hasLength) score++;
+    const hasSpecial = /[!%&@#$^*?_~]/.test(password);
+    const hasLength = password.length >= 8;
 
-        let label = '';
-        let css = '';
+    if (hasUpperLower) score++;
+    if (hasNumberAndLetter) score++;
+    if (hasSpecial) score++;
+    if (hasLength) score++;
 
-        if (password.length) {
-            if (score < 2) {
-                label = 'Erg zwak';
-                css = 'text-rose';
-            } else if (score === 4) {
-                label = 'Sterk';
-                css = 'text-green';
-            } else {
-                label = 'Zwak';
-                css = 'text-orange';
-            }
+    let label = '';
+    let css = '';
+
+    if (password.length > 0) {
+        if (score < 2) {
+            label = 'Erg zwak';
+            css = 'text-rose';
+        } else if (score === 4) {
+            label = 'Sterk';
+            css = 'text-green';
+        } else {
+            label = 'Zwak';
+            css = 'text-orange';
         }
+    }
 
-        return {
-            score,
-            label,
-            css,
-            hasUpperLower,
-            hasNumber: hasNumberAndLetter,
-            hasSpecial,
-            hasLength,
-        };
-    }, [password]);
+    return { score, label, css, hasUpperLower, hasNumber: hasNumberAndLetter, hasSpecial, hasLength };
+};
+
+function usePasswordStrength(password: string) {
+    return useMemo(() => getPasswordStrength(password), [password]);
 }
-
-export interface PasswordInputProps
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'ref' | 'type'> {
+export interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'ref' | 'type' | 'disabled' | 'readOnly'> {
     label?: string;
-    inline?: boolean;
     infoText?: string;
-    inputSize?: SizeDefinitions;
     color?: ColorDefinitions;
     variant?: 'default' | 'simple';
     validationErrorMessage?: string;
     validationBottomPosition?: string;
-    onTextInput?: (val: string) => void;
+    onTextInput?: (value: string) => void;
     usePasswordCheck?: boolean;
     feedbackText?: string;
     feedbackMaxLenght?: string;
     feedbackUppercase?: string;
     feedbackNumber?: string;
     feedbackChar?: string;
+    inputCss?: string;
+    labelCss?: string;
+    formGroupCss?: string;
+    readOnly?: boolean;
+    disabled?: boolean;
 }
 
-
 const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
-    (props, ref): ReactElement => {
-        const {
+    (
+        {
             value = '',
             label,
-             infoText,
-            inline,
-            placeholder = '',
+            infoText,
+            placeholder,
             color,
             variant = 'default',
             validationErrorMessage,
@@ -91,120 +86,213 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             feedbackUppercase = 'Minstens 1 hoofdletter en 1 kleine letter',
             feedbackNumber = 'Minstens 1 cijfer',
             feedbackChar = 'Minstens 1 speciaal teken (!@#$%^&*)',
+            inputCss = '',
+            labelCss = '',
+            formGroupCss = '',
             className,
             onChange,
-            ...rest
-        } = props;
-
+            readOnly,
+            disabled,
+            ...inputProps
+        },
+        ref
+    ): ReactElement => {
         const [showPassword, setShowPassword] = useState(false);
         const [showHints, setShowHints] = useState(false);
 
-        const password = String(value);
+        const password = String(value ?? '');
         const strength = usePasswordStrength(password);
 
-        const cls = [
-            'form-group password prefix__inline prefix__inline--right',
-            variant === 'default' ? '' : 'form-group__simple',
-            color ? `form-group-${color}` : '',
-            inline ? 'form-group__inline' : '',
-            password ? 'floating' : '',
-            validationErrorMessage ? 'form-group__invalid' : '',
+        const hasPlaceholder = !!placeholder;
+        const isFloating = !!password || hasPlaceholder;
+
+        const formGroupCls = [
+            'form-group',
+            'password',
+            'has-suffix',
+            variant !== 'default' && 'form-group--simple',
+            validationErrorMessage && 'is-invalid',
+            isFloating && 'floating',
+            formGroupCss,
         ]
             .filter(Boolean)
             .join(' ');
 
         const inputCls = [
-            className,
             'form-control',
-            validationErrorMessage ? 'input-validation-error' : '',
+            validationErrorMessage && 'input-validation-error',
+            inputCss,
+            className,
         ]
             .filter(Boolean)
             .join(' ');
 
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            onChange?.(e);
-            onTextInput?.(e.currentTarget.value);
+        const labelCls = [
+            color && `text-${color}`,
+            labelCss,
+        ]
+            .filter(Boolean)
+            .join(' ');
+
+        const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const newValue = event.currentTarget.value;
+
+            onChange?.(event);
+            onTextInput?.(newValue);
 
             if (usePasswordCheck) {
-                setShowHints(e.currentTarget.value.length > 0 && strength.score !== 4);
+                const newStrength = getPasswordStrength(newValue);
+
+                setShowHints(
+                    newValue.length > 0 &&
+                    newStrength.score !== 4
+                );
             }
         };
 
         const renderHint = (condition: boolean, text: string) => (
-            <div className={`password-check__hints--${text.toLowerCase().replaceAll(/\s/g, '-')}`}>
+            <div
+                className={`password-check__hints--${text
+                    .toLowerCase()
+                    .replaceAll(/\s/g, '-')}`}
+            >
                 <svg className={condition ? 'shown' : ''}>
                     <use xlinkHref="#svg_icon_checkmark" />
                 </svg>
+
                 <span>{text}</span>
             </div>
         );
 
         return (
-            <div className={cls}>
+            <div className={formGroupCls}>
                 <input
+                    {...inputProps}
                     ref={ref}
-                    className={inputCls}
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     placeholder={placeholder}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                    className={inputCls}
                     autoComplete="off"
-                    {...rest}
                     onChange={handleChange}
                 />
 
-                {validationErrorMessage && (
-                    <span className="field-validation-error" style={validationBottomPosition ? { bottom: validationBottomPosition } : undefined}>
-                        <span>{validationErrorMessage}</span>
-                    </span>
-                )}
-
-                {infoText ? <div className="form-text">{infoText}</div> : null}
-
-                {label && <label>{label}</label>}
-
-                <div className={showPassword ? 'on' : ''}>
+                <div className="form-group__suffix">
                     <Icon
-                        icon={showPassword ? IconDefinitions.eye_off : IconDefinitions.eye}
-                        onClick={() => setShowPassword((s) => !s)}
+                        icon={
+                            showPassword
+                                ? IconDefinitions.eye_off
+                                : IconDefinitions.eye
+                        }
+                        onClick={() => setShowPassword(current => !current)}
                     />
                 </div>
+
+
+                {label && (
+                    <label className={labelCls}>
+                        {label}
+                    </label>
+                )}
+
+                {infoText && (
+                    <div className="form-text">
+                        {infoText}
+                    </div>
+                )}
 
                 {usePasswordCheck && (
                     <div className="password-check">
                         <div className="password-check__indicator">
-                            {[0, 1, 2, 3].map((i) => (
+                            {[0, 1, 2, 3].map(index => (
                                 <div
-                                    key={i}
-                                    className={i < strength.score ? strength.css.replace('text-', 'bg-') : ''}
+                                    key={index}
+                                    className={
+                                        index < strength.score
+                                            ? strength.css.replace('text-', 'bg-')
+                                            : ''
+                                    }
                                 />
                             ))}
                         </div>
 
-                        <div className={`password-check__feedback ${password.length ? 'shown' : ''}`}>
+                        <div
+                            className={[
+                                'password-check__feedback',
+                                password.length > 0 && 'shown',
+                            ]
+                                .filter(Boolean)
+                                .join(' ')}
+                        >
                             <span>{feedbackText}&nbsp;</span>
-                            <strong className={strength.css}>{strength.label}</strong>
+
+                            <strong className={strength.css}>
+                                {strength.label}
+                            </strong>
                         </div>
 
-                        <div className={`password-check__hints ${showHints ? 'shown' : ''}`}>
+                        <div
+                            className={[
+                                'password-check__hints',
+                                showHints && 'shown',
+                            ]
+                                .filter(Boolean)
+                                .join(' ')}
+                        >
                             <DismissButton
                                 label="sluiten"
                                 size={SizeDefinitions.Small}
                                 circle
                                 onClick={() => setShowHints(false)}
                             />
+
                             <div className="password-check__hints__container">
-                                {renderHint(strength.hasLength, feedbackMaxLenght)}
-                                {renderHint(strength.hasUpperLower, feedbackUppercase)}
-                                {renderHint(strength.hasNumber, feedbackNumber)}
-                                {renderHint(strength.hasSpecial, feedbackChar)}
+                                {renderHint(
+                                    strength.hasLength,
+                                    feedbackMaxLenght
+                                )}
+
+                                {renderHint(
+                                    strength.hasUpperLower,
+                                    feedbackUppercase
+                                )}
+
+                                {renderHint(
+                                    strength.hasNumber,
+                                    feedbackNumber
+                                )}
+
+                                {renderHint(
+                                    strength.hasSpecial,
+                                    feedbackChar
+                                )}
                             </div>
                         </div>
                     </div>
+                )}
+
+                {validationErrorMessage && (
+                    <span
+                        className="field-validation-error"
+                        style={
+                            validationBottomPosition
+                                ? { bottom: validationBottomPosition }
+                                : undefined
+                        }
+                    >
+                        <span>
+                            {validationErrorMessage}
+                        </span>
+                    </span>
                 )}
             </div>
         );
     }
 );
+
+PasswordInput.displayName = compName;
 
 export default PasswordInput;
 

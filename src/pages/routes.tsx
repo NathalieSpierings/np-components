@@ -42,6 +42,22 @@ import HomePage from "./HomePage";
 import ThemePage from "./ThemePage";
 import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetailsAndNestedDetailsDemo";
 import LayoutPage from "./Demo/LayoutPage";
+import ColumnsScrollable from "./Demo/ColumnLayout/Columns/ColumnsScroll";
+import ColumnLayoutColumnsDemo from "./Demo/ColumnLayout/Columns/ColumnLayoutColumnsDemo";
+import ColumnLayoutToggleFromAsideDemo from "./Demo/ColumnLayout/ToggleFromAside";
+import WithTabs from "./Demo/ColumnLayout/WithTabs";
+import Scrollable from "./Demo/ColumnLayout/Scrollable";
+import MainPrimary from "./Demo/ColumnLayout/MainPrimary";
+import MainOnlyNoHeader from "./Demo/ColumnLayout/MainOnlyNoHeader";
+import MainOnly from "./Demo/ColumnLayout/MainOnly";
+import MainAndAsideWithHeader from "./Demo/ColumnLayout/MainAndAsideWithHeader";
+import MainAndAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideNoHeader";
+import MainAndAsideMainNoHeader from "./Demo/ColumnLayout/MainAndAsideMainNoHeader";
+import MainAndAsideAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideAsideNoHeader";
+import FixedHeaders from "./Demo/ColumnLayout/Fixedheaders";
+import AsideRight from "./Demo/ColumnLayout/AsideRight";
+import AsidePrimary from "./Demo/ColumnLayout/AsidePrimary";
+import AsideLeft from "./Demo/ColumnLayout/AsideLeft";
 
 
 export const getInitialMenuItem = (pathname: string) => {
@@ -223,7 +239,72 @@ export const routes = [
 	{
 		path: "/demo/icon",
 		element: <IconDemo />
-	}
+	},
+	{
+		path: "/demo/columnlayout-aside-left",
+		element: <AsideLeft />
+	},
+	{
+		path: "/demo/columnlayout-aside-primary",
+		element: <AsidePrimary />
+	},
+	{
+		path: "/demo/columnlayout-aside-right",
+		element: <AsideRight />
+	},
+	{
+		path: "/demo/columnlayout-fixed-headers",
+		element: <FixedHeaders />
+	},
+	{
+		path: "/demo/columnlayout-main-and-aside-aside-no-header",
+		element: <MainAndAsideAsideNoHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-and-aside-main-no-header",
+		element: <MainAndAsideMainNoHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-and-aside-no-header",
+		element: <MainAndAsideNoHeader />
+	},
+	{
+		path: "/demo/columnlayout",
+		element: <MainAndAsideWithHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-only",
+		element: <MainOnly />
+	},
+	{
+		path: "/demo/columnlayout-main-only-no-header",
+		element: <MainOnlyNoHeader />
+	},
+	{
+		path: "/demo/columnlayout-main-primary",
+		element: <MainPrimary />
+	},
+	{
+		path: "/demo/columnlayout-scrollable",
+		element: <Scrollable />
+	},
+	{
+		path: "/demo/columnlayout-tabs",
+		element: <WithTabs />
+	},
+	{
+		path: "/demo/columnlayout-toggle-from-aside",
+		element: <ColumnLayoutToggleFromAsideDemo />
+	},
+	{
+		path: "/demo/columnlayout-columns",
+		element: <ColumnLayoutColumnsDemo />
+	},
+	{
+		path: "/demo/columnlayout-columns-aside-scrollable",
+		element: <ColumnsScrollable />
+	},
+
 ];
 
 

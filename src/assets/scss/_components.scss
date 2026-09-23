@@ -383,7 +383,6 @@ toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-
 @layer dismiss {
 
     .dismiss {
@@ -573,7 +572,6 @@ toastr, toolbar, tooltip, widget, wizard;
         }
     }
 }
-
 
 @layer accordion {
 
@@ -1349,8 +1347,7 @@ toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: var(--header-height);
-            box-sizing: border-box;
+            min-height: var(--header-height);
             padding: var(--page-padding-sm) var(--page-padding);
             border-bottom: 1px solid transparent;
 
@@ -1838,465 +1835,99 @@ toastr, toolbar, tooltip, widget, wizard;
 
 @layer datagrid {
 
-    .datagrid {        
-        --datagrid-header-height: 48px;
-        --datagrid-grid-padding: var(--page-padding-2xs) var(--page-padding-sm);
+    :root {
+        --datagrid-layout-padding: var(--page-padding-sm);
+        --datagrid-root-padding: var(--page-padding-xs) var(--page-padding-sm);
+        --datagrid-layout-comp-background: var(--color-surface-dark);
+        --datagrid-layout-comp-border: var(--color-border-surface-dark);
 
-        height: auto;
+        --datagrid-padding: var(--page-padding-2xs) var(--page-padding-sm);
+        --datagrid-header-row-height: 48px;
+        --datagrid-header-row-hover: var(--color-surface-dark);
+        --datagrid-row-hover: var(--color-hover);
+        --datagrid-collapsible-row-background: var(--color-surface-light);
 
-      
+    }
+
+    .datagrid-layout {
+
         .form-field,
         .form-group {
             margin: 0;
         }
 
-        &--compact {
-            --datagrid-grid-padding: 0 var(--page-padding-sm);
-        }
-
-        &--nested {
-            .datagrid__grid__footer {
-                padding-left: var(--page-padding-sm);
-                padding-right: var(--page-padding-sm);
+        // aside voor main → border links
+        &__content:has(> .pc-layout__aside + .pc-layout__main) {
+            .datagrid-root {
+                border-left: 1px solid var(--color-border);
             }
         }
 
-        &--hover {
-
-            .datagrid__grid .datagrid__grid__body .datagrid__grid__row:hover .datagrid__grid__cell {
-                background: var(--color-hover);
-            }
-
-        }
-
-
-        &__header {
-            padding: calc(var(--page-padding) / 2) 0;
-        }
-
-        &__footer {
-            padding: var(--page-padding-xs) 0;
-
-            &__content {
-                padding: var(--page-padding-xs) 0;
-            }
-        }
-
-        &__resizer {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: -3px;
-            width: 5px;
-            z-index: 1;
-            cursor: ew-resize;
-        }
-
-        &__grid {
-            display: grid;
-            grid-template-rows: auto var(--datagrid-header-height) 1fr auto;
-            height: 100%;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
-
-            &__header {
-                display: grid;
-                width: max-content;
-                min-width: 100%;
-            }
-
-            &__footer {
-                display: grid;
-                width: max-content;
-                min-width: 100%;
-            }
-
-            &__head {
-                display: grid;
-                width: max-content;
-                min-width: 100%;
-
-                &--sticky {
-                    position: sticky;
-                    top: 0;
-                    z-index: 100;
-                }
-
-
-            }
-
-
-
-            // Rows & Cells
-            &__row {
-                display: grid;
-                width: max-content;
-                min-width: 100%;
-                border-bottom: 1px solid var(--color-border);
-
-                &.selected {
-                    background: var(--color-surface-dark);
-                    border-color: var(--color-border-surface-dark);
-
-                    .datagrid__grid__cell {
-                        background: var(--color-surface-dark);
-                    }
-                }
-
-                &--empty {
-                    .datagrid__grid__cell {
-                        --datagrid-grid-padding: var(--page-padding-xs) var(--page-padding-sm);
-                    }
-                }
-
-            }
-
-            &__hcell,
-            &__cell {
-                min-width: 0;
-                box-sizing: border-box;
-                padding: var(--datagrid-grid-padding);
-                transition: background-color 0.3s;
-                background: var(--color-background);
-
-
-                &--right {
-                    justify-self: end;
-                }
-
-                &--center {
-                    justify-self: center;
-                }
-
-                &--pinned-left,
-                &--pinned-right {
-                    position: sticky;
-                    background: var(--color-background);
-                }
-
-                &--last-column {
-                    justify-content: flex-end;
-                    text-align: right;
-                }
-
-
-            }
-
-            &__hcell {
-                position: relative;
-                display: flex;
-                align-items: center;
-                font-weight: 600;
-
-                &:hover {
-                    background: var(--color-surface-dark);
-
-                    .datagrid__grid__hcell__resize-indicator {
-                        &::after {
-                            content: "";
-                            position: absolute;
-                            left: calc(50% - 1px);
-                            top: 35%;
-                            width: 2px;
-                            height: 30%;
-                            background-color: var(--color-mute);
-                        }
-                    }
-                }
-
-                &__content {
-                    display: flex;
-                    flex: 1 1 auto;
-                    min-width: 0;
-                    align-self: stretch;
-                    align-items: center;
-                    overflow: hidden;
-
-                    &__label {
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        box-sizing: border-box;
-                        cursor: pointer;
-                        font-size: var(--fs-sm);
-                        font-weight: 600;
-                        overflow: hidden;
-                        display: block;
-                        flex: 1 1 auto;
-                        min-width: 0;
-                    }
-                }
-
-                &__icon {
-                    margin-left: auto;
-                    flex-shrink: 0;
-
-                    .icon {
-                        --icon-size: 1em;
-                        --icon-padding: 0;
-                    }
-                }
-
-                &__sort-indicator {
-                    display: flex;
-                    gap: 8px;
-                    flex-shrink: 0;
-
-                    &.asc::after {
-                        content: "↓";
-                        padding: 0 0.5rem;
-                    }
-
-                    &.desc::after {
-                        content: "↑";
-                        padding: 0 0.5rem;
-                    }
-                }
-
-                &__resize-indicator {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 8px;
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    cursor: ew-resize;
-                    touch-action: none;
-                    z-index: 2;
-                }
-
-                &--pinned-left,
-                &--pinned-right {
-                    z-index: 40;
-                }
-
-                &--pinned-left {
-                    z-index: 30;
-
-                    &--last {
-                        border-right: 2px solid var(--color-border);
-                    }
-                }
-
-                &--pinned-right {
-                    z-index: 30;
-
-                    &--first {
-                        border-left: 2px solid var(--color-border);
-                    }
-                }
-            }
-
-            &__cell {
-                position: relative;
-                display: flex;
-                align-items: center;
-
-                &__content {
-                    display: flex;
-                    align-items: center;
-                    align-self: stretch;
-                    flex: 1 1 auto;
-                    overflow: hidden;
-
-                    &__label {
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        white-space: nowrap;
-                        overflow-wrap: break-word;
-                        box-sizing: border-box;
-                    }
-                }
-
-
-                &--pinned-left {
-                    z-index: 30;
-
-                    &--last {
-                        border-right: 2px solid var(--color-border);
-                    }
-                }
-
-                &--pinned-right {
-                    z-index: 30;
-
-                    &--first {
-                        border-left: 2px solid var(--color-border);
-                    }
-                }
-
-                &--summary {
-                    font-weight: 600;
-                }
-
-
-            }
-
-            &__collapsible {
-                padding: var(--page-padding);
-                position: sticky;
-                left: 0;
-                width: 100%;
-                max-width: 100vw;
-                background: var(--color-surface-light);
-
-                &__row {
-                    .datagrid__grid {
-                        border: 1px solid var(--color-border);
-                        border-radius: var(--radius-sm);
-                    }
-                }
-            }
-
-            &--resizing {
-                color: var(--color-mute);
-                border-right: 1px dashed var(--color-mute);
-            }
-
-            &__drag__tooltip {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 99999;
-                pointer-events: none;
-                display: flex;
-                align-items: center;
-                background: var(--color-theme-700);
-                color: var(--color-foreground);
-                border-radius: var(--radius-md);
-                box-shadow: 0px 2px 15px rgb(0 0 0 / 24%);
-                padding: calc(var(--page-padding-sm) / 2);
-                white-space: nowrap;
-                transform: translate(-9999px, -9999px);
-
-                .icon {
-                    margin-right: 1rem;
-                }
-            }
-        }
-
-        &__sidebar,
-        &__tabber,
-        &__tab-panes,
-        &__tabs__pane,
-        &__sidebar__content {
-            height: 100%;
-            min-height: 0;
-        }
-
-        &__sidebar {
-            --datagrid-sidebar-width: 400px;
-
-            height: 100%;
-            background: var(--color-surface-dark);
-            border-top: 1px solid var(--color-border);
-            border-bottom: 1px solid var(--color-border);
-
-            border-top-right-radius: var(--radius-sm);
-            border-bottom-right-radius: var(--radius-sm);
-
-            &.pc-layout__aside {
-                flex-basis: 0;
-                width: 0;
-                max-width: none;
-                display: block;
-                overflow: visible;
-            }
-
-            &.shown {
-                flex-basis: var(--datagrid-sidebar-width);
-                width: var(--datagrid-sidebar-width);
-                display: block;
-                border-left: 0;
+        // aside na main → border rechts
+        &__content:has(> .pc-layout__main + .pc-layout__aside) {
+            .datagrid-root {
                 border-right: 1px solid var(--color-border);
             }
 
-            .datagrid__resizer {
-                left: -3px;
-                right: auto;
+        }
 
-                &:hover {
-                    border-right: 2px solid var(--color-border);
-                }
-            }
+        &.pc-layout--full-height {
 
-            &--left {
-                border-top-left-radius: var(--radius-sm);
-                border-bottom-left-radius: var(--radius-sm);
+            .datagrid-root:not(.datagrid--nested) {
+                height: 100%;
 
-                &.shown {
-                    border-top-right-radius: 0;
-                    border-bottom-right-radius: 0;
-                    border-right: 0;
-                    border-left: 1px solid var(--color-border);
+                >.pc-layout {
+                    height: 100%;
                 }
 
-                .datagrid__resizer {
-                    right: -3px;
-                    left: auto;
+                >.pc-layout>.datagrid-root__content {
+                    flex: 1 1 0;
+                    min-height: 0;
+                    overflow: hidden;
 
-                    &:hover {
-                        border-left: 2px solid var(--color-border);
+                    >.pc-layout__main {
+                        min-height: 0;
+                        overflow: hidden;
+
+                        >.datagrid__scrollable-area {
+                            height: 100%;
+                        }
                     }
                 }
             }
+        }
 
-            &__container {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                flex: 1;
-                overflow: hidden;
-            }
+        &__header {
+            padding: var(--datagrid-layout-padding);
+        }
 
-            &__header {
-                flex: 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                height: var(--datagrid-header-height);
-                color: var(--color-foreground);
-                padding: var(--page-padding-sm);
-                border-bottom: 1px solid var(--color-border-surface-dark);
-            }
+        &__footer {
+            padding: var(--datagrid-layout-padding);
+        }
 
-            &__footer {
-                flex: 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                color: var(--color-foreground);
-                padding: var(--page-padding-sm);
-                border-top: 1px solid var(--color-border-surface-dark);
-            }
-
-            &__content {
-                padding: var(--page-padding-sm);
-                -webkit-overflow-scrolling: touch;
-                flex-grow: 1;
-                overflow-y: auto;
-            }          
+        &__content {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
         }
 
         &__tabber {
             --datagrid-tabber-width: var(--root-aside-width);
 
-            display: none;
-            flex-direction: row-reverse;
-            height: 100%;
+            min-height: 100%;
+            overflow: hidden;
 
+            flex-direction: row-reverse;
+            background: var(--datagrid-layout-comp-background);
 
             &.shown {
                 display: flex;
                 flex-basis: 35px;
 
-                &:has(.datagrid__tabber__pane.shown) {
+                &:has(.datagrid-layout__tabber__pane.shown) {
                     flex-basis: calc(35px + var(--datagrid-tabber-width));
 
-                    .datagrid__tabber__panes {
-                        border: 1px solid var(--color-border);
-                        border-left: 0;
+                    .datagrid-layout__tabber__panes {
+                        border-right: 1px solid var(--datagrid-layout-comp-border);
                     }
                 }
             }
@@ -2306,29 +1937,27 @@ toastr, toolbar, tooltip, widget, wizard;
                 right: auto;
 
                 &:hover {
-                    border-right: 2px solid var(--color-border);
+                    border-right: 2px solid var(--datagrid-layout-comp-border);
                 }
             }
-
-
 
             &__tabs {
                 display: flex;
                 flex-direction: column;
                 flex: 0 0 35px;
                 height: 100%;
-                background: var(--color-surface-dark);
-                padding-top: var(--datagrid-header-height);
-                border: 1px solid var(--color-border);
-                border-left: 0;
-                border-top-right-radius: var(--radius-sm);
-                border-bottom-right-radius: var(--radius-sm);
+                background: var(--datagrid-layout-comp-background);
+                padding-top: var(--datagrid-header-row-height);
 
                 &__tab {
                     position: relative;
                     flex: 0 0 auto;
-                    background: var(--color-surface-dark);
-                    border-bottom: 1px solid var(--color-border-surface-dark);
+                    background: var(--datagrid-layout-comp-background);
+                    border-bottom: 1px solid var(--datagrid-layout-comp-border);
+
+                    &:hover {
+                        background: var(--color-hover);
+                    }
 
                     &::before {
                         position: absolute;
@@ -2350,7 +1979,7 @@ toastr, toolbar, tooltip, widget, wizard;
                         flex-direction: column;
                         gap: 8px;
                         white-space: nowrap;
-                        padding: 24px .5rem;
+                        padding: 24px 0.5rem;
                         width: 100%;
 
                         >.icon {
@@ -2377,6 +2006,7 @@ toastr, toolbar, tooltip, widget, wizard;
             &__panes {
                 width: 0;
                 flex: 0 0 0;
+                min-height: 0;
                 overflow: hidden;
                 border-left: 0;
                 background: var(--color-surface-dark);
@@ -2387,6 +2017,7 @@ toastr, toolbar, tooltip, widget, wizard;
                 display: none;
                 width: var(--datagrid-tabber-width);
                 height: 100%;
+                min-height: 0;
                 overflow: hidden;
 
                 &.shown {
@@ -2398,29 +2029,31 @@ toastr, toolbar, tooltip, widget, wizard;
                     display: flex;
                     flex-direction: column;
                     height: 100%;
+                    min-height: 0;
+                    overflow: hidden;
                 }
 
                 &__header {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    height: var(--datagrid-header-height);
                     color: var(--color-foreground);
-                    padding: var(--page-padding-sm);
-                    border-bottom: 1px solid var(--color-border-surface-dark);
+                    padding: var(--datagrid-root-padding);
+                    border-bottom: 1px solid var(--datagrid-layout-comp-border);
                 }
 
                 &__content {
                     padding: var(--page-padding-sm);
                     -webkit-overflow-scrolling: touch;
-                    flex-grow: 1;
+                    flex: 1 1 0;
+                    min-height: 0;
                     overflow-y: auto;
                     overflow-x: hidden;
                 }
             }
 
-            &:has(.datagrid__tabber__pane.shown) {
-                .datagrid__tabber__panes {
+            &:has(.datagrid-layout__tabber__pane.shown) {
+                .datagrid-layout__tabber__panes {
                     flex-basis: var(--datagrid-tabber-width);
                     width: var(--datagrid-tabber-width);
                 }
@@ -2434,22 +2067,21 @@ toastr, toolbar, tooltip, widget, wizard;
                     left: auto;
 
                     &:hover {
-                        border-left: 2px solid var(--color-border);
+                        border-left: 2px solid var(--datagrid-layout-comp-border);
                     }
                 }
 
                 &.shown {
-                    &:has(.datagrid__tabber__pane.shown) {
-
-                        .datagrid__tabber__panes {
-                            border: 1px solid var(--color-border);
+                    &:has(.datagrid-layout__tabber__pane.shown) {
+                        .datagrid-layout__tabber__panes {
+                            border-left: 1px solid var(--datagrid-layout-comp-border);
                             border-right: 0;
                         }
                     }
                 }
 
-                .datagrid__tabber__tabs {
-                    border: 1px solid var(--color-border);
+                .datagrid-layout__tabber__tabs {
+                    border: 0;
                     border-right: 0;
                     border-top-left-radius: var(--radius-sm);
                     border-bottom-left-radius: var(--radius-sm);
@@ -2471,106 +2103,428 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
+        &__sidebar {
+            --datagrid-sidebar-width: 400px;
 
-        // Grid only
-        &:not(:has(.datagrid__sidebar)):not(:has(.datagrid__tabber)) {
-            .datagrid__grid {
-                border-radius: var(--radius-sm);
-            }
-        }
+            background: var(--datagrid-layout-comp-background);
 
-        // Sidebar right only
-        &:has(.datagrid__sidebar--right.shown):not(:has(.datagrid__tabber)) {
-            .datagrid__grid {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-        }
-
-        // Sidebar left only
-        &:has(.datagrid__sidebar--left.shown):not(:has(.datagrid__tabber)) {
-            .datagrid__grid {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-        }
-
-        // Tabber right only
-        &:has(.datagrid__tabber--right.shown):not(:has(.datagrid__sidebar)) {
-            .datagrid__grid {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-        }
-
-        // Tabber left only
-        &:has(.datagrid__tabber--left.shown):not(:has(.datagrid__sidebar)) {
-            .datagrid__grid {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-        }
-
-        // Sidebar left + tabber left
-        &:has(.datagrid__sidebar--left):has(.datagrid__tabber--left) {
-            .datagrid__grid {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
+            &.pc-layout__aside {
+                flex-basis: 0;
+                width: 0;
+                max-width: none;
+                display: block;
+                overflow: visible;
             }
 
-            &:has(.datagrid__sidebar--left.shown) {
-                .datagrid__tabber {
-                    &__tabs {
-                        border-radius: 0;
+            &.shown {
+                flex-basis: var(--datagrid-sidebar-width);
+                width: var(--datagrid-sidebar-width);
+                display: block;
+                border-left: 0;
+                border-right: 1px solid var(--datagrid-layout-comp-border);
+            }
+
+            .datagrid__resizer {
+                left: -3px;
+                right: auto;
+
+                &:hover {
+                    border-right: 2px solid var(--datagrid-layout-comp-border);
+                }
+            }
+
+            &--left {
+
+                &.shown {
+                    border-right: 0;
+                    border-left: 1px solid var(--datagrid-layout-comp-border);
+                }
+
+                .datagrid__resizer {
+                    right: -3px;
+                    left: auto;
+
+                    &:hover {
+                        border-left: 2px solid var(--datagrid-layout-comp-border);
                     }
                 }
             }
-        }
 
-        // Sidebar right + tabber right
-        &:has(.datagrid__sidebar--right):has(.datagrid__tabber--right) {
-            .datagrid__grid {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
+            &__container {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                flex: 1;
+                overflow: hidden;
             }
 
-            &:has(.datagrid__sidebar--right.shown) {
-                .datagrid__tabber {
-                    &__tabs {
-                        border-radius: 0;
+            &__header {
+                flex: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--color-foreground);
+                padding: var(--datagrid-root-padding);
+                border-bottom: 1px solid var(--datagrid-layout-comp-border);
+            }
+
+            &__footer {
+                flex: 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--color-foreground);
+                padding: var(--page-padding-sm);
+                border-top: 1px solid var(---datagrid-layout-comp-border);
+            }
+
+            &__content {
+                padding: var(--page-padding-sm);
+                -webkit-overflow-scrolling: touch;
+                flex-grow: 1;
+                overflow-y: auto;
+            }
+        }
+    }
+
+    .datagrid-viewport {
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--color-border);
+
+        &:has(> :is(.datagrid-layout__sidebar, .datagrid-layout__tabber) ~ .datagrid-root) {
+            >.datagrid-root {
+                border-left: 1px solid var(--color-border);
+            }
+        }
+
+        &:has(> .datagrid-root ~ :is(.datagrid-layout__sidebar, .datagrid-layout__tabber)) {
+            >.datagrid-root {
+                border-right: 1px solid var(--color-border);
+            }
+        }
+
+    }
+
+    .datagrid-root {
+        &--nested {
+            .datagrid-root_footer {
+                padding-left: var(--datagrid-root-padding-x);
+                padding-right: var(--datagrid-root-padding-x);
+            }
+        }
+
+        &__header,
+        &__footer {
+            display: grid;
+            width: max-content;
+            min-width: 100%;
+            padding: var(--datagrid-root-padding);
+        }
+
+        &__header {
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        &__footer {
+            border-top: 1px solid var(--color-border);
+        }
+    }
+
+    .datagrid {
+
+        &--compact {
+            --datagrid-padding: 0 var(--page-padding-sm);
+        }
+
+        &--hover {
+            .datagrid__body .datagrid__row:not(.datagrid__row--collapsible):hover .datagrid__cell {
+                background: var(--color-surface-dark);
+            }
+        }
+
+        &__scrollable-area {
+            overflow: auto;
+            min-width: 0;
+            min-height: 0;
+            container-type: inline-size;
+        }
+
+        &__resizer {
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: -3px;
+            width: 5px;
+            z-index: 1;
+            cursor: ew-resize;
+        }
+
+        &__row {
+            display: grid;
+            grid-template-columns: var(--datagrid-columns);
+            width: max-content;
+            min-width: 100%;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-background);
+
+            &--empty {
+                .datagrid__cell {
+                    --datagrid-columns: 1fr;
+                    --datagrid-padding: var(--page-padding-sm) var(--page-padding-sm);
+                }
+            }
+
+            &--collapsible {
+                display: block;
+                width: var(--datagrid-width);
+                min-width: 100%;
+                height: auto;
+                min-height: 0;
+                background: var(--datagrid-collapsible-row-background);
+            }
+
+            &--selected {
+                .datagrid__cell {
+                    background: var(--color-surface-dark);
+                }
+            }
+
+        }
+
+        &__collapsible {
+            position: sticky;
+            left: 0;
+            width: 100cqw;
+            height: auto;
+            min-height: 0;
+
+            &__content {
+                width: 100%;
+                padding: var(--page-padding);
+                box-sizing: border-box;
+            }
+
+            > .datagrid-layout {
+                height: auto;
+                min-height: 0;
+            }
+        }
+
+        &__footer-row {
+            font-weight: 600;
+            border-top: 1px solid var(--color-border);
+        }
+
+        &__hcell,
+        &__cell {
+            min-width: 0;
+            box-sizing: border-box;
+            padding: var(--datagrid-padding);
+            transition: background-color 0.3s;
+            background: var(--color-background);
+
+            &--right {
+                justify-self: end;
+            }
+
+            &--center {
+                justify-self: center;
+            }
+
+            &--pinned-left,
+            &--pinned-right {
+                position: sticky;
+                background: var(--color-background);
+            }
+
+            &--last-column {
+                justify-content: flex-end;
+                text-align: right;
+            }
+        }
+
+        &__hcell {
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+
+            &:hover {
+                background: var(--datagrid-header-row-hover);
+
+                .datagrid__hcell__resize-indicator {
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        left: calc(50% - 1px);
+                        top: 35%;
+                        width: 2px;
+                        height: 30%;
+                        background-color: var(--color-mute);
                     }
                 }
             }
-        }
 
+            &__content {
+                display: flex;
+                flex: 1 1 auto;
+                min-width: 0;
+                align-self: stretch;
+                align-items: center;
+                overflow: hidden;
 
-        // Sidebar left + tabber right
-        &:has(.datagrid__sidebar--left):has(.datagrid__tabber--right) {
-
-            .datagrid__grid {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
+                &__label {
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    font-size: var(--fs-sm);
+                    font-weight: 600;
+                    overflow: hidden;
+                    display: block;
+                    flex: 1 1 auto;
+                    min-width: 0;
+                    text-align: left;
+                }
             }
 
-            &:has(.datagrid__sidebar--left.shown) {
-                .datagrid__grid {
-                    border-radius: 0;
+            &__icon {
+                margin-left: auto;
+                flex-shrink: 0;
+
+                .icon {
+                    --icon-size: 1em;
+                    --icon-padding: 0;
+                }
+            }
+
+            &__sort-indicator {
+                display: flex;
+                gap: 8px;
+                flex-shrink: 0;
+
+                &.asc::after {
+                    content: "↓";
+                    padding: 0 0.5rem;
+                }
+
+                &.desc::after {
+                    content: "↑";
+                    padding: 0 0.5rem;
+                }
+            }
+
+            &__resize-indicator {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 8px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                cursor: ew-resize;
+                touch-action: none;
+                z-index: 2;
+            }
+
+            &--pinned-left,
+            &--pinned-right {
+                z-index: 40;
+            }
+
+            &--pinned-left {
+                z-index: 30;
+
+                &--last {
+                    border-right: 2px solid var(--color-border);
+                }
+            }
+
+            &--pinned-right {
+                z-index: 30;
+
+                &--first {
+                    border-left: 2px solid var(--color-border);
                 }
             }
         }
 
-        // Sidebar right + tabber left
-        &:has(.datagrid__sidebar--right):has(.datagrid__tabber--left) {
+        &__cell {
+            position: relative;
+            display: flex;
+            align-items: center;
 
-            .datagrid__grid {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
+            &__content {
+                display: flex;
+                align-items: center;
+                align-self: stretch;
+                flex: 1 1 auto;
+                overflow: hidden;
+
+                &__label {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow-wrap: break-word;
+                    box-sizing: border-box;
+                }
             }
 
-            &:has(.datagrid__sidebar--right.shown) {
-                .datagrid__grid {
-                    border-radius: 0;
+            &--pinned-left {
+                z-index: 30;
+
+                &--last {
+                    border-right: 2px solid var(--color-border);
                 }
+            }
+
+            &--pinned-right {
+                z-index: 30;
+
+                &--first {
+                    border-left: 2px solid var(--color-border);
+                }
+            }
+
+
+        }
+
+        &__header-row {
+            height: var(--datagrid-header-row-height);
+            border-bottom: 2px solid var(--color-border);
+            
+
+            &--sticky {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+        }
+
+        &--resizing {
+            color: var(--color-mute);
+            border-right: 1px dashed var(--color-mute);
+        }
+
+        &__drag__tooltip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 99999;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            background: var(--color-theme-700);
+            color: var(--color-foreground);
+            border-radius: var(--radius-md);
+            box-shadow: 0px 2px 15px rgb(0 0 0 / 24%);
+            padding: var(--page-padding-xxs);
+            white-space: nowrap;
+            transform: translate(-9999px, -9999px);
+
+            .icon {
+                margin-right: var(--page-padding-xs);
             }
         }
 
@@ -2580,8 +2534,7 @@ toastr, toolbar, tooltip, widget, wizard;
             flex-wrap: wrap-reverse;
             gap: 2rem;
             justify-content: flex-end;
-            padding: var(--page-padding-sm) .5rem;
-            row-gap: .5rem;
+            row-gap: 0.5rem;
 
             &.right {
                 flex-wrap: wrap-reverse;
@@ -2600,15 +2553,15 @@ toastr, toolbar, tooltip, widget, wizard;
             &__pagesize {
                 display: flex;
                 align-items: center;
-                margin-inline: .5rem;
+                margin-inline: 0.5rem;
 
                 span {
-                    margin-right: .5rem;
+                    margin-right: 0.5rem;
                 }
             }
 
             &__row-summary {
-                margin-inline: .5rem;
+                margin-inline: 0.5rem;
 
                 span:not(.datagrid__paging__row-summary--number) {
                     padding-inline: 4px;
@@ -2626,7 +2579,6 @@ toastr, toolbar, tooltip, widget, wizard;
             align-items: center;
             flex: 1;
             list-style: none;
-
 
             &__item {
                 --color-background: transparent;
@@ -2691,13 +2643,14 @@ toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             flex-direction: column;
 
-
             &__header {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: .5rem var(--page-padding-sm);
+                padding: 0 var(--page-padding-xs) var(--page-padding-sm) var(--page-padding-xs);
                 overflow: hidden;
+                margin-bottom: var(--page-padding-xs);
+                border-bottom: 1px solid var(--datagrid-layout-comp-border);
 
                 &[class*="border-"] {
                     ~.search {
@@ -2706,22 +2659,27 @@ toastr, toolbar, tooltip, widget, wizard;
                 }
 
                 .form-field {
-                    flex: 0 0 40px
+                    flex: 0 0 40px;
                 }
 
                 .search {
-                    flex: 1
+                    flex: 1;
                 }
             }
 
             &__item {
                 display: flex;
                 align-items: center;
-                padding: .5rem var(--page-padding-sm);
+                padding: var(--page-padding-xs) var(--page-padding-sm);
                 border-bottom: 2px solid transparent;
+                border-radius: var(--radius);
 
                 &--dragging {
                     border-bottom: 2px solid var(--color-primary);
+                }
+
+                &:hover {
+                    background: var(--color-hover);
                 }
             }
 
@@ -2731,7 +2689,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
             .form-field {
                 margin: 0;
-                margin-right: .5rem;
+                margin-right: var(--page-padding-2xs);
             }
 
             // Search
@@ -2746,15 +2704,16 @@ toastr, toolbar, tooltip, widget, wizard;
 
                 &__container {
                     display: flex;
-                    gap: .5rem;
+                    gap: 0.5rem;
                     border: 1px solid var(--color-border);
                     border-radius: var(--radius-sm);
                     width: 100%;
-                    padding: .5rem 1rem;
+                    padding: 0.5rem 1rem;
 
                     &:focus-within {
                         border-color: var(--color-primary);
-                        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 23%, transparent), 0 0 0 1px var(--color-primary);
+                        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 23%, transparent),
+                            0 0 0 1px var(--color-primary);
                     }
                 }
 
@@ -2786,17 +2745,17 @@ toastr, toolbar, tooltip, widget, wizard;
                 background: var(--color-olive);
                 color: var(--color-foreground);
                 border-radius: var(--radius-md);
-                margin-block: 1re
+                margin-block: 1rem;
             }
 
             .form-group,
             .form-field {
                 margin-bottom: 0;
-                margin-inline-end: 1rem;
+                margin-inline-end: var(--page-padding-xs);
             }
 
             .btn {
-                margin-inline-start: 0.5rem;
+                margin-inline-start: var(--page-padding-2xs);
             }
 
             span {
@@ -2810,7 +2769,7 @@ toastr, toolbar, tooltip, widget, wizard;
             max-height: 0;
             overflow: hidden;
             padding: 0px;
-            margin: calc(var(--page-padding-sm) / 2) 0 0 0;
+            margin: var(--page-padding-xxs) 0 0 0;
             overflow-y: hidden;
             transition: visibility 0.5s, max-height 0.5s;
 
@@ -2857,7 +2816,7 @@ toastr, toolbar, tooltip, widget, wizard;
                     padding: var(--page-padding-xs) var(--page-padding-sm);
 
                     .form-group {
-                        margin-bottom: 1rem !important;
+                        margin-bottom: var(--page-padding-xs) !important;
                     }
                 }
 
@@ -2873,15 +2832,13 @@ toastr, toolbar, tooltip, widget, wizard;
         }
     }
 
-
     :root,
     .theme-light {
-        .datagrid {
+        .datagrid-layout {
             --color-hover: rgb(0 0 0 / 3%);
             --color-selected: var(--shadow-light);
         }
-
-        .datagrid__grid__drag__tooltip {
+        .datagrid__drag__tooltip {
             background: var(--color-offwhite);
         }
 
@@ -2890,10 +2847,29 @@ toastr, toolbar, tooltip, widget, wizard;
         }
     }
 
-    .theme-dimmed .datagrid__info__container,
-    .theme-dark .datagrid__info__container {
-        background: var(--color-theme-100);
-        color: var(--color-foreground);
+    .theme-dimmed,
+    .theme-dark {
+        --datagrid-collapsible-row-background: var(--color-theme-500);
+
+        .datagrid-layout {
+            --color-selected: var(--shadow-base-inverse);
+        }
+
+        .datagrid__row--selected {
+            .datagrid__cell {
+                background: var(--color-surface-light);
+            }
+        }
+        .datagrid--hover {
+             .datagrid__body .datagrid__row:not(.datagrid__row--collapsible):hover .datagrid__cell {
+                background: var(--color-surface-dark);
+            }
+        }
+
+        .datagrid__info__container {
+            background: var(--color-theme-100);
+            color: var(--color-foreground);
+        }
     }
 }
 

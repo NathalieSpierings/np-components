@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import Datagrid, { DatagridProps } from "../Datagrid/Datagrid";
 
 export interface DetailgridProps<TData> extends DatagridProps<TData> {
@@ -7,6 +7,7 @@ export interface DetailgridProps<TData> extends DatagridProps<TData> {
 function Detailgrid<TData extends { id: string | number }>({
     data,
     dataRaw,
+    getRowKey,
     total,
     onFilterUpdate,
     loading,
@@ -14,6 +15,7 @@ function Detailgrid<TData extends { id: string | number }>({
     initialSortConfig,
     rowActions = [],
     rowActionPosition = 'right',
+    enableSummaryRow = false,
     enableColumnResize = false,
     enableColumnReorder = false,
     enableColumnVisibility = false,
@@ -56,11 +58,13 @@ function Detailgrid<TData extends { id: string | number }>({
     loaderVariant = "table-overlay",
     css = ""
 }: Readonly<DatagridProps<TData>>): ReactElement {
+
     return (
 
         <Datagrid
             data={data}
             dataRaw={dataRaw}
+            getRowKey={getRowKey}
             total={total}
             onFilterUpdate={onFilterUpdate}
             loading={loading}
@@ -77,7 +81,7 @@ function Detailgrid<TData extends { id: string | number }>({
             enableColumnMenuColumnVisibility={enableColumnMenuColumnVisibility}
             enableStickyHeader={enableStickyHeader}
             enablePagination={enablePagination}
-            paginationPosition = "inside table"
+            enableSummaryRow={enableSummaryRow}
             paginationRowInfoPosition={paginationRowInfoPosition}
             initialPageSize={initialPageSize}
             pageSizeOptions={pageSizeOptions}
@@ -100,7 +104,7 @@ function Detailgrid<TData extends { id: string | number }>({
             toolbarPostfixItems={toolbarPostfixItems}
             toolbarSeparator={toolbarSeparator}
             toolbarBorderBottom={toolbarBorderBottom}
-             toolbarCompact={toolbarCompact}
+            toolbarCompact={toolbarCompact}
             toolbarCss={toolbarCss}
             loaderDuration={loaderDuration}
             loaderBackground={loaderBackground}
@@ -109,7 +113,7 @@ function Detailgrid<TData extends { id: string | number }>({
             loaderEnableLabels={loaderEnableLabels}
             loaderLabelColor={loaderLabelColor}
             loaderLabels={loaderLabels}
-            loaderVariant={loaderVariant}            
+            loaderVariant={loaderVariant}
             css={css}
         />
     )

@@ -15,11 +15,11 @@ export type DatagridRowInheritedProps<
     DatagridTableProps<TData>,
     | "rowActions"
     | "renderedColumns"
-    | "gridTemplateColumns"
     | "checkedItems"
     | "onRowsChecked"
     | "useCheckboxes"
     | "collapsibleRowData"
+    | "hasCollapsibleRow"
     | "toggleCollapsibleRow"
     | "rowSingleClickAction"
     | "rowDoubleClickAction"
@@ -61,11 +61,11 @@ export function DatagridRow<
     expanded,
     rowActions,
     renderedColumns,
-    gridTemplateColumns,
     useCheckboxes,
     checkedItems = [],
     onRowsChecked,
     collapsibleRowData,
+    hasCollapsibleRow,
     toggleCollapsibleRow,
     rowSingleClickAction,
     rowDoubleClickAction,
@@ -77,11 +77,19 @@ export function DatagridRow<
     lastColumnIndex
 }: Readonly<DatagridRowProps<TData>>): ReactElement {
 
+    const canCollapse =
+    !!collapsibleRowData &&
+    (hasCollapsibleRow?.(item) ?? true);
+
     return (
-        <div>
+        <>
             <div
-                className={["datagrid__grid__row", selected ? "selected" : ""].filter(Boolean).join(" ")}
-                style={{ gridTemplateColumns }}
+                className={[
+                    "datagrid__row", 
+                    selected 
+                    ? "datagrid__row--selected" 
+                    : ""
+                ].filter(Boolean).join(" ")}
                 role="none"
                 onClick={() => rowSingleClickAction?.(item)}
                 onDoubleClick={() => rowDoubleClickAction?.(item)}
@@ -106,6 +114,14 @@ export function DatagridRow<
                         }
 
                         if (renderedColumn.type === "collapsible") {
+                           if (!canCollapse) {
+                                return renderEmptyCollapsibleCell(
+                                    renderedColumn,
+                                    item,
+                                    getPinnedStyle
+                                );
+                            }
+
                             return renderCollapsible(
                                 renderedColumn,
                                 item,
@@ -144,37 +160,30 @@ export function DatagridRow<
             </div>
 
             <AnimatePresence initial={false}>
-                {expanded && collapsibleRowData ? (
-                    <div className="datagrid__grid__collapsible">
+                {canCollapse && expanded && collapsibleRowData && (
+                    <div className="datagrid__row datagrid__row--collapsible"
+                    >
                         <motion.div
-                            initial={{
-                                height: 0,
-                                opacity: 0
-                            }}
-                            animate={{
-                                height: "auto",
-                                opacity: 1
-                            }}
-                            exit={{
-                                height: 0,
-                                opacity: 0
-                            }}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
                             transition={{
                                 duration: 0.25,
                                 ease: "easeInOut"
                             }}
                             style={{ overflow: "hidden" }}
-                            className="datagrid__grid__collapsible__row"
+                            className="datagrid__collapsible"
                         >
-                            {React.createElement(
-                                collapsibleRowData,
-                                { item }
-                            )}
+                            <div className="datagrid__collapsible__content">
+                                {React.createElement(collapsibleRowData, { item })}
+                            </div>
+
                         </motion.div>
                     </div>
-                ) : null}
+                )}
             </AnimatePresence>
-        </div>
+
+        </>
     );
 }
 
@@ -183,11 +192,11 @@ function getPinnedClass<TData>(
     renderedColumn: DatagridRenderedColumn<TData>
 ): string {
     if (renderedColumn.pinned === "left") {
-        return "datagrid__grid__cell--pinned-left";
+        return "datagrid__cell--pinned-left";
     }
 
     if (renderedColumn.pinned === "right") {
-        return "datagrid__grid__cell--pinned-right";
+        return "datagrid__cell--pinned-right";
     }
 
     return "";
@@ -223,8 +232,8 @@ function renderCheckbox<TData extends { id: string | number }>(
             key={`${item.id}-${renderedColumn.key}`}
             data-column-key={renderedColumn.key}
             className={[
-                "datagrid__grid__cell",
-                "datagrid__grid__cell--center",
+                "datagrid__cell",
+                "datagrid__cell--center",
                 getPinnedClass(renderedColumn)
             ].filter(Boolean).join(" ")}
             style={getPinnedStyle(renderedColumn)}
@@ -236,6 +245,30 @@ function renderCheckbox<TData extends { id: string | number }>(
                 onChange={handleChange}
             />
         </button>
+    );
+}
+
+function renderEmptyCollapsibleCell<TData extends { id: string | number }>(
+    renderedColumn: DatagridRenderedColumn<TData>,
+    item: TData,
+    getPinnedStyle: (
+        column: DatagridRenderedColumn<TData>
+    ) => React.CSSProperties
+): ReactElement {
+
+    return (
+        <div
+            key={`${item.id}-${renderedColumn.key}`}
+            data-column-key={renderedColumn.key}
+            className={[
+                "datagrid__cell",
+                "datagrid__cell--center",
+                getPinnedClass(renderedColumn)
+            ].filter(Boolean).join(" ")}
+            style={getPinnedStyle(renderedColumn)}
+        >
+             <Icon size={SizeDefinitions.Small}/>
+        </div>
     );
 }
 
@@ -253,8 +286,8 @@ function renderCollapsible<TData extends { id: string | number }>(
             key={`${item.id}-${renderedColumn.key}`}
             data-column-key={renderedColumn.key}
             className={[
-                "datagrid__grid__cell",
-                "datagrid__grid__cell--center",
+                "datagrid__cell",
+                "datagrid__cell--center",
                 getPinnedClass(renderedColumn)
             ].filter(Boolean).join(" ")}
             style={getPinnedStyle(renderedColumn)}
@@ -296,12 +329,12 @@ function renderRowActions<TData extends { id: string | number }>(
             key={`${item.id}-${renderedColumn.key}`}
             data-column-key={renderedColumn.key}
             className={[
-                "datagrid__grid__cell",
+                "datagrid__cell",
                 renderedColumn.pinned === "right"
-                    ? "datagrid__grid__cell--right"
+                    ? "datagrid__cell--right"
                     : "",
                 index === lastColumnIndex
-                    ? "datagrid__grid__cell--last-column"
+                    ? "datagrid__cell--last-column"
                     : "",
                 getPinnedClass(renderedColumn)
             ].filter(Boolean).join(" ")}
@@ -362,16 +395,16 @@ function renderDataCell<TData extends { id: string | number }>(
     }
 
     const css = [
-        "datagrid__grid__cell",
-        index === lastColumnIndex ? "datagrid__grid__cell--last-column" : "",
+        "datagrid__cell",
+        index === lastColumnIndex ? "datagrid__cell--last-column" : "",
         getPinnedClass(renderedColumn),
-        column.prop === lastPinnedLeft ? "datagrid__grid__cell--pinned-left--last" : "", column.prop === firstPinnedRight
-            ? "datagrid__grid__cell--pinned-right--first" : "", resizing?.prop === column.prop
-            ? "datagrid__grid--resizing" : ""
+        column.prop === lastPinnedLeft ? "datagrid__cell--pinned-left--last" : "", column.prop === firstPinnedRight
+            ? "datagrid__cell--pinned-right--first" : "", resizing?.prop === column.prop
+            ? "datagrid--resizing" : ""
     ].filter(Boolean).join(" ");
 
     const value = (
-        <div className="datagrid__grid__cell__content__label">
+        <div className="datagrid__cell__content__label">
             {renderColumnValue(item, column)}
         </div>
     );
@@ -383,7 +416,7 @@ function renderDataCell<TData extends { id: string | number }>(
             data-column-key={renderedColumn.key}
             style={getPinnedStyle(renderedColumn)}
         >
-            <div className="datagrid__grid__cell__content">
+            <div className="datagrid__cell__content">
                 {column.showTooltip ? (
                     <Tooltip
                         overflowTooltip

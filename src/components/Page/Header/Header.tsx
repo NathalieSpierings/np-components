@@ -17,21 +17,20 @@ const Header: FC<HeaderProps> = ({
     mobileSidebarsShown,
     setSidebarsMobileShown,
 }) => {
+    
     // Handle scroll for sticky header
     useEffect(() => {
         const handleScroll = () => {
             const header = document.querySelector('.header') as HTMLElement;
-            if (window.scrollY >= 20) {
-                header.classList.add('sticky');
-            } else {
-                header.classList.remove('sticky');
-            }
+
+            header?.classList.toggle('sticky', window.scrollY >= 20);
         };
 
         window.addEventListener('scroll', handleScroll);
 
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
 
     return (
         <div className="header">

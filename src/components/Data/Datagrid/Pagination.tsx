@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 
-export type PaginationPosition = "inside table" | "outside table";
 export type PaginationInfoPosition = "left" | "right";
 export type PaginationSizes = | "5" | "10" | "25" | "50" | "100";
 export interface PaginationData {
@@ -73,7 +72,7 @@ const Pagination = ({
     return (
         <div className={`datagrid__paging ${rowInfoPosition} ${color ? 'bg-' + color : ''}`}>
             <div className="datagrid__pager">
-                <button 
+                <button
                     type="button"
                     disabled={pagination.page === 1}
                     className="datagrid__pager__item first"
@@ -86,7 +85,7 @@ const Pagination = ({
                     </div>
                 </button>
 
-                <button 
+                <button
                     type="button"
                     disabled={pagination.page === 1}
                     className="datagrid__pager__item prev"
@@ -100,8 +99,8 @@ const Pagination = ({
                 </button>
 
                 {visiblePages.map((number) => (
-                    <button 
-                    type="button"
+                    <button
+                        type="button"
                         key={number}
                         className={`datagrid__pager__item ${pagination.page === number ? "bg-primary active" : ""
                             }`}
@@ -113,7 +112,7 @@ const Pagination = ({
                     </button>
                 ))}
 
-                <button 
+                <button
                     type="button"
                     disabled={pagination.page === totalPages}
                     className="datagrid__pager__item next"
@@ -126,7 +125,7 @@ const Pagination = ({
                     </div>
                 </button>
 
-                <button 
+                <button
                     type="button"
                     disabled={pagination.page === totalPages}
                     className="datagrid__pager__item last"
@@ -164,7 +163,7 @@ const Pagination = ({
                 <span className="datagrid__paging__row-summary--number">{endRecord}</span>
                 <span>van</span>
                 <span className="datagrid__paging__row-summary--number">{total}</span>
-            </span>         
+            </span>
         </div>
     );
 };

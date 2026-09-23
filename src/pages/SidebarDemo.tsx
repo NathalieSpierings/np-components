@@ -66,11 +66,6 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-pager",
             title: "Pager"
         },
-
-
-    ];
-
-    const datagridColumnItems: SidebarMenuItem[] = [
         {
             title: "Column Filters",
             url: "/demo/dg-column-filter",
@@ -95,9 +90,6 @@ const SidebarDemo: React.FC = () => {
             title: "Column Visibility",
             url: "/demo/dg-column-sticky",
         },
-    ];
-
-    const datagridRowItems: SidebarMenuItem[] = [
         {
             title: "Row totals",
             url: "/demo/dg-total-row",
@@ -117,7 +109,7 @@ const SidebarDemo: React.FC = () => {
             title: "Theme",
             url: "/demo/theme",
         },
-         {
+        {
             title: "Layout",
             url: "/demo/layout",
         },
@@ -171,20 +163,31 @@ const SidebarDemo: React.FC = () => {
     ];
 
 
+    const columnLayoutItems: SidebarMenuItem[] = [
+        { title: 'Default', url: '/demo/columnlayout' },
+        { title: 'Aside left', url: '/demo/columnlayout-aside-left' },
+        { title: 'Aside right', url: '/demo/columnlayout-aside-right' },
+        { title: 'Mobile primary viw aside', url: '/demo/columnlayout-aside-primary' },
+        { title: 'Mobile primary viw main', url: '/demo/columnlayout-main-primary' },
+        { title: 'Main and aside | aside no header', url: '/demo/columnlayout-main-and-aside-aside-no-header' },
+        { title: 'Main and aside | main no header', url: '/demo/columnlayout-main-and-aside-main-no-header' },
+        { title: 'Main and aside | no header', url: '/demo/columnlayout-main-and-aside-no-header' },
+        { title: 'Main only', url: '/demo/columnlayout-main-only' },
+        { title: 'Main only | no header', url: '/demo/columnlayout-main-only-no-header' },
+        { title: 'Fixed headers', url: '/demo/columnlayout-fixed-headers' },
+        { title: 'Scrollable content', url: '/demo/columnlayout-scrollable' },
+        { title: 'Tabs', url: '/demo/columnlayout-tabs' },
+        { title: 'Toggle mobile from aside', url: '/demo/columnlayout-toggle-from-aside' },
+        { title: 'Columns inside main', url: '/demo/columnlayout-columns' },
+        { title: 'Columns aside scrollable', url: '/demo/columnlayout-columns-aside-scrollable' },
+    ]
+
 
 
     return (
         <>
-            <h4>Datagrid</h4>
-            <SidebarMenu menuItems={datagridItems} />
-
-
-            <h6>Column options</h6>
-            <SidebarMenu menuItems={datagridColumnItems} />
-
-            <h6>Row options</h6>
-            <SidebarMenu menuItems={datagridRowItems} />
-
+            <h4>Column layout</h4>
+            <SidebarMenu menuItems={columnLayoutItems} />
 
             <h4>UI</h4>
             <SidebarMenu menuItems={uiItems} />
@@ -192,6 +195,10 @@ const SidebarDemo: React.FC = () => {
 
             <h4>Forms</h4>
             <SidebarMenu menuItems={formItems} />
+
+            <h4>Datagrid</h4>
+            <SidebarMenu menuItems={datagridItems} />
+
         </>
     )
 }
