@@ -61,7 +61,7 @@ const Button: React.FC<ButtonProps> = ({
             <Ripple color={rippleColor} duration={rippleDuration} />
         </button>
     ) : (
-        <button type="button" className={`${cls} ${css}`} {...props}>
+        <button type="button" className={`${cls}`} {...props}>
             {children}
         </button>
     );

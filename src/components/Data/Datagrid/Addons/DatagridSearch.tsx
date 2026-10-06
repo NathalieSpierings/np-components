@@ -1,48 +1,36 @@
-import { RefObject, useEffect } from "react";
+import React from "react";
+import SearchInput from "../../../Forms/SearchInput/SearchInput";
 
-export interface TableSearchProps {
-    enableSearch?: boolean;
+export interface DatagridSearchProps {
     searchTerm: string;
-    inputRef: RefObject<HTMLInputElement>;
-    onSearchChange: (q: string) => void;
-    autoFocusDelay?: number;
+    onSearchChange: (term: string) => void;
+    placeholder?: string;
+    autoFocus?: boolean;
+    css?: string;
 }
 
+/**
+ * General search field for the Datagrid. Searches in all columns (see `searchable` on the column config).
+ * Rendered automatically in the toolbar with `enableSearch`, but can also be used standalone.
+ */
 const DatagridSearch = ({
-    enableSearch = false,
     searchTerm,
-    inputRef,
     onSearchChange,
-    autoFocusDelay = 500,
-}: TableSearchProps) => {
-
-    useEffect(() => {
-        if (!enableSearch || !inputRef.current) return;
-
-        const t = setTimeout(() => {
-            inputRef.current?.focus();
-        }, autoFocusDelay);
-
-        return () => clearTimeout(t);
-    }, [enableSearch, inputRef, autoFocusDelay]);
-
-    if (!enableSearch) return null;
-
-    return (
-        <div className={`datagrid__search ${enableSearch ? "shown" : ""}`}>
-            <div className="form-group form-group__simple">
-                <input
-                    ref={inputRef}
-                    className="form-control"
-                    type="search"
-                    placeholder="Zoeken..."
-                    value={searchTerm}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                    aria-controls="datatable"
-                />
-            </div>
-        </div>
-    );
-};
+    placeholder = "Zoeken in alle kolommen...",
+    autoFocus = false,
+    css = ""
+}: DatagridSearchProps) => (
+    <div className={["datagrid__toolbar-search", css].filter(Boolean).join(" ")}>
+        <SearchInput
+            name="datagridSearch"
+            type="text"
+            value={searchTerm}
+            onTextInput={onSearchChange}
+            placeholder={placeholder}
+            autoFocus={autoFocus}
+            aria-label={placeholder}
+        />
+    </div>
+);
 
 export default DatagridSearch;

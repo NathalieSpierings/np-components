@@ -93,6 +93,13 @@
 
     // Colors
     --backdrop: rgb(0 0 0 / 50%);
+    
+    --rgb-black: 0 0 0;
+    --rgb-white: 255 255 255;
+
+    --shadow-rgb: var(--rgb-black);
+    --shadow-rgb-inverse: var(--rgb-white);
+    
     --shadow-base: rgb(0 0 0 / 12%);
     --shadow-base-inverse: rgb(255 255 255 / 12%);
     --shadow-light: rgb(0 0 0 / 6%);

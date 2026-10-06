@@ -170,6 +170,7 @@ export enum AlertColorDefinitions {
 
 export enum SizeDefinitions {
     Tiny = 'tiny',
+    ExtraExtraSmall = 'xxs',
     ExtraSmall = 'xs',
     Small = 'sm',
     Medium = 'md',

@@ -1,6 +1,8 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import Avatar from '../Avatar';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
+import StackedAvatar from '../Stacked/StackedAvatar';
+import React from 'react';
 
 
 const meta: Meta<typeof Avatar> = {
@@ -8,287 +10,230 @@ const meta: Meta<typeof Avatar> = {
     component: Avatar,
     parameters: {
         layout: 'centered',
-    },    
+    },
 };
 
 export default meta;
-type Story = StoryObj<typeof Avatar>;
 
-export const Default: StoryFn = (args) => {
+
+const IMG = 'https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
+
+const PEOPLE = [
+    { initials: 'TS', tooltip: 'Thomas Smith' },
+    { initials: 'JS', tooltip: 'Jackson Smutt' },
+    { initials: 'LS', tooltip: 'Lindsay Sneeder' },
+    { initials: 'TY', tooltip: 'Tyler Swagger' },
+];
+
+
+
+
+const SIZES = [
+    SizeDefinitions.ExtraExtraSmall,
+    SizeDefinitions.ExtraSmall,
+    SizeDefinitions.Small,
+    undefined, // standaard
+    SizeDefinitions.Medium,
+    SizeDefinitions.Large,
+    SizeDefinitions.ExtraLarge,
+    SizeDefinitions.ExtraLarge2,
+    SizeDefinitions.ExtraLarge3,
+];
+
+
+export const Default: StoryFn = () => {
     return (
-        <div className="grid">
-            <Avatar icon={IconDefinitions.user} />
-            <Avatar imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
+        <div className="grid-y">
             <Avatar initials="NS" />
+            <Avatar icon={IconDefinitions.user} />
+            <Avatar imageUrl={IMG} alt="user avatar" />
         </div>
     );
 };
 
-export const Square: StoryFn = (args) => {
+export const Square: StoryFn = () => {
     return (
-        <div className="grid">
-            <Avatar icon={IconDefinitions.user} background={ColorDefinitions.SurfaceDark} square />
-            <Avatar background={ColorDefinitions.SurfaceDark} square imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-            <Avatar background={ColorDefinitions.SurfaceDark} square initials="NS" />
+        <div className="grid-y">
+            <Avatar square initials="NS" background={ColorDefinitions.Rose10} color={ColorDefinitions.Rose30} />
+            <Avatar square icon={IconDefinitions.user} background={ColorDefinitions.Green10} color={ColorDefinitions.Green30} />
+            <Avatar square imageUrl={IMG} alt="user avatar" />
         </div>
     );
 };
 
-export const Float: StoryFn = (args) => {
+export const Border: StoryFn = () => {
     return (
-        <div className="grid">
-                <Avatar float icon={IconDefinitions.user} background={ColorDefinitions.SurfaceDark} />
-                <Avatar float background={ColorDefinitions.SurfaceDark} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                <Avatar float background={ColorDefinitions.SurfaceDark} initials="NS" />
-            </div>
-
-    );
-};
-
-export const Border: StoryFn = (args) => {
-    return (
-       <div className="grid">
-                <Avatar border icon={IconDefinitions.user} background={ColorDefinitions.SurfaceDark} />
-                <Avatar border background={ColorDefinitions.SurfaceDark} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" />
-            </div>
+        <div className="grid-y">
+            <Avatar border initials="NS" background={ColorDefinitions.Rose10} color={ColorDefinitions.Rose30} />
+            <Avatar border icon={IconDefinitions.user} background={ColorDefinitions.Green10} color={ColorDefinitions.Green30} />
+            <Avatar border imageUrl={IMG} alt="user avatar" />
+        </div>
     );
 };
 
 
-export const Shadow: StoryFn = (args) => {
+export const BorderAndAutoColor: StoryFn = () => {
     return (
-      <div className="grid">
-                <Avatar shadow icon={IconDefinitions.user} background={ColorDefinitions.SurfaceDark} />
-                <Avatar shadow background={ColorDefinitions.SurfaceDark} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                <Avatar shadow background={ColorDefinitions.SurfaceDark} initials="NS" />
-            </div>
+        <div className="grid-y">
+            <Avatar border initials="NS" autoColor/>
+            <Avatar border icon={IconDefinitions.user} autoColor/>
+            <Avatar border imageUrl={IMG} alt="user avatar" />
+        </div>
     );
 };
 
-export const Background: StoryFn = (args) => {
+export const Shadow: StoryFn = () => {
     return (
-     <div className="grid">
-                <Avatar shadow icon={IconDefinitions.user} background={ColorDefinitions.Blue} />
-                <Avatar shadow background={ColorDefinitions.Purple} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                <Avatar shadow background={ColorDefinitions.Pink} initials="NS" />
-            </div>
+        <div className="grid-y">
+            <Avatar shadow initials="NS" />
+            <Avatar shadow icon={IconDefinitions.user} />
+            <Avatar shadow imageUrl={IMG} alt="user avatar" />
+        </div>
     );
 };
 
-export const Sizes: StoryFn = (args) => {
+export const ShadowAndBackground: StoryFn = () => {
     return (
-     <div className="grid">
-                <div>
-                     <Avatar icon={IconDefinitions.user} size={SizeDefinitions.ExtraSmall} />
-                     <Avatar icon={IconDefinitions.user} size={SizeDefinitions.Small} />
-                     <Avatar icon={IconDefinitions.user} />
-                     <Avatar icon={IconDefinitions.user} size={SizeDefinitions.Medium} />
-                     <Avatar icon={IconDefinitions.user} size={SizeDefinitions.Large} />
-                     <Avatar icon={IconDefinitions.user} size={SizeDefinitions.ExtraLarge} />
-                     <Avatar icon={IconDefinitions.user} size={SizeDefinitions.ExtraLarge2} />
-                </div>
-                <div>
-                    <Avatar size={SizeDefinitions.ExtraSmall}  imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    <Avatar size={SizeDefinitions.Small}  imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    <Avatar imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    <Avatar size={SizeDefinitions.Medium}  imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    <Avatar size={SizeDefinitions.Large}  imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    <Avatar size={SizeDefinitions.ExtraLarge}  imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    <Avatar size={SizeDefinitions.ExtraLarge2}  imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                </div>
-                <div>
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" size={SizeDefinitions.ExtraSmall}/>
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" size={SizeDefinitions.Small}/>
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" />
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" size={SizeDefinitions.Medium} />
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" size={SizeDefinitions.Large}/>
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" size={SizeDefinitions.ExtraLarge}/>
-                    <Avatar border background={ColorDefinitions.SurfaceDark} initials="NS" size={SizeDefinitions.ExtraLarge2}/>
-                </div>
-            </div>
+         <div className="grid-y ">
+            <Avatar shadow icon={IconDefinitions.user} background={ColorDefinitions.Blue} />
+            <Avatar shadow background={ColorDefinitions.Purple} imageUrl={IMG} alt="user avatar" />
+            <Avatar shadow background={ColorDefinitions.Pink} initials="NS" />
+        </div>
+    );
+};
+export const ShadowAndAutoColor: StoryFn = () => {
+    return (
+        <div className="grid-y">
+            <Avatar shadow autoColor initials="NS"   />
+            <Avatar shadow autoColor icon={IconDefinitions.user}/>
+            <Avatar shadow autoColor imageUrl={IMG} alt="user avatar" />
+        </div>
     );
 };
 
-
-export const WithText: StoryFn = (args) => {
+export const Float: StoryFn = () => {
     return (
-    <div className="avatar__text">
-                <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                <div>
-                    <div>Jese Leos</div>
-                    <div>Joined in August 2014</div>
-                </div>
-            </div>
+        <div className="grid-y">
+            <Avatar float initials="NS" background={ColorDefinitions.Rose10} color={ColorDefinitions.Rose30} />
+            <Avatar float icon={IconDefinitions.user} background={ColorDefinitions.Green10} color={ColorDefinitions.Green30} />
+            <Avatar float imageUrl={IMG} alt="user avatar" />
+        </div>
+
     );
 };
 
-export const Stacked: StoryFn = (args) => {
+export const Background: StoryFn = () => {
     return (
-    <div className="row">
-                <ul className="avatar-group">
-                    <li>
-                        <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    </li>
-                    <li>
-                        <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    </li>
-                    <li>
-                        <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    </li>
-                    <li>
-                        <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                    </li>
-                    <li>
-                        <div className="avatar">
-                            +4
-                        </div>
-                    </li>
-                </ul>
-            </div>
+        <div className="grid-y ">
+            <Avatar icon={IconDefinitions.user} background={ColorDefinitions.Blue} />
+            <Avatar background={ColorDefinitions.Purple} imageUrl={IMG} alt="user avatar" />
+            <Avatar background={ColorDefinitions.Pink} initials="NS" />
+        </div>
     );
 };
 
 
-export const StackedSizes: StoryFn = (args) => {
+export const AutoColor: StoryFn = () => {
     return (
-    <>
-    <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--tiny">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+        <div className="grid-y">
+            {PEOPLE.map(p => (
+                <Avatar key={p.tooltip} autoColor initials={p.initials} tooltip={p.tooltip} />
+            ))}
+            <Avatar autoColor icon={IconDefinitions.user} tooltip="Thomas Smith" /> {/* zelfde kleur als TS */}
+            <Avatar autoColor icon={IconDefinitions.user} />
+            <Avatar autoColor imageUrl={IMG} tooltip="Foto: geen autoColor" />
+        </div>
+    );
+};
+
+
+export const Sizes: StoryFn = () => {
+    return (
+        <div className="grid-x gap-5">
+            <div className="grid-y">
+                {SIZES.map(size => (
+                    <Avatar key={size ?? 'default'} autoColor icon={IconDefinitions.user} size={size} />
+                ))}
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--xs">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+            <div className="grid-y">
+                {SIZES.map((size, idx) => {
+                    const person = PEOPLE[idx % PEOPLE.length];
+
+                    return (
+                        <Avatar
+                            key={size ?? 'default'}
+                            autoColor
+                            initials={person.initials}
+                            tooltip={person.tooltip}
+                            size={size}
+                        />
+                    );
+                })}
+
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--sm">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+            <div className="grid-y">
+                {SIZES.map(size => (
+                    <Avatar key={size ?? 'default'} autoColor imageUrl={IMG} tooltip="Foto: geen autoColor" size={size} />
+                ))}
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--md">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar ">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+        </div>
+    );
+};
+
+
+export const MediaObject: StoryFn = () => {
+    return (
+        <div className="media-object">
+            <Avatar shadow initials="JS" tooltip="Jese Leos" autoColor />
+            <div className="media-object__content">
+                <p className="media-object__title">Jese Leos</p>
+                <p className="media-object__subtitle">Joined in August 2014</p>
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--lg">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar ">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--xl">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar ">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--2xl">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar ">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-12">
-                    <ul className="avatar-group avatar-group--3xl">
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <Avatar shadow={true} imageUrl="https://images.pexels.com/photos/3756985/pexels-photo-3756985.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500" alt="user avatar" />
-                        </li>
-                        <li>
-                            <span className="avatar ">
-                                +4
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-    </>
+        </div>
+    );
+};
+
+export const Stacked: StoryFn = () => {
+    return (
+        <StackedAvatar css="mb-3"
+            counter={4}
+            avatars={[
+                <Avatar key="img-1" imageUrl={IMG} tooltip="Jese Leos" />,
+                <Avatar key="img-2" imageUrl={IMG} tooltip="Jese Leos" />,
+                ...PEOPLE.map(p => <Avatar key={p.tooltip} {...p} />),
+            ]}
+        />
+    );
+};
+
+export const StackedAutoColor: StoryFn = () => {
+    return (
+        <StackedAvatar css="mb-3"
+            autoColor
+            counter={12}
+            avatars={[
+                ...PEOPLE.map(p => <Avatar key={p.tooltip} {...p} />),
+                <Avatar key="icon" icon={IconDefinitions.user} tooltip="User" />,
+            ]}
+        />
+    );
+};
+
+export const StackedSizes: StoryFn = () => {
+    return (
+        <div className="grid-y gap-2 mb-3">
+            {SIZES.map((size, idx) => (
+                <StackedAvatar
+                    key={size ?? 'default'}
+                    size={size}
+                    autoColor
+                    counter={4}
+                    avatars={[0, 1, 2].map(offset => {
+                        const p = PEOPLE[(idx + offset) % PEOPLE.length];
+                        return <Avatar key={p.tooltip} {...p} />;
+                    })}
+                />
+            ))}
+        </div>
     );
 };

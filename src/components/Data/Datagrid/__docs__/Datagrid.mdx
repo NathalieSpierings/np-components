@@ -1,31 +1,400 @@
-import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
 import * as DatagridStories from './Datagrid.stories';
-import DatagridComponent from '../Datagrid';
- 
+
 <Meta of={DatagridStories} />
- 
- De datagrid ondersteunt kolom breedte aanpassen, kolommen rangschikken en kolommen toevoegen of verwijderen.
 
- De volgende opties zul je dan op true moeten zetten:
+# Datagrid
 
-- enableColumnResize
-- enableColumnReorder
-- enableColumnVisibility
+De `Datagrid` toont een lijst met gegevens in een tabel. Je bepaalt zelf welke kolommen er zijn en welke
+functies de gebruiker krijgt: sorteren, filteren, zoeken, kolommen aanpassen, rijen selecteren en meer.
 
-Op de kolom dien je de property defaultVisible = true te zetten als je deze kolom 
-standaard wilt tonen. Zet je deze property niet dan zal de kolom ook niet zichtbaar zijn. De kolom kan 
-je wel selecteren in de dropdown.
+De Datagrid filtert zelf geen data. Bij elke wijziging (zoeken, sorteren, filteren of een andere pagina)
+geeft hij door wat de gebruiker wil via `onFilterUpdate`. Een hook zoals `useTableQueryClientFilter`
+(in de browser) of `useServersideTableQuery` (op de server) voert dat uit en geeft de juiste rijen terug.
 
-Als je op de knop standaard kolommen herstellen klikt dan zullen alleen die kolommen 
-weer zichtbaar worden waarbij je de defaultVisible=true property hebt gezet.
+## Belangrijkste functionaliteiten
 
-De voorkeuren worden opgeslagen in localstorage. Je kan zelf een datatableLocalStorageKey meegeven.
+- **Kolommen instellen**: Bepaal per kolom de titel, breedte, uitlijning en of hij standaard zichtbaar is.
+- **Sorteren en filteren**: Sorteer op kolommen en filter op tekst, getallen, datums of keuzelijsten.
+- **Algemeen zoeken**: Eén zoekveld dat in alle kolommen zoekt (`enableSearch`).
+- **Externe filters**: Zet filters vanuit je eigen pagina, bijvoorbeeld vanuit een eigen zoekbalk.
+- **Kolommen aanpassen**: Laat de gebruiker kolommen verbreden, verslepen, verbergen of vastzetten. Deze keuzes worden onthouden.
+- **Paginatie**: Verdeel lange lijsten over pagina's en laat de gebruiker kiezen hoeveel rijen hij ziet.
+- **Rijen selecteren**: Klik, dubbelklik, vink rijen aan of voeg per rij knoppen toe.
+- **Uitklapbare rijen**: Toon onder een rij extra informatie of een tweede tabel.
+- **Totaalrij**: Tel getallen in een kolom automatisch op.
+- **Toolbar en infobalk**: Voeg een titel, knoppen of meldingen toe boven de tabel.
+- **Sidebar en tabs**: Toon details van een rij of extra panelen naast de tabel.
+- **Loader**: Laat zien dat de gegevens worden opgehaald.
 
-### Default
+---
+
+## Basis
+
+Voor een werkende tabel heb je altijd de volgende onderdelen nodig:
+
+- **Rijen**: De rijen die op dit moment getoond worden (`data`) en alle rijen zonder filter (`dataRaw`). Die laatste is nodig om keuzelijsten in filters te vullen.
+- **Totaal**: Het aantal rijen na filteren, zodat de paginatie klopt (`total`).
+- **Laden**: Of de gegevens nog worden opgehaald (`loading`).
+- **Wijzigingen doorgeven**: De functie die wordt aangeroepen als de gebruiker zoekt, sorteert, filtert of van pagina wisselt (`onFilterUpdate`).
+- **Kolommen**: De lijst met kolommen (`properties`).
+
+Optioneel kun je een eigen unieke sleutel per rij opgeven (`getRowKey`, standaard het `id`) en een beginsortering
+instellen (`initialSortConfig`).
+
+```tsx
+const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<Product> | null>(null);
+const [dataRaw, data, total, status] = useTableQueryClientFilter({
+    queryFn: getProductsQuery(),
+    filters: tableOptions
+});
+
+<Datagrid
+    data={data}
+    dataRaw={dataRaw}
+    total={total}
+    loading={status === "pending"}
+    onFilterUpdate={setTableOptions}
+    properties={columns}
+/>
+```
+
+Werk je met een server die Promeetec.ServerSideTableQuery gebruikt, dan vervang je `useTableQueryClientFilter`
+door `useServersideTableQuery`. Die stuurt de filters mee naar de server en haalt ook op welke kolommen mogen
+sorteren en filteren.
 
 <Canvas of={DatagridStories.Default} />
 
+---
 
-### Props
- 
+## Kolommen
+
+Elke kolom beschrijf je met een klein object. De belangrijkste onderdelen zijn de property van de rij (`prop`) en
+de kolomtitel (`title`). Een property mag ook genest zijn, bijvoorbeeld `"leverancier.naam"`.
+
+- **Zichtbaarheid**: Een kolom is alleen standaard zichtbaar met `visible: true`. Andere kolommen kan de gebruiker zelf aanzetten.
+- **Breedte en uitlijning**: Stel de breedte in pixels in (`width`, standaard 180) en lijn tekst links, midden of rechts uit (`textAlign`).
+- **Vastzetten**: Zet een kolom standaard links of rechts vast (`pinned`).
+- **Sorteren**: Maak een kolom sorteerbaar (`sortable`) en geef eventueel een eigen sorteerfunctie mee (`sort`).
+- **Weergave aanpassen**: Zet een waarde om voordat hij getoond wordt, bijvoorbeeld een datum of bedrag (`transformValue`), verpak hem in bijvoorbeeld een link (`wrapValue`) of bouw de hele cel zelf op (`useItemOnly`).
+- **Opmaak**: Voeg een eigen CSS-klasse toe (`cssClass`) of toon de tekst gedempt (`textMuted`).
+- **Tooltip**: Toon extra uitleg bij de cel (`showTooltip`, `tooltipContent`).
+- **Filter**: Geef een kolom een filter (`filter`), zie Kolomfilters.
+- **Totaal**: Tel de kolom op in de totaalrij (`summary`).
+- **Zoeken**: Sluit een kolom uit van algemeen zoeken (`searchable: false`) of geef een eigen zoektekst mee (`searchValue`).
+
+```tsx
+const columns: DatagridRowConfig<Product>[] = [
+    { prop: "naam", title: "Product", visible: true, sortable: true, filter: { type: "text" } },
+    { prop: "prijs", title: "Prijs", visible: true, textAlign: "right", summary: true,
+      transformValue: (value) => formatCurrency(value) },
+    { prop: "leverancier.naam", title: "Leverancier", visible: true }
+];
+```
+
+---
+
+## Kolommen aanpassen
+
+De gebruiker kan de kolommen zelf aanpassen. Je zet per functie aan wat mag:
+
+- **Breedte aanpassen**: Kolommen breder of smaller slepen (`enableColumnResize`).
+- **Volgorde aanpassen**: Kolommen verslepen in de kolomkiezer (`enableColumnReorder`).
+- **Tonen en verbergen**: Kolommen aan- en uitzetten in de kolomkiezer (`enableColumnVisibility`).
+- **Vastzetten**: Kolommen links of rechts vastzetten, zodat ze blijven staan bij horizontaal scrollen (`enableColumnPinning`).
+- **Vaste kolomkoppen**: De koppen blijven staan bij verticaal scrollen. Dit staat standaard aan (`enableStickyHeader`).
+- **Kolommenu**: Een menu in de kolomkop om te sorteren en vast te zetten (`enableColumnMenu`), eventueel met de kolomkiezer erin (`enableColumnMenuColumnVisibility`).
+- **Onthouden**: Met `localStorageKey` worden de keuzes van de gebruiker in de browser bewaard.
+
+Met "standaard kolommen herstellen" in de kolomkiezer gaat alles terug naar de oorspronkelijke instelling.
+
+### Kolombreedte aanpassen
+<Canvas of={DatagridStories.ColumnResize} />
+
+### Kolommen rangschikken
+<Canvas of={DatagridStories.ColumnReorder} />
+
+### Kolommen tonen en verbergen
+<Canvas of={DatagridStories.ColumnVisibility} />
+
+### Kolommen vastzetten
+<Canvas of={DatagridStories.ColumnPinning} />
+
+### Vaste kolomkoppen
+<Canvas of={DatagridStories.StickyHeader} />
+
+---
+
+## Kolomfilters
+
+Geef een kolom een `filter` en kies waar de filters staan: in de kolomkop (`enableFiltersInHeader`) of in een
+aparte tab naast de tabel (`enableTabFilters`). Als er meerdere filters actief zijn, moet een rij aan allemaal
+voldoen. Zodra er een filter actief is, verschijnt de knop "Filter wissen".
+
+- **Tekst**: Zoeken op bijvoorbeeld "bevat", "begint met" of "is leeg" (`type: "text"`).
+- **Getal**: Vergelijken met "gelijk aan", "groter dan", "tussen" enzovoort (`type: "number"`).
+- **Datum**: Filteren op "voor", "na" of "tussen" (`type: "date"`).
+- **Keuzelijst**: Een of meer waarden kiezen (`type: "select"`, met `multiSelect` voor meerdere). De keuzes geef je zelf op (`options`) of laat je uit de data halen (`optionsSource`).
+
+<Canvas of={DatagridStories.ColumnFilter} />
+
+---
+
+## Algemeen zoeken
+
+Met `enableSearch` verschijnt er een zoekveld in de toolbar. Dit zoekveld zoekt in alle kolommen tegelijk,
+ook in kolommen die op dat moment verborgen zijn. Typ je meerdere woorden, bijvoorbeeld "tuin stoel",
+dan worden alleen rijen getoond waarin elk woord ergens voorkomt.
+
+Er wordt gezocht op wat de gebruiker ziet: ook op omgezette waarden, labels van keuzelijsten en datums
+(zowel `16-01-2026` als `2026-01-16`).
+
+- **Placeholder**: De tekst in het lege zoekveld (`searchPlaceholder`).
+- **Vertraging**: Er wordt pas gezocht als de gebruiker even stopt met typen, standaard na 300 ms (`searchDebounce`).
+- **Kolom overslaan**: Zet `searchable: false` op een kolom die niet doorzocht mag worden.
+- **Eigen zoektekst**: Geef een kolom met eigen weergave een zoektekst mee via `searchValue`.
+- **Zelf aansturen**: Wil je het zoekveld ergens anders plaatsen, gebruik dan `searchTerm` en `onSearchTermChange`.
+
+"Filter wissen" maakt ook het zoekveld leeg.
+
+<Canvas of={DatagridStories.GlobalSearch} />
+
+---
+
+## Externe filters
+
+Je kunt de filters ook vanuit je eigen pagina zetten, bijvoorbeeld vanuit een eigen zoekbalk. Geef de filters mee
+met `columnFilters` en luister naar wijzigingen met `onColumnFiltersChange`. Zo blijven je pagina en de tabel
+altijd gelijk: wist de gebruiker een filter in de tabel, dan weet je pagina dat ook.
+
+De helper `getColumnFiltersFromSearch` zet een zoekterm om naar een filter. Omdat meerdere filters samen moeten
+kloppen, kiest hij één kolom: de kolom met de meeste treffers. Hij geeft ook de gevonden rijen terug, zodat je bij
+één treffer die rij direct kunt selecteren.
+
+Waar de melding en de knop "Filter wissen" komen, bepaal je met `filterInfoPosition`:
+
+- **In de toolbar**: De knop staat in de toolbar. Dit is de standaard (`"toolbar"`).
+- **In de infobalk**: De melding (`filterMessage`) en de knop staan in een balk boven de tabel, die vanzelf verschijnt als er filters actief zijn (`"tableInfo"`).
+- **Zelf plaatsen**: De tabel toont niets. Je zet zelf `DatagridClearFiltersButton` op de pagina en gebruikt `hasActiveColumnFilters` om te bepalen of hij zichtbaar is (`"none"`).
+
+Met `onClearFilters` hoor je wanneer de gebruiker op "Filter wissen" klikt, bijvoorbeeld om je eigen zoekveld leeg te maken.
+
+Met `clearFiltersButtonProps` style je de ingebouwde knop, zowel in de toolbar als in de infobalk. Je kunt alle
+`Button`-props meegeven via `buttonProps`, en daarnaast `label`, `showTooltip` en `tooltipContent`. Plaats je de
+knop zelf (`"none"`), dan geef je `buttonProps` direct aan `DatagridClearFiltersButton` mee.
+
+```tsx
+<Datagrid
+    ...
+    clearFiltersButtonProps={{
+        label: "Wis filters",
+        buttonProps: { variant: "outline", color: ColorDefinitions.Red, size: SizeDefinitions.Small, rounded: true }
+    }}
+/>
+```
+
+```tsx
+const [filters, setFilters] = useState<ColumnFilters<Product>>({});
+
+const onSearch = (term: string) => {
+    const result = getColumnFiltersFromSearch(dataRaw, term, columns, { columns: ["naam", "sku"] });
+    setFilters(result.filters);
+};
+
+<Datagrid
+    {...}
+    columnFilters={filters}
+    onColumnFiltersChange={setFilters}
+    filterInfoPosition="tableInfo"
+    filterMessage="12 producten gevonden"
+/>
+```
+
+### In de infobalk
+<Canvas of={DatagridStories.ExternalFiltersInfoToolbar} />
+
+### In de toolbar
+<Canvas of={DatagridStories.ExternalFiltersToolbar} />
+
+### Zelf plaatsen
+<Canvas of={DatagridStories.ExternalFiltersCustom} />
+
+---
+
+## Paginatie
+
+Lange lijsten worden over pagina's verdeeld. Paginatie staat standaard aan (`enablePagination`).
+
+- **Rijen per pagina**: Standaard 25 (`initialPageSize`).
+- **Keuzes**: Waaruit de gebruiker kan kiezen, standaard 5, 10, 25, 50 en 100 (`pageSizeOptions`).
+- **Positie van de info**: De tekst "1-25 van 100" links of rechts (`paginationRowInfoPosition`).
+
+In een geneste tabel staat de paginatie altijd in de tabel en de info links.
+
+<Canvas of={DatagridStories.Pager} />
+
+---
+
+## Rijen selecteren en klikken
+
+- **Geselecteerde rij**: Markeer een rij als geselecteerd (`selectedRow`).
+- **Klikken**: Reageer op een enkele klik (`rowSingleClickAction`) of een dubbele klik (`rowDoubleClickAction`).
+- **Hover**: Laat een rij oplichten als de muis erover gaat (`enableRowHover`).
+
+<Canvas of={DatagridStories.SelectedRow} />
+
+---
+
+## Checkboxes
+
+Met checkboxes kan de gebruiker meerdere rijen aanvinken, bijvoorbeeld om ze samen te downloaden. Zet
+`enableCheckboxes` aan en houd de aangevinkte rijen bij met `checkedItems` en `onRowsChecked`.
+Zet je ook `enableTableInfo` aan, dan verschijnt automatisch "U heeft x rijen geselecteerd".
+
+<Canvas of={DatagridStories.Checkboxes} />
+
+---
+
+## Rij-acties
+
+Rij-acties zijn knoppen die bij elke rij staan, bijvoorbeeld "bewerken" of "verwijderen" (`rowActions`).
+Je kiest of ze links of rechts staan (`rowActionPosition`, standaard rechts).
+
+- **Icoon en actie**: Elke knop heeft een icoon en een functie die wordt uitgevoerd bij klikken.
+- **Uitschakelen**: Schakel een knop uit voor bepaalde rijen, bijvoorbeeld als een rij vergrendeld is.
+- **Eigen element**: Gebruik in plaats van een knop een volledig eigen element.
+
+Gebruik je ook een sidebar, dan opent een rij-actie automatisch de sidebar met die rij.
+
+<Canvas of={DatagridStories.RowActions} />
+
+---
+
+## Uitklapbare rijen
+
+Een rij kan uitklappen om extra informatie te tonen, bijvoorbeeld de orders bij een product
+(`collapsibleRowData`). Met `hasCollapsibleRow` bepaal je bij welke rijen dat kan, zodat er geen pijltje
+staat bij rijen zonder inhoud.
+
+Voor een tweede tabel binnen een rij gebruik je de `Detailgrid`. Die neemt de compacte weergave van de
+bovenliggende tabel over. Zet een `EventStopper` om de inhoud, zodat een klik in de geneste tabel niet ook de rij
+erboven selecteert.
+
+### Nested
+<Canvas of={DatagridStories.Nested} />
+
+### Nested met details
+<Canvas of={DatagridStories.NestedDetails} />
+
+---
+
+## Totaalrij
+
+Met `enableSummaryRow` komt er onderaan een rij met totalen. Je geeft per kolom aan of hij opgeteld moet worden
+(`summary: true`). Alleen getallen worden meegeteld.
+
+<Canvas of={DatagridStories.RowSummary} />
+
+---
+
+## Toolbar
+
+De toolbar staat boven de tabel en verschijnt alleen als er iets in staat.
+
+- **Titel**: Een titel voor de tabel (`toolbarTitle`).
+- **Knoppen en items**: Items links (`toolbarPrefixItems`) en rechts (`toolbarPostfixItems`), bijvoorbeeld een knop "Toevoegen" of een schakelaar.
+- **Navigatie**: Bijvoorbeeld tabs in de toolbar (`toolbarNavItems`), eventueel met een scheidingslijn (`toolbarSeparator`).
+- **Opmaak**: Een lijn eronder (`toolbarBorderBottom`), een compacte versie (`toolbarCompact`) of een eigen CSS-klasse (`toolbarCss`).
+- **Compacte weergave**: Een knop waarmee de gebruiker de rijen compacter maakt (`enableCompactView`).
+
+De tabel zet er zelf ook dingen in: het zoekveld, de knop "Filter wissen" en de knop voor compacte weergave.
+
+<Canvas of={DatagridStories.Toolbar} />
+
+---
+
+## Infobalk
+
+De infobalk staat tussen de toolbar en de tabel en is bedoeld voor korte meldingen (`enableTableInfo`).
+Geef je geen eigen inhoud mee (`tableInfoContent`), dan toont hij hoeveel rijen er zijn aangevinkt.
+Je kunt er een lijn onder zetten (`tableInfoBorderBottom`) en de kleur daarvan kiezen (`tableInfoBorderColor`).
+
+De infobalk wordt ook gebruikt voor de filtermelding bij externe filters.
+
+<Canvas of={DatagridStories.TableInfo} />
+
+---
+
+## Extra inhoud boven en onder de tabel
+
+- **Boven de tabel**: Inhoud direct boven de rijen (`tableHeaderContent`).
+- **Onder de tabel**: Inhoud direct onder de rijen (`tableFooterContent`).
+- **Footer**: Een footer onder de hele tabel (`footerContent`).
+
+<Canvas of={DatagridStories.HeaderFooter} />
+
+---
+
+## Sidebar
+
+De sidebar toont de details van een rij naast de tabel (`enableSidebar`). Hij opent als de gebruiker dubbelklikt
+op een rij of een rij-actie gebruikt. Staat de sidebar open, dan toont een enkele klik de details van een andere rij.
+
+- **Inhoud**: Een kop, de inhoud op basis van de gekozen rij en een voet, bijvoorbeeld met een opslaanknop (`sidebar`).
+- **Positie**: Links of rechts van de tabel, standaard rechts (`sidebarPosition`).
+- **Breedte**: De gebruiker kan de sidebar breder of smaller slepen, standaard tussen 600 en 900 pixels (`sidebarMinWidth`, `sidebarMaxWidth`).
+
+<Canvas of={DatagridStories.Sidebar} />
+
+---
+
+## Tabs
+
+Tabs staan naast de tabel en openen een paneel met extra inhoud (`enableTabs`). Je geeft de tabs (`tabs`) en
+de inhoud per tab (`tabPanes`) zelf op. De tabel kan ook zelf een tab toevoegen voor de kolomkiezer
+(`enableTabColumnVisibility`) en voor alle filters (`enableTabFilters`).
+
+- **Positie**: Links of rechts van de tabel, standaard rechts (`tabberPosition`).
+- **Breedte**: De gebruiker kan het paneel breder of smaller slepen, standaard tussen 280 en 600 pixels (`tabsMinWidth`, `tabsMaxWidth`).
+
+### Tabs
+<Canvas of={DatagridStories.Tabs} />
+
+### Sidebar en tabs
+<Canvas of={DatagridStories.SidebarAndTabs} />
+
+---
+
+## Loader
+
+Terwijl de gegevens worden opgehaald, toont de tabel een loader.
+
+- **Soort**: Over de tabel heen (standaard), in de tabel, in het midden of over het hele scherm (`loaderVariant`).
+- **Teksten**: Toon afwisselende teksten zoals "Gegevens ophalen" (`loaderEnableLabels`, `loaderLabels`).
+- **Kleuren en animatie**: Pas de achtergrond, de animatie en de kleuren aan (`loaderBackground`, `loaderEnableAnimation`, `loaderAnimationColor`, `loaderLabelColor`).
+
+<Canvas of={DatagridStories.Loading} />
+
+---
+
+## Weergave
+
+- **Volledige hoogte**: De tabel vult standaard de beschikbare hoogte (`fullHeight`).
+- **Geneste weergave**: Voor een tabel binnen een tabel (`variant="nested"`). De `Detailgrid` doet dit automatisch.
+- **Eigen opmaak**: Voeg een eigen CSS-klasse toe (`css`).
+
+<Canvas of={DatagridStories.FullHeight} />
+
+---
+
+## Alles gecombineerd
+
+Details in de sidebar, uitklapbare rijen met details, tabs, een totaalrij, filters en alle kolomfuncties samen.
+
+<Canvas of={DatagridStories.DetailsAndNestedDetails} />
+
+---
+
+## Props
+
 <Controls />

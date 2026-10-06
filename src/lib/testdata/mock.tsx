@@ -4,7 +4,7 @@ import { formatCurrency } from '../helpers/helpers';
 
 export const defaultProductColumns = () => {
     return [
-        { prop: "id", title: "Id", sortable: true, showTooltip: true, width: 80 },
+        { prop: "id", title: "Id", sortable: true, showTooltip: true, visible: true, width: 80 },
         { prop: "sku", title: "SKU", sortable: true, visible: true },
         { prop: "ean", title: "EAN", sortable: true, showTooltip: true, visible: true },
         { prop: "naam", title: "Product", sortable: true, showTooltip: true, visible: true, width: 200 },

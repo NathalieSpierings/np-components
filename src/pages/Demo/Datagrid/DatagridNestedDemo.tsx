@@ -9,7 +9,7 @@ import { ProductOrdersNested } from "./DatagridNestedDetailsDemo";
 
 const DatagridNestedDemo: React.FC = () => {
 
-     const [selected, setSelected] = useState<ProductMetOrdersModel | undefined>();
+    const [selected, setSelected] = useState<ProductMetOrdersModel | undefined>();
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductMetOrdersModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -20,6 +20,7 @@ const DatagridNestedDemo: React.FC = () => {
     return (
 
         <Datagrid
+            getRowKey={(row) => `${row.sku}-${row.id}`}
             data={data || []}
             dataRaw={dataRaw}
             total={total || 0}
@@ -47,7 +48,7 @@ const DatagridNestedDemo: React.FC = () => {
                 setSelected(row)
                 console.log(`Double clicked row ${row.naam}`);
             }}
-           properties={defaultProductColumns() as any}
+            properties={defaultProductColumns() as any}
         />
     )
 }

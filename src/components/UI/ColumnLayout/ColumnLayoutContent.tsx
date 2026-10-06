@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 
 export interface ColumnLayoutContentProps extends PropsWithChildren {
     css?: string;
@@ -27,4 +27,3 @@ const ColumnLayoutContent: FC<ColumnLayoutContentProps> = ({
 };
 
 export default ColumnLayoutContent;
-

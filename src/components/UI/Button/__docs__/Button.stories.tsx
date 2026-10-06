@@ -41,6 +41,8 @@ export const Variants: StoryFn = () => {
                 <Button color={ColorDefinitions.Blue} iconOnly><Icon icon={IconDefinitions.bulb} /></Button>
                 <Button color={ColorDefinitions.Pink} rounded={true}>Rounded</Button>
                 <Button color={ColorDefinitions.Rose} circle={true} iconOnly> <Icon icon={IconDefinitions.bulb} /></Button>
+                <Button color={ColorDefinitions.Accent}>Accent</Button>
+
             </div>
 
             <h4>Outline</h4>
@@ -49,6 +51,7 @@ export const Variants: StoryFn = () => {
                 <Button color={ColorDefinitions.Blue} variant="outline" iconOnly><Icon icon={IconDefinitions.bulb} /></Button>
                 <Button color={ColorDefinitions.Pink} variant="outline" rounded={true}>Rounded</Button>
                 <Button color={ColorDefinitions.Rose} variant="outline" circle={true} iconOnly> <Icon icon={IconDefinitions.bulb} /></Button>
+                <Button color={ColorDefinitions.Accent} variant="outline">Accent</Button>
             </div>
 
             <h4>Ghost</h4>

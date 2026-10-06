@@ -68,3 +68,41 @@ export const formatCurrency = (value: number | null | undefined): string => {
         maximumFractionDigits: 2
     })}`;
 };
+
+// Colors
+export interface ColorPair {
+    background: string;
+    foreground: string;
+    shadow: string;
+}
+
+const HASH_MODULUS = 2_147_483_647; // grootste 32-bit priemgetal
+
+const hashString = (str: string): number => {
+    let hash = 0;
+    for (const char of str) {
+        hash = (hash * 31 + char.codePointAt(0)!) % HASH_MODULUS;
+    }
+    return hash;
+};
+
+const HUE_STEPS = 12; // 12 duidelijk verschillende tinten (30° uit elkaar)
+
+const randomHue = (): number =>
+    (crypto.getRandomValues(new Uint32Array(1))[0] % HUE_STEPS) * (360 / HUE_STEPS);
+
+/**
+ * Geeft een lichte achtergrond en donkere voorgrond in dezelfde tint.
+ * Met seed: altijd dezelfde kleuren. Zonder seed: willekeurig.
+ */
+export const getColorPair = (seed = ''): ColorPair => {
+    const hue = seed
+        ? (hashString(seed.trim().toLowerCase()) % HUE_STEPS) * (360 / HUE_STEPS)
+        : randomHue();
+
+    return {
+        background: `hsl(${hue} 70% 90%)`,
+        foreground: `hsl(${hue} 70% 30%)`,
+         shadow: `hsl(${hue} 70% 30%)`,
+    };
+};

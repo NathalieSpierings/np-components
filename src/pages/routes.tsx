@@ -4,6 +4,21 @@ import ErrorPage from "../components/Page/ErrorPage/ErrorPage";
 import { proxyPrefix } from "../config";
 import ButtonDemo from "./Demo/Button/ButtonDemo";
 import CollectionPage from "./Demo/Collection/CollectionPage";
+import AsideLeft from "./Demo/ColumnLayout/AsideLeft";
+import AsidePrimary from "./Demo/ColumnLayout/AsidePrimary";
+import AsideRight from "./Demo/ColumnLayout/AsideRight";
+import ColumnLayoutPage from "./Demo/ColumnLayout/ColumnLayoutPage";
+import ColumnLayoutColumnsDemo from "./Demo/ColumnLayout/Columns/ColumnLayoutColumnsDemo";
+import ColumnsScrollable from "./Demo/ColumnLayout/Columns/ColumnsScroll";
+import MainAndAsideAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideAsideNoHeader";
+import MainAndAsideMainNoHeader from "./Demo/ColumnLayout/MainAndAsideMainNoHeader";
+import MainAndAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideNoHeader";
+import MainAndAsideWithHeader from "./Demo/ColumnLayout/MainAndAsideWithHeader";
+import MainOnly from "./Demo/ColumnLayout/MainOnly";
+import MainOnlyNoHeader from "./Demo/ColumnLayout/MainOnlyNoHeader";
+import MainPrimary from "./Demo/ColumnLayout/MainPrimary";
+import ColumnLayoutToggleFromAsideDemo from "./Demo/ColumnLayout/ToggleFromAside";
+import WithTabs from "./Demo/ColumnLayout/WithTabs";
 import ContentItemPage from "./Demo/ContentItem/ContentItemPage";
 import ColumnFilterDemo from "./Demo/Datagrid/ColumnFilterDemo";
 import ColumnPinningDemo from "./Demo/Datagrid/ColumnPinningDemo";
@@ -12,10 +27,12 @@ import ColumnResizeDemo from "./Demo/Datagrid/ColumnResizeDemo";
 import ColumnStickyDemo from "./Demo/Datagrid/ColumnStickyDemo";
 import ColumnTotalRowDemo from "./Demo/Datagrid/ColumnTotalRowDemo";
 import ColumnVisibilityDemo from "./Demo/Datagrid/ColumnVisibilityDemo";
-import DatagridAllDemo from "./Demo/Datagrid/DatagridAllDemo";
 import DatagridCheckboxDemo from "./Demo/Datagrid/DatagridCheckboxDemo";
 import DatagridDemo from "./Demo/Datagrid/DatagridDemo";
+import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetailsAndNestedDetailsDemo";
+import DatagridExternalFilterDemo from "./Demo/Datagrid/DatagridExternalFilterDemo";
 import DatagridHeaderFooterDemo from "./Demo/Datagrid/DatagridHeaderFooterDemo";
+import DatagridHeightDemo from "./Demo/Datagrid/DatagridHeightDemo";
 import DatagridLoadingDemo from "./Demo/Datagrid/DatagridLoadingDemo";
 import DatagridNestedDemo from "./Demo/Datagrid/DatagridNestedDemo";
 import DatagridNestedDetailsDemo from "./Demo/Datagrid/DatagridNestedDetailsDemo";
@@ -27,10 +44,11 @@ import DatagridSidebarDemo from "./Demo/Datagrid/DatagridSidebarDemo";
 import DatagridTableInfoDemo from "./Demo/Datagrid/DatagridTableInfoDemo";
 import DatagridTabsDemo from "./Demo/Datagrid/DatagridTabsDemo";
 import DatagridToolbarDemo from "./Demo/Datagrid/DatagridToolbarDemo";
-import DatagridTest from "./Demo/Datagrid/Test/DatagridTest";
 import DismissButtonDemo from "./Demo/DismissButton/DismissButtonDemo";
 import DropdownPage from "./Demo/Dropdown/DropdownPage";
+import FormsDemo from "./Demo/Forms/FormsDemo";
 import IconDemo from "./Demo/Icon/IconDemo";
+import LayoutPage from "./Demo/LayoutPage";
 import ModalDemo from "./Demo/Modal/ModalDemo";
 import MultiselectDemo from "./Demo/Multiselect/MultiSelectDemo";
 import TagsPage from "./Demo/Tags/TagsPage";
@@ -40,25 +58,10 @@ import DescriptionListDemo from "./Demo/Typography/DescriptionList";
 import DemoPage from "./DemoPage";
 import HomePage from "./HomePage";
 import ThemePage from "./ThemePage";
-import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetailsAndNestedDetailsDemo";
-import LayoutPage from "./Demo/LayoutPage";
-import DatagridHeightDemo from "./Demo/Datagrid/DatagridHeightDemo";
-import FormsDemo from "./Demo/Forms/FormsDemo";
-import ColumnsScrollable from "./Demo/ColumnLayout/Columns/ColumnsScroll";
-import ColumnLayoutColumnsDemo from "./Demo/ColumnLayout/Columns/ColumnLayoutColumnsDemo";
-import ColumnLayoutToggleFromAsideDemo from "./Demo/ColumnLayout/ToggleFromAside";
-import WithTabs from "./Demo/ColumnLayout/WithTabs";
-import MainPrimary from "./Demo/ColumnLayout/MainPrimary";
-import MainOnlyNoHeader from "./Demo/ColumnLayout/MainOnlyNoHeader";
-import MainOnly from "./Demo/ColumnLayout/MainOnly";
-import MainAndAsideWithHeader from "./Demo/ColumnLayout/MainAndAsideWithHeader";
-import MainAndAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideNoHeader";
-import MainAndAsideMainNoHeader from "./Demo/ColumnLayout/MainAndAsideMainNoHeader";
-import MainAndAsideAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideAsideNoHeader";
-import AsideRight from "./Demo/ColumnLayout/AsideRight";
-import AsidePrimary from "./Demo/ColumnLayout/AsidePrimary";
-import AsideLeft from "./Demo/ColumnLayout/AsideLeft";
-import ColumnLayoutPage from "./Demo/ColumnLayout/ColumnLayoutPage";
+import DatagridSearchDemo from "./Demo/Datagrid/DatagridSearchDemo";
+import DatagridExternalFilterToolbarDemo from "./Demo/Datagrid/DatagridExternalFilterToolbarDemo";
+import DatagridExternalFilterCustomDemo from "./Demo/Datagrid/DatagridExternalFilterCustomDemo";
+import AvatarDemo from "./Demo/UI/AvatarDemo";
 
 
 export const getInitialMenuItem = (pathname: string) => {
@@ -74,6 +77,9 @@ export const getInitialMenuItem = (pathname: string) => {
 	return undefined;
 }
 
+const routesLayout = [
+
+]
 
 export const routes = [
 	{
@@ -84,16 +90,14 @@ export const routes = [
 		path: "/demo",
 		element: <DemoPage />,
 	},
-	
 	{
 		path: "/demo/layout",
 		element: <LayoutPage />
 	},
 	{
 		path: "/demo/columnlayout",
-		element: <ColumnLayoutPage/>
+		element: <ColumnLayoutPage />
 	},
-
 	{
 		path: "/demo/columnlayout-aside-left",
 		element: <AsideLeft />
@@ -150,9 +154,6 @@ export const routes = [
 		path: "/demo/columnlayout-columns-aside-scrollable",
 		element: <ColumnsScrollable />
 	},
-
-
-
 	{
 		path: "/demo/theme",
 		element: <ThemePage />
@@ -160,23 +161,12 @@ export const routes = [
 	{
 		path: "/demo/forms",
 		element: <FormsDemo />
-	},	
+	},
 	{
 		path: "/demo/tags",
 		element: <TagsPage />
 	},
-	{
-		path: '/demo/dg-details-and-nested-details',
-		element: <DatagridDetailsAndNestedDetailsDemo />
-	},
-	{
-		path: "/demo/dg-test",
-		element: <DatagridTest />
-	},
-	{
-		path: "/demo/dg-fullheight",
-		element: <DatagridHeightDemo />
-	},
+	// Datagrid
 	{
 		path: "/demo/dg-column-filter",
 		element: <ColumnFilterDemo />
@@ -201,14 +191,9 @@ export const routes = [
 		path: "/demo/dg-total-row",
 		element: <ColumnTotalRowDemo />
 	},
-
 	{
 		path: "/demo/dg-column-visibility",
 		element: <ColumnVisibilityDemo />
-	},
-	{
-		path: "/demo/dg-all",
-		element: <DatagridAllDemo />
 	},
 	{
 		path: "/demo/dg-checkbox",
@@ -219,8 +204,28 @@ export const routes = [
 		element: <DatagridDemo />
 	},
 	{
+		path: '/demo/dg-details-and-nested-details',
+		element: <DatagridDetailsAndNestedDetailsDemo />
+	},	
+	{
+		path: "/demo/dg-filters-external",
+		element: <DatagridExternalFilterDemo />
+	},
+	{
+		path: "/demo/dg-filters-external-toolbar",
+		element: <DatagridExternalFilterToolbarDemo />
+	},
+	{
+		path: "/demo/dg-filters-external-custom",
+		element: <DatagridExternalFilterCustomDemo />
+	},
+	{
 		path: "/demo/dg-headerfooter",
 		element: <DatagridHeaderFooterDemo />
+	},
+	{
+		path: "/demo/dg-fullheight",
+		element: <DatagridHeightDemo />
 	},
 	{
 		path: "/demo/dg-loading",
@@ -241,7 +246,7 @@ export const routes = [
 	{
 		path: "/demo/dg-actions",
 		element: <DatagridRowActionsDemo />
-	},
+	},	
 	{
 		path: "/demo/dg-selected-row",
 		element: <DatagridSelectedRowDemo />
@@ -267,6 +272,11 @@ export const routes = [
 		element: <DatagridToolbarDemo />
 	},
 	{
+		path: "/demo/dg-global-search",
+		element: <DatagridSearchDemo />
+	},
+	// Forms
+	{
 		path: "/demo/btn",
 		element: <ButtonDemo />
 	},
@@ -274,9 +284,14 @@ export const routes = [
 		path: "/demo/multiselect",
 		element: <MultiselectDemo />
 	},
+	// UI
 	{
 		path: "/demo/modal",
 		element: <ModalDemo />
+	},
+	{
+		path: "/demo/avatar",
+		element: <AvatarDemo />
 	},
 	{
 		path: "/demo/contentitem",

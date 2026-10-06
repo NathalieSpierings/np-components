@@ -5,7 +5,7 @@ import Button from "../../../components/UI/Button/Button";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 import ColumnLayout from "../../../components/UI/ColumnLayout/ColumnLayout";
 import ColumnLayoutMain from "../../../components/UI/ColumnLayout/ColumnLayoutMain";
-import { Breadcrumb, ColumnLayoutAside, ColumnLayoutContent, ColumnLayoutHeader, ContentItem, DividerSplitted, Title } from "../../../components";
+import { Breadcrumb, ColumnLayoutAside, ColumnLayoutContent, ColumnLayoutHeader, ContentItem, DividerSplitted, EventStopper, Title } from "../../../components";
 
 const ColumnLayoutPage = ({
 }): ReactElement => {
@@ -72,7 +72,8 @@ const ColumnLayoutPage = ({
 
                     <DividerSplitted label="Dossiers" dividerSplittedCss="mt-1" />
 
-
+<EventStopper>
+    
                      <div className={`pc-layout ${parentFullHeight ? 'pc-layout--full-height' : ''} `}>
                         {enableHeader && (
                             <header className="pc-layout__header bg-olive">
@@ -124,6 +125,7 @@ const ColumnLayoutPage = ({
                             </footer>
                         )}
                     </div>
+</EventStopper>
 
 
 

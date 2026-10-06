@@ -1,26 +1,49 @@
-import  { FC, ReactElement } from 'react';
+import React, { cloneElement, FC, ReactElement } from 'react';
 import { SizeDefinitions } from '../../../../lib/utils/definitions';
-import React from 'react';
+import { AvatarProps } from '../Avatar';
 
 export interface StackedAvatarProps {
-    avatars: ReactElement[];
-    counter: number;
+    avatars: ReactElement<AvatarProps>[];
+    counter?: number;
     size?: SizeDefinitions;
+    autoColor?: boolean;
+    css?: string
 }
 
-const StackedAvatar: FC<StackedAvatarProps> = ({ avatars, counter, size }) => {
+const StackedAvatar: FC<StackedAvatarProps> = ({
+    avatars,
+    counter = 0,
+    size,
+    autoColor,
+    css = ''
+}) => {
+
+
+    const cls = [
+        'avatar-group',
+        size && `avatar-group--${size}`,
+        css,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
     return (
-        <ul className={`avatar-group ${size ? "avatar-group--" + size : ''} `}>
-            {avatars.map((item, idx) => {
-                return (
-                    <li className="nav__item" key={item.key || idx}>
-                        {item}
-                    </li>
-                );
-            })}
-            <li>
-                <span className="avatar avatar-group__counter">+{counter}</span>
-            </li>
+        <ul className={cls}>
+            {avatars.map((item, idx) => (
+                <li key={item.key ?? idx}>
+                    {autoColor
+                        ? cloneElement(item, { autoColor: item.props.autoColor ?? true })
+                        : item}
+                </li>
+            ))}
+
+            {counter > 0 && (
+                <li>
+                    <div className="avatar avatar--count" title={`Nog ${ counter } personen`}>
+                        <div className="avatar__initials">+{counter}</div>
+                    </div>
+                </li>
+            )}
         </ul>
     );
 };

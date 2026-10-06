@@ -106,48 +106,109 @@ export const debounce = (func: any, timeout = 300) => {
     };
 };
 
+const getDateSearchStrings = (rawVal: unknown): string[] => {
+    const date = normalizeDate(rawVal);
+
+    if (!date) {
+        return [];
+    }
+
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+
+    return [
+        `${yyyy}-${mm}-${dd}`, // 2026-01-16
+        `${dd}-${mm}-${yyyy}`, // 16-01-2026
+    ];
+};
+
+/**
+ * Returns all texts of a single cell the general search may match on:
+ * - `searchValue(item)` when configured (e.g. for `useItemOnly` columns)
+ * - the raw value
+ * - the transformed value (when `transformValue` returns a string or number)
+ * - the label of a matching filter option (select columns)
+ * - formatted dates (yyyy-mm-dd and dd-mm-yyyy) for date columns
+ */
+export const getSearchableTexts = <TData>(
+    item: TData,
+    column: DatagridRowConfig<TData>
+): string[] => {
+
+    if (column.searchValue) {
+        return [column.searchValue(item) ?? ''];
+    }
+
+    const rawVal = getNestedValue(item, column.prop);
+
+    if (rawVal == null) {
+        return [];
+    }
+
+    if (column.filter?.type === 'date') {
+        return getDateSearchStrings(rawVal);
+    }
+
+    const texts = [String(rawVal)];
+
+    if (column.transformValue) {
+        const transformed = column.transformValue(rawVal as any);
+
+        if (typeof transformed === 'string' || typeof transformed === 'number') {
+            texts.push(String(transformed));
+        }
+    }
+
+    const option = column.filter?.options?.find(o => o.value === String(rawVal));
+
+    if (option) {
+        texts.push(option.label);
+    }
+
+    return texts;
+};
+
+/**
+ * Columns that take part in the general search (all columns, including hidden ones,
+ * except those with `searchable: false`).
+ */
+export const getSearchableColumns = <TData>(
+    propertyConfigs?: DatagridRowConfig<TData>[]
+): DatagridRowConfig<TData>[] =>
+    (propertyConfigs ?? []).filter(column => column.searchable !== false);
+
+/**
+ * Splits a search term into lowercase words.
+ */
+export const getSearchWords = (searchTerm: string): string[] =>
+    searchTerm.toLowerCase().trim().split(/\s+/).filter(Boolean);
+
+/**
+ * General search over all searchable columns.
+ * Every word of the search term must occur in at least one column of the row
+ * (e.g. "bike red" matches a row with "Bike" in name and "Red" in color).
+ */
 export const defaultSearch = <TData>(
     data: TData[],
     searchTerm: string,
     propertyConfigs?: DatagridRowConfig<TData>[]
 ): TData[] => {
 
-    const term = searchTerm.toLowerCase();
+    const words = getSearchWords(searchTerm);
 
-    return data.filter(item =>
-        propertyConfigs?.some(col => {
-            
-            const rawVal = getNestedValue(item, col.prop);
+    if (words.length === 0) {
+        return data;
+    }
 
-            if (rawVal == null) {
-                return false;
-            }
+    const columns = getSearchableColumns(propertyConfigs);
 
-            const filterType = col.filter?.type ?? 'text';
+    return data.filter(item => {
+        const haystack = columns
+            .flatMap(column => getSearchableTexts(item, column))
+            .join('\n')
+            .toLowerCase();
 
-            // Date: search on normalised ISO string
-            if (filterType === 'date') {
-                const date = normalizeDate(rawVal);
-                if (!date) return false;
-
-                const yyyy = date.getFullYear();
-                const mm = String(date.getMonth() + 1).padStart(2, '0');
-                const dd = String(date.getDate()).padStart(2, '0');
-
-                const searchableValues = [
-                    `${yyyy}-${mm}-${dd}`, // 2026-01-16
-                    `${dd}-${mm}-${yyyy}`, // 16-01-2026
-                    `${dd}-${mm}`,         // 16-01
-                    `${yyyy}`              // 2026
-                ];
-
-                return searchableValues.some(v =>
-                    v.includes(term)
-                );
-            }
-
-            // TEXT (default)
-            return String(rawVal).toLowerCase().includes(term);
-        }) ?? false
-    );
+        return words.every(word => haystack.includes(word));
+    });
 };

@@ -9,66 +9,47 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg",
             title: "Default"
         },
+        
+       
         {
             url: "/demo/dg-fullheight",
             title: "Full height"
-        },
-        {
-            url: '/demo/dg-details-and-nested-details',
-            title: "Details and nested details"
-        },
-        {
-            title: "Datagrid test",
-            url: "/demo/dg-test",
-        },
-        {
-            url: "/demo/dg-all",
-            title: "All"
-        },
-        {
-            url: "/demo/dg-checkbox",
-            title: "Checkboxes"
-        },
-        {
-            url: "/demo/dg-loading",
-            title: "Loading"
         },
         {
             url: "/demo/dg-headerfooter",
             title: "Header footer content"
         },
         {
-            url: "/demo/dg-nested",
-            title: "Nested"
-        },
-        {
-            url: "/demo/dg-nested-detail",
-            title: "Nested with details"
-        },
-
-        {
             url: "/demo/dg-toolbar",
             title: "Toolbar"
         },
         {
-            url: "/demo/dg-info",
-            title: "Table info"
+            url: "/demo/dg-loading",
+            title: "Loading"
         },
         {
-            url: "/demo/dg-sidebar",
-            title: "Sidebar"
+            title: "Row totals",
+            url: "/demo/dg-total-row",
         },
-        {
-            url: "/demo/dg-tabs",
-            title: "Tabs"
-        },
-        {
-            url: "/demo/dg-sidebarandtabs",
-            title: "Sidebar & tabs"
-        },
-        {
+         {
             url: "/demo/dg-pager",
             title: "Pager"
+        },
+        {
+            title: "Global search",
+            url: "/demo/dg-global-search",
+        },
+        {
+            title: "External filters (infotoolbar)",
+            url: "/demo/dg-filters-external",
+        },
+        {
+            title: "External filters (toolbar)",
+            url: "/demo/dg-filters-external-toolbar",
+        },
+        {
+            title: "External filters (custom)",
+            url: "/demo/dg-filters-external-custom",
         },
         {
             title: "Column Filters",
@@ -87,25 +68,58 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-column-resize",
         },
         {
-            title: "Column Sticky",
-            url: "/demo/dg-column-sticky",
-        },
-        {
             title: "Column Visibility",
             url: "/demo/dg-column-sticky",
         },
         {
-            title: "Row totals",
-            url: "/demo/dg-total-row",
+            title: "Header Sticky",
+            url: "/demo/dg-column-sticky",
+        },       
+
+        // Actions
+        {
+            url: "/demo/dg-checkbox",
+            title: "Checkboxes"
         },
         {
+            url: "/demo/dg-info",
+            title: "Table info"
+        },
+         {
             title: "Row selection",
             url: "/demo/dg-selected-row",
         },
-        {
+         {
             title: "Row actions",
             url: "/demo/dg-actions",
-        }
+        },
+        // Nested
+        {
+            url: "/demo/dg-details-and-nested-details",
+            title: "Details & Nested with details"
+        },      
+        {
+            url: "/demo/dg-nested",
+            title: "Nested"
+        },
+        {
+            url: "/demo/dg-nested-detail",
+            title: "Nested with details"
+        },
+       
+        // Tabs & Sidebar
+        {
+            url: "/demo/dg-sidebar",
+            title: "Sidebar"
+        },
+        {
+            url: "/demo/dg-tabs",
+            title: "Tabs"
+        },
+        {
+            url: "/demo/dg-sidebarandtabs",
+            title: "Sidebar & tabs"
+        },
     ];
 
 
@@ -122,6 +136,10 @@ const SidebarDemo: React.FC = () => {
         {
             url: '/demo/modal',
             title: "Modal"
+        },
+         {
+            url: '/demo/avatar',
+            title: "Avatar"
         },
         {
             url: '/demo/btn',

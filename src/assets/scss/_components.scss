@@ -381,6 +381,26 @@ toastr, toolbar, tooltip, widget, wizard;
         display: flex;
         gap: 0.5rem;
     }
+
+    .btn-outline.btn-accent {
+        &:hover {
+            --button-foreground: var(--color-offwhite);
+            --color-border: var(--color-primary);
+        }
+
+        &::before {
+            --color-background: var(--color-primary);
+
+        }
+    }
+
+    .btn.btn-accent {
+        &:hover {
+            --button-foreground: var(--color-offwhite);
+            --color-background: var(--color-primary);
+        }
+    }
+
 }
 
 @layer dismiss {
@@ -856,109 +876,55 @@ toastr, toolbar, tooltip, widget, wizard;
 }
 
 @layer avatar {
-
-    :root {
-        --avatar-size: 36px;
-        --avatar-font-size: 12px;
-        --avatar-background: var(--color-surface);
-    }
-
     .avatar {
+        --avatar-background: var(--color-surface-dark);
+        --avatar-color: var(--color-foreground);
+        --avatar-shadow-alpha: 15%;
+        --avatar-tint-alpha: 50%;
+
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: var(--avatar-size);
-        height: var(--avatar-size);
-        border-radius: var(--radius-full);
-        background: var(--avatar-background);
-        color: var(--color-foreground);
-        font-weight: 600;
-        font-size: var(--avatar-font-size);
-        user-select: none;
-        overflow: hidden;
+        display: grid;
+        place-items: center;
         flex-shrink: 0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: var(--avatar-size, 4.8rem);
+        height: var(--avatar-size, 4.8rem);
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--avatar-background);
+        color: var(--avatar-color);
 
-        &__text {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        &__image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        &__initials {
+            line-height: 1;
+            text-transform: uppercase;
+            font-size: var(--avatar-fs, var(--fs-base));
         }
 
         &__icon {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: var(--avatar-icon-size, 2.4rem);
+            height: var(--avatar-icon-size, 2.4rem);
 
             svg {
+                display: block;
                 width: 100%;
                 height: 100%;
+                fill: currentColor;
             }
         }
 
-        &__initials {
-            line-height: 1;
-            text-transform: uppercase;
-        }
+        &__image {
+            position: absolute;
+            inset: 0;
 
-        &-group {
-            display: inline-flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            margin-inline-start: calc(3rem / 2);
-
-            >li {
-                display: list-item;
-                text-align: -webkit-match-parent;
-                margin-left: calc(3rem / -2);
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: inherit;
             }
-
-            &__counter {
-                font-size: var(--fs-md);
-                font-weight: 600;
-                border: 3px solid var(--color-border);
-                box-shadow: 0px 3px 16px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
-            }
-        }
-
-
-        &--xs {
-            --avatar-size: 24px;
-            --avatar-font-size: 10px;
-        }
-
-        &--sm {
-            --avatar-size: 28px;
-            --avatar-font-size: 12px;
-        }
-
-        &--md {
-            --avatar-size: 40px;
-            --avatar-font-size: 14px;
-        }
-
-        &--lg {
-            --avatar-size: 56px;
-            --avatar-font-size: 18px;
-        }
-
-        &--xl {
-            --avatar-size: 72px;
-            --avatar-font-size: 22px;
-        }
-
-        &--2xl {
-            --avatar-size: 96px;
-            --avatar-font-size: 28px;
         }
 
         &--square {
@@ -966,19 +932,113 @@ toastr, toolbar, tooltip, widget, wizard;
         }
 
         &--border {
-            border: 3px solid var(--color-border);
+            border: 2px solid var(--shadow-base);
         }
 
         &--shadow {
             box-shadow:
-                0 -1px 1px 0 transparent,
-                0 4px 6px 0 rgb(0 0 0 / 24%);
+                0 2px 5px rgb(var(--shadow-rgb) / var(--avatar-shadow-alpha)),
+                var(--avatar-shadow-tint, 0 0 transparent);
+        }
+
+        &--has-background {
+            --avatar-shadow-color: var(--color-background);
+        }
+
+        &--has-background,
+        &--auto-color {
+            --avatar-shadow-tint: 0 4px 12px -2px hsl(from var(--avatar-shadow-color) h s calc(l * .7) / var(--avatar-tint-alpha));
         }
 
         &--float {
             animation: floatAvatar 6s ease-in-out infinite;
         }
     }
+
+    .avatar-group {
+        --avatar-group-ring: var(--color-surface-light);
+
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        >li+li .avatar {
+            margin-inline-start: calc(var(--avatar-size, 4.8rem) * -0.25);
+        }
+
+        .avatar {
+            outline: 2px solid var(--avatar-group-ring, #fff);
+            transition: transform .15s ease;
+        }
+
+        >li:hover .avatar {
+            z-index: 1;
+            transform: translateY(-2px);
+        }
+    }
+
+    .avatar--xxs,
+    .avatar-group--xxs {
+        --avatar-size: 2rem;
+        --avatar-icon-size: 1rem;
+        --avatar-fs: 1rem;
+    }
+
+    .avatar--xs,
+    .avatar-group--xs {
+        --avatar-size: 2.8rem;
+        --avatar-icon-size: 1.4rem;
+        --avatar-fs: 1.4rem;
+    }
+
+    .avatar--sm,
+    .avatar-group--sm {
+        --avatar-size: 3.6rem;
+        --avatar-icon-size: 2rem;
+        --avatar-fs: 1.6rem;
+    }
+
+    .avatar--md,
+    .avatar-group--md {
+        --avatar-size: 5.6rem;
+        --avatar-icon-size: 2.8rem;
+        --avatar-fs: 2.2rem;
+    }
+
+    .avatar--lg,
+    .avatar-group--lg {
+        --avatar-size: 6.4rem;
+        --avatar-icon-size: 3.2rem;
+        --avatar-fs: 2.2rem;
+    }
+
+    .avatar--xl,
+    .avatar-group--xl {
+        --avatar-size: 7.2rem;
+        --avatar-icon-size: 3.6rem;
+        --avatar-fs: 2.4rem;
+    }
+
+    .avatar--2xl,
+    .avatar-group--2xl {
+        --avatar-size: 9.6rem;
+        --avatar-icon-size: 4.8rem;
+        --avatar-fs: 3.6rem;
+    }
+
+    .avatar--3xl,
+    .avatar-group--3xl {
+        --avatar-size: 12rem;
+        --avatar-icon-size: 6rem;
+        --avatar-fs: 5rem;
+    }
+
+    .avatar--count {
+        --avatar-fs: calc(var(--avatar-size, 4.8rem) * 0.3);
+    }
+
 
     @keyframes floatAvatar {
         0% {
@@ -994,6 +1054,19 @@ toastr, toolbar, tooltip, widget, wizard;
         }
     }
 
+    .theme-dimmed {
+        .avatar.avatar--shadow {
+            --avatar-shadow-alpha: 25%;
+            --avatar-tint-alpha: 70%;
+        }
+    }
+
+    .theme-dark {
+        .avatar.avatar--shadow {
+            --avatar-shadow-alpha: 50%;
+            --avatar-tint-alpha: 70%;
+        }
+    }
 }
 
 @layer badge {
@@ -1285,6 +1358,8 @@ toastr, toolbar, tooltip, widget, wizard;
 }
 
 @layer columnLayout {
+
+
     .column-layout {
         --header-height: 99px;
 
@@ -1296,13 +1371,6 @@ toastr, toolbar, tooltip, widget, wizard;
             min-height: var(--header-height);
             padding: var(--page-padding-sm) var(--page-padding);
             border-bottom: 1px solid transparent;
-
-            &--fixed {
-                position: sticky;
-                top: 0;
-                z-index: 10;
-                background: var(--color-background);
-            }
 
             .title,
             .subtitle,
@@ -1324,15 +1392,23 @@ toastr, toolbar, tooltip, widget, wizard;
                 padding: 0;
             }
 
-           &:has(> .pc-layout--full-height, > .pc-layout .pc-layout--full-height) {
+            &:has(.pc-layout--full-height) {
                 display: flex;
                 flex-direction: column;
                 flex: 1 1 0;
                 min-height: 0;
 
-                > :where(.pc-layout--full-height, .pc-layout:has(.pc-layout--full-height)) {
+                > :not(.pc-layout--full-height, :has(.pc-layout--full-height)) {
+                    flex: 0 0 auto;
+                }
+
+                > :is(.pc-layout--full-height, :has(.pc-layout--full-height)) {
                     flex: 1 1 0;
-                    height: auto;
+                    min-height: 0;
+                }
+
+                :not(.pc-layout, [class*="pc-layout__"]):has(.pc-layout--full-height) {
+                    height: 100%;
                     min-height: 0;
                 }
             }

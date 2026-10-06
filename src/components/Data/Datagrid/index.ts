@@ -1,6 +1,9 @@
+export * from './Addons/DatagridClearFiltersButton';
+export { default as DatagridClearFiltersButton } from './Addons/DatagridClearFiltersButton';
 export * from './Addons/DatagridColumnChooser';
 export * from './Addons/DatagridMenuDropdown';
 export * from './Addons/DatagridSearch';
+export { default as DatagridSearch } from './Addons/DatagridSearch';
 export * from './Addons/DatagridSidebar';
 export * from './Addons/DatagridTableInfo';
 export * from './Addons/DatagridTabs';
@@ -19,8 +22,12 @@ export * from './Filters/DatagridFilters';
 
 export * from './Helpers/datagridDataManipulation';
 export * from './Helpers/datagridTypeHelpers';
+export * from './Helpers/datagridSearchToFilters';
 
 export * from './Hooks/useTableQueryClientFilter';
+export * from './Hooks/useDebouncedValue';
+export * from './Hooks/useDatagridColumnFilters';
+export * from './Hooks/useDatagridSearchTerm';
 export * from "./Hooks/ServerSideTableQuery"
 
 export * from './Pagination';

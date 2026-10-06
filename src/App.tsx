@@ -26,30 +26,36 @@ const TemplateSidebarAccountMenu: React.FC<TemplateSidebarAccountMenuProps> = ({
     onOpenSettings,
 }) => {
 
-
     const auth = {
         name: 'John Do',
+        family_name: 'Do'
     }
 
     const logout = () => {
         return console.info('Logged out!')
     }
 
+
+    const firstName = auth?.name?.trim() ?? '';
+    const familyName = auth?.family_name?.trim() ?? '';
+
+    const initials = (firstName.charAt(0) + familyName.charAt(0)).toUpperCase() || undefined;
+    const fullName = [firstName, familyName].filter(Boolean).join(' ') || undefined;
+
     return (
         <SidebarAccount
 
             dropdownToggle={{
-                prefix: (<Avatar border icon={IconDefinitions.user} />),
-                arrow: false
+                prefix: initials
+                    ? (<Avatar border autoColor initials={initials} tooltip={fullName} />)
+                    : (<Avatar border icon={IconDefinitions.user} />)
             }}
-            dropdownHeader={{
-                border: true,
-                content: (
-                    <>
-                        <span>Welkom &nbsp;</span><strong>{auth ? auth.name : ''}</strong>
-                    </>
-                )
-            }}
+            {...(auth && {
+                dropdownHeader: {
+                    border: true,
+                    content: (<span>Welkom <strong>{auth.name}</strong></span>),
+                },
+            })}
             menuItems={[
                 {
                     id: 'instellingen',
@@ -161,26 +167,26 @@ const TemplateLayout = () => {
 
 
 const TemplateToastr = () => {
-  const { toasts, dequeue } = useToastr();
+    const { toasts, dequeue } = useToastr();
 
-  return (
-    <Toastr
-      duration={15000}
-      toasts={toasts}
-      removeToastrItem={dequeue}
-    />
-  );
+    return (
+        <Toastr
+            duration={15000}
+            toasts={toasts}
+            removeToastrItem={dequeue}
+        />
+    );
 }
 
 const TemplateConfimDialog = () => {
-  const { items, dequeue } = useConfirmDialog();
+    const { items, dequeue } = useConfirmDialog();
 
-  return (
-    <ConfirmDialog
-      confirmDialogs={items}
-      removeConfirmDialog={dequeue}
-    />
-  );
+    return (
+        <ConfirmDialog
+            confirmDialogs={items}
+            removeConfirmDialog={dequeue}
+        />
+    );
 }
 
 
@@ -188,30 +194,30 @@ export default function App() {
 
     const proxyPrefix = new URL(document.baseURI).pathname.replace(/\/$/, '');
 
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <TemplateLayout />,
-        children: routes,
-      }
-    ],
-    { basename: proxyPrefix || undefined }
-  );
+    const router = createBrowserRouter(
+        [
+            {
+                path: "/",
+                element: <TemplateLayout />,
+                children: routes,
+            }
+        ],
+        { basename: proxyPrefix || undefined }
+    );
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <LayoutProvider>
-        <ToastrProvider>
-          <ConfirmDialogProvider>
-            <ScrollProvider>
-              <RouterProvider router={router} />
-              <TemplateToastr />
-              <TemplateConfimDialog />
-            </ScrollProvider>
-          </ConfirmDialogProvider>
-        </ToastrProvider>
-      </LayoutProvider>
-    </QueryClientProvider >
-  )
+    return (
+        <QueryClientProvider client={queryClient}>
+            <LayoutProvider>
+                <ToastrProvider>
+                    <ConfirmDialogProvider>
+                        <ScrollProvider>
+                            <RouterProvider router={router} />
+                            <TemplateToastr />
+                            <TemplateConfimDialog />
+                        </ScrollProvider>
+                    </ConfirmDialogProvider>
+                </ToastrProvider>
+            </LayoutProvider>
+        </QueryClientProvider >
+    )
 }
