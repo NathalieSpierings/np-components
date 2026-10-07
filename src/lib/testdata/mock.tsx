@@ -33,6 +33,7 @@ export const defaultProductColumns = () => {
         { prop: "populair", title: "Populair", sortable: true, showTooltip: true },
         { prop: "duurzaam", title: "Duurzaam", sortable: true, showTooltip: true },
         { prop: "magazijn", title: "Magazijn", sortable: true, showTooltip: true },
+        { prop: "tags", title: "Tags", showTooltip: true, visible: true, width: 250, transformValue: (value: unknown) => Array.isArray(value) ? value.join(", ") : "" },
     ]
 }
 
@@ -235,7 +236,8 @@ export const filterProductColumns = () => {
                     { label: "Venlo", value: "Venlo" },
                 ]
             }
-        }
+        },
+        { prop: "tags", title: "Tags", showTooltip: true, visible: true, width: 250, filter: { type: 'text' }, transformValue: (value: unknown) => Array.isArray(value) ? value.join(", ") : "" },
     ]
 }
 
