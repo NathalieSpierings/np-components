@@ -72,9 +72,8 @@ export function isActiveColumnFilter(
     return !!filter.value;
 }
 
-/**
- * True when at least one of the column filters is active.
- */
+
+// True when at least one of the column filters is active.
 export function hasActiveColumnFilters(
     filters?: Partial<Record<string, DatagridColumnFilterValue | undefined>>
 ): boolean {

@@ -11,9 +11,9 @@ const IsFilterValue = (object : unknown): object is Required<Pick<DatagridColumn
 const isDefined = <T>(value: T | null | undefined): value is T =>
   value != null;
 
-/**
- * Parameters that should be added to GET-request to apply filters on the server (Promeetec.ServerSideTableQuery)
- */
+
+// Parameters that should be added to GET-request to apply filters on the server (Promeetec.ServerSideTableQuery)
+
 const getServersideTableQueryParams = <TData>(filters : DatagridGetDataArguments<TData> | null) : URLSearchParams => {
     const params = new URLSearchParams();
 
@@ -48,9 +48,7 @@ const getServersideTableQueryParams = <TData>(filters : DatagridGetDataArguments
     return params;
 };
 
-/**
- * Inverse function of getServersideTableQueryParams, primarily exists for testing but might be usefull for something
- */
+// Inverse function of getServersideTableQueryParams, primarily exists for testing but might be usefull for something
 const getDatagridGetDataArguments = <TData>(
     params: URLSearchParams
 ): DatagridGetDataArguments<TData> => {
@@ -130,20 +128,18 @@ const getDatagridGetDataArguments = <TData>(
 };
 
 
-/**
- * Build a query-request to apply table filters with Promeetec.ServerSideTableQuery
- * This hook can be used to bypass the useServersideTableQuery-hook if you want to controll your own config.
- */
+// Build a query-request to apply table filters with Promeetec.ServerSideTableQuery
+// This hook can be used to bypass the useServersideTableQuery-hook if you want to controll your own config.
 const useServersideTableQueryParams = <TData>() => {
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<TData> | null>(null);
     const queryParameters = getServersideTableQueryParams(tableOptions);
     
 
     return {
-        /** onFilterUpdate to be passed to DataGrid */
+        // onFilterUpdate to be passed to DataGrid 
         onFilterUpdate: setTableOptions, 
 
-        /** Query parameters, can be passed to an html client for using Promeetec.ServerSideTableQuery */
+        // Query parameters, can be passed to an html client for using Promeetec.ServerSideTableQuery 
         queryParameters
     }
 }

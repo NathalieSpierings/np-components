@@ -42,6 +42,12 @@ Voor een werkende tabel heb je altijd de volgende onderdelen nodig:
 Optioneel kun je een eigen unieke sleutel per rij opgeven (`getRowKey`, standaard het `id`) en een beginsortering
 instellen (`initialSortConfig`).
 
+`getRowKey` bepaalt de identiteit van een rij: de React-key, welke rij is opengeklapt (collapsible), welke
+checkboxes zijn aangevinkt en welke rij geselecteerd is (`selectedRow`). Geef je `selectedRow` als losse
+waarde mee, dan moet dat de sleutel zijn (bijv. `"12-1"`), niet het `id`.
+Gebruik dit als het `id` niet uniek is, bijvoorbeeld bij dossiers van meerdere organisaties:
+`` getRowKey={(d) => `${d.organisatieId}-${d.id}`} ``. De sleutel moet uniek en stabiel zijn (geen index of random waarde).
+
 ```tsx
 const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<Product> | null>(null);
 const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -102,7 +108,7 @@ De gebruiker kan de kolommen zelf aanpassen. Je zet per functie aan wat mag:
 - **Volgorde aanpassen**: Kolommen verslepen in de kolomkiezer (`enableColumnReorder`).
 - **Tonen en verbergen**: Kolommen aan- en uitzetten in de kolomkiezer (`enableColumnVisibility`).
 - **Vastzetten**: Kolommen links of rechts vastzetten, zodat ze blijven staan bij horizontaal scrollen (`enableColumnPinning`).
-- **Vaste kolomkoppen**: De koppen blijven staan bij verticaal scrollen. Dit staat standaard aan (`enableStickyHeader`).
+- **Vaste kolomkoppen**: De koppen blijven staan bij verticaal scrollen. 
 - **Kolommenu**: Een menu in de kolomkop om te sorteren en vast te zetten (`enableColumnMenu`), eventueel met de kolomkiezer erin (`enableColumnMenuColumnVisibility`).
 - **Onthouden**: Met `localStorageKey` worden de keuzes van de gebruiker in de browser bewaard.
 
@@ -119,9 +125,6 @@ Met "standaard kolommen herstellen" in de kolomkiezer gaat alles terug naar de o
 
 ### Kolommen vastzetten
 <Canvas of={DatagridStories.ColumnPinning} />
-
-### Vaste kolomkoppen
-<Canvas of={DatagridStories.StickyHeader} />
 
 ---
 
@@ -285,6 +288,18 @@ erboven selecteert.
 
 ### Nested met details
 <Canvas of={DatagridStories.NestedDetails} />
+
+### Nested: shops met producten
+Een lijst met shops. Klap een shop uit om de producten van die shop te zien.
+
+<Canvas of={DatagridStories.NestedShops} />
+
+### Nested met dubbele id's
+Alle producten van alle shops in één lijst. Product-id's beginnen per shop opnieuw bij 1, dus `id` is niet uniek.
+Met `` getRowKey={(p) => `${p.shopId}-${p.id}`} `` klapt alleen de rij uit die je aanklikt, en wordt alleen die rij
+geselecteerd.
+
+<Canvas of={DatagridStories.NestedDuplicateIds} />
 
 ---
 

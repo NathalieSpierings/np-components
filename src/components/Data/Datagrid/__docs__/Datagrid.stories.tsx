@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import { defaultProductColumns, filterProductColumns } from '../../../../lib/testdata/mock';
-import { getProductsQuery, getProductsWithOrdersQuery, ProductGetModel, ProductMetOrdersModel } from '../../../../lib/testdata/models';
+import { defaultProductColumns, defaultShopColumns, defaultShopProductColumns, filterProductColumns } from '../../../../lib/testdata/mock';
+import { getProductsQuery, getProductsWithOrdersQuery, getShopProductenQuery, getShopsMetProductenQuery, ProductGetModel, ProductMetOrdersModel, ShopMetProductenModel, ShopProductModel } from '../../../../lib/testdata/models';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import SearchInput from '../../../Forms/SearchInput/SearchInput';
 import Toggle from '../../../Forms/Toggle/Toggle';
@@ -25,6 +25,8 @@ import { ProductOrdersNested } from './ProductOrdersNested';
 import { ProductOrdersWithDetails } from './ProductOrdersNestedTable';
 import { ProductOrders } from './ProductOrdersTable';
 import { ProductWithOrdersNested } from './ProductWithOrdersNested';
+import { ShopProductOrdersNested } from './ShopProductOrdersNested';
+import { ShopProductsNested } from './ShopProductsNested';
 import { useExternalProductSearch } from './useExternalProductSearch';
 
 const queryClient = new QueryClient();
@@ -222,6 +224,70 @@ export const NoArrowIfNoNestedRecords: StoryFn = () => {
     )
 }
 
+
+export const NestedShops: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ShopMetProductenModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ShopMetProductenModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getShopsMetProductenQuery(),
+        filters: tableOptions
+    });
+
+    return (
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ShopProductsNested}
+            hasCollapsibleRow={(shop) => shop.products.length > 0}
+            enableColumnResize
+            enableColumnVisibility
+            enableColumnMenu
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => setSelected(row)}
+            properties={defaultShopColumns() as any}
+        />
+    )
+}
+
+export const NestedDuplicateIds: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ShopProductModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ShopProductModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getShopProductenQuery(),
+        filters: tableOptions
+    });
+
+    return (
+        <Datagrid
+            getRowKey={(p) => `${p.shopId}-${p.id}`}
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ShopProductOrdersNested}
+            hasCollapsibleRow={(product) => product.orders.length > 0}
+            initialPageSize={25}
+            enableColumnPinning
+            enableColumnVisibility
+            enableColumnMenu
+            enableColumnReorder
+            enableColumnResize
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => setSelected(row)}
+            properties={defaultShopProductColumns() as any}
+        />
+    )
+}
 
 export const ColumnFilter: StoryFn = () => {
 

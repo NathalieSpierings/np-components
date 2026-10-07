@@ -7,10 +7,9 @@ import { useEffect, useState } from "react";
 import serverToClientColumnFilterTypeMap from "./serverToClientColumnFilterTypeMap";
 import { getServersideTableQueryParams } from "./useServersideTableQueryParams";
 
-/**
- * Convert the filter info from the server format to the client format
- */
-const serverToClientColumnFilterInfo = <TValue,>(server: ServersideTableQueryFilterColumn<TValue>) : DatagridColumnFilterConfig => {
+
+// Convert the filter info from the server format to the client format
+const serverToClientColumnFilterInfo = <TValue,>(server: ServersideTableQueryFilterColumn<TValue>): DatagridColumnFilterConfig => {
     return {
         ...serverToClientColumnFilterTypeMap[server.columnFilterType],
         options: server.allowedValues.map(a => ({
@@ -20,12 +19,11 @@ const serverToClientColumnFilterInfo = <TValue,>(server: ServersideTableQueryFil
     };
 }
 
-/**
- * Apply the allowed operations as provided by Promeetec.ServerSideTableQuery to given column settings
- */
+
+// Apply the allowed operations as provided by Promeetec.ServerSideTableQuery to given column settings
 const ApplyConfigToTable = <TData,>(config: ServersideTableQueryConfig<TData>, data: DatagridRowConfig<TData>[]) => {
     return data.map(d => {
-        let result = {...d};
+        let result = { ...d };
 
         if (config.sortProperties.includes(d.prop)) {
             result.sortable = true;
@@ -39,29 +37,26 @@ const ApplyConfigToTable = <TData,>(config: ServersideTableQueryConfig<TData>, d
     });
 }
 
-/** 
- * Main entrypoint for usage of Promeetec.ServerSideQuery, fetch data from the server and populate settings for DataGrid based on retrieved info
- */
+
+// Main entrypoint for usage of Promeetec.ServerSideQuery, fetch data from the server and populate settings for DataGrid based on retrieved info
 const useServersideTableQuery = <TData, TError = unknown>(
 
-    /** Method that fetches the /config-endpoint defined by serverside library */
+    //  Method that fetches the /config-endpoint defined by serverside library
     fetchConfig: () => Promise<ServersideTableQueryConfig<TData>>,
 
-    /** 
-     * Method that fetches the query-endpoint defined by serverside library.
-     * (Fetches the data and total amount of items) 
-     * */
+
+    // Method that fetches the query-endpoint defined by serverside library.
+    // (Fetches the data and total amount of items) 
     fetchData: (queryParameters: URLSearchParams) => Promise<ServersideTableQueryResult<TData>>,
 
-    /**
-     * Config object for Datagrid.
-     * Should not have sort- and filter-data (A new object with sort- and filter-data is returned by this ook)
-     */
+
+    // Config object for Datagrid.
+    // Should not have sort- and filter-data (A new object with sort- and filter-data is returned by this ook)
     dataRowConfig: DatagridRowConfig<TData>[]
 ) => {
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<TData> | null>(null);
     const [config, setConfig] = useState<ServersideTableQueryConfig<TData> | null>(null);
-    const [data, setData] = useState<ServersideTableQueryResult<TData>>({TotalCount: 0, Items: [] });
+    const [data, setData] = useState<ServersideTableQueryResult<TData>>({ TotalCount: 0, Items: [] });
 
     const [configLoading, setConfigLoading] = useState(true);
     const [dataLoading, setDataLoading] = useState(true);
@@ -128,27 +123,27 @@ const useServersideTableQuery = <TData, TError = unknown>(
         };
     }, [tableOptions]);
 
-     const transformedDataRowConfig = config
+    const transformedDataRowConfig = config
         ? ApplyConfigToTable(config, dataRowConfig)
         : [];
 
     return {
-        /** onFilterUpdate-update to be passed to DataGrid */
+        // onFilterUpdate-update to be passed to DataGrid
         onFilterUpdate: setTableOptions,
 
-        /** Table-data, actual data items to return */
+        //  Table-data, actual data items to return
         data: config ? data.Items : [],
 
-        /** Total count of data-items excluding filters */
+        // Total count of data-items excluding filters
         total: config ? data.TotalCount : 0,
 
-        /** Transformed dataRowConfig, includes allowed filters and storts retrieved from sever */
+        // Transformed dataRowConfig, includes allowed filters and storts retrieved from sever
         dataRowConfig: transformedDataRowConfig,
 
-        /** true if the data is still loading (implies data, totalCount, and dataRowConfig are empty) */
+        // true if the data is still loading (implies data, totalCount, and dataRowConfig are empty)
         isLoading: configLoading || dataLoading,
 
-        /** Error, if any (otherwise null) */
+        //Error, if any (otherwise null)
         error: configError ?? dataError ?? null,
     };
 };

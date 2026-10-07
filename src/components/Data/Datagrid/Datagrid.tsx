@@ -1,10 +1,10 @@
 import React, { ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";
+import ContentItem from "../../UI/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import Loader, { LoaderVariant } from "../../UI/Loader/Loader";
 import Toolbar from "../../UI/Toolbar/Toolbar";
 import Tooltip from "../../UI/Tooltip/Tooltip";
-import ContentItem from "../../UI/ContentItem/ContentItem";
 import DatagridClearFiltersButton, { DatagridClearFiltersButtonProps } from "./Addons/DatagridClearFiltersButton";
 import { useDatagridColumnChooser } from "./Addons/DatagridColumnChooser";
 import DatagridSearch from "./Addons/DatagridSearch";
@@ -65,26 +65,30 @@ export interface DatagridDataProps<TData> {
     onFilterUpdate: FilterUpdateFunc<TData>;
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
-    loading: boolean;
+    loading: boolean;    
+    // Unique identity per row. Used as React key and for collapsible state,
+    // checkboxes and selectedRow. A primitive selectedRow is compared
+    // against this key (so pass e.g. "12-1", not 1).
+    // Required when `id` is not unique, e.g. dossiers across organisations.
+    // Default: item.id
     getRowKey?: (item: TData) => string | number;
-    /**
-     * Column filters set from outside the grid.
-     * - With `onColumnFiltersChange`: fully controlled (grid and parent stay in sync).
-     * - Without: the grid takes over the value each time the reference changes (`undefined` clears).
-     */
+    
+    // Column filters set from outside the grid.
+    // - With `onColumnFiltersChange`: fully controlled (grid and parent stay in sync).
+    // - Without: the grid takes over the value each time the reference changes (`undefined` clears).
     columnFilters?: ColumnFilters<TData>;
-    /** Called when the column filters change inside the grid (header, filter tab, "Filter wissen"). */
+    // Called when the column filters change inside the grid (header, filter tab, "Filter wissen"). 
     onColumnFiltersChange?: (columnFilters: ColumnFilters<TData>) => void;
 }
 
 export interface DatagridGeneralSearchProps {
-    /** Shows a general search field in the toolbar that searches in all columns. */
+    // Shows a general search field in the toolbar that searches in all columns. 
     enableSearch?: boolean;
     searchPlaceholder?: string;
-    /** Debounce in ms before the search term is passed to onFilterUpdate. Default 300. */
+    // Debounce in ms before the search term is passed to onFilterUpdate. Default 300. 
     searchDebounce?: number;
     searchAutoFocus?: boolean;
-    /** Controlled search term, e.g. for an external search field. */
+    // Controlled search term, e.g. for an external search field. 
     searchTerm?: string;
     onSearchTermChange?: (searchTerm: string) => void;
 }

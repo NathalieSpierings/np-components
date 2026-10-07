@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedValue } from "./useDebouncedValue";
 
-/**
- * General search term of the Datagrid (controlled when externalSearchTerm is given).
- * Returns the current term, the debounced (trimmed) term for onFilterUpdate and a change handler.
- */
-export function useDatagridSearchTerm(
+
+ // General search term of the Datagrid (controlled when externalSearchTerm is given).
+ // Returns the current term, the debounced (trimmed) term for onFilterUpdate and a change handler.
+ export function useDatagridSearchTerm(
     externalSearchTerm: string | undefined,
     onSearchTermChange: ((term: string) => void) | undefined,
     debounce: number,

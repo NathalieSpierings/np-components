@@ -61,9 +61,9 @@ describe("useServersideTableQuery", () => {
         ],
     };
 
-    /**
-     * A promise whose resolution/rejection can be controlled by the test.
-     */
+    
+     //A promise whose resolution/rejection can be controlled by the test.
+     
     const deferred = <T,>() => {
         let resolve!: (value: T) => void;
         let reject!: (reason?: unknown) => void;
@@ -80,11 +80,11 @@ describe("useServersideTableQuery", () => {
         };
     };
 
-    /**
-     * A promise that never resolves.
-     * Useful when a test is only interested in one of the hook's
-     * two independent requests.
-     */
+    
+     //A promise that never resolves.
+     //Useful when a test is only interested in one of the hook's
+     //two independent requests.
+     
     const pending = <T,>() =>
         new Promise<T>(() => {});
 

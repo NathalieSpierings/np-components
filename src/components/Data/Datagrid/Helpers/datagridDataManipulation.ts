@@ -123,14 +123,14 @@ const getDateSearchStrings = (rawVal: unknown): string[] => {
     ];
 };
 
-/**
- * Returns all texts of a single cell the general search may match on:
- * - `searchValue(item)` when configured (e.g. for `useItemOnly` columns)
- * - the raw value
- * - the transformed value (when `transformValue` returns a string or number)
- * - the label of a matching filter option (select columns)
- * - formatted dates (yyyy-mm-dd and dd-mm-yyyy) for date columns
- */
+
+// Returns all texts of a single cell the general search may match on:
+// - `searchValue(item)` when configured (e.g. for `useItemOnly` columns)
+// - the raw value
+// - the transformed value (when `transformValue` returns a string or number)
+// - the label of a matching filter option (select columns)
+// - formatted dates (yyyy-mm-dd and dd-mm-yyyy) for date columns
+
 export const getSearchableTexts = <TData>(
     item: TData,
     column: DatagridRowConfig<TData>
@@ -169,26 +169,23 @@ export const getSearchableTexts = <TData>(
     return texts;
 };
 
-/**
- * Columns that take part in the general search (all columns, including hidden ones,
- * except those with `searchable: false`).
- */
+
+ // Columns that take part in the general search (all columns, including hidden ones,
+ // except those with `searchable: false`).
 export const getSearchableColumns = <TData>(
     propertyConfigs?: DatagridRowConfig<TData>[]
 ): DatagridRowConfig<TData>[] =>
     (propertyConfigs ?? []).filter(column => column.searchable !== false);
 
-/**
- * Splits a search term into lowercase words.
- */
+
+ // Splits a search term into lowercase words.
 export const getSearchWords = (searchTerm: string): string[] =>
     searchTerm.toLowerCase().trim().split(/\s+/).filter(Boolean);
 
-/**
- * General search over all searchable columns.
- * Every word of the search term must occur in at least one column of the row
- * (e.g. "bike red" matches a row with "Bike" in name and "Red" in color).
- */
+
+ // General search over all searchable columns.
+ // Every word of the search term must occur in at least one column of the row
+ // (e.g. "bike red" matches a row with "Bike" in name and "Red" in color).
 export const defaultSearch = <TData>(
     data: TData[],
     searchTerm: string,

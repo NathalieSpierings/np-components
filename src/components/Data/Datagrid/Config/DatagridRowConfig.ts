@@ -62,15 +62,11 @@ export interface DatagridRowConfig<
 
     summary?: boolean
 
-    /**
-     * Include this column in the general search (DatagridSearch / searchTerm).
-     * Default: true
-     */
+     // Include this column in the general search (DatagridSearch / searchTerm).
+     // Default: true
     searchable?: boolean;
 
-    /**
-     * Custom text used by the general search, e.g. for columns that use `useItemOnly`.
-     */
+     // Custom text used by the general search, e.g. for columns that use `useItemOnly`.
     searchValue?: (item: TData) => string;
 }
 

@@ -4,12 +4,10 @@ import { DatagridColumnFilterValue } from "../Filters/DatagridColumnFilter";
 
 export type DatagridFilterState = Record<string, DatagridColumnFilterValue | undefined>;
 
-/**
- * Column filter state of the Datagrid.
- * - Controlled when onColumnFiltersChange is given (the parent owns the state)
- * - Uncontrolled otherwise (the grid takes over externalColumnFilters when its reference changes)
- */
-export function useDatagridColumnFilters<TData>(
+ // Column filter state of the Datagrid.
+ // - Controlled when onColumnFiltersChange is given (the parent owns the state)
+ // - Uncontrolled otherwise (the grid takes over externalColumnFilters when its reference changes)
+ export function useDatagridColumnFilters<TData>(
     externalColumnFilters: ColumnFilters<TData> | undefined,
     onColumnFiltersChange: ((filters: ColumnFilters<TData>) => void) | undefined,
     onChange: () => void

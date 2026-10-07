@@ -35,6 +35,9 @@ export interface DatagridRowProps<
     TData extends { id: string | number }
 > extends DatagridRowInheritedProps<TData> {
     item: TData;
+    // Unique identity of this row (getRowKey(item) or item.id)
+    rowKey: string | number;
+    resolveRowKey: (row: TData) => string | number;
     selected: boolean;
     expanded: boolean;
 }
@@ -57,6 +60,8 @@ export function DatagridRow<
     TData extends { id: string | number }
 >({
     item,
+    rowKey,
+    resolveRowKey,
     selected,
     expanded,
     rowActions,
@@ -78,17 +83,17 @@ export function DatagridRow<
 }: Readonly<DatagridRowProps<TData>>): ReactElement {
 
     const canCollapse =
-    !!collapsibleRowData &&
-    (hasCollapsibleRow?.(item) ?? true);
+        !!collapsibleRowData &&
+        (hasCollapsibleRow?.(item) ?? true);
 
     return (
         <>
             <div
                 className={[
-                    "datagrid__row", 
-                    selected 
-                    ? "datagrid__row--selected" 
-                    : ""
+                    "datagrid__row",
+                    selected
+                        ? "datagrid__row--selected"
+                        : ""
                 ].filter(Boolean).join(" ")}
                 role="none"
                 onClick={() => rowSingleClickAction?.(item)}
@@ -107,6 +112,8 @@ export function DatagridRow<
                             return renderCheckbox(
                                 renderedColumn,
                                 item,
+                                rowKey,
+                                resolveRowKey,
                                 checkedItems,
                                 onRowsChecked,
                                 getPinnedStyle
@@ -114,7 +121,7 @@ export function DatagridRow<
                         }
 
                         if (renderedColumn.type === "collapsible") {
-                           if (!canCollapse) {
+                            if (!canCollapse) {
                                 return renderEmptyCollapsibleCell(
                                     renderedColumn,
                                     item,
@@ -125,6 +132,7 @@ export function DatagridRow<
                             return renderCollapsible(
                                 renderedColumn,
                                 item,
+                                rowKey,
                                 expanded,
                                 toggleCollapsibleRow,
                                 getPinnedStyle
@@ -205,6 +213,8 @@ function getPinnedClass<TData>(
 function renderCheckbox<TData extends { id: string | number }>(
     renderedColumn: DatagridRenderedColumn<TData>,
     item: TData,
+    rowKey: string | number,
+    resolveRowKey: (row: TData) => string | number,
     checkedItems: TData[],
     onRowsChecked: (checkedItems: TData[]) => void,
     getPinnedStyle: (
@@ -213,14 +223,14 @@ function renderCheckbox<TData extends { id: string | number }>(
 ): ReactElement {
 
     const checked = checkedItems.some(
-        (checkedItem) => checkedItem.id === item.id
+        (checkedItem) => resolveRowKey(checkedItem) === rowKey
     );
 
     const handleChange = (isChecked: boolean) => {
         const nextCheckedItems = isChecked
             ? [...checkedItems, item]
             : checkedItems.filter(
-                (checkedItem) => checkedItem.id !== item.id
+                (checkedItem) => resolveRowKey(checkedItem) !== rowKey
             );
 
         onRowsChecked(nextCheckedItems);
@@ -267,7 +277,7 @@ function renderEmptyCollapsibleCell<TData extends { id: string | number }>(
             ].filter(Boolean).join(" ")}
             style={getPinnedStyle(renderedColumn)}
         >
-             <Icon size={SizeDefinitions.Small}/>
+            <Icon size={SizeDefinitions.Small} />
         </div>
     );
 }
@@ -275,6 +285,7 @@ function renderEmptyCollapsibleCell<TData extends { id: string | number }>(
 function renderCollapsible<TData extends { id: string | number }>(
     renderedColumn: DatagridRenderedColumn<TData>,
     item: TData,
+    rowKey: string | number,
     expanded: boolean,
     toggleCollapsibleRow: (id: string | number) => void,
     getPinnedStyle: (
@@ -296,7 +307,7 @@ function renderCollapsible<TData extends { id: string | number }>(
                 type="button"
                 onClick={(event) => {
                     event.stopPropagation();
-                    toggleCollapsibleRow(item.id);
+                    toggleCollapsibleRow(rowKey);
                 }}
                 style={{ cursor: "pointer" }}
             >

@@ -9,10 +9,9 @@ export interface DatagridSearchProps {
     css?: string;
 }
 
-/**
- * General search field for the Datagrid. Searches in all columns (see `searchable` on the column config).
- * Rendered automatically in the toolbar with `enableSearch`, but can also be used standalone.
- */
+
+ // General search field for the Datagrid. Searches in all columns (see `searchable` on the column config).
+ // Rendered automatically in the toolbar with `enableSearch`, but can also be used standalone.
 const DatagridSearch = ({
     searchTerm,
     onSearchChange,

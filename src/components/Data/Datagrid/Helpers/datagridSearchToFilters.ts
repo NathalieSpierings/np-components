@@ -5,13 +5,13 @@ import { getNestedValue } from "./datagridTypeHelpers";
 import { getSearchableColumns, getSearchableTexts } from "./datagridDataManipulation";
 
 export type SearchToFiltersStrategy =
-    /** Filter on the column with the most hits (default) */
+    // Filter on the column with the most hits (default) 
     | "bestColumn"
-    /** Filter on the first column (in order of `columns`/properties) that has hits */
+    // Filter on the first column (in order of `columns`/properties) that has hits 
     | "firstMatch";
 
 export interface SearchToFiltersOptions<TData> {
-    /** Columns to search in, in order of preference. Default: all searchable columns. */
+    // Columns to search in, in order of preference. Default: all searchable columns. 
     columns?: NestedKeyOf<TData>[];
     strategy?: SearchToFiltersStrategy;
 }
@@ -22,23 +22,23 @@ export interface SearchToFiltersColumnHits<TData> {
 }
 
 export interface SearchToFiltersResult<TData> {
-    /** Column filters to pass to the Datagrid. Empty when nothing was found. */
+    // Column filters to pass to the Datagrid. Empty when nothing was found. 
     filters: ColumnFilters<TData>;
-    /** Unique rows that match in any of the searched columns */
+    // Unique rows that match in any of the searched columns 
     matchedRows: TData[];
-    /** Hits per searched column */
+    // Hits per searched column 
     hitsPerColumn: SearchToFiltersColumnHits<TData>[];
-    /** The column the filter was set on */
+    // The column the filter was set on 
     column?: NestedKeyOf<TData>;
 }
 
-/**
- * Builds a column filter for `column` that matches `term`, based on the column's filter type.
- * - text (default): contains
- * - number: equals (when the term is numeric)
- * - select: the option value(s) found in the matching rows
- * - date: not supported (returns undefined), use the general search instead
- */
+
+ // Builds a column filter for `column` that matches `term`, based on the column's filter type.
+ // - text (default): contains
+ // - number: equals (when the term is numeric)
+ // - select: the option value(s) found in the matching rows
+ // - date: not supported (returns undefined), use the general search instead
+ 
 const createFilterForColumn = <TData>(
     column: DatagridRowConfig<TData>,
     term: string,
@@ -68,17 +68,17 @@ const createFilterForColumn = <TData>(
     }
 };
 
-/**
- * Translates a search term into Datagrid column filters.
- *
- * Column filters are combined with AND, so a filter is only set on ONE column
- * (chosen by `strategy`). Use `matchedRows` to e.g. select the row directly
- * when there is exactly one hit.
- *
- * @example
- * const result = getColumnFiltersFromSearch(dataRaw, "bike", columns, { columns: ["naam", "sku"] });
- * setFilters(result.filters);
- */
+
+ // Translates a search term into Datagrid column filters.
+ //
+ // Column filters are combined with AND, so a filter is only set on ONE column
+ // (chosen by `strategy`). Use `matchedRows` to e.g. select the row directly
+ // when there is exactly one hit.
+ //
+ // @example
+ // const result = getColumnFiltersFromSearch(dataRaw, "bike", columns, { columns: ["naam", "sku"] });
+ // setFilters(result.filters);
+ 
 export function getColumnFiltersFromSearch<TData>(
     data: TData[] | undefined,
     searchTerm: string,

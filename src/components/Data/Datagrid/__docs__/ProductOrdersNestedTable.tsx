@@ -12,10 +12,9 @@ import Detailgrid from "../../Detailgrid/Detailgrid";
 import { DatagridGetDataArguments } from "../Config/DatagridData";
 import { useTableQueryClientFilter } from "../Hooks/useTableQueryClientFilter";
 
-/**
- * Nested orders table with a details drawer (double click or eye icon).
- * Used as collapsibleRowData in the NestedDetails / DetailsAndNestedDetails stories.
- */
+
+// Nested orders table with a details drawer (double click or eye icon).
+// Used as collapsibleRowData in the NestedDetails / DetailsAndNestedDetails stories.
 const ProductOrdersNestedTable = ({ productId }: { productId: string }) => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<OrderGetModel> | null>(null);
