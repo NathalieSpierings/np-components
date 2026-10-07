@@ -152,6 +152,12 @@ const matchesSelectFilter = (
         return true;
     }
 
+    if (Array.isArray(rawVal)) {
+        return rawVal.some(item =>
+            selectedValues.includes(String(item).toLowerCase())
+        );
+    }
+
     const rawValue = String(rawVal).toLowerCase();
 
     return selectedValues.includes(rawValue);
@@ -288,12 +294,12 @@ const filterData = <TData>(
     data: TData[] | undefined,
     filters: DatagridGetDataArguments<TData> | null
 ): [TData[], number] => {
-    
+
     if (!filters) {
         return [[], data?.length ?? 0];
     }
 
-    
+
     const { searchTerm, sort, propertyConfigs, pagination } = filters;
     let filtered = data ?? [];
 
@@ -336,17 +342,17 @@ function useTableQueryClientFilter<TData>({
     filters,
     enabled = true
 }: UseTableQueryProps<TData>): [TData[], TData[], number, Status] {
-    
+
     const { data: dataRaw, status } = useQuery({
         ...queryFn,
         enabled
     });
-       
+
     const [data, total] = useMemo(() =>
         filterData(dataRaw, filters),
         [dataRaw, filters]);
 
-   return [dataRaw ?? [], data, total, status];
+    return [dataRaw ?? [], data, total, status];
 }
 
 

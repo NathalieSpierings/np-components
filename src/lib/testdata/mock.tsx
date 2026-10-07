@@ -237,7 +237,19 @@ export const filterProductColumns = () => {
                 ]
             }
         },
-        { prop: "tags", title: "Tags", showTooltip: true, visible: true, width: 250, filter: { type: 'text' }, transformValue: (value: unknown) => Array.isArray(value) ? value.join(", ") : "" },
+        {
+            prop: "tags",
+            title: "Tags",
+            showTooltip: true,
+            visible: true,
+            width: 250,
+            transformValue: (value: unknown) => Array.isArray(value) ? value.join(", ") : "",
+            filter: {
+                type: "select",
+                multiSelect: true,
+                optionsSource: (data: { tags?: string[] }[]) => data.flatMap(p => p.tags ?? []).sort((a, b) => a.localeCompare(b)),
+            }
+        },
     ]
 }
 

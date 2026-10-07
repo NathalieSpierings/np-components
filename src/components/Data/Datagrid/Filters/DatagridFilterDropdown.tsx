@@ -39,14 +39,14 @@ export default function DatagridFilterDropdown<TData>({
         }
 
         if (filter.optionsSource && dataRaw) {
-            return filter.optionsSource(dataRaw).map((item) =>
+            return getUniqueFilterOptions(filter.optionsSource(dataRaw).map((item) =>
                 filter.mapOption
                     ? filter.mapOption(item)
                     : {
                         label: String(item),
                         value: String(item)
                     }
-            );
+            ));
         }
 
         return [];

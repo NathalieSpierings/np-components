@@ -56,6 +56,10 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-column-filter",
         },
         {
+            title: "Column Filter Array",
+            url: "/demo/dg-column-filter-array",
+        },
+        {
             title: "Column Pinning",
             url: "/demo/dg-column-pinning",
         },

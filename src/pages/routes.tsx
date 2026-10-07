@@ -21,6 +21,7 @@ import ColumnLayoutToggleFromAsideDemo from "./Demo/ColumnLayout/ToggleFromAside
 import WithTabs from "./Demo/ColumnLayout/WithTabs";
 import ContentItemPage from "./Demo/ContentItem/ContentItemPage";
 import ColumnFilterDemo from "./Demo/Datagrid/ColumnFilterDemo";
+import ColumnFilterArrayDemo from "./Demo/Datagrid/ColumnFilterArrayDemo";
 import ColumnPinningDemo from "./Demo/Datagrid/ColumnPinningDemo";
 import ColumnReorderDemo from "./Demo/Datagrid/ColumnReorderDemo";
 import ColumnResizeDemo from "./Demo/Datagrid/ColumnResizeDemo";
@@ -170,6 +171,10 @@ export const routes = [
 	{
 		path: "/demo/dg-column-filter",
 		element: <ColumnFilterDemo />
+	},
+	{
+		path: "/demo/dg-column-filter-array",
+		element: <ColumnFilterArrayDemo />
 	},
 	{
 		path: "/demo/dg-column-pinning",
