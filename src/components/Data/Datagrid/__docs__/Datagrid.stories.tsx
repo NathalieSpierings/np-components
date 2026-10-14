@@ -311,6 +311,32 @@ export const ColumnFilter: StoryFn = () => {
     )
 }
 
+export const ColumnFilterArray: StoryFn = () => {
+
+    const ARRAY_DEMO_COLUMNS = new Set(["id", "sku", "naam", "categorie", "merk", "status", "tags"]);
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    const columns = filterProductColumns().filter(column => ARRAY_DEMO_COLUMNS.has(column.prop));
+
+    return (
+        <Datagrid
+            localStorageKey="dg-column-filter"
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            enableFiltersInHeader
+            properties={columns as any}
+        />
+    )
+}
+
 export const ColumnPinning: StoryFn = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);

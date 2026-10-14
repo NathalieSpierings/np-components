@@ -369,6 +369,20 @@ function Datagrid<TData extends { id: string | number }>({
         setPagination((current) => current.page === 1 ? current : { ...current, page: 1 });
     }, []);
 
+    // Blijf binnen het aantal pagina's als total kleiner wordt (bijv. na een toggle die de dataset wisselt of filtert).
+    // Tijdens het laden niets doen: total kan dan tijdelijk 0 zijn.
+    useEffect(() => {
+        if (loading) {
+            return;
+        }
+
+        const lastPage = Math.max(1, Math.ceil(total / pagination.perPage));
+
+        if (pagination.page > lastPage) {
+            setPagination((current) => ({ ...current, page: lastPage }));
+        }
+    }, [total, pagination.page, pagination.perPage, loading]);
+
 
     // Column filters and general search
     const { columnFilters, setColumnFilters } =

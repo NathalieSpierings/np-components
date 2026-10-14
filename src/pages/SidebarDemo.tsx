@@ -173,6 +173,10 @@ const SidebarDemo: React.FC = () => {
             url: '/demo/icon',
             title: "Icons"
         },
+        {
+            url: '/demo/art',
+            title: "Art"
+        },
     ];
 
     const formItems: SidebarMenuItem[] = [

@@ -31,6 +31,11 @@ export interface UserModel {
     agbCode: string;
 }
 
+export interface ShopModel{
+  id: number;
+  name: string;
+}
+
 export interface ProductGetModel {
   id: number;
   sku: string;
@@ -92,6 +97,16 @@ export interface OrderGetModel {
 
 export interface ProductMetOrdersModel extends ProductGetModel {
   orders: OrderGetModel[];
+}
+
+export interface ShopMetProductenModel extends ShopModel {
+  products: ProductMetOrdersModel[];
+}
+
+// Product of a shop. `id` is only unique within a shop. 
+export interface ShopProductModel extends ProductMetOrdersModel {
+  shopId: number;
+  shopNaam: string;
 }
 
 export interface AfmetingenModel {
@@ -1053,6 +1068,73 @@ const productsWithOrdersMock = productsMock.filter(() => randomBoolean(70));
 export const ordersMock: OrderGetModel[] = generateOrders(productsWithOrdersMock, AANTAL_ORDERS);
 
 export const productsMetOrdersMock: ProductMetOrdersModel[] = combineerProductenMetOrders(productsMock, ordersMock);
+
+
+interface ShopConfiguratie {
+  shop: ShopModel;
+  categorieen: ProductCategorie[]; // leeg = alle categorieën
+}
+
+export const AANTAL_PRODUCTEN_PER_SHOP = 5;
+
+const shopConfiguraties: ShopConfiguratie[] = [
+  { shop: { id: 1, name: "Woonwinkel Lindehof" },     categorieen: ["Wonen"] },
+  { shop: { id: 2, name: "Tuinshop Bloei & Co" },     categorieen: ["Tuin"] },
+  { shop: { id: 3, name: "Huis & Haard" },            categorieen: ["Wonen", "Huishouden"] },
+  { shop: { id: 4, name: "Alles voor Thuis Online" }, categorieen: [] },
+];
+
+export const generateShopsMetProducten = (
+  aantalProductenPerShop = AANTAL_PRODUCTEN_PER_SHOP
+): ShopMetProductenModel[] =>
+  shopConfiguraties.map(({ shop, categorieen }) => {
+    // Product- en order-id's beginnen per shop opnieuw bij 1
+    const products = generateProducts(aantalProductenPerShop, categorieen);
+
+    // Ongeveer 70% van de producten krijgt orders
+    const productsWithOrders = products.filter(() => randomBoolean(70));
+    const orders = productsWithOrders.length > 0
+      ? generateOrders(productsWithOrders, aantalProductenPerShop * 4)
+      : [];
+
+    return {
+      ...shop,
+      products: combineerProductenMetOrders(products, orders),
+    };
+  });
+
+export const shopsMock: ShopModel[] = shopConfiguraties.map((c) => c.shop);
+
+export const shopsMetProductenMock: ShopMetProductenModel[] = generateShopsMetProducten();
+
+// All products of all shops in one flat list (ids repeat across shops!). 
+export const shopProductenMock: ShopProductModel[] = shopsMetProductenMock.flatMap((shop) =>
+  shop.products.map((product) => ({
+    ...product,
+    shopId: shop.id,
+    shopNaam: shop.name,
+  }))
+);
+
+
+export const getShopsQuery = () => ({
+  queryKey: ["Shops"],
+  queryFn: (): ShopModel[] => shopsMock,
+});
+
+export const getShopsMetProductenQuery = () => ({
+  queryKey: ["ShopsMetProducten"],
+  queryFn: (): ShopMetProductenModel[] => shopsMetProductenMock,
+});
+
+// Without shopId: products of all shops. With shopId: only that shop.
+export const getShopProductenQuery = (shopId?: number) => ({
+  queryKey: ["ShopProducten", shopId ?? "alle"],
+  queryFn: (): ShopProductModel[] =>
+    shopId == null
+      ? shopProductenMock
+      : shopProductenMock.filter((p) => p.shopId === shopId),
+});
 
 
 export const getProductsForTest1Query = () => {

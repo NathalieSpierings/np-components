@@ -63,6 +63,7 @@ import DatagridSearchDemo from "./Demo/Datagrid/DatagridSearchDemo";
 import DatagridExternalFilterToolbarDemo from "./Demo/Datagrid/DatagridExternalFilterToolbarDemo";
 import DatagridExternalFilterCustomDemo from "./Demo/Datagrid/DatagridExternalFilterCustomDemo";
 import AvatarDemo from "./Demo/UI/AvatarDemo";
+import ArtDemo from "./Demo/Art/ArtDemo";
 
 
 export const getInitialMenuItem = (pathname: string) => {
@@ -329,6 +330,10 @@ export const routes = [
 	{
 		path: "/demo/icon",
 		element: <IconDemo />
+	},
+	{
+		path: "/demo/art",
+		element: <ArtDemo />
 	},
 
 

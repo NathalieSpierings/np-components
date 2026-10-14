@@ -247,7 +247,7 @@ export const filterProductColumns = () => {
             filter: {
                 type: "select",
                 multiSelect: true,
-                optionsSource: (data: { tags?: string[] }[]) => data.flatMap(p => p.tags ?? []).sort((a, b) => a.localeCompare(b)),
+                dataSource: "tags",
             }
         },
     ]
@@ -316,3 +316,18 @@ export const filterOrderColumns = () => {
     ]
 }
 
+export const defaultShopColumns = () => {
+    return [
+        { prop: "id", title: "Id", sortable: true, visible: true, width: 80 },
+        { prop: "name", title: "Shop", sortable: true, showTooltip: true, visible: true, width: 250 },
+        { prop: "products", title: "Aantal producten", visible: true, width: 160, textAlign: "right",
+          transformValue: (products: unknown[]) => products.length },
+    ];
+};
+
+export const defaultShopProductColumns = () => {
+    return [
+        { prop: "shopNaam", title: "Shop", sortable: true, showTooltip: true, visible: true, width: 200 },
+        ...defaultProductColumns(),
+    ];
+};

@@ -38,7 +38,7 @@ export default function DatagridFilterDropdown<TData>({
             return getUniqueFilterOptions(filter.options);
         }
 
-        if (filter.optionsSource && dataRaw) {
+       if (filter.optionsSource && dataRaw) {
             return getUniqueFilterOptions(filter.optionsSource(dataRaw).map((item) =>
                 filter.mapOption
                     ? filter.mapOption(item)
