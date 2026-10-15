@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { RouterProvider, createBrowserRouter, useNavigation } from 'react-router';
+import BasicLayout from './components/Page/Basic/BasicLayout';
 import MainLayout from './components/Page/Main/MainLayout';
 import SidebarAccount from './components/Page/Sidebar/SidebarAccount/SidebarAccount';
 import { ConfirmDialogProvider, useConfirmDialog } from './components/Providers/ConfirmDialogContext/ConfirmDialogContext';
@@ -11,7 +12,7 @@ import Avatar from './components/UI/Avatar/Avatar';
 import ConfirmDialog from './components/UI/ConfirmDialog/ConfirmDialog';
 import Toastr from './components/UI/Toastr/Toastr';
 import { IconDefinitions, VerticalPositionDefinition } from './lib/utils/definitions';
-import { getInitialMenuItem, routes } from './pages/routes';
+import { basicRoutes, getInitialMenuItem, routes } from './pages/routes';
 import Settings from './pages/Settings';
 import SidebarDemo from './pages/SidebarDemo';
 
@@ -133,6 +134,20 @@ const TemplateLayout = () => {
 }
 
 
+const TemplateBasicLayout = () => {
+    const nav = useNavigation();
+    const loading = nav.state === 'loading';
+    const { pageTitle, breadcrumbItems } = useLayoutContext();
+
+    return (
+        <BasicLayout
+            loading={loading}
+            pageTitle={pageTitle}
+            breadcrumbItems={breadcrumbItems}
+        />
+    );
+};
+
 const TemplateToastr = () => {
     const { toasts, dequeue } = useToastr();
 
@@ -167,7 +182,12 @@ export default function App() {
                 path: "/",
                 element: <TemplateLayout />,
                 children: routes,
-            }
+            },
+            {
+                path: "/basic",
+                element: <TemplateBasicLayout />,
+                children: basicRoutes,
+            },
         ],
         { basename: proxyPrefix || undefined }
     );

@@ -2,6 +2,7 @@ import React from "react";
 import { matchPath } from "react-router";
 import ErrorPage from "../components/Page/ErrorPage/ErrorPage";
 import { proxyPrefix } from "../config";
+import BasicLayoutDemo from "./Demo/BasicLayout/BasicLayoutDemo";
 import ButtonDemo from "./Demo/Button/ButtonDemo";
 import CollectionPage from "./Demo/Collection/CollectionPage";
 import AsideLeft from "./Demo/ColumnLayout/AsideLeft";
@@ -79,8 +80,12 @@ export const getInitialMenuItem = (pathname: string) => {
 	return undefined;
 }
 
-const routesLayout = [
-
+// Routes die de BasicLayout gebruiken (zonder menu/sidebars)
+export const basicRoutes = [
+	{
+		index: true,
+		element: <BasicLayoutDemo />
+	},
 ]
 
 export const routes = [

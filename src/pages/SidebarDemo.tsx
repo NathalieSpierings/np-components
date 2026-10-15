@@ -200,6 +200,10 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/layout",
         },
         {
+            title: "Basic layout",
+            url: "/basic",
+        },
+        {
             title: "Column Layout",
             url: "/demo/columnlayout-default",
         },
