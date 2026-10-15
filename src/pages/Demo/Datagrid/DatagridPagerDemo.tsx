@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DatagridGetDataArguments } from "../../../components/Data/Datagrid/Config/DatagridData";
 import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import { useTableQueryClientFilter } from "../../../components/Data/Datagrid/Hooks/useTableQueryClientFilter";
-import { PaginationInfoPosition, PaginationPosition } from "../../../components/Data/Datagrid/Pagination";
+import { PaginationInfoPosition } from "../../../components/Data/Datagrid/Pagination";
 import Title from "../../../components/Typography/Title/Title";
 import Button from "../../../components/UI/Button/Button";
 import { defaultProductColumns } from "../../../lib/testdata/mock";
@@ -13,7 +13,6 @@ import { ProductOrders } from "./ProductOrdersTable";
 const DatagridPagerDemo: React.FC = () => {
 
     // Paging
-    const [paginationPosition, setPaginationPosition] = useState<PaginationPosition>("outside table");
     const [paginationInfoPosition, setPaginationInfoPosition] = useState<PaginationInfoPosition>("right");
 
     const pageSizesDefaults = [5, 10, 25, 50, 100];
@@ -27,11 +26,6 @@ const DatagridPagerDemo: React.FC = () => {
         queryFn: getProductsQuery(),
         filters: tableOptions
     });
-
-    const togglePagination = () => {
-        const nextPosition = paginationPosition === "outside table" ? "inside table" : "outside table";
-        setPaginationPosition(nextPosition);
-    };
 
     const togglePagerInfoPosition = () => {
         const nextPosition = paginationInfoPosition === "right" ? "left" : "right";
@@ -57,14 +51,12 @@ const DatagridPagerDemo: React.FC = () => {
                 toolbarTitle={<Title size="md">All products</Title>}
                 toolbarBorderBottom={true}
                 toolbarPrefixItems={[
-                    <Button key="pager-position" onClick={togglePagination}>Paginatie {paginationPosition === "outside table" ? "inside table" : "outside table"}</Button>,
                     <Button key="pager" onClick={togglePagerInfoPosition}>Pager info naar {paginationInfoPosition === "right" ? "left" : "right"}</Button>,
                     <Button key="pagesizes" onClick={togglePageSizes}>Pagesizes {extendedPageSizes ? "extended" : "default"}</Button>
                 ]}
                 collapsibleRowData={ProductOrders}
 
                 //pagination
-                paginationPosition={paginationPosition}
                 paginationRowInfoPosition={paginationInfoPosition}
                 pageSizeOptions={pageSizes}
                 footerContent={(<span>Dit is een test</span>)}

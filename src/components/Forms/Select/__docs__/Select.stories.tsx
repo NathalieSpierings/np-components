@@ -1,6 +1,7 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, FormInput, FormSelect, FormTextArea, Icon, Select } from '../../..';
+import { Button, FormInput, FormSelect, Icon, Select } from '../../..';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 
 const meta: Meta<typeof Select> = {

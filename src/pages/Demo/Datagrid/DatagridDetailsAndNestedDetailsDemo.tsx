@@ -4,26 +4,26 @@ import EventStopper from "../../../components/Base/EventStopper/EventStopper";
 import { DatagridGetDataArguments } from "../../../components/Data/Datagrid/Config/DatagridData";
 import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import { useTableQueryClientFilter } from "../../../components/Data/Datagrid/Hooks/useTableQueryClientFilter";
+import Detailgrid from "../../../components/Data/Detailgrid/Detailgrid";
 import Breadcrumb from "../../../components/Page/Navigation/Breadcrumb/Breadcrumb";
 import { useLayoutContext } from "../../../components/Providers/LayoutContext/LayoutContext";
 import { Subtitle } from "../../../components/Typography/Subtitle";
 import Title from "../../../components/Typography/Title/Title";
+import Button from "../../../components/UI/Button/Button";
 import ColumnLayout from "../../../components/UI/ColumnLayout/ColumnLayout";
 import ColumnLayoutContent from "../../../components/UI/ColumnLayout/ColumnLayoutContent";
 import ColumnLayoutHeader from "../../../components/UI/ColumnLayout/ColumnLayoutHeader";
 import ColumnLayoutMain from "../../../components/UI/ColumnLayout/ColumnLayoutMain";
 import ContentItem from "../../../components/UI/ContentItem/ContentItem";
 import Drawer from "../../../components/UI/Drawer/Drawer";
+import Icon from "../../../components/UI/Icons/Icon/Icon";
 import Tabs from "../../../components/UI/Tabs/Tabs";
 import Toolbar from "../../../components/UI/Toolbar/Toolbar";
+import Tooltip from "../../../components/UI/Tooltip/Tooltip";
 import { defaultOrderColumns, defaultProductColumns } from "../../../lib/testdata/mock";
 import { OrderGetModel, ProductGetModel, getOrdersForProduct, getProductsQuery } from "../../../lib/testdata/models";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import ProductDetails from "./ProductDetails";
-import Detailgrid from "../../../components/Data/Detailgrid/Detailgrid";
-import Button from "../../../components/UI/Button/Button";
-import Icon from "../../../components/UI/Icons/Icon/Icon";
-import Tooltip from "../../../components/UI/Tooltip/Tooltip";
 
 const ProductOrdersNestedTable = ({ productId }: { productId: string }) => {
 
@@ -139,20 +139,18 @@ const tabs = [
 
 const DatagridDetailsAndNestedDetailsDemo: React.FC = () => {
 
-    const { setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile } = useLayoutContext();
+    const { setFullscreen, setShowHeader, setHasSidebars } = useLayoutContext();
     useEffect(() => {
         setFullscreen(true);
         setShowHeader(false);
         setHasSidebars(true);
-        setShowSidebarMobile(true);
 
         return () => {
             setFullscreen(false);
             setShowHeader(true);
             setHasSidebars(true);
-            setShowSidebarMobile(true);
         };
-    }, [setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile]);
+    }, [setFullscreen, setShowHeader, setHasSidebars]);
 
 
     const [selectedItem, setSelectedItem] = useState<ProductGetModel | undefined>();
@@ -182,7 +180,7 @@ const DatagridDetailsAndNestedDetailsDemo: React.FC = () => {
     return (
         <ColumnLayout>
             <ColumnLayoutMain>
-                <ColumnLayoutHeader enableFixedHeader>
+                <ColumnLayoutHeader>
                     <ContentItem item={
                         {
                             id: '1',

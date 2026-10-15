@@ -1,14 +1,14 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { MemoryRouter } from 'react-router';
 import { Breadcrumb, Button, ContentItem, DividerSplitted, EventStopper, Fieldset, LayoutProvider, TabPane, TabPanes, Tabs, Title, useLayoutContext } from '../../..';
 import { ColorDefinitions } from '../../../..';
+import { SvgSprite } from '../../../../assets/SvgSprite';
 import ColumnLayout from '../ColumnLayout';
 import ColumnLayoutAside from '../ColumnLayoutAside';
 import ColumnLayoutContent from '../ColumnLayoutContent';
 import ColumnLayoutHeader from '../ColumnLayoutHeader';
 import ColumnLayoutMain from '../ColumnLayoutMain';
-import { MemoryRouter } from 'react-router';
-import { SvgSprite } from '../../../../assets/SvgSprite';
 
 const meta: Meta<typeof ColumnLayout> = {
     title: 'Layout/Column layout',
@@ -52,21 +52,19 @@ export const Default: StoryFn = () => {
 };
 
 export const EventStopperSample: StoryFn = () => {
-    const { setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile } = useLayoutContext();
+    const { setFullscreen, setShowHeader, setHasSidebars } = useLayoutContext();
 
     useEffect(() => {
         setFullscreen(true);
         setShowHeader(false);
         setHasSidebars(true);
-        setShowSidebarMobile(true);
 
         return () => {
             setFullscreen(false);
             setShowHeader(true);
             setHasSidebars(true);
-            setShowSidebarMobile(true);
         };
-    }, [setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile]);
+    }, [setFullscreen, setShowHeader, setHasSidebars]);
 
 
 
@@ -183,21 +181,19 @@ export const EventStopperSample: StoryFn = () => {
 
 export const NestedContent: StoryFn = () => {
 
-     const { setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile } = useLayoutContext();
+     const { setFullscreen, setShowHeader, setHasSidebars } = useLayoutContext();
 
     useEffect(() => {
         setFullscreen(true);
         setShowHeader(false);
         setHasSidebars(true);
-        setShowSidebarMobile(true);
 
         return () => {
             setFullscreen(false);
             setShowHeader(true);
             setHasSidebars(true);
-            setShowSidebarMobile(true);
         };
-    }, [setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile]);
+    }, [setFullscreen, setShowHeader, setHasSidebars]);
 
 
 

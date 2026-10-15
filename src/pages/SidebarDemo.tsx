@@ -1,16 +1,16 @@
 import React from "react";
 import SidebarMenu, { SidebarMenuItem } from "../components/Page/Navigation/SidebarMenu/SidebarMenu";
-import SidebarContentPanel from "../components/Page/Sidebar/SidebarContentPanel/SidebarContentPanel";
+import Title from "../components/Typography/Title/Title";
+import { MainLayoutSidebarContent, MainLayoutSidebarFooter } from "../components/Page/Main/MainLayoutSidebar";
 
 const SidebarDemo: React.FC = () => {
 
     const datagridItems: SidebarMenuItem[] = [
         {
-            url: "/demo/dg",
+            url: "/demo/dg-default",
             title: "Default"
         },
-        
-       
+
         {
             url: "/demo/dg-fullheight",
             title: "Full height"
@@ -31,7 +31,7 @@ const SidebarDemo: React.FC = () => {
             title: "Row totals",
             url: "/demo/dg-total-row",
         },
-         {
+        {
             url: "/demo/dg-pager",
             title: "Pager"
         },
@@ -78,7 +78,7 @@ const SidebarDemo: React.FC = () => {
         {
             title: "Header Sticky",
             url: "/demo/dg-column-sticky",
-        },       
+        },
 
         // Actions
         {
@@ -89,11 +89,11 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-info",
             title: "Table info"
         },
-         {
+        {
             title: "Row selection",
             url: "/demo/dg-selected-row",
         },
-         {
+        {
             title: "Row actions",
             url: "/demo/dg-actions",
         },
@@ -101,7 +101,7 @@ const SidebarDemo: React.FC = () => {
         {
             url: "/demo/dg-details-and-nested-details",
             title: "Details & Nested with details"
-        },      
+        },
         {
             url: "/demo/dg-nested",
             title: "Nested"
@@ -110,7 +110,7 @@ const SidebarDemo: React.FC = () => {
             url: "/demo/dg-nested-detail",
             title: "Nested with details"
         },
-       
+
         // Tabs & Sidebar
         {
             url: "/demo/dg-sidebar",
@@ -141,7 +141,7 @@ const SidebarDemo: React.FC = () => {
             url: '/demo/modal',
             title: "Modal"
         },
-         {
+        {
             url: '/demo/avatar',
             title: "Avatar"
         },
@@ -201,16 +201,16 @@ const SidebarDemo: React.FC = () => {
         },
         {
             title: "Column Layout",
-            url: "/demo/columnlayout",
+            url: "/demo/columnlayout-default",
         },
-        { title: 'Default', url: '/demo/columnlayout' },
         { title: 'Aside left', url: '/demo/columnlayout-aside-left' },
         { title: 'Aside right', url: '/demo/columnlayout-aside-right' },
-        { title: 'Mobile primary viw aside', url: '/demo/columnlayout-aside-primary' },
-        { title: 'Mobile primary viw main', url: '/demo/columnlayout-main-primary' },
+        { title: 'Mobile primary view aside', url: '/demo/columnlayout-aside-primary' },
+        { title: 'Mobile primary view main', url: '/demo/columnlayout-main-primary' },
         { title: 'Main and aside | aside no header', url: '/demo/columnlayout-main-and-aside-aside-no-header' },
         { title: 'Main and aside | main no header', url: '/demo/columnlayout-main-and-aside-main-no-header' },
         { title: 'Main and aside | no header', url: '/demo/columnlayout-main-and-aside-no-header' },
+        { title: 'Main and aside with header', url: '/demo/columnlayout-main-and-aside-header' },
         { title: 'Main only', url: '/demo/columnlayout-main-only' },
         { title: 'Main only | no header', url: '/demo/columnlayout-main-only-no-header' },
         { title: 'Tabs', url: '/demo/columnlayout-tabs' },
@@ -222,26 +222,22 @@ const SidebarDemo: React.FC = () => {
 
     return (
         <>
-            <SidebarContentPanel>
-                <h4>Layout</h4>
-            </SidebarContentPanel>
-            <SidebarMenu menuItems={layoutItems} />
+            <MainLayoutSidebarContent>
+                <Title size="md">Layout</Title>
+                <SidebarMenu menuItems={layoutItems} />
 
-            <SidebarContentPanel>
-                <h4>UI elements</h4>
-            </SidebarContentPanel>
-            <SidebarMenu menuItems={uiItems} />
+                <Title size="md" css="mb-3">UI elements</Title>
+                <SidebarMenu menuItems={uiItems} />
 
-            <SidebarContentPanel>
-                <h4>Form elements</h4>
-            </SidebarContentPanel>
-            <SidebarMenu menuItems={formItems} />
+                <Title size="md" css="mb-3">Form elements</Title>
+                <SidebarMenu menuItems={formItems} />
 
-            <SidebarContentPanel>
-                <h4>Datagrid</h4>
-            </SidebarContentPanel>
-            <SidebarMenu menuItems={datagridItems} />
-
+                <Title size="md" css="mb-3">Datagrid</Title>
+                <SidebarMenu menuItems={datagridItems} />
+            </MainLayoutSidebarContent>
+            <MainLayoutSidebarFooter>
+                Testkip
+            </MainLayoutSidebarFooter>
         </>
     )
 }

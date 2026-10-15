@@ -12,6 +12,10 @@ const FormsDemo = (): ReactElement => {
     const [radioChecked, setRadioChecked] = useState('');
     const [toggleChecked, setToggleChecked] = useState(false);
 
+    const handleKeyUp = () => {
+        // Intentionally left empty for the demo.
+    };
+
     return (
         <div className="grid">
             <div className="bg-surface-light p-3">

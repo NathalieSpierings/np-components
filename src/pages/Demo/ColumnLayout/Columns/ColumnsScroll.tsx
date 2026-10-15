@@ -16,7 +16,7 @@ const ColumnsScrollable = () => {
     }, [setFullscreen, setShowHeader]);
 
     return (
-        <ColumnLayout enableScrollableContent>
+        <ColumnLayout>
             <ColumnLayoutMain>
                 <ColumnLayoutHeader>
                     Main header

@@ -1,14 +1,9 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, ReactNode } from 'react';
 import { NavLink } from 'react-router';
-import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
+import { ColorDefinitions, IconDefinitions, VerticalPositionDefinition } from '../../../../lib/utils/definitions';
 import Icon from '../../../UI/Icons/Icon/Icon';
 import Tooltip from '../../../UI/Tooltip/Tooltip';
 import ThemeSwitch from '../../ThemeSwitch/ThemeSwitch';
-
-export enum SidebarMenuPlacement {
-    Top = 'top',
-    Bottom = 'bottom',
-}
 
 export interface MainMenuItem {
     id: string;
@@ -19,12 +14,15 @@ export interface MainMenuItem {
     iconDuotone?: boolean;
     url?: string | null;
     active?: boolean;
-    placement: SidebarMenuPlacement;
-    sidebarDrawerTitle?: string | ReactElement;
-    sidebarDrawerWidth?: string;
-    sidebarDrawer?: ReactElement;
-    sidebarTitle?: string | ReactElement;
-    sidebar?: ReactElement;
+    placement: VerticalPositionDefinition;
+    
+    sidebarWidth?: string;
+    sidebarTitle?: ReactNode;
+    sidebar?: ReactNode;
+
+    drawerWidth?: string;
+    drawerTitle?: ReactNode;
+    drawer?: ReactNode;
 }
 
 export interface MainMenuProps {
@@ -46,8 +44,8 @@ const MainMenu: FC<MainMenuProps> = ({
     themeSwitch,
     accountMenu,
 }) => {
-    const topItems = menuItems?.filter((item) => item.placement === SidebarMenuPlacement.Top);
-    const bottomItems = menuItems?.filter((item) => item.placement === SidebarMenuPlacement.Bottom);
+    const topItems = menuItems?.filter((item) => item.placement === VerticalPositionDefinition.Top);
+    const bottomItems = menuItems?.filter((item) => item.placement === VerticalPositionDefinition.Bottom);
 
     return (
         <>

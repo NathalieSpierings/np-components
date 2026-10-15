@@ -1,4 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
+import React from 'react';
 import { IconDefinitions } from '../../../../lib/utils/definitions';
 import Subtitle from '../../../Typography/Subtitle/Subtitle';
 import Title from '../../../Typography/Title/Title';

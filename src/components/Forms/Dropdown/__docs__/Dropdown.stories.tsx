@@ -1,9 +1,10 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
+import React from 'react';
+import { SvgSprite } from '../../../../assets/SvgSprite';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Icon from '../../../UI/Icons/Icon/Icon';
 import Dropdown, { DropdownHorizontalPosition, DropdownVerticalPosition } from '../Dropdown';
 import DropdownMenu from '../DropdownMenu';
-import { SvgSprite } from '../../../../assets/SvgSprite';
 
 const meta: Meta<typeof Dropdown> = {
     title: 'Forms/Dropdown',

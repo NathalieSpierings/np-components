@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router';
 import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
 import AnimatedOutlet from '../../../Base/AnimatedOutlet/AnimatedOutlet';

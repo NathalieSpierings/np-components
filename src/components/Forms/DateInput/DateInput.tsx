@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { HTMLProps, ReactElement, ReactNode, forwardRef, useState } from 'react';
+import React, { HTMLProps, ReactElement, ReactNode, forwardRef, useState } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import Input, { InputType, InputVariant, ValidationState } from '../Input/Input';
 

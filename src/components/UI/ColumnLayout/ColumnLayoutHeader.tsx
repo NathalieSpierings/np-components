@@ -1,7 +1,9 @@
-import { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren, useContext } from "react";
 import { useColumnLayout } from "../../../components/UI/ColumnLayout/ColumnLayoutContext";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 import DismissButton from "../DismissButton/DismissButton";
+import { LayoutContext } from "../../Providers/LayoutContext/LayoutContext";
+import Burger from "../../Page/Burger/Burger";
 
 export interface ColumnLayoutHeaderProps extends PropsWithChildren {
     borderColor?: ColorDefinitions;
@@ -25,6 +27,10 @@ const ColumnLayoutHeader: FC<ColumnLayoutHeaderProps> = ({
     const showBurger = hasToggle && !isShown;
     const showDismiss = hasToggle && isShown;
 
+    // Hoofdmenu-burger als de MainLayout-header verborgen is
+    const layout = useContext(LayoutContext);
+    const showMenuBurger = !!layout && layout.hasSidebars && !layout.showHeader;
+
     const cssClass = [
         "pc-layout__header",
         "column-layout__header",
@@ -36,7 +42,20 @@ const ColumnLayoutHeader: FC<ColumnLayoutHeaderProps> = ({
 
     return (
         <header className={cssClass}>
-            {children}
+            {showMenuBurger ? (
+                <>
+                    <div className="column-layout__menu-burger">
+                        <Burger
+                            hasSidebars={layout.hasSidebars}
+                            showSidebarMobile={layout.showMenu}
+                            setShowSidebarMobile={layout.setShowMenu}
+                        />
+                    </div>
+                    <div className="column-layout__header__content">{children}</div>
+                </>
+            ) : (
+                children
+            )}
 
             {showBurger && enableBurger && (
                 <button

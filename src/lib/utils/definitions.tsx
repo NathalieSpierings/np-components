@@ -182,6 +182,17 @@ export enum SizeDefinitions {
     Full = 'full',
 }
 
+export enum HorizontalPositionDefinition{
+    Left = 'left',
+    Right = 'right'
+}
+
+export enum VerticalPositionDefinition{
+    Top = 'top',
+    Bottom = 'bottom',
+}
+
+
 export enum PositionDefinition {
     Left = 'left',
     Right = 'right',

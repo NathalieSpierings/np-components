@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { ColorDefinitions } from "../../../../lib/utils/definitions";
 import { DatagridTableInfoProps as DatagridBaseTableInfoProps } from "../Datagrid";
 

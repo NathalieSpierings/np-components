@@ -55,7 +55,7 @@
     --alpha-link: 0.6;
 
     // Layout
-    --header-height: 80px;
+    --header-height: 94px;
 
     --root-aside-width: 280px;
 
@@ -162,6 +162,21 @@
     --art-accent: var(--color-primary);
 
 }
+:root,
+.theme-light {
+    --overlay-rgb: 0 0 0;
+}
+
+.theme-dimmed,
+.theme-dark {
+    --overlay-rgb: 255 255 255;
+}
+
+:root {
+	--color-hover:  rgb(var(--overlay-rgb) / 0.03);
+    --color-active: rgb(var(--overlay-rgb) / 0.07);
+}
+
 
 .theme-dimmed,
 .theme-dark {

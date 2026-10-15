@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import Datagrid, { DatagridProps } from "../Datagrid/Datagrid";
 
 export interface DetailgridProps<TData> extends DatagridProps<TData> {

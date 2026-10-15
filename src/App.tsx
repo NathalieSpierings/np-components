@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { RouterProvider, createBrowserRouter, useNavigation } from 'react-router';
 import MainLayout from './components/Page/Main/MainLayout';
-import { SidebarMenuPlacement } from './components/Page/Navigation/MainMenu/MainMenu';
 import SidebarAccount from './components/Page/Sidebar/SidebarAccount/SidebarAccount';
 import { ConfirmDialogProvider, useConfirmDialog } from './components/Providers/ConfirmDialogContext/ConfirmDialogContext';
 import { LayoutProvider, useLayoutContext } from './components/Providers/LayoutContext/LayoutContext';
@@ -11,10 +10,10 @@ import { ToastrProvider, useToastr } from './components/Providers/ToastrContext/
 import Avatar from './components/UI/Avatar/Avatar';
 import ConfirmDialog from './components/UI/ConfirmDialog/ConfirmDialog';
 import Toastr from './components/UI/Toastr/Toastr';
-import { IconDefinitions, SizeDefinitions } from './lib/utils/definitions';
+import { IconDefinitions, VerticalPositionDefinition } from './lib/utils/definitions';
 import { getInitialMenuItem, routes } from './pages/routes';
-import SidebarDemo from './pages/SidebarDemo';
 import Settings from './pages/Settings';
+import SidebarDemo from './pages/SidebarDemo';
 
 const queryClient = new QueryClient();
 
@@ -76,33 +75,6 @@ const TemplateSidebarAccountMenu: React.FC<TemplateSidebarAccountMenuProps> = ({
     )
 }
 
-
-
-
-// const TemplateSidebarAccountMenu = () => {
-
-//     return (
-//         <SidebarAccount
-//             dropdownToggle={{
-//                 prefix: (<Avatar border icon={IconDefinitions.user} />)
-//             }}
-//             dropdownHeader={{
-//                 border: true,
-//                 content: (
-//                     <>
-//                         <span>Welkom &nbsp;</span><strong>Testert</strong>
-//                     </>
-//                 )
-//             }}
-//             menuItems={[
-//                 {
-//                     label: 'Afmelden',
-//                     icon: (<svg><use xlinkHref="#svg_icon_power" /></svg>),
-//                 }]}
-//         />
-//     )
-// }
-
 const TemplateLayout = () => {
 
     const menuItems = [
@@ -111,7 +83,7 @@ const TemplateLayout = () => {
             title: 'Home',
             tooltip: 'Home',
             iconName: IconDefinitions.home,
-            placement: SidebarMenuPlacement.Top,
+            placement: VerticalPositionDefinition.Top,
             url: '/'
         },
         {
@@ -121,7 +93,7 @@ const TemplateLayout = () => {
             url: '/demo',
             iconName: IconDefinitions.paint_palette,
             duotone: true,
-            placement: SidebarMenuPlacement.Top,
+            placement: VerticalPositionDefinition.Top,
             sidebar: <SidebarDemo />
         },
         {
@@ -129,14 +101,10 @@ const TemplateLayout = () => {
             title: "Instellingen",
             tooltip: "Instellingen",
             iconName: IconDefinitions.cog,
-            placement: SidebarMenuPlacement.Bottom,
-            sidebarDrawerTitle:
-                <>
-                    <h4>Mijn voorkeuren</h4>
-                    <h6 className="mt-1 text-mute">Instellen</h6>
-                </>,
-            sidebarDrawerWidth: '400px',
-            sidebarDrawer: <Settings />,
+            placement: VerticalPositionDefinition.Bottom,
+            drawerTitle: 'Testkip',
+            drawerWidth: '400px',
+            drawer: <Settings />,
         },
 
 
@@ -154,14 +122,13 @@ const TemplateLayout = () => {
     return (
         <MainLayout
             loading={loading}
-            accountMenu={<TemplateSidebarAccountMenu onOpenSettings={openSettingsDrawer} />}
-            currentMenuItem={getInitialMenuItem(location.pathname)}
             pageTitle={pageTitle}
             breadcrumbItems={breadcrumbItems}
             menuItems={menuItems}
+            currentMenuItem={getInitialMenuItem(location.pathname)}
+            accountMenu={<TemplateSidebarAccountMenu onOpenSettings={openSettingsDrawer} />}
             drawerRequest={drawerRequest}
         />
-
     )
 }
 

@@ -96,8 +96,9 @@ export const routes = [
 		path: "/demo/layout",
 		element: <LayoutPage />
 	},
+	// Column layout
 	{
-		path: "/demo/columnlayout",
+		path: "/demo/columnlayout-default",
 		element: <ColumnLayoutPage />
 	},
 	{
@@ -125,7 +126,7 @@ export const routes = [
 		element: <MainAndAsideNoHeader />
 	},
 	{
-		path: "/demo/columnlayout",
+		path: "/demo/columnlayout-main-aside-header",
 		element: <MainAndAsideWithHeader />
 	},
 	{
@@ -206,7 +207,7 @@ export const routes = [
 		element: <DatagridCheckboxDemo />
 	},
 	{
-		path: "/demo/dg",
+		path: "/demo/dg-default",
 		element: <DatagridDemo />
 	},
 	{

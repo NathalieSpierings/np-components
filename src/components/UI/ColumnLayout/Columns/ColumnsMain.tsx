@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 
 export interface ColumnsMainProps extends PropsWithChildren {
   scrollable?: boolean;

@@ -1361,7 +1361,6 @@ toastr, toolbar, tooltip, widget, wizard;
 
 
     .column-layout {
-        --header-height: 99px;
 
         .column-layout__header {
             position: relative;
@@ -1383,6 +1382,25 @@ toastr, toolbar, tooltip, widget, wizard;
                 margin-block: 0;
                 margin-bottom: 0.5rem;
             }
+        }
+
+        // Hoofdmenu-burger
+        .column-layout__menu-burger .burger {
+            margin-right: var(--page-padding-sm);
+        }
+
+        // Burger alleen in de kolom die op mobiel als eerste zichtbaar is
+        &.main-primary > .pc-layout__content > .column-layout__aside .column-layout__menu-burger,
+        &.aside-primary > .pc-layout__content > .column-layout__main .column-layout__menu-burger {
+            display: none;
+        }
+
+        .column-layout__header__content {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .column-layout__content {

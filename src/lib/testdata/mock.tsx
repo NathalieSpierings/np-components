@@ -1,5 +1,7 @@
 import moment from 'moment';
 import { formatCurrency } from '../helpers/helpers';
+import { ServersideTableQueryConfig } from '../../components/Data/Datagrid/Hooks/ServerSideTableQuery/types';
+import { ProductGetModel } from './models';
 
 
 export const defaultProductColumns = () => {
@@ -247,7 +249,7 @@ export const filterProductColumns = () => {
             filter: {
                 type: "select",
                 multiSelect: true,
-                dataSource: "tags",
+                optionsSource: (data: { tags?: string[] }[]) => data.flatMap(p => p.tags ?? []).sort((a, b) => a.localeCompare(b)),
             }
         },
     ]
@@ -268,7 +270,7 @@ export const defaultOrderColumns = () => {
         { prop: "aantal", title: "Aantal", sortable: true, visible: true, showTooltip: true },
         { prop: "prijsPerStuk", title: "Prijs per stuk", sortable: true, showTooltip: true, visible: true, width: 150, transformValue: formatCurrency },
         { prop: "korting", title: "Korting", sortable: true, visible: false, showTooltip: true },
-         { prop: "totaalBedrag", title: "Totaal bedrag", sortable: true, visible: true, showTooltip: true, width: 150, summary: true, transformValue: formatCurrency },
+        { prop: "totaalBedrag", title: "Totaal bedrag", sortable: true, visible: true, showTooltip: true, width: 150, summary: true, transformValue: formatCurrency },
         { prop: "btwBedrag", title: "BTW bedrag", sortable: true, visible: false, showTooltip: true, width: 150, transformValue: formatCurrency },
         { prop: "betaalgegevens.betaalStatus", title: "Bestel status", sortable: true, visible: false, showTooltip: true },
         { prop: "betaalgegevens.betaalMethode", title: "Betaal methode", sortable: true, visible: false, showTooltip: true },
@@ -287,7 +289,7 @@ export const defaultOrderColumns = () => {
 
 export const filterOrderColumns = () => {
     return [
- { prop: "id", title: "Id", sortable: true, width: 80, showTooltip: true, visible: false, filter: { type: 'text' } },
+        { prop: "id", title: "Id", sortable: true, width: 80, showTooltip: true, visible: false, filter: { type: 'text' } },
         { prop: "productId", title: "Product id", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
         { prop: "orderNummer", title: "Order nummer", sortable: true, visible: true, showTooltip: true, filter: { type: 'text' } },
         { prop: "klantNaam", title: "klant naam", sortable: true, visible: true, showTooltip: true, width: 200, filter: { type: 'text' } },
@@ -299,12 +301,12 @@ export const filterOrderColumns = () => {
         { prop: "aantal", title: "Aantal", sortable: true, visible: true, showTooltip: true, filter: { type: 'text' } },
         { prop: "prijsPerStuk", title: "Prijs per stuk", sortable: true, showTooltip: true, visible: true, width: 150, filter: { type: 'text' }, transformValue: formatCurrency },
         { prop: "korting", title: "Korting", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
-         { prop: "totaalBedrag", title: "Totaal bedrag", sortable: true, visible: true, showTooltip: true, width: 150, filter: { type: 'number' }, summery: true, transformValue: formatCurrency },
+        { prop: "totaalBedrag", title: "Totaal bedrag", sortable: true, visible: true, showTooltip: true, width: 150, filter: { type: 'number' }, summery: true, transformValue: formatCurrency },
         { prop: "btwBedrag", title: "BTW bedrag", sortable: true, visible: false, showTooltip: true, width: 150, filter: { type: 'text' }, transformValue: formatCurrency },
-        { prop: "betaalgegevens.betaalStatus", title: "Bestel status", sortable: true, visible: false, showTooltip: true , filter: { type: 'text' }},
+        { prop: "betaalgegevens.betaalStatus", title: "Bestel status", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
         { prop: "betaalgegevens.betaalMethode", title: "Betaal methode", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
         { prop: "verzendKosten", title: "Verzendkosten", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
-        { prop: "vervoerder", title: "Vervoerder", sortable: true, visible: false, showTooltip: true , filter: { type: 'text' }},
+        { prop: "vervoerder", title: "Vervoerder", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
         { prop: "trackTrace", title: "TrackTrace", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
         { prop: "afleverAdres", title: "AfleverAdres", sortable: true, visible: true, showTooltip: true, filter: { type: 'text' } },
         { prop: "postcode", title: "Postcode", sortable: true, visible: true, showTooltip: true, filter: { type: 'text' } },
@@ -312,16 +314,277 @@ export const filterOrderColumns = () => {
         { prop: "provincie", title: "provincie", sortable: true, visible: true, showTooltip: true, filter: { type: 'text' } },
         { prop: "land", title: "land", sortable: true, visible: true, showTooltip: true, filter: { type: 'text' } },
         { prop: "kanaal", title: "kanaal", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
-        { prop: "opmerking", title: "opmerking", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },        
+        { prop: "opmerking", title: "opmerking", sortable: true, visible: false, showTooltip: true, filter: { type: 'text' } },
     ]
 }
+
+export const serversideQueryConfig = {
+    canSearch: false,
+    sortProperties: [
+        "id",
+        "sku",
+        "ean",
+        "naam",
+        "omschrijving",
+        "categorie",
+        "subcategorie",
+        "merk",
+        "kleur",
+        "materiaal",
+        "prijs",
+        "kostprijs",
+        "btw",
+        "voorraad",
+        "minimaleVoorraad",
+        "maximaleVoorraad",
+        "afmetingen.gewicht",
+        "afmetingen.lengte",
+        "afmetingen.breedte",
+        "afmetingen.hoogte",
+        "leverancier",
+        "landVanHerkomst",
+        "beschikbaarVanaf",
+        "laatstePrijsWijziging",
+        "status",
+        "garantieMaanden",
+        "populair",
+        "duurzaam",
+        "magazijn",
+    ],
+    filterOperations: {
+        id: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        sku: {
+            columnFilterType: "text",
+            allowedValues: [],
+        },
+
+        ean: {
+            columnFilterType: "text",
+            allowedValues: [],
+        },
+
+        naam: {
+            columnFilterType: "text",
+            allowedValues: [],
+        },
+
+        omschrijving: {
+            columnFilterType: "text",
+            allowedValues: [],
+        },
+
+        categorie: {
+            columnFilterType: "multiSelect",
+            allowedValues: [
+                { label: "Wonen", value: "Wonen" },
+                { label: "Huishouden", value: "Huishouden" },
+                { label: "Tuin", value: "Tuin" },
+            ],
+        },
+
+        subcategorie: {
+            columnFilterType: "multiSelect",
+            allowedValues: [
+                { label: "Meubels", value: "Meubels" },
+                { label: "Verlichting", value: "Verlichting" },
+                { label: "Decoratie", value: "Decoratie" },
+                { label: "Keuken", value: "Keuken" },
+                { label: "Schoonmaken", value: "Schoonmaken" },
+                { label: "Wassen", value: "Wassen" },
+                { label: "Tuinmeubelen", value: "Tuinmeubelen" },
+                { label: "Gereedschap", value: "Gereedschap" },
+                { label: "Planten", value: "Planten" },
+                { label: "Bewatering", value: "Bewatering" },
+                { label: "Buiten koken", value: "Buiten koken" },
+            ],
+        },
+
+        merk: {
+            columnFilterType: "singleSelect",
+            allowedValues: [
+                { label: "HomeStyle", value: "HomeStyle" },
+                { label: "Nordic Living", value: "Nordic Living" },
+                { label: "Pure Living", value: "Pure Living" },
+                { label: "Woon&Co", value: "Woon&Co" },
+                { label: "Comfort Home", value: "Comfort Home" },
+                { label: "CleanHouse", value: "CleanHouse" },
+                { label: "Daily Home", value: "Daily Home" },
+                { label: "KeukenPlus", value: "KeukenPlus" },
+                { label: "Praktisch Thuis", value: "Praktisch Thuis" },
+                { label: "GardenPro", value: "GardenPro" },
+                { label: "GreenLife", value: "GreenLife" },
+                { label: "SunGarden", value: "SunGarden" },
+                { label: "BuitenBest", value: "BuitenBest" },
+                { label: "Tuinmaat", value: "Tuinmaat" },
+            ],
+        },
+
+        kleur: {
+            columnFilterType: "multiSelect",
+            allowedValues: [
+                { label: "Wit", value: "Wit" },
+                { label: "Zwart", value: "Zwart" },
+                { label: "Grijs", value: "Grijs" },
+                { label: "Antraciet", value: "Antraciet" },
+                { label: "Beige", value: "Beige" },
+                { label: "Taupe", value: "Taupe" },
+                { label: "Bruin", value: "Bruin" },
+                { label: "Groen", value: "Groen" },
+                { label: "Blauw", value: "Blauw" },
+                { label: "Naturel", value: "Naturel" },
+            ],
+        },
+
+        materiaal: {
+            columnFilterType: "multiSelect",
+            allowedValues: [
+                { label: "Hout", value: "Hout" },
+                { label: "Metaal", value: "Metaal" },
+                { label: "Kunststof", value: "Kunststof" },
+                { label: "Bamboe", value: "Bamboe" },
+                { label: "Glas", value: "Glas" },
+                { label: "Keramiek", value: "Keramiek" },
+                { label: "Rotan", value: "Rotan" },
+                { label: "Aluminium", value: "Aluminium" },
+                { label: "Textiel", value: "Textiel" },
+                { label: "RVS", value: "RVS" },
+            ],
+        },
+
+        prijs: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        kostprijs: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        btw: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        voorraad: {
+            columnFilterType: "text",
+            allowedValues: [],
+        },
+
+        minimaleVoorraad: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        maximaleVoorraad: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        "afmetingen.gewicht": {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        "afmetingen.lengte": {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        "afmetingen.breedte": {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        "afmetingen.hoogte": {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        leverancier: {
+            columnFilterType: "multiSelect",
+            allowedValues: [
+                { label: "Van Dijk Groothandel", value: "Van Dijk Groothandel" },
+                { label: "Jansen Home Supply", value: "Jansen Home Supply" },
+                { label: "Buitenleven Distributie", value: "Buitenleven Distributie" },
+                { label: "Holland Living BV", value: "Holland Living BV" },
+            ],
+        },
+
+        landVanHerkomst: {
+            columnFilterType: "multiSelect",
+            allowedValues: [
+                { label: "Nederland", value: "Nederland" },
+                { label: "België", value: "België" },
+                { label: "Duitsland", value: "Duitsland" },
+                { label: "Denemarken", value: "Denemarken" },
+                { label: "Zweden", value: "Zweden" },
+                { label: "Polen", value: "Polen" },
+                { label: "Italië", value: "Italië" },
+            ],
+        },
+
+        beschikbaarVanaf: {
+            columnFilterType: "date",
+            allowedValues: [],
+        },
+
+        laatstePrijsWijziging: {
+            columnFilterType: "date",
+            allowedValues: [],
+        },
+
+        status: {
+            columnFilterType: "singleSelect",
+            allowedValues: [
+                { label: "Actief", value: "Actief" },
+                { label: "Nieuw", value: "Nieuw" },
+                { label: "Uitlopend", value: "Uitlopend" },
+                { label: "Tijdelijk niet leverbaar", value: "Tijdelijk niet leverbaar" },
+            ],
+        },
+
+        garantieMaanden: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        populair: {
+            columnFilterType: "number",
+            allowedValues: [],
+        },
+
+        duurzaam: {
+            columnFilterType: "text",
+            allowedValues: [],
+        },
+
+        magazijn: {
+            columnFilterType: "singleSelect",
+            allowedValues: [
+                { label: "Eindhoven", value: "Eindhoven" },
+                { label: "Tilburg", value: "Tilburg" },
+                { label: "Utrecht", value: "Utrecht" },
+                { label: "Zwolle", value: "Zwolle" },
+                { label: "Venlo", value: "Venlo" },
+            ],
+        },
+    }
+} as const satisfies ServersideTableQueryConfig<ProductGetModel>;
+
 
 export const defaultShopColumns = () => {
     return [
         { prop: "id", title: "Id", sortable: true, visible: true, width: 80 },
         { prop: "name", title: "Shop", sortable: true, showTooltip: true, visible: true, width: 250 },
-        { prop: "products", title: "Aantal producten", visible: true, width: 160, textAlign: "right",
-          transformValue: (products: unknown[]) => products.length },
+        {
+            prop: "products", title: "Aantal producten", visible: true, width: 160, textAlign: "right",
+            transformValue: (products: unknown[]) => products.length
+        },
     ];
 };
 

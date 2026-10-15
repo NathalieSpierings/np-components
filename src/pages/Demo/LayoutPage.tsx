@@ -6,21 +6,19 @@ import { ColorDefinitions } from "../../lib/utils/definitions";
 const LayoutPage = ({
 }): ReactElement => {
 
-    const { setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile } = useLayoutContext();
+    const { setFullscreen, setShowHeader, setHasSidebars } = useLayoutContext();
 
     useEffect(() => {
         setFullscreen(true);
         setShowHeader(false);
         setHasSidebars(true);
-        setShowSidebarMobile(true);
 
         return () => {
             setFullscreen(false);
             setShowHeader(true);
             setHasSidebars(true);
-            setShowSidebarMobile(true);
         };
-    }, [setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile]);
+    }, [setFullscreen, setShowHeader, setHasSidebars]);
 
     
 

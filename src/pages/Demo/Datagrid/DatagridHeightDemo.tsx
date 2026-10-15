@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DatagridGetDataArguments } from "../../../components/Data/Datagrid/Config/DatagridData";
-import Datagrid, { DatagridHeight } from "../../../components/Data/Datagrid/Datagrid";
+import Datagrid from "../../../components/Data/Datagrid/Datagrid";
 import { useTableQueryClientFilter } from "../../../components/Data/Datagrid/Hooks/useTableQueryClientFilter";
 import { Title } from "../../../components/Typography/Title";
 import Button from "../../../components/UI/Button/Button";

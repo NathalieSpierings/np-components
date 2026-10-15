@@ -20,7 +20,7 @@ const WithTabs: React.FC = () => {
   return (
     <ColumnLayout>
       <ColumnLayoutMain>
-        <ColumnLayoutHeader enableFixedHeader>
+        <ColumnLayoutHeader>
           <ContentItem item={
             {
               id: '1',

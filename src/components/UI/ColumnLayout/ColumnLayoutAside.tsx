@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import React, { FC, PropsWithChildren } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 import { useColumnLayout } from "./ColumnLayoutContext";
 

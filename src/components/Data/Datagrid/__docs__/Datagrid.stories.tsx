@@ -1,7 +1,7 @@
 
 import type { Meta, StoryFn } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../assets/SvgSprite';
 import { defaultProductColumns, defaultShopColumns, defaultShopProductColumns, filterProductColumns } from '../../../../lib/testdata/mock';

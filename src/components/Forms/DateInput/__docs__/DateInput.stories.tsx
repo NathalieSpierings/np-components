@@ -5,8 +5,11 @@ import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import Button from '../../../UI/Button/Button';
 import FormInput from '../../Input/FormInput';
-import { ColorDefinitions, FormDateInput, Icon, IconDefinitions, SizeDefinitions, StaticInput } from '../../../..';
 import FormInline from '../../FormInline';
+import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
+import Icon from '../../../UI/Icons/Icon/Icon';
+import StaticInput from '../../Input/StaticInput';
+import FormDateInput from '../FormDateInput';
 
 const meta: Meta<typeof DateInput> = {
     title: 'Forms/DateInput',

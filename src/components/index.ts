@@ -31,22 +31,25 @@ export * from './Forms/Toggle';
 export * from './Forms/DisplayList';
 
 
+
 export * from './Page/Basic';
 export * from './Page/BottomSheet';
 export * from './Page/Burger';
 export * from './Page/ErrorPage';
 export * from './Page/Header';
 export * from './Page/Logo';
-export * from './Page/Main';
+export * from './Page/Main/MainLayout';
+export * from './Page/Main/MainLayoutDrawer';
+export * from './Page/Main/MainLayoutMenu';
+export * from './Page/Main/MainLayoutSidebar';
 export * from './Page/Navigation/Breadcrumb';
 export * from './Page/Navigation/MainMenu';
 export * from './Page/Navigation/SidebarMenu';
 export * from './Page/PageLoader';
 export * from './Page/PageOverlay';
-export * from './Page/Sidebar';
 export * from './Page/Sidebar/SidebarAccount';
 export * from './Page/Sidebar/SidebarContentPanel';
-export * from './Page/Sidebar/SidebarDrawer';
+
 export * from './Page/ThemeSwitch';
 
 export * from './Providers/ConfirmDialogContext';
