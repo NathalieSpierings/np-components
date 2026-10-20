@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import Search from "../../../Base/Search/Search";
 import Multiselect, { MultiselectItem, MultiselectItemId } from "../../../Forms/Multiselect/Multiselect";
@@ -7,7 +7,7 @@ import Button from "../../../UI/Button/Button";
 import Collection, { CollectionItem } from "../../../UI/Collection/Collection";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import { DatagridColumnFilterValue, DatagridFilterOperator, DatagridFilterOption, getUniqueFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
+import { DatagridColumnFilterValue, DatagridFilterOperator, DatagridFilterOption, getFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
 import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
 
 export interface DatagridFilterListProps<TData> {
@@ -59,19 +59,7 @@ export default function DatagridFilterList<TData>({
             const value = columnFilters[column.prop];
             const active = isActiveColumnFilter(value);
 
-            const options: DatagridFilterOption[] = getUniqueFilterOptions(
-                filter.options ??
-                (filter.optionsSource && dataRaw
-                    ? filter.optionsSource(dataRaw).map((item) =>
-                        filter.mapOption
-                            ? filter.mapOption(item)
-                            : {
-                                label: String(item),
-                                value: String(item),
-                            }
-                    )
-                    : [])
-            );
+            const options: DatagridFilterOption[] = getFilterOptions(filter, dataRaw);
 
             const multiselectItems: MultiselectItem[] = options.map(option => ({
                 id: option.value,

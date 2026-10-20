@@ -759,13 +759,13 @@ toastr, toolbar, tooltip, widget, wizard;
             --color-background: var(--alert-dismiss-background);
         }
 
-        &--sticky {
+         &--sticky {
             border-radius: 0;
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            z-index: var(--alert-sticy-zindex);
+            z-index: var(--alert-sticky-zindex);
         }
 
         &.bg-informational {
@@ -1359,48 +1359,15 @@ toastr, toolbar, tooltip, widget, wizard;
 
 @layer columnLayout {
 
-
     .column-layout {
+        position: relative;
 
         .column-layout__header {
-            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            min-height: var(--header-height);
-            padding: var(--page-padding-sm) var(--page-padding);
-            border-bottom: 1px solid transparent;
-
-            .title,
-            .subtitle,
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                margin-block: 0;
-                margin-bottom: 0.5rem;
-            }
-        }
-
-        // Hoofdmenu-burger
-        .column-layout__menu-burger .burger {
-            margin-right: var(--page-padding-sm);
-        }
-
-        // Burger alleen in de kolom die op mobiel als eerste zichtbaar is
-        &.main-primary > .pc-layout__content > .column-layout__aside .column-layout__menu-burger,
-        &.aside-primary > .pc-layout__content > .column-layout__main .column-layout__menu-burger {
-            display: none;
-        }
-
-        .column-layout__header__content {
-            flex: 1 1 auto;
-            min-width: 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: var(--page-padding);
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border);            
         }
 
         .column-layout__content {
@@ -1432,8 +1399,11 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
+        // Toggles for the aside: only shown on small screens (see below), where main and aside are shown one at the time
         >.dismiss,
-        >.burger {
+        >.burger,
+        .column-layout__header>.dismiss,
+        .column-layout__header>.burger {
             display: none;
             cursor: pointer;
         }
@@ -1591,10 +1561,16 @@ toastr, toolbar, tooltip, widget, wizard;
             >.burger {
                 display: none;
             }
+      
+            .column-layout__header > .content-item:has(.content-item__prefix),
+            .column-layout__header > .content-item:has(.content-item__postfix){
+                scale: .8;
+            }
         }
     }
 
 }
+
 
 @layer columns {
 
@@ -1979,6 +1955,7 @@ toastr, toolbar, tooltip, widget, wizard;
         &__tabber {
             --datagrid-tabber-width: var(--root-aside-width);
 
+            position: relative;
             min-height: 100%;
             overflow: hidden;
 
@@ -2014,12 +1991,57 @@ toastr, toolbar, tooltip, widget, wizard;
                 height: 100%;
                 background: var(--datagrid-layout-comp-background);
                 padding-top: var(--datagrid-header-row-height);
+                contain: size;
+                // past de inhoud niet, dan scrollen (zonder zichtbare scrollbar), in elke weergave
+                overflow-x: hidden;
+                overflow-y: auto;
+                scrollbar-width: none;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                &--measure {
+                    position: absolute;
+                    top: 0;
+                    width: 35px;
+                    height: auto;
+                    contain: none;
+                    overflow: visible;
+                    visibility: hidden;
+                    pointer-events: none;
+                }
+
+                &--compact {
+                    .datagrid-layout__tabber__tabs__tab:last-child{
+                        border-bottom: 0;
+                    }
+
+                    .datagrid-layout__tabber__tabs__tab--has-icon {
+                        .datagrid-layout__tabber__tabs__tab__content{
+                            padding: 0.75rem 0.5rem;
+                            gap: 0;
+
+                             .icon{
+                                --icon-size: 1.2em;
+                            }
+                        }
+
+                        .datagrid-layout__tabber__tabs__tab__label {
+                            display: none;
+                        }
+                    }
+                }
 
                 &__tab {
                     position: relative;
                     flex: 0 0 auto;
                     background: var(--datagrid-layout-comp-background);
                     border-bottom: 1px solid var(--datagrid-layout-comp-border);
+
+                    &:first-child{
+                        border-top: 1px solid var(--datagrid-layout-comp-border);
+                    }
 
                     &:hover {
                         background: var(--color-hover);
@@ -2560,11 +2582,10 @@ toastr, toolbar, tooltip, widget, wizard;
             height: var(--datagrid-header-row-height);
             border-bottom: 2px solid var(--color-border);
 
-
             &--sticky {
                 position: sticky;
                 top: 0;
-                z-index: 100;
+                z-index: var(--datagrid-header-zindex);
             }
         }
 
@@ -4902,15 +4923,14 @@ toastr, toolbar, tooltip, widget, wizard;
 @layer toolbar {
 
     .toolbar {
+        --toolbar-padding-bottom: 1rem;
+        --toolbar-margin-bottom: 1rem;
+
         display: flex;
         flex-direction: column;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
         border-bottom: 1px solid transparent;
-
-        &--compact {
-            padding-bottom: 0
-        }
 
         &__header {
             flex: 0 0 auto;
@@ -4967,6 +4987,25 @@ toastr, toolbar, tooltip, widget, wizard;
             height: 24px;
             background: var(--color-border);
             margin: 0 8px 0 8px;
+        }
+
+        .btn{
+            margin-bottom: 0;
+        }
+
+        &--pb-0{
+            padding-bottom: 0;
+        }
+
+        &--mb-0{
+            margin-bottom: 0;
+        }
+
+        &--sticky {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--color-surface-dark);
         }
     }
 

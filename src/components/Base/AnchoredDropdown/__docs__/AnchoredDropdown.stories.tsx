@@ -1,11 +1,10 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import AchoredDropdown from '../AnchoredDropdown';
-import { AnchoredDropdown } from '..';
 import { useState } from 'react';
-import { Button } from '../../../UI/Button';
+import { AnchoredDropdown } from '..';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
+import { Button } from '../../../UI/Button';
 import { Card } from '../../../UI/Card';
-import React from 'react';
+import AchoredDropdown from '../AnchoredDropdown';
 
 const meta: Meta<typeof AchoredDropdown> = {
     title: 'Base/AchoredDropdown',

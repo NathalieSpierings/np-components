@@ -4,7 +4,6 @@ import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import { Input } from '../../../Forms/Input/Input';
 import Tooltip from '../Tooltip';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import React from 'react';
 
 const meta: Meta<typeof Tooltip> = {
     title: 'UI kit/Tooltip',

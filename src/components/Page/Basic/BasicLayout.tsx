@@ -8,7 +8,6 @@ import Title from '../../Typography/Title/Title';
 
 export interface BasicLayoutProps {
     loading?: boolean;
-    // Header props
     pageTitle?: string;
     breadcrumbItems?: BreadcrumbItem[];
 }

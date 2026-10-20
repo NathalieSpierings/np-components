@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useRef, useState } from "react";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
 import Box, { BoxProps } from "../../Base/Box/Box";
 import Icon from "../Icons/Icon/Icon";
 import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";

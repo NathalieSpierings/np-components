@@ -3,7 +3,6 @@ import { useIdleTimer } from 'react-idle-timer';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 
 import Button from '../../UI/Button/Button';
-import React from 'react';
 import Icon from '../../UI/Icons/Icon/Icon';
 
 export interface SessionIdleTimerProps {

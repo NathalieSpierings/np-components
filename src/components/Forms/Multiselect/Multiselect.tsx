@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, useMemo, useState } from "react";
+import { PropsWithChildren, ReactNode, useMemo, useState } from "react";
 import { ColorDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Search from "../../Base/Search/Search";
 import Collection, { CollectionItem, CollectionItemVariant } from "../../UI/Collection/Collection";

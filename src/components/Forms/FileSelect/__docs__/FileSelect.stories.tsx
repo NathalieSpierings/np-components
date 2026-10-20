@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../..';
 import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import FileSelect from '../FileSelect';

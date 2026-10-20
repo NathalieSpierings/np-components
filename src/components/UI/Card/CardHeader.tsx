@@ -1,6 +1,5 @@
 import { forwardRef, ReactElement } from 'react';
 import Box, { BoxProps } from '../../Base/Box/Box';
-import React from 'react';
 
 export interface CardHeaderProps extends Omit<BoxProps, 'title'> {
     title?: string | ReactElement;

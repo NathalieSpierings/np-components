@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+import { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions, VerticalPositionDefinition } from '../../../../lib/utils/definitions';
 import SearchInput from '../../../Forms/SearchInput/SearchInput';
@@ -249,7 +249,7 @@ const meta: Meta<typeof MainLayout> = {
     decorators: [
         (Story) => (
             <LayoutProvider>
-                <div style={{ height: '640px' }}>
+                <div style={{ height: '100%' }}>
                     <Story />
                 </div>
             </LayoutProvider>
@@ -324,6 +324,17 @@ export const WithoutSidebars: Story = {
     decorators: [
         (Story) => (
             <LayoutSettings hasSidebars={false}>
+                <Story />
+            </LayoutSettings>
+        ),
+    ],
+    render: (args) => renderWithRouter(args),
+};
+
+export const WithoutSidebarsAndHeader: Story = {
+    decorators: [
+        (Story) => (
+            <LayoutSettings hasSidebars={false} showHeader={false}>
                 <Story />
             </LayoutSettings>
         ),

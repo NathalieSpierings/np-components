@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, ReactElement, useCallback, useEffect } from 'react';
+import { FC, PropsWithChildren, ReactElement, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { ColorDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import DismissButton from '../../UI/DismissButton/DismissButton';

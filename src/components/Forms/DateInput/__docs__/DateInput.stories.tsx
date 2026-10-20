@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import DateInput from '../DateInput';
 import moment from 'moment';

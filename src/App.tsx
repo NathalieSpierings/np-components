@@ -107,8 +107,6 @@ const TemplateLayout = () => {
             drawerWidth: '400px',
             drawer: <Settings />,
         },
-
-
     ]
 
     const nav = useNavigation();

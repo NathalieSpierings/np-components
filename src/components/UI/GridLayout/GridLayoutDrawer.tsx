@@ -1,7 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import DismissButton from '../../UI/DismissButton/DismissButton';
-import React from 'react';
 
 export interface GridLayoutDrawerProps extends PropsWithChildren {
     title?: string;

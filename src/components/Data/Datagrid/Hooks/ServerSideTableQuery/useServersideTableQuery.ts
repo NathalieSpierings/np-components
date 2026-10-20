@@ -3,7 +3,7 @@ import type { DatagridRowConfig } from "../../Config/DatagridRowConfig";
 import type { DatagridColumnFilterConfig } from "../../Filters/DatagridColumnFilter";
 import type { ServersideTableQueryConfig, ServersideTableQueryFilterColumn, ServersideTableQueryResult } from "./types";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import serverToClientColumnFilterTypeMap from "./serverToClientColumnFilterTypeMap";
 import { getServersideTableQueryParams } from "./useServersideTableQueryParams";
 
@@ -12,7 +12,7 @@ import { getServersideTableQueryParams } from "./useServersideTableQueryParams";
 const serverToClientColumnFilterInfo = <TValue,>(server: ServersideTableQueryFilterColumn<TValue>): DatagridColumnFilterConfig => {
     return {
         ...serverToClientColumnFilterTypeMap[server.columnFilterType],
-        options: server.allowedValues.map(a => ({
+        options: server.allowedValues?.map(a => ({
             label: a.label ?? String(a.value),
             value: String(a.value)
         })),
@@ -56,13 +56,17 @@ const useServersideTableQuery = <TData, TError = unknown>(
 ) => {
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<TData> | null>(null);
     const [config, setConfig] = useState<ServersideTableQueryConfig<TData> | null>(null);
-    const [data, setData] = useState<ServersideTableQueryResult<TData>>({ TotalCount: 0, Items: [] });
+    const [data, setData] = useState<ServersideTableQueryResult<TData>>({ totalCount: 0, items: [] });
 
     const [configLoading, setConfigLoading] = useState(true);
     const [dataLoading, setDataLoading] = useState(true);
 
     const [configError, setConfigError] = useState<TError | null>(null);
     const [dataError, setDataError] = useState<TError | null>(null);
+
+    // Incremented by refetch, to fetch the data again with the same query parameters
+    const [refetchCount, setRefetchCount] = useState(0);
+    const refetch = useCallback(() => setRefetchCount(count => count + 1), []);
 
     // Fetch the table configuration once.
     useEffect(() => {
@@ -93,8 +97,14 @@ const useServersideTableQuery = <TData, TError = unknown>(
         };
     }, []);
 
-    // Fetch data whenever the query parameters change.
+    // Fetch data whenever the query parameters change (or refetch is called).
     useEffect(() => {
+        // Wait for the table to report its options (DataGrid does so when mounted): without pagination,
+        // the server would return the whole table
+        if (tableOptions?.pagination == null) {
+            return;
+        }
+
         const queryParameters = getServersideTableQueryParams(tableOptions);
         let cancelled = false;
 
@@ -121,7 +131,7 @@ const useServersideTableQuery = <TData, TError = unknown>(
         return () => {
             cancelled = true;
         };
-    }, [tableOptions]);
+    }, [tableOptions, refetchCount]);
 
     const transformedDataRowConfig = config
         ? ApplyConfigToTable(config, dataRowConfig)
@@ -131,11 +141,14 @@ const useServersideTableQuery = <TData, TError = unknown>(
         // onFilterUpdate-update to be passed to DataGrid
         onFilterUpdate: setTableOptions,
 
+        // Fetch the data again with the current table options (e.g. after the data was changed)
+        refetch,
+
         //  Table-data, actual data items to return
-        data: config ? data.Items : [],
+        data: config ? data.items : [],
 
         // Total count of data-items excluding filters
-        total: config ? data.TotalCount : 0,
+        total: config ? data.totalCount : 0,
 
         // Transformed dataRowConfig, includes allowed filters and storts retrieved from sever
         dataRowConfig: transformedDataRowConfig,

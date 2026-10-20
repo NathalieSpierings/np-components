@@ -1,12 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import React, { PropsWithChildren, ReactElement, useEffect } from 'react';
+import { PropsWithChildren, ReactElement, useEffect } from 'react';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { LayoutProvider, useLayoutContext } from '../../../Providers/LayoutContext/LayoutContext';
 import BasicLayout, { BasicLayoutProps } from '../BasicLayout';
-
-/* ------------------------------------------------------------------ */
-/* Voorbeeld-content                                                  */
-/* ------------------------------------------------------------------ */
 
 const PageContent = (): ReactElement => (
     <>
@@ -22,9 +18,6 @@ const PageContent = (): ReactElement => (
     </>
 );
 
-/* ------------------------------------------------------------------ */
-/* Story-wrappers                                                     */
-/* ------------------------------------------------------------------ */
 
 const renderWithRouter = (args: BasicLayoutProps): ReactElement => (
     <MemoryRouter initialEntries={['/']}>
@@ -51,10 +44,6 @@ const LayoutSettings = ({
 
     return <>{children}</>;
 };
-
-/* ------------------------------------------------------------------ */
-/* Meta                                                               */
-/* ------------------------------------------------------------------ */
 
 const meta: Meta<typeof BasicLayout> = {
     title: 'Page/Basic layout',
@@ -83,10 +72,6 @@ const meta: Meta<typeof BasicLayout> = {
 
 export default meta;
 type Story = StoryObj<typeof BasicLayout>;
-
-/* ------------------------------------------------------------------ */
-/* Stories                                                            */
-/* ------------------------------------------------------------------ */
 
 export const Default: Story = {
     render: (args) => renderWithRouter(args),

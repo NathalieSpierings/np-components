@@ -5,7 +5,6 @@ import Button from '../Button/Button';
 import Icon from '../Icons/Icon/Icon';
 import WizardProgressbar from '../WizardProgressbar/WizardProgressbar';
 import Dropdown from '../../Forms/Dropdown/Dropdown';
-import React from 'react';
 
 export type WizardDataChangeHandler<TData> = (data: TData) => void;
 

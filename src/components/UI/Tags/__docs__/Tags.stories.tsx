@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { Icon, LayoutProvider } from '../../..';
 import { SvgSprite } from '../../../../assets/SvgSprite';

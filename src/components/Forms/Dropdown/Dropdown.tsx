@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { PropsWithChildren, ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import Box, { BoxProps } from "../../Base/Box/Box";

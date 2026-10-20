@@ -160,6 +160,8 @@ export interface DatagridContentProps {
     tableFooterContent?: ReactNode;
 }
 
+export type DatagridTabsDisplay = "auto" | "labels" | "icons";
+
 export interface DatagridTabsProps {
     enableTabs?: boolean;
     tabs?: DatagridTabItem[];
@@ -169,6 +171,9 @@ export interface DatagridTabsProps {
     enableTabFilters?: boolean;
     tabsMinWidth?: number;
     tabsMaxWidth?: number;
+    // "auto": alleen iconen als de labels niet in de hoogte van de tabel passen
+    // "labels": altijd volledige tabs, "icons": altijd alleen iconen (label in tooltip)
+    tabsDisplay?: DatagridTabsDisplay;
 }
 
 export interface DatagridSidebarConfig<TData> {
@@ -218,9 +223,12 @@ export interface DatagridToolbarProps {
     toolbarPrefixItems?: ReactNode[];
     toolbarPostfixItems?: ReactNode[];
     toolbarSeparator?: boolean;
+    toolbarSticky?: boolean;    
+    toolbarStickyBackground? : ColorDefinitions;
     toolbarBorderBottom?: boolean;
+    toolbarPaddingBottom?: boolean;
+    toolbarMarginBottom?: boolean;
     toolbarCss?: string;
-    toolbarCompact?: boolean;
 }
 
 export interface DatagridLoaderProps {
@@ -284,6 +292,7 @@ function Datagrid<TData extends { id: string | number }>({
     tabberPosition = "right",
     tabsMinWidth,
     tabsMaxWidth,
+    tabsDisplay = "auto",
     enableTabColumnVisibility,
     enableTabFilters,
     enableRowHover = false,
@@ -316,8 +325,11 @@ function Datagrid<TData extends { id: string | number }>({
     toolbarPostfixItems = [],
     toolbarSeparator,
     toolbarBorderBottom = false,
+    toolbarSticky = false,
+    toolbarStickyBackground = ColorDefinitions.Transparent,
+    toolbarPaddingBottom = true,
+    toolbarMarginBottom= true,
     toolbarCss = '',
-    toolbarCompact = false,
     loaderDuration,
     loaderBackground,
     loaderEnableAnimation,
@@ -756,8 +768,11 @@ function Datagrid<TData extends { id: string | number }>({
                             prefixItems={prefixElements}
                             postfixItems={postfixElements}
                             borderBottom={toolbarBorderBottom}
-                            toolbarCss={toolbarCss}
-                            compact={toolbarCompact}
+                            css={toolbarCss}
+                            marginBottom={toolbarMarginBottom}
+                            paddingBottom={toolbarPaddingBottom}
+                            sticky={toolbarSticky}
+                            stickyBackground={toolbarStickyBackground}
                         />
                     )}
 
@@ -805,6 +820,7 @@ function Datagrid<TData extends { id: string | number }>({
                             tabberPosition={tabberPosition}
                             tabsMinWidth={tabsMinWidth}
                             tabsMaxWidth={tabsMaxWidth}
+                            tabsDisplay={tabsDisplay}
                         />
                     )}
 
@@ -924,6 +940,7 @@ function Datagrid<TData extends { id: string | number }>({
                             tabberPosition={tabberPosition}
                             tabsMinWidth={tabsMinWidth}
                             tabsMaxWidth={tabsMaxWidth}
+                            tabsDisplay={tabsDisplay}
                         />
 
                     )}

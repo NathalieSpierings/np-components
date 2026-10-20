@@ -1,5 +1,4 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React from 'react';
 import ArtIgo from '../../../Base/Art/ArtIgo';
 import Widget from '../Widget';
 

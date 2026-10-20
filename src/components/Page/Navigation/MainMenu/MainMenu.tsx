@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ReactNode } from 'react';
+import { FC, ReactElement, ReactNode } from 'react';
 import { NavLink } from 'react-router';
 import { ColorDefinitions, IconDefinitions, VerticalPositionDefinition } from '../../../../lib/utils/definitions';
 import Icon from '../../../UI/Icons/Icon/Icon';

@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { defaultProductColumns } from "../../../../lib/testdata/mock";
 import { getShopProductenQuery, ShopMetProductenModel, ShopProductModel } from "../../../../lib/testdata/models";
 import EventStopper from "../../../Base/EventStopper/EventStopper";

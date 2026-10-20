@@ -1,4 +1,4 @@
-import React, { CSSProperties, PropsWithChildren } from "react";
+import { CSSProperties, PropsWithChildren } from "react";
 import ContentItem from "../../UI/ContentItem/ContentItem";
 import DismissButton from "../../UI/DismissButton/DismissButton";
 import { MainMenuItem } from "../Navigation/MainMenu/MainMenu";

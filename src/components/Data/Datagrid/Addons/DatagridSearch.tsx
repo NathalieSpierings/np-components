@@ -1,4 +1,3 @@
-import React from "react";
 import SearchInput from "../../../Forms/SearchInput/SearchInput";
 
 export interface DatagridSearchProps {

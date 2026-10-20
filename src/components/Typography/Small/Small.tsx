@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 export interface SmallProps extends PropsWithChildren {
     mute?: boolean;

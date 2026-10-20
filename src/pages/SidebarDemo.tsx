@@ -121,6 +121,10 @@ const SidebarDemo: React.FC = () => {
             title: "Tabs"
         },
         {
+            url: "/demo/dg-tab-icons",
+            title: "Tabs as icon"
+        },
+        {
             url: "/demo/dg-sidebarandtabs",
             title: "Sidebar & tabs"
         },
@@ -132,7 +136,6 @@ const SidebarDemo: React.FC = () => {
             title: "Theme",
             url: "/demo/theme",
         },
-
         {
             url: '/demo/tags',
             title: "Tags"

@@ -2,7 +2,6 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Icon from '../../Icons/Icon/Icon';
 import Button from '../Button';
-import React from 'react';
 
 const meta: Meta<typeof Button> = {
     title: 'UI kit/Button',

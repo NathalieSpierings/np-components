@@ -39,7 +39,9 @@ export interface DatagridRowConfig<
     title: string;
     sortable?: boolean;
 
-    transformValue?: (value: NestedValue<TData, TProp>) => TTransformedValue;
+    // (Method syntax on purpose: parameters are then checked bivariantly, so configs for different props
+    // can be combined in a single DatagridRowConfig<TData>[])
+    transformValue?(value: NestedValue<TData, TProp>): TTransformedValue;
     useItemOnly?: (item: TData) => ReactNode;
     wrapValue?: (item: TData, value: TTransformedValue) => ReactNode;
 
@@ -54,7 +56,7 @@ export interface DatagridRowConfig<
     tooltipColor?: ColorDefinitions;
     tooltipArrow?: boolean;
 
-    filter?: DatagridColumnFilterConfig<TData>;
+    filter?: DatagridColumnFilterConfig<TData, any>;
 
     width?: number;
     visible?: boolean;

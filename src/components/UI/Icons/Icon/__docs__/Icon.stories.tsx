@@ -1,5 +1,4 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React from 'react';
 import styled from 'styled-components';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../../lib/utils/definitions';
 import Icon from '../Icon';

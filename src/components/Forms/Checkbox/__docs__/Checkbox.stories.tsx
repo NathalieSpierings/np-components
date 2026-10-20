@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React, { ReactElement, useState } from 'react';
+import React, { useState } from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Checkbox, { FormCheckbox } from '../Checkbox';
 import { useForm } from 'react-hook-form';

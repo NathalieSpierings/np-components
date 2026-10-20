@@ -137,9 +137,105 @@ voldoen. Zodra er een filter actief is, verschijnt de knop "Filter wissen".
 - **Tekst**: Zoeken op bijvoorbeeld "bevat", "begint met" of "is leeg" (`type: "text"`).
 - **Getal**: Vergelijken met "gelijk aan", "groter dan", "tussen" enzovoort (`type: "number"`).
 - **Datum**: Filteren op "voor", "na" of "tussen" (`type: "date"`).
-- **Keuzelijst**: Een of meer waarden kiezen (`type: "select"`, met `multiSelect` voor meerdere). De keuzes geef je zelf op (`options`) of laat je uit de data halen (`optionsSource`).
+- **Keuzelijst**: Een of meer waarden kiezen (`type: "select"`, met `multiSelect` voor meerdere). Zie hieronder hoe je de keuzes opgeeft.
 
 <Canvas of={DatagridStories.ColumnFilter} />
+
+### Keuzes voor een keuzelijst
+
+Een keuzelijst (`type: "select"`) heeft keuzes nodig. Die geef je op een van deze drie manieren op. Dit werkt
+hetzelfde met en zonder `multiSelect`.
+
+| Property | Wanneer gebruiken |
+| --- | --- |
+| `options` | Je hebt een vaste lijst met keuzes. |
+| `dataSource: "veldnaam"` | De keuzes staan al in de rijen. De tabel haalt ze zelf op. |
+| `dataSource: lijst` | De keuzes komen uit een andere lijst, bijvoorbeeld van een endpoint. |
+
+Bij `dataSource` gaat de rest automatisch:
+
+- Dubbele keuzes worden weggehaald.
+- De keuzes worden gesorteerd op label.
+- Is de waarde in een rij een array (bijvoorbeeld meerdere tags of volgers), dan wordt elk element een keuze.
+  Een rij voldoet aan het filter als **minstens één** element is gekozen.
+
+#### Vaste lijst (`options`)
+
+```tsx
+filter: {
+    type: "select",
+    options: [
+        { label: "Actief", value: "Actief" },
+        { label: "Nieuw", value: "Nieuw" },
+    ]
+}
+```
+
+#### Keuzes uit de rijen (`dataSource: "veldnaam"`)
+
+Geef de naam van het veld op. Bij tekst of getallen is dat genoeg:
+
+```tsx
+{
+    prop: "tags",                 // ["Bestseller", "Aanbieding"]
+    title: "Tags",
+    filter: {
+        type: "select",
+        multiSelect: true,
+        dataSource: "tags",
+    }
+}
+```
+
+Bevat het veld objecten, geef dan ook `mapOption` mee. Daarmee bepaal je wat de gebruiker ziet (`label`) en
+waarop gefilterd wordt (`value`):
+
+```tsx
+{
+    prop: "followers",            // [{ id: "G00004", displayName: "Jason Leeuwen", ... }]
+    title: "Volgers",
+    transformValue: (value: unknown) =>
+        Array.isArray(value) ? value.map((f: UserModel) => f.displayName).join(", ") : "",
+    filter: {
+        type: "select",
+        multiSelect: true,
+        dataSource: "followers",
+        mapOption: (f: UserModel) => ({ label: f.displayName, value: f.id }),
+    }
+}
+```
+
+#### Keuzes uit een andere lijst (`dataSource: lijst`)
+
+Geef een array mee, bijvoorbeeld alle gebruikers die je van een endpoint ophaalt. De dropdown toont dan ook
+gebruikers die in geen enkele rij voorkomen.
+
+```tsx
+const { data: users } = useQuery({ queryKey: ["users"], queryFn: getUsers });
+
+const columns = useMemo(() => [
+    {
+        prop: "followers",
+        title: "Volgers",
+        filter: {
+            type: "select",
+            multiSelect: true,
+            dataSource: users ?? [],
+            mapOption: (f: UserModel) => ({ label: f.displayName, value: f.id }),
+        }
+    },
+], [users]);
+```
+
+> **Let op:** `mapOption` wordt gebruikt voor de keuzes én voor de waarden in de rij. Zorg dat beide hetzelfde
+> type hebben (hier `UserModel`), zodat de `value` (het `id`) overeenkomt.
+>
+> Zet de kolommen in een `useMemo` met de lijst als afhankelijkheid. Dan worden de keuzes bijgewerkt zodra
+> de data van het endpoint binnen is.
+
+In dit voorbeeld filter je op de kolom "Tags" (`dataSource: "tags"`):
+
+<Canvas of={DatagridStories.ColumnFilterArray} />
 
 ---
 
@@ -371,9 +467,21 @@ de inhoud per tab (`tabPanes`) zelf op. De tabel kan ook zelf een tab toevoegen 
 
 - **Positie**: Links of rechts van de tabel, standaard rechts (`tabberPosition`).
 - **Breedte**: De gebruiker kan het paneel breder of smaller slepen, standaard tussen 280 en 600 pixels (`tabsMinWidth`, `tabsMaxWidth`).
+- **Weergave**: Bepaal hoe de tabs eruitzien (`tabsDisplay`). Met `"auto"` (standaard) tonen de tabs alleen een icoon
+  als de labels niet in de hoogte van de tabel passen, bijvoorbeeld bij weinig rijen zonder `fullHeight`. Het label
+  staat dan in een tooltip. Met `"labels"` zie je altijd de volledige tabs, met `"icons"` altijd alleen iconen.
+  De tabs maken de tabel nooit hoger: passen ze niet, dan kun je in de tabkolom scrollen.
 
 ### Tabs
 <Canvas of={DatagridStories.Tabs} />
+
+### Tabs bij weinig rijen
+Bij 1 rij en 3 tabs passen de labels niet, dus tonen de tabs alleen een icoon.
+<Canvas of={DatagridStories.TabsSingleRow} />
+
+### Tabs weergave
+Wissel tussen het aantal rijen en de weergave om te zien wanneer de tabs compact worden.
+<Canvas of={DatagridStories.TabsDisplay} />
 
 ### Sidebar en tabs
 <Canvas of={DatagridStories.SidebarAndTabs} />

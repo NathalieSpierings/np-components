@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 
 export interface ColumnsContentProps extends PropsWithChildren {
   className?: string;

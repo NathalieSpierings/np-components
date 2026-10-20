@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, PropsWithChildren, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import { IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import Icon from '../../UI/Icons/Icon/Icon';
 import DismissButton from '../DismissButton/DismissButton';

@@ -1,4 +1,3 @@
-import React from "react";
 import { ColorDefinitions, IconDefinitions } from "../../../../lib/utils/definitions";
 import Button, { ButtonProps } from "../../../UI/Button/Button";
 import Icon from "../../../UI/Icons/Icon/Icon";

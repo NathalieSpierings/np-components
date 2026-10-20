@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import Box, { BoxProps } from '../../Base/Box/Box';
 import Icon from '../../UI/Icons/Icon/Icon';

@@ -1,5 +1,6 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import Datagrid, { DatagridProps } from "../Datagrid/Datagrid";
+import { ColorDefinitions } from "../../../lib/utils/definitions";
 
 export interface DetailgridProps<TData> extends DatagridProps<TData> {
 }
@@ -46,8 +47,11 @@ function Detailgrid<TData extends { id: string | number }>({
     toolbarPostfixItems = [],
     toolbarSeparator,
     toolbarBorderBottom = false,
+    toolbarSticky = false,
+    toolbarStickyBackground = ColorDefinitions.Transparent,
+    toolbarPaddingBottom = true,
+    toolbarMarginBottom = true,
     toolbarCss = '',
-    toolbarCompact = false,
     loaderDuration,
     loaderBackground,
     loaderEnableAnimation,
@@ -97,15 +101,18 @@ function Detailgrid<TData extends { id: string | number }>({
             enableTableInfo={enableTableInfo}
             tableInfoContent={tableInfoContent}
             tableInfoBorderBottom={tableInfoBorderBottom}
-            tableInfoBorderColor={tableInfoBorderColor}
+            tableInfoBorderColor={tableInfoBorderColor}            
             toolbarTitle={toolbarTitle}
             toolbarNavItems={toolbarNavItems}
             toolbarPrefixItems={toolbarPrefixItems}
             toolbarPostfixItems={toolbarPostfixItems}
             toolbarSeparator={toolbarSeparator}
-            toolbarBorderBottom={toolbarBorderBottom}
-            toolbarCompact={toolbarCompact}
-            toolbarCss={toolbarCss}
+            toolbarBorderBottom={toolbarBorderBottom}      
+            toolbarCss={toolbarCss}           
+            toolbarMarginBottom={toolbarMarginBottom}
+            toolbarPaddingBottom={toolbarPaddingBottom}
+            toolbarSticky={toolbarSticky}
+            toolbarStickyBackground={toolbarStickyBackground}
             loaderDuration={loaderDuration}
             loaderBackground={loaderBackground}
             loaderEnableAnimation={loaderEnableAnimation}

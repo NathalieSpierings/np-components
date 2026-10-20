@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import Search from "../../../Base/Search/Search";
 import Dropdown from "../../../Forms/Dropdown/Dropdown";
@@ -8,7 +8,7 @@ import Button from "../../../UI/Button/Button";
 import Icon from "../../../UI/Icons/Icon/Icon";
 import Tooltip from "../../../UI/Tooltip/Tooltip";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import { DatagridColumnFilterValue, DatagridFilterOption, getUniqueFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
+import { DatagridColumnFilterValue, DatagridFilterOption, getFilterOptions, isActiveColumnFilter } from "./DatagridColumnFilter";
 import { getDefaultOperator, getOperators } from "./DatagridFilterOperators";
 
 export interface DatagridFilterDropdownProps<TData> {
@@ -34,22 +34,7 @@ export default function DatagridFilterDropdown<TData>({
             return [];
         }
 
-        if (filter.options) {
-            return getUniqueFilterOptions(filter.options);
-        }
-
-       if (filter.optionsSource && dataRaw) {
-            return getUniqueFilterOptions(filter.optionsSource(dataRaw).map((item) =>
-                filter.mapOption
-                    ? filter.mapOption(item)
-                    : {
-                        label: String(item),
-                        value: String(item)
-                    }
-            ));
-        }
-
-        return [];
+        return getFilterOptions(filter, dataRaw);
     }, [filter, dataRaw]);
 
     const multiselectItems = useMemo<MultiselectItem[]>(() => {

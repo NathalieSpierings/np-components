@@ -116,10 +116,10 @@
 
 @layer menu {
     .menu {
-        --sb-main-menu-accent-color: var(--color-primary);
-        --sb-main-menu-item-icon-size: 24px;
-        --sb-main-menu-icon-color: var(--color-foreground);
-        --sb-main-menu-active-color: var(--color-background);
+        --ml-menu-menu-accent: var(--color-primary);
+        --ml-menu-menu-icon-size: 24px;
+        --ml-menu-menu-icon-color: var(--color-foreground);
+        --ml-menu-menu-active: var(--color-background);
 
         display: flex;
         flex-direction: column;
@@ -166,19 +166,19 @@
                     text-align: start;
                     user-select: none;
 
-                    color: var(--sb-main-menu-icon-color);
-                    width: var(--sb-main-menu-item-icon-size);
-                    height: var(--sb-main-menu-item-icon-size);
+                    color: var(--ml-menu-menu-icon-color);
+                    width: var(--ml-menu-menu-icon-size);
+                    height: var(--ml-menu-menu-icon-size);
                 }
 
                 &.active {
-                    border-left: 2px solid var(--sb-main-menu-accent-color);
+                    border-left: 2px solid var(--ml-menu-menu-accent);
                 }
             }
 
             &:has(.sidebar-account) {
                 height: auto;
-                border-top: 1px solid var(--sb-main-border);
+                border-top: 1px solid var(--ml-menu-border);
             }
         }
     }
@@ -189,7 +189,7 @@
     .logo {
         padding-top: var(--page-padding-sm);
         padding-bottom: 0.5rem;
-        border-bottom: 1px solid var(--sb-main-border);
+        border-bottom: 1px solid var(--ml-menu-border);
         margin-bottom: var(--page-padding-sm);
 
         .brand {
@@ -243,13 +243,15 @@
         --ml-menu-margin: var(--page-padding-sm) 0 var(--page-padding-sm) var(--page-padding-sm);
         --ml-menu-width: 75px;
         --ml-menu-background: var(--color-theme-500);
+        --ml-menu-border: var(--color-border-theme-500);
 
         --ml-sidebar-width: 280px;
-
         --ml-sidebar-padding-x: var(--page-padding-sm);
         --ml-sidebar-padding-y: var(--page-padding);
 
         --ml-drawer-width: 400px;
+
+        position: relative;
 
         &__backdrop {
             display: none;
@@ -341,6 +343,7 @@
             align-items: center;
             flex-direction: column;
             flex-shrink: 0;
+
 
             &.shown {
                 visibility: visible;
@@ -437,12 +440,12 @@
                 display: block;
                 position: fixed;
                 inset: 0;
-                z-index: 10;
                 background: rgb(0 0 0 / 40%);
                 opacity: 0;
                 visibility: hidden;
                 pointer-events: none;
                 transition: opacity 0.2s ease, visibility 0.2s ease;
+                z-index: var(--ml-backdrop-zindex);
             }
 
             &:has(.main-layout__menu.shown,
@@ -456,15 +459,15 @@
             }
 
             &__sidebar {
-                z-index: 11;
+                z-index: var(--ml-sidebar-zindex);
             }
 
             &__menu {
-                z-index: 12;
+                z-index: var(--ml-menu-zindex);
             }
 
             &__drawer {
-                z-index: 13;
+                z-index: var(--ml-drawer-zindex);
             }
         }
 
@@ -478,7 +481,7 @@
             }
         }
 
-        &--fullscreen{
+        &--fullscreen {
             --ml-padding: 0;
         }
     }
@@ -501,7 +504,7 @@
             }
 
             &.active,
-            &:has(> .sidebar-menu__item__link.active)  {
+            &:has(> .sidebar-menu__item__link.active) {
                 background: var(--color-active);
             }
 

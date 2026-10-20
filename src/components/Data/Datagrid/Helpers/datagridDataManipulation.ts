@@ -42,6 +42,25 @@ const getValue = <TData>(
      return config.transformValue(rawValue as any);
 };
 
+// Waarde om op te sorteren: datums altijd op tijdstempel,
+// niet op hun (getransformeerde) weergavetekst.
+const getSortValue = <TData>(
+    item: TData,
+    prop: string,
+    propertyConfigs?: DatagridRowConfig<TData>[]
+): any => {
+    const rawValue = getNestedValue(item, prop as any);
+    const config = getPropConfig(prop, propertyConfigs);
+
+    if (rawValue instanceof Date || (config?.filter?.type === 'date' && rawValue != null)) {
+        const date = normalizeDate(rawValue);
+        const time = date?.getTime();
+        return time == null || Number.isNaN(time) ? null : time;
+    }
+
+    return getValue(item, prop, propertyConfigs);
+};
+
 export function defaultSort<TData>(
     items: TData[],
     sortConfig: DatagridSortConfig,
@@ -58,8 +77,8 @@ export function defaultSort<TData>(
         if (config?.sort) {
             result = config.sort(a, b);
         } else {
-            const valA = getValue(a, sortConfig.prop, propertyConfigs);
-            const valB = getValue(b, sortConfig.prop, propertyConfigs);
+            const valA = getSortValue(a, sortConfig.prop, propertyConfigs);
+            const valB = getSortValue(b, sortConfig.prop, propertyConfigs);
 
             const aIsNull = valA === null || valA === undefined;
             const bIsNull = valB === null || valB === undefined;

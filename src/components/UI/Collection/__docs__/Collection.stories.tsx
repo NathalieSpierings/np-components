@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Checkbox from '../../../Forms/Checkbox/Checkbox';
 import Button from '../../Button/Button';

@@ -7,15 +7,16 @@ export type DatagridColumnFilterTypeServer = "text" | "number" | "date" | "singl
 
  //Result of an endpoint using Promeetec.ServerSideTableQuery
 interface ServersideTableQueryResult<T> {
-    Items: T[];
-    TotalCount: number;
+    items: T[];
+    totalCount: number;
 }
 
 
  //Information on an allowed value, as given by Promeetec.ServerSideTableQuery
 interface ServersideTableQueryValue<T> {
     value: T,
-    label?: string,
+    // (null/undefined: no label, the value is shown instead)
+    label?: string | null,
 }
 
 
@@ -24,8 +25,9 @@ interface ServersideTableQueryFilterColumn<TValue> {
     // Datatype of column, determines allowed operations
     columnFilterType: DatagridColumnFilterTypeServer
      
-     //Valid values including a description. Used for enum-like filtervalues (Optional, empty = undefined)    
-    allowedValues: ServersideTableQueryValue<TValue>[]
+    // Valid values including a description. Used for enum-like filtervalues.
+    // null/undefined = no restriction on the values (Not the same as an empty list: no values are allowed)
+    allowedValues?: ServersideTableQueryValue<TValue>[] | null
 }
 
 

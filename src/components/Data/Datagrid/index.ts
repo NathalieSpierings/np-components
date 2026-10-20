@@ -38,7 +38,7 @@ export * from './Table/DatagridTable'
 
 export type * from './Hooks/ServerSideTableQuery/types'
 export * from './Hooks/ServerSideTableQuery/useServersideTableQuery';
-export { getServersideTableQueryParams } from "./Hooks/ServerSideTableQuery/useServersideTableQueryParams"
+export { getServersideTableQueryParams, getDatagridGetDataArguments } from "./Hooks/ServerSideTableQuery/useServersideTableQueryParams"
 
 
 export * from './Datagrid';

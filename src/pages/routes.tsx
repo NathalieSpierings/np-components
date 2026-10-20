@@ -65,7 +65,7 @@ import DatagridExternalFilterToolbarDemo from "./Demo/Datagrid/DatagridExternalF
 import DatagridExternalFilterCustomDemo from "./Demo/Datagrid/DatagridExternalFilterCustomDemo";
 import AvatarDemo from "./Demo/UI/AvatarDemo";
 import ArtDemo from "./Demo/Art/ArtDemo";
-
+import DatagridTabIconsDemo from "./Demo/Datagrid/DatagridTabIconsDemo";
 
 export const getInitialMenuItem = (pathname: string) => {
 
@@ -76,6 +76,7 @@ export const getInitialMenuItem = (pathname: string) => {
 	if (matchPath(proxyPrefix + "/demo/*", pathname)) {
 		return "demo";
 	}
+
 
 	return undefined;
 }
@@ -280,6 +281,10 @@ export const routes = [
 		element: <DatagridTabsDemo />
 	},
 	{
+		path: "/demo/dg-tab-icons",
+		element: <DatagridTabIconsDemo />
+	},
+	{
 		path: "/demo/dg-toolbar",
 		element: <DatagridToolbarDemo />
 	},
@@ -296,7 +301,7 @@ export const routes = [
 		path: "/demo/multiselect",
 		element: <MultiselectDemo />
 	},
-	// UI
+	// UI	
 	{
 		path: "/demo/modal",
 		element: <ModalDemo />

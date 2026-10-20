@@ -2,7 +2,6 @@ import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import Avatar from '../Avatar';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import StackedAvatar from '../Stacked/StackedAvatar';
-import React from 'react';
 
 
 const meta: Meta<typeof Avatar> = {

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import Box, { BoxProps } from '../../Base/Box/Box';
 

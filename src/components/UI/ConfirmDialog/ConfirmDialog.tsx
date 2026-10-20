@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { ColorDefinitions, IconDefinitions } from '../../../lib/utils/definitions';
 import Button from '../Button/Button';
 import { Icon } from '../Icons/Icon';

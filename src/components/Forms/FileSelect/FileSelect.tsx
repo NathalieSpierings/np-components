@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactElement, useRef, useState } from 'react';
+import { ChangeEvent, ReactElement, useRef, useState } from 'react';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import { filesize, hasKlantnummerAtEndOfFileName, matchFileType, matchKlantNummer } from '../../../lib/utils/files';
 import Alert from '../../UI/Alert/Alert';

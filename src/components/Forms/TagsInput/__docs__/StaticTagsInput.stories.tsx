@@ -1,5 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
 import { Icon } from '../../../UI/Icons/Icon';
 import StaticTagsInput from '../StaticTagsInput';

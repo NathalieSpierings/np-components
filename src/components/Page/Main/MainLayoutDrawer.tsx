@@ -1,4 +1,4 @@
-import React, { createContext, CSSProperties, PropsWithChildren, useContext, useMemo } from "react";
+import { createContext, CSSProperties, PropsWithChildren, useContext, useMemo } from "react";
 import ContentItem from "../../UI/ContentItem/ContentItem";
 import DismissButton from "../../UI/DismissButton/DismissButton";
 import { MainMenuItem } from "../Navigation/MainMenu/MainMenu";

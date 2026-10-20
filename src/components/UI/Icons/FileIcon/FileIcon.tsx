@@ -1,5 +1,4 @@
-import React, { ReactElement } from 'react';
-import { SizeDefinitions } from '../../../../lib/utils/definitions';
+import { ReactElement } from 'react';
 
 export const iconDefinitions = [
     'unknown',

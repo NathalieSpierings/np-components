@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useContext } from "react";
+import { FC, PropsWithChildren, useContext } from "react";
 import { useColumnLayout } from "../../../components/UI/ColumnLayout/ColumnLayoutContext";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 import DismissButton from "../DismissButton/DismissButton";
@@ -43,15 +43,13 @@ const ColumnLayoutHeader: FC<ColumnLayoutHeaderProps> = ({
     return (
         <header className={cssClass}>
             {showMenuBurger ? (
-                <>
-                    <div className="column-layout__menu-burger">
-                        <Burger
+                 <>
+                    <Burger
                             hasSidebars={layout.hasSidebars}
                             showSidebarMobile={layout.showMenu}
                             setShowSidebarMobile={layout.setShowMenu}
                         />
-                    </div>
-                    <div className="column-layout__header__content">{children}</div>
+                    {children}
                 </>
             ) : (
                 children

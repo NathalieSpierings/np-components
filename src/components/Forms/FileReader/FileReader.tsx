@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { ColorDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import Button from '../../UI/Button/Button';
 import { CollectionItemVariant } from '../../UI/Collection/Collection';

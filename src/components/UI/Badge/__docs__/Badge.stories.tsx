@@ -2,7 +2,6 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import styled from 'styled-components';
 import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Badge from '../Badge';
-import React from 'react';
 
 const meta: Meta<typeof Badge> = {
     title: 'UI kit/Badge',

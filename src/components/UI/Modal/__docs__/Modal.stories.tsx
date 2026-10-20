@@ -4,7 +4,6 @@ import { SvgSprite } from '../../../../assets/SvgSprite';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Button from '../../Button/Button';
 import Modal, { ModalActionPosition, ModalSize, ModalVariant } from '../Modal';
-import React from 'react';
 
 const meta: Meta<typeof Modal> = {
     title: 'UI kit/Modal',

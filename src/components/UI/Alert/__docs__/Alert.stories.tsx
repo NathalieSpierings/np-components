@@ -1,7 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import { SvgSprite } from '../../../../assets/SvgSprite';
 import Alert from '../Alert';
-import React from 'react';
 
 const meta: Meta<typeof Alert> = {
     title: 'UI kit/Alert',

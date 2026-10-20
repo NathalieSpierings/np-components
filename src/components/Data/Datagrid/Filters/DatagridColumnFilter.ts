@@ -1,3 +1,5 @@
+import type { NestedKeyOf } from "../Config/DatagridRowConfig";
+import { getNestedValue } from "../Helpers/datagridTypeHelpers";
 
 export type DatagridColumnFilterType = "text" | "number" | "date" | "select";
 
@@ -43,7 +45,16 @@ export interface DatagridColumnFilterConfig<TData = any, TOption = unknown> {
     type: DatagridColumnFilterType;
     multiSelect?: boolean;
     options?: DatagridFilterOption[];
-    optionsSource?: (data: TData[]) => TOption[];
+    /**
+     * Bron voor de keuzes van een select-filter.
+     * - Veldnaam (bijv. "followers"): de keuzes worden uit de rijen gehaald; arrays worden platgemaakt.
+     * - Array (bijv. users van een endpoint): deze lijst wordt gebruikt als keuzes.
+     */
+    dataSource?: NestedKeyOf<TData> | TOption[];
+    /**
+     * Zet een item om naar { label, value }. Nodig bij objecten.
+     * Wordt ook gebruikt om de waarden in de rij te vergelijken met de gekozen filterwaarden.
+     */
     mapOption?: (value: TOption) => DatagridFilterOption;
 }
 
@@ -91,4 +102,42 @@ export function getUniqueFilterOptions(
             ])
         ).values()
     );
+}
+
+
+// Bouwt de keuzes voor een select-filter op uit options of dataSource.
+// Dubbele waarden worden verwijderd en de keuzes worden gesorteerd op label.
+export function getFilterOptions<TData>(
+    filter: DatagridColumnFilterConfig<TData, any>,
+    dataRaw?: TData[]
+): DatagridFilterOption[] {
+    if (filter.options) {
+        return getUniqueFilterOptions(filter.options);
+    }
+
+    const { dataSource } = filter;
+    let items: unknown[] = [];
+
+    if (Array.isArray(dataSource)) {
+        items = dataSource;
+    } else if (dataSource && dataRaw) {
+        items = dataRaw.flatMap(row => {
+            const value: unknown = getNestedValue(row, dataSource);
+
+            if (Array.isArray(value)) {
+                return value;
+            }
+
+            return value == null ? [] : [value];
+        });
+    }
+
+    const options = items.map(item =>
+        filter.mapOption
+            ? filter.mapOption(item)
+            : { label: String(item), value: String(item) }
+    );
+
+    return getUniqueFilterOptions(options)
+        .sort((a, b) => a.label.localeCompare(b.label));
 }

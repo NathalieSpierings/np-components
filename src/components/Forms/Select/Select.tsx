@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef, ReactElement, ReactNode, SelectHTMLAttributes } from 'react';
+import { ChangeEvent, forwardRef, ReactElement, ReactNode, SelectHTMLAttributes } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import { InputVariant, ValidationState } from '../Input/Input';
 

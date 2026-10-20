@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 import ContentItem from '../ContentItem/ContentItem';
 

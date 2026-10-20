@@ -1,7 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Link from '../Link';
-import React from 'react';
 
 const meta: Meta<typeof Link> = {
     title: 'Typography/Link',

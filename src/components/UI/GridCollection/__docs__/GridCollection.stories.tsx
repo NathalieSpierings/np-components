@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import GridCollection from '../GridCollection';
-import React from 'react';
 
 const meta: Meta<typeof GridCollection> = {
     title: 'UI kit/GridCollection',

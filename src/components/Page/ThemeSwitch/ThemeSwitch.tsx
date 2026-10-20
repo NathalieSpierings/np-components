@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 export interface ThemeSwitchProps {}
 
@@ -7,7 +7,7 @@ type Theme = typeof themes[number];
 
 const themeIcons: Record<Theme, string> = {
     'theme-light': '#svg_icon_sun',
-    'theme-dimmed': '#svg_icon_moon_clouds',
+    'theme-dimmed': '#svg_icon_sun_fog',
     'theme-dark': '#svg_icon_moon',
 };
 
@@ -50,7 +50,7 @@ const ThemeSwitch: FC<ThemeSwitchProps> = () => {
 
     return (
         <div className="theme-switcher">            
-            <svg className="icon-duotone" onClick={themeSwitch}>
+            <svg className="icon-duotone" onClick={themeSwitch} aria-label="Switch theme">
                 <use xlinkHref={themeIcons[currentTheme]} />
             </svg>
         </div>

@@ -1,6 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import ConfirmDialog from '../ConfirmDialog';
-import React from 'react';
 import { ConfirmDialogProvider, useConfirmDialog } from '../../../Providers/ConfirmDialogContext';
 import { Button } from '../../Button';
 

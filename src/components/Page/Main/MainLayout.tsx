@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactElement, useCallback, useEffect, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { SvgSprite } from "../../../assets/SvgSprite";
 import { useLayoutContext } from "../../Providers/LayoutContext/LayoutContext";

@@ -4,7 +4,6 @@ import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definit
 import Multiselect, { MultiselectItem, MultiselectItemId } from '../Multiselect';
 import Dropdown from '../../Dropdown/Dropdown';
 import Title from '../../../Typography/Title/Title';
-import React from 'react';
 
 const meta: Meta<typeof Multiselect> = {
     title: 'Forms/Multiselect',

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
-import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../../assets/SvgSprite';
 import { IconDefinitions, VerticalPositionDefinition } from '../../../../../lib/utils/definitions';

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 
 export type LoaderVariant = 'centered' | 'screen-overlay' | 'table' | 'table-overlay' ;

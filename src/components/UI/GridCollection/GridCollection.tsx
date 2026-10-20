@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
 import { GridCollectionViewSelectorOption } from './GridCollectionViewSelector';
-import React from 'react';
 
 export interface GridCollectionProps extends PropsWithChildren {
     view: GridCollectionViewSelectorOption;

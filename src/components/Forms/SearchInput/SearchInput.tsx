@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { IconDefinitions } from '../../../lib/utils/definitions';
 import Icon from '../../UI/Icons/Icon/Icon';
 import { Input, InputProps } from '../Input/Input';

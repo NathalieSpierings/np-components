@@ -1,6 +1,5 @@
 import { Meta, StoryFn } from "@storybook/react-webpack5";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
 import { MemoryRouter } from "react-router";
 import { SvgSprite } from "../../../../../../assets/SvgSprite";
 import { defaultProductColumns, serversideQueryConfig} from "../../../../../../lib/testdata/mock";
@@ -59,8 +58,8 @@ const fetchQuery = async (queryParameters: URLSearchParams) : Promise<Serverside
         });
 
         return {
-            Items: items,
-            TotalCount: totalCount,
+            items: items,
+            totalCount: totalCount,
         }
     } catch (e) {
         console.error("Caught exception in fake fetchQuery", e);

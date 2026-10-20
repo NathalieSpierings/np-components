@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import { memo, useState } from "react";
 import { defaultOrderColumns } from "../../../../lib/testdata/mock";
 import { getOrdersForProduct, OrderGetModel, ProductGetModel } from "../../../../lib/testdata/models";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";

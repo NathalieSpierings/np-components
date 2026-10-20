@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { UseQueryOptions, useQuery } from '@tanstack/react-query';
 import { normalizeDate } from '../../../../lib/helpers/helpers';
 import { DatagridGetDataArguments } from '../Config/DatagridData';
-import { DatagridColumnFilterValue, isActiveColumnFilter } from '../Filters/DatagridColumnFilter';
+import { DatagridColumnFilterConfig, DatagridColumnFilterValue, DatagridFilterOption, isActiveColumnFilter } from '../Filters/DatagridColumnFilter';
 import { defaultSearch, defaultSort } from '../Helpers/datagridDataManipulation';
 import { NestedKeyOf } from '../Config/DatagridRowConfig';
 import { getNestedValue } from '../Helpers/datagridTypeHelpers';
@@ -17,6 +17,7 @@ export type PreparedFilter<TData> = {
     value?: string | number | null;
     valueTo?: number | null;
     values?: string[];
+    mapOption?: (value: any) => DatagridFilterOption;
 };
 
 const getDateTime = (value: unknown): number | null => {
@@ -142,6 +143,16 @@ const matchesDateFilter = (
     }
 };
 
+// Bij objecten (bijv. een UserModel in een array) bepaalt mapOption de waarde,
+// zodat het filter dezelfde waarde vergelijkt als de optie in de dropdown.
+const toSelectValue = (item: unknown, filter: PreparedFilter<any>): string => {
+    if (filter.mapOption && item != null && typeof item === "object") {
+        return String(filter.mapOption(item).value).toLowerCase();
+    }
+
+    return String(item).toLowerCase();
+};
+
 const matchesSelectFilter = (
     rawVal: unknown,
     filter: PreparedFilter<any>
@@ -154,19 +165,18 @@ const matchesSelectFilter = (
 
     if (Array.isArray(rawVal)) {
         return rawVal.some(item =>
-            selectedValues.includes(String(item).toLowerCase())
+            selectedValues.includes(toSelectValue(item, filter))
         );
     }
 
-    const rawValue = String(rawVal).toLowerCase();
-
-    return selectedValues.includes(rawValue);
+    return selectedValues.includes(toSelectValue(rawVal, filter));
 };
 
 const prepareFilter = <TData>(
     key: NestedKeyOf<TData>,
     filter: DatagridColumnFilterValue,
-    type: "text" | "number" | "date" | "select"
+    type: "text" | "number" | "date" | "select",
+    filterConfig?: DatagridColumnFilterConfig<TData, any>
 ): PreparedFilter<TData> => {
     switch (type) {
         case "text":
@@ -208,7 +218,8 @@ const prepareFilter = <TData>(
                 operator: filter.operator,
                 values: (filter.values ?? []).map(value =>
                     String(value).toLowerCase()
-                )
+                ),
+                mapOption: filterConfig?.mapOption
             };
     }
 };
@@ -245,7 +256,7 @@ const prepareFilters = <TData>(
         const type = columnConfig?.filter?.type ?? "text";
 
         preparedFilters.push(
-            prepareFilter(key, filter, type)
+            prepareFilter(key, filter, type, columnConfig?.filter)
         );
     }
 

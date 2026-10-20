@@ -1,4 +1,4 @@
-import React, { cloneElement, FC, ReactElement } from 'react';
+import { cloneElement, FC, ReactElement } from 'react';
 import { SizeDefinitions } from '../../../../lib/utils/definitions';
 import { AvatarProps } from '../Avatar';
 
