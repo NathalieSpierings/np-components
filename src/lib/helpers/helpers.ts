@@ -1,3 +1,5 @@
+import type { KeyboardEvent } from "react";
+
 export function generateUUID() {
     // Public Domain/MIT
     let d = Date.now(); // Timestamp
@@ -17,6 +19,8 @@ export function generateUUID() {
         return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
 }
+
+export const todayStamp = (): string => new Date().toISOString().slice(0, 10);
 
 export const formatNumberToDutch = (value: number) => {
     return new Intl.NumberFormat('nl-NL').format(value);
@@ -63,11 +67,33 @@ export const formatCurrency = (value: number | null | undefined): string => {
         return '€ 0,00';
     }
 
-    return `€ ${value.toLocaleString('nl-NL', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    })}`;
+    return value.toLocaleString('nl-NL', {
+        style: 'currency',
+        currency: 'EUR'
+    });
 };
+
+export const formatBoolean = (value: boolean | null | undefined): string => {
+    if (value == null) return "";
+
+    return value ? "Ja" : "Nee";
+};
+
+export function camelToSnake(str: string): string {
+    return str.replaceAll(/([A-Z])/g, "_$1").toLowerCase();
+}
+
+export function convertToSnakeCase(model: any) {
+    const snakeCaseModel: any = {};
+    for (const key in model) {
+        if (model.hasOwnProperty(key)) {
+            const snakeKey = camelToSnake(key);
+            snakeCaseModel[snakeKey] = model[key];
+        }
+    }
+    return snakeCaseModel;
+}
+
 
 // Colors
 export interface ColorPair {
@@ -91,11 +117,10 @@ const HUE_STEPS = 12; // 12 duidelijk verschillende tinten (30° uit elkaar)
 const randomHue = (): number =>
     (crypto.getRandomValues(new Uint32Array(1))[0] % HUE_STEPS) * (360 / HUE_STEPS);
 
-/**
- * Geeft een lichte achtergrond en donkere voorgrond in dezelfde tint.
- * Met seed: altijd dezelfde kleuren. Zonder seed: willekeurig.
- */
-export const getColorPair = (seed = ''): ColorPair => {
+
+ // Geeft een lichte achtergrond en donkere voorgrond in dezelfde tint.
+ // Met seed: altijd dezelfde kleuren. Zonder seed: willekeurig.
+ export const getColorPair = (seed = ''): ColorPair => {
     const hue = seed
         ? (hashString(seed.trim().toLowerCase()) % HUE_STEPS) * (360 / HUE_STEPS)
         : randomHue();
@@ -105,4 +130,21 @@ export const getColorPair = (seed = ''): ColorPair => {
         foreground: `hsl(${hue} 70% 30%)`,
          shadow: `hsl(${hue} 70% 30%)`,
     };
+};
+
+/** Class names, where falsy entries are skipped by `joinClasses`. */
+export type ClassList = (string | false | null | undefined)[];
+
+/** Joins the truthy class names into a `className`, e.g. `joinClasses("btn", active && "btn--active")`. */
+export const joinClasses = (...classes: ClassList) => classes.filter(Boolean).join(" ");
+
+/**
+ * A key handler that runs `action` on Enter or Space, like a native button does.
+ * For elements that act as a button without being one, e.g. `onKeyDown={handleActivationKey(open)}`.
+ */
+export const handleActivationKey = (action: () => void) => (event: KeyboardEvent) => {
+    if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        action();
+    }
 };

@@ -3,7 +3,7 @@
 @use "sass:meta";
 @use "sass:string";
 @use "sass:map";
-
+@use "sass:math";
 
 $colors: (
   "black": #000000,
@@ -47,83 +47,83 @@ $shades: (
 );
 
 $themes: (
-  light: (
-		theme-100: #fffffe,
-		theme-200: #fefcfc,
-		theme-300: #f9f7f5,
-		theme-400: #f2eeeb,
-		theme-500: #eae6e3,
-		theme-600: #d8d5d2,
-		theme-700: #cfcbc9,
-		theme-800: #c5c2bf,
-		theme-900: #bbb8b6,
-		text-light: #a2a1a0,
-		text: #3c3c3c,
-		text-dark: #000000,
-		primary: #ff8b5d,
-		primary-5: #ffdcce,
-		primary-10: #ffc5ae,
-		primary-20: #ffae8e,
-		primary-30: #ec6636,
-		dark: #3f3f3f,
-		"red": #FF8A8A,
-		red-5: #fceff0,
-		red-10: #f6d0d2,
-		red-20: #ea9195,
-		red-30: #A5313B,		
-	),
-	dimmed: (
-		theme-100: #848383,
-		theme-200: #7c7c7b,
-		theme-300: #646463,
-		theme-400: #6d6d6c,
-		theme-500: #5a5a59,
-		theme-600: #565655,
-		theme-700: #515150,
-		theme-800: #4d4d4c,
-		theme-900: #484847,
-		text-light: #a8a8a8,
-		text: #d3d3d3,
-		text-dark: #fdfdfd,
-		primary: #ff8b5d,
-		primary-5: #ffdcce,
-		primary-10: #ffc5ae,
-		primary-20: #ffae8e,
-		primary-30: #ec6636,
-		dark: #3f3f3f,
-		"red": #f38b94,
-		red-5: #fde8ea,
-		red-10: #f599a1,
-		red-20: #d9656f,
-		red-30: #ae5159,
-	),
-	dark: (
-		theme-100: #656565,
-		theme-200: #4b4b4b,
-		theme-300: #414141,
-		theme-400: #373737,
-		theme-500: #303030,
-		theme-600: #2b2b2b,
-		theme-700: #252525,
-		theme-800: #202020,
-		theme-900: #1a1a1a,
-		text-light: #878787,
-		text: #cdcdcd,
-		text-dark: #fdfdfd,
-		primary: #ff8b5d,
-		primary-5: #ffdcce,
-		primary-10: #ffc5ae,
-		primary-20: #ffae8e,
-		primary-30: #ec6636,
-		dark: #0d0d0d,
-		"red": #f1707b,
-		red-5: #fde8ea,
-		red-10: #f599a1,
-		red-20: #d9656f,
-		red-30: #ae5159,
-	)
+  light: (theme-100: #fffffe,
+    theme-200: #fefcfc,
+    theme-300: #f9f7f5,
+    theme-400: #f2eeeb,
+    theme-500: #eae6e3,
+    theme-600: #d8d5d2,
+    theme-700: #cfcbc9,
+    theme-800: #c5c2bf,
+    theme-900: #bbb8b6,
+    text-light: #a2a1a0,
+    text: #3c3c3c,
+    text-dark: #000000,
+    primary: #ff8b5d,
+    primary-5: #ffdcce,
+    primary-10: #ffc5ae,
+    primary-20: #ffae8e,
+    primary-30: #ec6636,
+    dark: #3f3f3f,
+    "red": #FF8A8A,
+    red-5: #fceff0,
+    red-10: #f6d0d2,
+    red-20: #ea9195,
+    red-30: #A5313B,
+  ),
+  dimmed: (theme-100: #848383,
+    theme-200: #7c7c7b,
+    theme-300: #646463,
+    theme-400: #6d6d6c,
+    theme-500: #5a5a59,
+    theme-600: #565655,
+    theme-700: #515150,
+    theme-800: #4d4d4c,
+    theme-900: #484847,
+    text-light: #a8a8a8,
+    text: #d3d3d3,
+    text-dark: #fdfdfd,
+    primary: #ff8b5d,
+    primary-5: #ffdcce,
+    primary-10: #ffc5ae,
+    primary-20: #ffae8e,
+    primary-30: #ec6636,
+    dark: #3f3f3f,
+    "red": #f38b94,
+    red-5: #fde8ea,
+    red-10: #f599a1,
+    red-20: #d9656f,
+    red-30: #ae5159,
+  ),
+  dark: (theme-100: #656565,
+    theme-200: #4b4b4b,
+    theme-300: #414141,
+    theme-400: #373737,
+    theme-500: #303030,
+    theme-600: #2b2b2b,
+    theme-700: #252525,
+    theme-800: #202020,
+    theme-900: #1a1a1a,
+    text-light: #878787,
+    text: #cdcdcd,
+    text-dark: #fdfdfd,
+    primary: #ff8b5d,
+    primary-5: #ffdcce,
+    primary-10: #ffc5ae,
+    primary-20: #ffae8e,
+    primary-30: #ec6636,
+    dark: #0d0d0d,
+    "red": #f1707b,
+    red-5: #fde8ea,
+    red-10: #f599a1,
+    red-20: #d9656f,
+    red-30: #ae5159,
+  )
 );
 
+
+
+// === Colored functions
 
 
 $theme-aliases: (
@@ -225,7 +225,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
     }
 
     .ring-hover-#{$name} {
-     --ring-offset-border-color: var(--color-#{$name}, #{$value});
+      --ring-offset-border-color: var(--color-#{$name}, #{$value});
     }
   }
 }
@@ -284,31 +284,29 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
       }
     }
 
-   .form-field-#{$name} {
-			--form-field-accent: var(--color-#{$name}) !important;
-			--form-field-background: var(--color-#{$name}) !important;
-		}
-    
-		.form-group-#{$name}{
-			.form-control {
-				--input-border: var(--color-#{$name});
-			}
-			&.floating {
-				label {
-					--input-label-foreground: var(--color-#{$name});
-				}
-			}
-		}
+    .form-field-#{$name} {
+      --form-field-accent: var(--color-#{$name}) !important;
+      --form-field-background: var(--color-#{$name}) !important;
+    }
+
+    .form-group-#{$name} {
+      .form-control {
+        --input-border: var(--color-#{$name});
+      }
+
+      &.floating {
+        label {
+          --input-label-foreground: var(--color-#{$name});
+        }
+      }
+    }
+
     .tooltip-#{$name} {
       --tooltip-background: var(--color-#{$name});
       --tooltip-foreground: var(--color-foreground-#{$name});
     }
   }
 }
-
-
-
-
 
 // === COLORS
 
@@ -351,30 +349,32 @@ $light-colors: (
 
 
 // Generate css-variabels for colors
-:root {
-  @each $name, $value in $colors {
+@layer pds.variables {
+  :root {
+    @each $name, $value in $colors {
 
-    $foreground: color-foreground($name);
-    $mute: color-mute($name, $value);
-    $border: color-border($name, $value);
+      $foreground: color-foreground($name);
+      $mute: color-mute($name, $value);
+      $border: color-border($name, $value);
 
-    --color-#{$name}: #{$value};
-    --color-foreground-#{$name}: #{$foreground};
-    --color-border-#{$name}: #{$border};
-    --color-mute-#{$name}: #{$mute};
-    --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
-    --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),
-    0 4px 23px 0 rgb(0 0 0 / 12%),
-    0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+      --color-#{$name}: #{$value};
+      --color-foreground-#{$name}: #{$foreground};
+      --color-border-#{$name}: #{$border};
+      --color-mute-#{$name}: #{$mute};
+      --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
+      --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),
+      0 4px 23px 0 rgb(0 0 0 / 12%),
+      0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+    }
+
+    --color-background: var(--color-surface);
+    --color-foreground-lighter: var(--color-text-light);
+    --color-foreground: var(--color-text);
+    --color-foreground-darker: var(--color-text-dark);
+    --color-border: var(--color-border-surface);
+    --color-mute: var(--color-text-light);
+    --color-shadow: var(--color-shadow-surface);
   }
-
-  --color-background: var(--color-surface);
-  --color-foreground-lighter: var(--color-text-light);
-  --color-foreground: var(--color-text);
-  --color-foreground-darker: var(--color-text-dark);
-  --color-border: var(--color-border-surface);
-  --color-mute: var(--color-text-light);
-  --color-shadow: var(--color-shadow-surface);
 }
 
 
@@ -439,65 +439,67 @@ $theme-all: list.join($theme-low, $theme-high);
 
 // Theme
 
-    @if $theme == light {
-      @if list.index($theme-low, $name) {
-          @return oklab-mix($value, 10, black);
-      }
+@if $theme ==light {
+  @if list.index($theme-low, $name) {
+    @return oklab-mix($value, 10, black);
+  }
 
-      @if list.index($theme-high, $name) {
-          @return oklab-mix($value, 30, white);
-      }
-    }
+  @if list.index($theme-high, $name) {
+    @return oklab-mix($value, 30, white);
+  }
+}
 
-    @if $theme != light {
-      @if $theme == dimmed and $name == theme-300 {
-        @return oklab-mix($value, 25, white);
-    }
-    
-      @if list.index($theme-all, $name) {
-          @return oklab-mix($value, 20, white);
-      }
-    }
+@if $theme !=light {
+  @if $theme ==dimmed and $name ==theme-300 {
+    @return oklab-mix($value, 25, white);
+  }
 
-    @return oklab-mix($value, 50, white);
+  @if list.index($theme-all, $name) {
+    @return oklab-mix($value, 20, white);
+  }
+}
+
+@return oklab-mix($value, 50, white);
 }
 
 // Generate css-variables for themes
-@each $theme, $values in $themes {
+@layer pds.variables {
+  @each $theme, $values in $themes {
 
-  // #{if($theme == light, ":root, .theme-light", ".theme-#{$theme}")} {
-  #{if(sass($theme == light): ":root, .theme-light"; else: ".theme-#{$theme}")} {
-@each $name, $value in $values {
+    // #{if($theme == light, ":root, .theme-light", ".theme-#{$theme}")} {
+    #{if(sass($theme == light): ":root, .theme-light"; else: ".theme-#{$theme}")} {
+        @each $name, $value in $values {
 
-    --color-#{$name}: #{$value};
+      --color-#{$name}: #{$value};
 
-    @if not is-excluded($name) {
+      @if not is-excluded($name) {
 
-      $foreground: theme-color-foreground($name, $theme);
-      $mute: theme-color-mute($name, $value, $theme);
-      $border: theme-color-border($name, $value, $theme);
+        $foreground: theme-color-foreground($name, $theme);
+        $mute: theme-color-mute($name, $value, $theme);
+        $border: theme-color-border($name, $value, $theme);
 
-      --color-foreground-#{$name}: #{$foreground};
-      --color-border-#{$name}: #{$border};
-      --color-mute-#{$name}: #{$mute};
+        --color-foreground-#{$name}: #{$foreground};
+        --color-border-#{$name}: #{$border};
+        --color-mute-#{$name}: #{$mute};
 
-      --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
-      --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),
-      0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+        --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
+        --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),
+        0 4px 23px 0 rgb(0 0 0 / 12%),
+        0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+      }
     }
-  }
 
-  // aliases genereren
-  @each $alias, $target in $theme-aliases {
-    --color-#{$alias}: var(--color-#{$target});
-    --color-foreground-#{$alias}: var(--color-foreground-#{$target});
-    --color-border-#{$alias}: var(--color-border-#{$target});
-    --color-mute-#{$alias}: var(--color-mute-#{$target});
-    --color-shadow-from-#{$alias}: var(--color-shadow-from-#{$target});
-    --color-shadow-#{$alias}: var(--color-shadow-#{$target});
+    // aliases genereren
+    @each $alias, $target in $theme-aliases {
+      --color-#{$alias}: var(--color-#{$target});
+      --color-foreground-#{$alias}: var(--color-foreground-#{$target});
+      --color-border-#{$alias}: var(--color-border-#{$target});
+      --color-mute-#{$alias}: var(--color-mute-#{$target});
+      --color-shadow-from-#{$alias}: var(--color-shadow-from-#{$target});
+      --color-shadow-#{$alias}: var(--color-shadow-#{$target});
+    }
+   }
   }
-}
 }
 
 
@@ -531,32 +533,34 @@ $theme-all: list.join($theme-low, $theme-high);
 }
 
 // Generate css-variables for shades
-:root {
-  @each $name, $value in $shades {
-    @each $shade, $shadeValue in $value {
-      $key: null;
+@layer pds.variables {
+  :root {
+    @each $name, $value in $shades {
+      @each $shade, $shadeValue in $value {
+        $key: null;
 
-      @if($shade ==base) {
-        $key: $name
+        @if($shade ==base) {
+          $key: $name
+        }
+
+        @else {
+          $key: "#{$name}-#{$shade}"
+        }
+
+        $foreground: shade-color-foreground($key);
+        $mute: shade-color-mute($key, $shadeValue);
+        $border: shade-color-border($key, $shadeValue);
+
+        --color-#{$key}: #{$shadeValue};
+        --color-foreground-#{$key}: #{$foreground};
+        --color-border-#{$key}: #{$border};
+        --color-mute-#{$key}: #{$mute};
+        --color-shadow-from-#{$key}: hsl(from var(--color-#{$key}) h s l / 42%);
+        --color-shadow-#{$key}: 0 14px 26px -12px var(--color-shadow-from-#{$key}, #{$shadeValue}),
+        0 4px 23px 0 rgb(0 0 0 / 12%),
+        0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);
+
       }
-
-      @else {
-        $key: "#{$name}-#{$shade}"
-      }
-
-      $foreground: shade-color-foreground($key);
-      $mute: shade-color-mute($key, $shadeValue);
-      $border: shade-color-border($key, $shadeValue);
-
-      --color-#{$key}: #{$shadeValue};
-      --color-foreground-#{$key}: #{$foreground};
-      --color-border-#{$key}: #{$border};
-      --color-mute-#{$key}: #{$mute};
-      --color-shadow-from-#{$key}: hsl(from var(--color-#{$key}) h s l / 42%);
-      --color-shadow-#{$key}: 0 14px 26px -12px var(--color-shadow-from-#{$key}, #{$shadeValue}),
-      0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);
-
     }
   }
 }
@@ -564,70 +568,63 @@ $theme-all: list.join($theme-low, $theme-high);
 
 // === GENERATE UTILITY AND COMPONENT CLASSES
 
+// Loops over all colors: colors, light theme, aliases and shades
+@mixin each-color {
+  @each $name, $value in $colors {
+    @content($name, $value);
+  }
 
-// Generate utility and component classes for colors
-@each $name, $value in $colors {
-  @include utilities($name, $value );
-  @include components($name, $value );
-}
+  @each $name, $value in map.get($themes, light) {
+    @content($name, $value);
+  }
 
+  @each $alias, $target in $theme-aliases {
+    @content($alias, var(--color-#{$target}));
+  }
 
-// Generate utility and component classes for themes
-@each $theme, $themeMap in $themes {
-  @if($theme ==light) {
-    @each $name, $value in $themeMap {
-      @include utilities($name, $value );
-      @include components($name, $value );
+  @each $name, $value in $shades {
+    @each $shade, $shadeValue in $value {
+      $key: if(sass($shade ==base): $name; else: "#{$name}-#{$shade}");
+      @content($key, $shadeValue);
     }
   }
 }
 
-// Generate utility and component classes for theme aliasses
-@each $alias, $target in $theme-aliases {
-  @include utilities($alias, var(--color-#{$target}));
-  @include components($alias, var(--color-#{$target}));
-}
-
-
-// Generate utility and component classes for shades
-@each $name, $value in $shades {
-  @each $shade, $shadeValue in $value {
-    $key: null;
-
-    @if($shade ==base) {
-      $key: $name;
-    }
-    @else {
-      $key: "#{$name}-#{$shade}";
-    }
-
-    @include utilities($key, $shadeValue );
-    @include components($key, $shadeValue );
+@layer pds.utilities {
+  @include each-color using ($name, $value) {
+    @include utilities($name, $value);
   }
 }
 
-.theme-light {
-  color-scheme: light;
-
-  --scrollbar-background: var(--color-theme-500);
-  --scrollbar-thumb: var(--color-theme-600);
-  --scrollbar-thumb-hover: var(--color-theme-700);
-
-  --color-hover: var(--shadow-light);
-  --color-selected: var(--shadow-base);
+@layer pds.components {
+  @include each-color using ($name, $value) {
+    @include components($name, $value);
+  }
 }
 
-.theme-dimmed,
-.theme-dark {
-  color-scheme: dark;
+@layer pds.variables {
+  .theme-light {
+    color-scheme: light;
 
-  --scrollbar-background: var(--color-theme-500);
-  --scrollbar-thumb: var(--color-theme-600);
-  --scrollbar-thumb-hover: var(--color-theme-700);
-}
+    --scrollbar-background: var(--color-theme-500);
+    --scrollbar-thumb: var(--color-theme-600);
+    --scrollbar-thumb-hover: var(--color-theme-700);
+
+    --color-hover: var(--shadow-light);
+    --color-selected: var(--shadow-base);
+  }
+
+  .theme-dimmed,
+  .theme-dark {
+    color-scheme: dark;
+
+    --scrollbar-background: var(--color-theme-500);
+    --scrollbar-thumb: var(--color-theme-600);
+    --scrollbar-thumb-hover: var(--color-theme-700);
+  }
 
 
-.theme-light {
+  .theme-light {
     --color-gray-25: #fcfbfa;
     --color-gray-50: #f8f7f6;
     --color-gray-100: #f1efee;
@@ -640,9 +637,9 @@ $theme-all: list.join($theme-low, $theme-high);
     --color-gray-800: #54514f;
     --color-gray-900: #373533;
     --color-gray-950: #1f1d1c;
-}
+  }
 
-.theme-dimmed {
+  .theme-dimmed {
     --color-gray-25: #f8f8f8;
     --color-gray-50: #f2f2f2;
     --color-gray-100: #e5e5e5;
@@ -655,9 +652,9 @@ $theme-all: list.join($theme-low, $theme-high);
     --color-gray-800: #323232;
     --color-gray-900: #1f1f1f;
     --color-gray-950: #0f0f0f;
-}
+  }
 
-.theme-dark {
+  .theme-dark {
     --color-gray-25: #f5f5f5;
     --color-gray-50: #ebebeb;
     --color-gray-100: #d9d9d9;
@@ -670,4 +667,5 @@ $theme-all: list.join($theme-low, $theme-high);
     --color-gray-800: #2d2d2d;
     --color-gray-900: #1c1c1c;
     --color-gray-950: #0f0f0f;
+  }
 }

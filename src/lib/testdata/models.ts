@@ -14,11 +14,6 @@ export type BetaalStatus = "Betaald" | "Open" | "Terugbetaald";
 export type BetaalMethode = | "iDEAL" | "Creditcard" | "PayPal" | "Apple Pay" | "Google Pay";
 export type Vervoerder = "PostNL" | "DHL" | "DPD" | "GLS" | "Trunkrs";
 
-export interface ShopModel{
-  id: number;
-  name: string;
-}
-
 export interface UserModel {
     id: string;
     active: boolean;
@@ -34,6 +29,11 @@ export interface UserModel {
     isDSEmployee: boolean;
     organisationId: string;
     agbCode: string;
+}
+
+export interface ShopModel{
+  id: number;
+  name: string;
 }
 
 export interface ProductGetModel {
@@ -64,6 +64,7 @@ export interface ProductGetModel {
   populair: boolean;
   duurzaam: boolean;
   magazijn: Magazijn;
+  tags: string[];
 }
 
 export interface OrderGetModel {
@@ -390,6 +391,21 @@ const productOmschrijvingen: string[] = [
   "Onderhoudsvriendelijk en direct klaar voor gebruik.",
 ];
 
+const productTags: string[] = [
+  "Bestseller",
+  "Nieuw binnen",
+  "Aanbieding",
+  "Eco-vriendelijk",
+  "Handgemaakt",
+  "Webshop exclusief",
+  "Weerbestendig",
+  "Vaatwasserbestendig",
+  "Montage vereist",
+  "Gratis verzending",
+  "Limited edition",
+  "Kindvriendelijk",
+];
+
 const voornamen: string[] = [
   "Jan",
   "Piet",
@@ -627,6 +643,11 @@ const randomBoolean = (percentageTrue = 50): boolean => {
   return random() * 100 < percentageTrue;
 };
 
+const randomItems = <T>(items: readonly T[], min: number, max: number): T[] => {
+  const aantal = Math.min(randomInteger(min, max), items.length);
+  return [...items].sort(() => random() - 0.5).slice(0, aantal);
+};
+
 const randomDate = (start: Date, end: Date): Date => {
   if (start.getTime() > end.getTime()) {
     throw new Error("De startdatum mag niet na de einddatum liggen.");
@@ -753,6 +774,14 @@ export const generateProducts = (
       vandaag
     );
 
+    const populair = randomBoolean(25);
+    const duurzaam = randomBoolean(40);
+
+    const tags = randomItems(productTags, 0, 4);
+    if (duurzaam && !tags.includes("Eco-vriendelijk")) {
+      tags.push("Eco-vriendelijk");
+    }
+
     return {
       id,
       sku: `SKU-${pad(id, 6)}`,
@@ -807,9 +836,10 @@ export const generateProducts = (
       ]),
 
       beoordeling: randomNumber(1, 5, 1),
-      populair: randomBoolean(25),
-      duurzaam: randomBoolean(40),
-      magazijn: randomItem(magazijnen)
+      populair,
+      duurzaam,
+      magazijn: randomItem(magazijnen),
+      tags
     };
   });
 };
@@ -1092,13 +1122,33 @@ export const shopProductenMock: ShopProductModel[] = shopsMetProductenMock.flatM
 );
 
 
+export const getShopsQuery = () => ({
+  queryKey: ["Shops"],
+  queryFn: (): ShopModel[] => shopsMock,
+});
+
+export const getShopsMetProductenQuery = () => ({
+  queryKey: ["ShopsMetProducten"],
+  queryFn: (): ShopMetProductenModel[] => shopsMetProductenMock,
+});
+
+// Without shopId: products of all shops. With shopId: only that shop.
+export const getShopProductenQuery = (shopId?: number) => ({
+  queryKey: ["ShopProducten", shopId ?? "alle"],
+  queryFn: (): ShopProductModel[] =>
+    shopId == null
+      ? shopProductenMock
+      : shopProductenMock.filter((p) => p.shopId === shopId),
+});
+
+
 export const getProductsForTest1Query = () => {
 
   const mockData = generateProducts(85000);
 
   return {
     queryKey: ["ProductsForTest1"],
-    queryFn: () => {
+    queryFn: async () => {
       const resp = {
         mockData,
         status: 200,
@@ -1130,7 +1180,7 @@ export const getProductsForTest2Query = () => {
 
   return {
     queryKey: ["ProductsForTest2"],
-    queryFn: () => {
+    queryFn: async () => {
       const resp = {
         mockData,
         status: 200,
@@ -1164,7 +1214,7 @@ export const getProductsQuery = (aantalRecords?: number) => {
 
   return {
     queryKey: ["Products"],
-    queryFn: () => {
+    queryFn: async () => {
       const resp = {
         mockData,
         status: 200,
@@ -1194,35 +1244,16 @@ export const getProductsQuery = (aantalRecords?: number) => {
 export const getProductsWithOrdersQuery = () => {
     return {
         queryKey: ["ProductsWithOrders"],
-        queryFn: () => {
+        queryFn: async () => {
             return productsMetOrdersMock;
         }
     };
 };
 
-export const getShopsQuery = () => ({
-  queryKey: ["Shops"],
-  queryFn: (): ShopModel[] => shopsMock,
-});
-
-export const getShopsMetProductenQuery = () => ({
-  queryKey: ["ShopsMetProducten"],
-  queryFn: (): ShopMetProductenModel[] => shopsMetProductenMock,
-});
-
-// Without shopId: products of all shops. With shopId: only that shop.
-export const getShopProductenQuery = (shopId?: number) => ({
-  queryKey: ["ShopProducten", shopId ?? "alle"],
-  queryFn: (): ShopProductModel[] =>
-    shopId == null
-      ? shopProductenMock
-      : shopProductenMock.filter((p) => p.shopId === shopId),
-});
-
 export const getOrdersQuery = () => {
   return {
     queryKey: ["Orders"],
-    queryFn: () => {
+    queryFn: async () => {
       const resp = {
         orders: ordersMock,
         status: 200,
@@ -1253,7 +1284,7 @@ export const getOrdersQuery = () => {
 export const getOrdersForProduct = (productId: string) => {
   return {
     queryKey: ["Orders", productId],
-    queryFn: () => {
+    queryFn: async () => {
       const resp = {
         orders: ordersMock,
         status: 200,

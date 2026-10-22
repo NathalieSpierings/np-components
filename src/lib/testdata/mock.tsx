@@ -249,7 +249,7 @@ export const filterProductColumns = () => {
             filter: {
                 type: "select",
                 multiSelect: true,
-                optionsSource: (data: { tags?: string[] }[]) => data.flatMap(p => p.tags ?? []).sort((a, b) => a.localeCompare(b)),
+                dataSource: "tags",
             }
         },
     ]

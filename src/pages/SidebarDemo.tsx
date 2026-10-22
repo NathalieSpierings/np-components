@@ -184,6 +184,10 @@ const SidebarDemo: React.FC = () => {
 
     const formItems: SidebarMenuItem[] = [
         {
+            url: '/demo/form-elements',
+            title: "Alle form elements"
+        },
+        {
             title: "Multiselect",
             url: "/demo/multiselect",
         },

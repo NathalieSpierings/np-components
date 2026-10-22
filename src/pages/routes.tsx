@@ -49,6 +49,7 @@ import DatagridToolbarDemo from "./Demo/Datagrid/DatagridToolbarDemo";
 import DismissButtonDemo from "./Demo/DismissButton/DismissButtonDemo";
 import DropdownPage from "./Demo/Dropdown/DropdownPage";
 import FormsDemo from "./Demo/Forms/FormsDemo";
+import FormElementsDemo from "./Demo/Forms/FormElementsDemo";
 import IconDemo from "./Demo/Icon/IconDemo";
 import LayoutPage from "./Demo/LayoutPage";
 import ModalDemo from "./Demo/Modal/ModalDemo";
@@ -293,6 +294,10 @@ export const routes = [
 		element: <DatagridSearchDemo />
 	},
 	// Forms
+	{
+		path: "/demo/form-elements",
+		element: <FormElementsDemo />
+	},
 	{
 		path: "/demo/btn",
 		element: <ButtonDemo />
