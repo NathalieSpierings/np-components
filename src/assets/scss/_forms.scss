@@ -1320,7 +1320,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		display: inline-flex;
 		align-items: center;
 		flex-wrap: wrap;
-		padding: var(--page-padding-sm);
+		padding: var(--padding-xl);
 		transition: all 0.2s ease-in-out;
 		width: 100%;
 		padding-top: 2rem;
@@ -1365,7 +1365,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 				width: auto;
 				min-height: 28px;
 				border-radius: 0.5rem;
-				padding: 0.25rem var(--page-padding) 0.25rem var(--page-padding-sm);
+				padding: 0.25rem var(--padding-2xl) 0.25rem var(--padding-xl);
 				color: var(--color-foreground);
 				background: var(--color-theme-600);
 				margin-inline-end: 0.5rem;
@@ -1671,9 +1671,9 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			display: flex;
 			align-items: center;
 			line-height: 36px;
-			padding: var(--page-padding-2xs) var(--page-padding-xs);
+			padding: var(--padding-sm) var(--padding-lg);
 			white-space: nowrap;
-			padding-inline: var(--page-padding-sm);
+			padding-inline: var(--padding-xl);
 			background: var(--color-background);
 
 			.btn {
@@ -1690,7 +1690,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 				border-color: var(--color-border) !important;
 
 				~.dropdown__menu__search {
-					padding-block: var(--page-padding-sm);
+					padding-block: var(--padding-xl);
 				}
 
 				~.dropdown__search {
@@ -1700,7 +1700,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 			&[class*="border-"] {
 				~.dropdown__menu__search {
-					padding-block: var(--page-padding-sm);
+					padding-block: var(--padding-xl);
 				}
 
 				~.dropdown__search {
@@ -1729,7 +1729,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 				flex: 1 1 auto;
 				min-height: 0;
 				overflow-y: auto;
-				padding: var(--page-padding-2xs) var(--page-padding-xs);
+				padding: var(--padding-sm) var(--padding-lg);
 			}
 		}
 
@@ -1738,11 +1738,11 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			flex: auto;
 			min-height: 0;
 			overflow-y: auto;
-			margin-block: var(--page-padding-2xs);
+			margin-block: var(--padding-sm);
 
 			&__node {
 				width: 100%;
-				padding-inline: var(--page-padding-2xs);
+				padding-inline: var(--padding-sm);
 			}
 
 			&__item {
@@ -1755,7 +1755,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 				background: var(--color-background);
 				border-radius: var(--radius-sm);
 				margin-block: 1px;
-				padding: var(--page-padding-xs) calc(var(--page-padding-2xs) * 1.5);
+				padding: var(--padding-lg) calc(var(--padding-sm) * 1.5);
 				cursor: pointer;
 
 				&__content {
@@ -1793,10 +1793,10 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 				}
 
 				&__empty {
-					padding: calc(var(--page-padding-2xs) * 1.5) var(--page-padding-xs);
+					padding: calc(var(--padding-sm) * 1.5) var(--padding-lg);
 					white-space: nowrap;
-					padding-inline: var(--page-padding-xs);
-					margin-inline: var(--page-padding-2xs);
+					padding-inline: var(--padding-lg);
+					margin-inline: var(--padding-sm);
 					margin-block: 1px;
 					display: block;
 				}
@@ -1819,7 +1819,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			min-height: 1px;
 			flex: 0 0 1px;
 			background: var(--color-border);
-			margin-block: var(--page-padding-xxs);
+			margin-block: var(--padding-md);
 		}
 
 		// Tabs
@@ -1877,8 +1877,8 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		// Search
 		&__search {
 			border-bottom: 1px solid transparent;
-			padding-inline: var(--page-padding-sm);
-			padding-block: var(--page-padding-sm);
+			padding-inline: var(--padding-xl);
+			padding-block: var(--padding-xl);
 
 			&--border {
 				border-color: var(--color-border);
@@ -1924,9 +1924,9 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			display: flex;
 			align-items: center;
 			line-height: 36px;
-			padding: var(--page-padding-2xs) var(--page-padding-xs);
+			padding: var(--padding-sm) var(--padding-lg);
 			white-space: nowrap;
-			padding-inline: var(--page-padding-sm);
+			padding-inline: var(--padding-xl);
 			background: var(--color-background);
 			border-bottom: 1px solid var(--color-border);
 
@@ -1936,7 +1936,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		}
 
 		&__toolbar {
-			padding: var(--page-padding-sm) calc(var(--page-padding-xs) * 2);
+			padding: var(--padding-xl) calc(var(--padding-lg) * 2);
 
 			&__checkall {
 				flex: 0 0 30px;
@@ -1956,13 +1956,13 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			min-height: 0;
 			max-height: inherit;
 			overflow: hidden;
-			margin-block: var(--page-padding-2xs);
+			margin-block: var(--padding-sm);
 
 			&__container {
 				flex: 1 1 auto;
 				min-height: 0;
 				overflow-y: auto;
-				padding: var(--page-padding-2xs) var(--page-padding-xs);
+				padding: var(--padding-sm) var(--padding-lg);
 			}
 		}
 
@@ -1970,8 +1970,8 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		&__search {
 
 			border-bottom: 1px solid transparent;
-			padding-inline: var(--page-padding-sm);
-			padding-block: var(--page-padding-sm);
+			padding-inline: var(--padding-xl);
+			padding-block: var(--padding-xl);
 		}
 
 		.collection {
@@ -3160,7 +3160,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			padding: var(--page-padding);
+			padding: var(--padding-2xl);
 			border: 2px solid transparent;
 			background: var(--color-background);
 			border-radius: var(--radius-md);
@@ -3177,7 +3177,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			display: flex;
 			flex-direction: column;
 			justify-self: center;
-			padding-block: var(--page-padding-sm);
+			padding-block: var(--padding-xl);
 
 			small {
 				color: var(--color-mute);

@@ -43,7 +43,7 @@ const IconsWhenCollapsed = ({ icons, children }: { icons: IconDefinitions[]; chi
 
     if (collapsed) {
         return (
-            <PanelLayout.Strip style={{ paddingBlock: 'var(--page-padding-sm)' }}>
+            <PanelLayout.Strip style={{ paddingBlock: 'var(--padding-xl)' }}>
                 {icons.map((icon) => (
                     <Icon key={icon} icon={icon} hover />
                 ))}
@@ -51,7 +51,7 @@ const IconsWhenCollapsed = ({ icons, children }: { icons: IconDefinitions[]; chi
         );
     }
 
-    return <div style={{ padding: 'var(--page-padding)' }}>{children}</div>;
+    return <div style={{ padding: 'var(--padding-2xl)' }}>{children}</div>;
 };
 
 const FILTERS = [
@@ -70,7 +70,7 @@ const FilterList = ({ selected, onSelect }: { selected: string; onSelect: (id: s
     const { collapsed } = usePanelLayoutAside();
 
     return (
-        <div className="grid-y gap-05" style={{ padding: 'var(--page-padding-sm) 0' }}>
+        <div className="grid-y gap-05" style={{ padding: 'var(--padding-xl) 0' }}>
             {FILTERS.map((filter) => (
                 <button
                     key={filter.id}
@@ -83,7 +83,7 @@ const FilterList = ({ selected, onSelect }: { selected: string; onSelect: (id: s
                         display: 'flex',
                         width: '100%',
                         height: '4.4rem',
-                        padding: '0 var(--page-padding-sm) 0 0',
+                        padding: '0 var(--padding-xl) 0 0',
                         border: 0,
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',

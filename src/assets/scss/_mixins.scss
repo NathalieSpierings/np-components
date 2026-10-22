@@ -1,85 +1,105 @@
-@use "sass:color";
-@use "sass:list";
-@use "sass:map";
 
-// === Breakpoints
-
+// =====================================================================
+// Breakpoints & media queries
+// =====================================================================
+//
+// Mobile-first breakpoint system. Each breakpoint is the minimum width
+// at which that range starts; a range ends just before the next one.
+//
+//   xs   0      – 639.98px   phones
+//   sm   640px  – 767.98px   large phones (landscape), small tablets
+//   md   768px  – 1023.98px  tablets (portrait)
+//   lg   1024px – 1279.98px  tablets (landscape), small laptops
+//   xl   1280px – 1535.98px  laptops
+//   xxl  1536px and up        large laptops and desktops
+//
+// Media queries are in px and use the browser's default font size,
+// so they are not affected by `html { font-size: 62.5% }`.
 $breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1600px
+	xs: 0,
+	sm: 640px,
+	md: 768px,
+	lg: 1024px,
+	xl: 1280px,
+	xxl: 1536px
 );
 
+// Breakpoints & media queries: functions
 @function breakpoint-next($name, $bp: $breakpoints, $bp-names: map.keys($bp)) {
-  $n: list.index($bp-names, $name);
+	$n: list.index($bp-names, $name);
 
-  @if $n != null and $n < list.length($bp-names) {
-    @return list.nth($bp-names, $n + 1);
-  } @else {
-    @return null;
-  }
+	@if $n != null and $n < list.length($bp-names) {
+		@return list.nth($bp-names, $n + 1);
+	} @else {
+		@return null;
+	}
 }
 
-
-
 @function breakpoint-min($name, $bp: $breakpoints) {
-  $min: map.get($bp, $name);
+	$min: map.get($bp, $name);
 
-  @if $min != 0 {
-    @return $min;
-  } @else {
-    @return null;
-  }
+	@if $min != 0 {
+		@return $min;
+	} @else {
+		@return null;
+	}
 }
 
 @function breakpoint-max($name, $bp: $breakpoints) {
-  $next: breakpoint-next($name, $bp);
+	$next: breakpoint-next($name, $bp);
 
-  @if $next != null {
-    @return breakpoint-min($next, $bp) - 0.02;
-  } @else {
-    @return null;
-  }
+	@if $next != null {
+		@return breakpoint-min($next, $bp) - 0.02;
+	} @else {
+		@return null;
+	}
 }
 
+
+// MQ-min($name): Applies styles from breakpoint $name and wider (mobile-first).
+// Usage: @include MQ-min(lg) { ... }   // 1024px and wider
 @mixin MQ-min($name, $bp: $breakpoints) {
-  $min: breakpoint-min($name, $bp);
-  @if $min {
-    @media (min-width: $min) {
-      @content;
-    }
-  } @else {
-    @content;
-  }
+	$min: breakpoint-min($name, $bp);
+	@if $min {
+		@media (min-width: $min) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
 }
 
+// MQ-max($name) : Applies styles up to and including breakpoint $name. 
+// Usage: @include MQ-max(md) { ... }   // hidden below 1024px
+// Note: "up to and including" means MQ-max(md) also applies at 1000px.
+// To target only screens below md, use MQ-max(sm).
 @mixin MQ-max($name, $bp: $breakpoints) {
-  $max: breakpoint-max($name, $bp);
-  @if $max {
-    @media (max-width: $max) {
-      @content;
-    }
-  } @else {
-    @content;
-  }
+	$max: breakpoint-max($name, $bp);
+	@if $max {
+		@media (max-width: $max) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
 }
 
-@mixin MQ-between($lower, $upper, $bp: $breakpoints) {
-  $min: breakpoint-min($lower, $bp);
-  $max: breakpoint-max($upper, $bp);
 
-  @if $min != null and $max != null {
-    @media (min-width: $min) and (max-width: $max) {
-      @content;
-    }
-  } @else if $max == null {
-    @include MQ-min($lower, $bp) { @content; }
-  } @else if $min == null {
-    @include MQ-max($upper, $bp) { @content; }
-  }
+// MQ-between($lower, $upper): Applies styles from the start of $lower up to and including $upper.
+// Usage: @include MQ-between(md, md) { ... }   // only the md range: 768px – 1023.98px
+@mixin MQ-between($lower, $upper, $bp: $breakpoints) {
+	$min: breakpoint-min($lower, $bp);
+	$max: breakpoint-max($upper, $bp);
+
+	@if $min != null and $max != null {
+		@media (min-width: $min) and (max-width: $max) {
+			@content;
+		}
+	} @else if $max == null {
+		@include MQ-min($lower, $bp) { @content; }
+	} @else if $min == null {
+		@include MQ-max($upper, $bp) { @content; }
+	}
 }
 
 

@@ -13,7 +13,7 @@
         line-height: 1;
         position: relative;
         cursor: pointer;
-        margin-right: var(--page-padding);
+        margin-right: var(--padding-2xl);
 
         &--sm {
             .burger__line {
@@ -105,7 +105,7 @@
         justify-content: center;
         align-items: center;
         display: flex;
-        padding-block: var(--page-padding-2xs);
+        padding-block: var(--padding-sm);
 
         .dropdown__toggle>.content-item {
             gap: 0 !important;
@@ -154,7 +154,7 @@
                 text-decoration: none;
                 word-break: break-all;
                 width: 100%;
-                padding: calc(var(--page-padding-sm) / 2) 0;
+                padding: calc(var(--padding-xl) / 2) 0;
                 transition: color 0.15s ease-in-out,
                     background-color 0.15s ease-in-out,
                     border-color 0.15s ease-in-out;
@@ -187,10 +187,10 @@
 @layer logo {
 
     .logo {
-        padding-top: var(--page-padding-sm);
+        padding-top: var(--padding-xl);
         padding-bottom: 0.5rem;
         border-bottom: 1px solid var(--ml-menu-border);
-        margin-bottom: var(--page-padding-sm);
+        margin-bottom: var(--padding-xl);
 
         .brand {
             display: flex;
@@ -221,8 +221,8 @@
         text-decoration: none;
         word-break: break-all;
         width: 100%;
-        margin-bottom: var(--page-padding-sm);
-        padding: calc(var(--page-padding-sm) / 2) 0;
+        margin-bottom: var(--padding-xl);
+        padding: calc(var(--padding-xl) / 2) 0;
 
         svg {
             color: inherit;
@@ -235,19 +235,19 @@
 
 @layer mainLayout {
     .main-layout {
-        --ml-padding: var(--page-padding);
+        --ml-padding: var(--padding-2xl);
         --ml-aside-header-height: var(--header-height);
         --ml-aside-footer-height: 73px;
         --ml-aside-background: var(--color-surface-dark);
 
-        --ml-menu-margin: var(--page-padding-sm) 0 var(--page-padding-sm) var(--page-padding-sm);
+        --ml-menu-margin: var(--padding-xl) 0 var(--padding-xl) var(--padding-xl);
         --ml-menu-width: 75px;
         --ml-menu-background: var(--color-theme-500);
         --ml-menu-border: var(--color-border-theme-500);
 
         --ml-sidebar-width: 280px;
-        --ml-sidebar-padding-x: var(--page-padding-sm);
-        --ml-sidebar-padding-y: var(--page-padding);
+        --ml-sidebar-padding-x: var(--padding-xl);
+        --ml-sidebar-padding-y: var(--padding-2xl);
 
         --ml-drawer-width: 400px;
 
@@ -310,7 +310,7 @@
             &__header {
                 display: flex;
                 align-items: center;
-                padding: var(--page-padding) var(--page-padding-sm);
+                padding: var(--padding-2xl) var(--padding-xl);
                 height: var(--ml-aside-header-height);
                 border-bottom: 1px solid var(--color-border);
             }
@@ -323,7 +323,7 @@
                 min-height: var(--ml-aside-footer-height);
                 display: flex;
                 align-items: center;
-                padding: var(--page-padding-sm);
+                padding: var(--padding-xl);
                 border-top: 1px solid var(--color-border);
             }
         }
@@ -354,20 +354,20 @@
             &__header {
                 display: flex;
                 align-items: center;
-                padding: var(--page-padding) var(--page-padding-sm);
+                padding: var(--padding-2xl) var(--padding-xl);
                 height: var(--ml-aside-header-height);
                 border-bottom: 1px solid var(--color-border);
             }
 
             &__content {
-                padding: var(--page-padding) var(--page-padding-sm);
+                padding: var(--padding-2xl) var(--padding-xl);
             }
 
             &__footer {
                 min-height: var(--ml-aside-footer-height);
                 display: flex;
                 align-items: center;
-                padding: var(--page-padding-sm);
+                padding: var(--padding-xl);
                 border-top: 1px solid var(--color-border);
             }
         }
@@ -375,7 +375,7 @@
         &__header {
             display: flex;
             align-items: center;
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             height: var(--header-height);
             border-bottom: 1px solid var(--color-border);
         }
@@ -494,8 +494,8 @@
         position: relative;
 
         &__item {
-            padding-block: var(--page-padding-xs);
-            padding-inline: var(--page-padding-xs);
+            padding-block: var(--padding-lg);
+            padding-inline: var(--padding-lg);
             border-radius: var(--radius);
             transition: all 0.3s linear;
 

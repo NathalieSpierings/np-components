@@ -412,7 +412,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         --dismiss-label-size: var(--fs-xs);
         --dismiss-line-height: 1px;
         --dismiss-top-offset: 1rem;
-        --dismiss-right-offset: var(--page-padding-sm);
+        --dismiss-right-offset: var(--padding-xl);
         --dismiss-offset: .5rem;
 
         position: relative;
@@ -630,8 +630,8 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
     .accordion {
         --accordion-accent: var(--color-primary);
-        --accordion-padding-v: var(--page-padding-sm);
-        --accordion-padding-h: var(--page-padding-sm);
+        --accordion-padding-v: var(--padding-xl);
+        --accordion-padding-h: var(--padding-xl);
 
         width: 100%;
         color: var(--color-foreground);
@@ -689,7 +689,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             transition: height 0.4s cubic-bezier(0.65, 0.05, 0.36, 1);
 
             &__container {
-                padding: var(--page-padding);
+                padding: var(--padding-2xl);
                 opacity: 0;
                 transition: opacity 0.3s linear 0.18s;
             }
@@ -1201,7 +1201,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &__content {
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             transition: padding var(--panel-layout-transition);
         }
     }
@@ -1225,17 +1225,17 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__header {
             position: relative;
-            padding: var(--page-padding-sm) var(--page-padding);
+            padding: var(--padding-xl) var(--padding-2xl);
             border-bottom: 1px solid transparent;
 
             &.sticky {
                 position: fixed;
                 z-index: var(--card-sticky-header-zindex);
                 top: calc(var(--header-height) + 3rem);
-                right: var(--page-padding);
-                margin-left: var(--page-padding);
+                right: var(--padding-2xl);
+                margin-left: var(--padding-2xl);
                 left: var(--page-translate-x);
-                padding: var(--page-padding-sm) var(--page-padding);
+                padding: var(--padding-xl) var(--padding-2xl);
                 transition: var(--page-transition);
                 background: var(--color-background);
                 border-radius: var(--radius);
@@ -1284,10 +1284,10 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__content {
             overflow: hidden;
-            padding: var(--page-padding-sm) calc(var(--page-padding-sm) / 2 + var(--page-padding-sm));
+            padding: var(--padding-xl) calc(var(--padding-xl) / 2 + var(--padding-xl));
 
             &.fluid {
-                padding: var(--page-padding-sm) 0 0 0;
+                padding: var(--padding-xl) 0 0 0;
             }
 
             &.tab__content {
@@ -1302,7 +1302,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &__footer {
-            padding: var(--page-padding-sm) var(--page-padding);
+            padding: var(--padding-xl) var(--padding-2xl);
             border-top: 1px solid transparent;
 
             .title,
@@ -1360,7 +1360,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             justify-content: space-between;
             align-items: center;
             z-index: 1;
-            padding: 0 var(--page-padding-sm);
+            padding: 0 var(--padding-xl);
             cursor: pointer;
             border: 1px solid var(--color-border);
             border-radius: var(--radius-lg);
@@ -1374,7 +1374,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__container {
             overflow: hidden;
-            padding: 0 var(--page-padding-sm);
+            padding: 0 var(--padding-xl);
             border: 1px solid var(--color-border);
             border-top: 0;
             border-bottom-left-radius: var(--radius-lg);
@@ -1385,8 +1385,8 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             justify-content: space-between;
             opacity: 1;
-            padding-top: var(--page-padding-sm);
-            padding-bottom: var(--page-padding-sm);
+            padding-top: var(--padding-xl);
+            padding-bottom: var(--padding-xl);
         }
     }
 }
@@ -1399,13 +1399,13 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         .column-layout__header {
             display: flex;
             align-items: center;
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             height: var(--header-height);
             border-bottom: 1px solid var(--color-border);            
         }
 
         .column-layout__content {
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
 
             &:has(.columns) {
                 padding: 0;
@@ -1628,7 +1628,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             align-items: center;
             height: var(--header-height);
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             border-bottom: 1px solid var(--panel-layout-border);
             transition: padding var(--panel-layout-transition);
 
@@ -1657,7 +1657,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .content-item__postfix {
                 display: flex;
                 align-items: center;
-                gap: var(--page-padding-2xs);
+                gap: var(--padding-sm);
 
                 .burger {
                     margin-right: 0;
@@ -1673,7 +1673,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         // A collapsed aside's `collapsedHeader` (typically an icon), centered in the strip
         &__header--collapsed {
             justify-content: center;
-            padding-inline: var(--page-padding-2xs);
+            padding-inline: var(--padding-sm);
 
             > .content-item {
                 width: auto;
@@ -1693,7 +1693,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &__content {
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             transition: padding var(--panel-layout-transition);
 
             &--flush {
@@ -1961,7 +1961,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__content {
             height: 100%;
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
         }
 
         &--aside-left {
@@ -2031,7 +2031,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
     :root {
         --collection-item-margin: 1rem;
-        --collection-padding: var(--page-padding-2xs) var(--page-padding-xs);
+        --collection-padding: var(--padding-sm) var(--padding-lg);
         --collection-scroll-height: 300px;
     }
 
@@ -2125,7 +2125,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             transition: width 0.3s ease-in-out;
 
             &__container {
-                padding: var(--page-padding-2xs) var(--page-padding-xs);
+                padding: var(--padding-sm) var(--padding-lg);
                 background: var(--color-background);
                 border-radius: var(--radius-sm);
             }
@@ -2172,12 +2172,12 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &--compact {
             gap: .5rem;
-            --collection-padding: var(--page-padding-3xs) var(--page-padding-xs);
+            --collection-padding: var(--padding-xs) var(--padding-lg);
         }
 
         &--md {
             gap: 1.5rem;
-            --collection-padding: var(--page-padding-xs) var(--page-padding-sm);
+            --collection-padding: var(--padding-lg) var(--padding-xl);
         }
 
         &--bordered {
@@ -2235,12 +2235,12 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 
     :root {
-        --datagrid-layout-padding: var(--page-padding-sm);
-        --datagrid-root-padding: var(--page-padding-xs) var(--page-padding-sm);
+        --datagrid-layout-padding: var(--padding-xl);
+        --datagrid-root-padding: var(--padding-lg) var(--padding-xl);
         --datagrid-layout-comp-background: var(--color-surface-dark);
         --datagrid-layout-comp-border: var(--color-border-surface-dark);
 
-        --datagrid-padding: var(--page-padding-2xs) var(--page-padding-sm);
+        --datagrid-padding: var(--padding-sm) var(--padding-xl);
         --datagrid-header-row-height: 48px;
         --datagrid-header-row-hover: var(--color-surface-dark);
         --datagrid-row-hover: var(--color-hover);
@@ -2480,7 +2480,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 }
 
                 &__content {
-                    padding: var(--page-padding-sm);
+                    padding: var(--padding-xl);
                     -webkit-overflow-scrolling: touch;
                     flex: 1 1 0;
                     min-height: 0;
@@ -2588,12 +2588,12 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 justify-content: space-between;
                 align-items: center;
                 color: var(--color-foreground);
-                padding: var(--page-padding-sm);
+                padding: var(--padding-xl);
                 border-top: 1px solid var(---datagrid-layout-comp-border);
             }
 
             &__content {
-                padding: var(--page-padding-sm);
+                padding: var(--padding-xl);
                 -webkit-overflow-scrolling: touch;
                 flex-grow: 1;
                 overflow-y: auto;
@@ -2647,7 +2647,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     .datagrid {
 
         &--compact {
-            --datagrid-padding: 0 var(--page-padding-sm);
+            --datagrid-padding: 0 var(--padding-xl);
         }
 
         &--hover {
@@ -2675,7 +2675,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             &--empty {
                 .datagrid__cell {
                     --datagrid-columns: 1fr;
-                    --datagrid-padding: var(--page-padding-sm) var(--page-padding-sm);
+                    --datagrid-padding: var(--padding-xl) var(--padding-xl);
                 }
             }
 
@@ -2705,7 +2705,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
             &__content {
                 width: 100%;
-                padding: var(--page-padding);
+                padding: var(--padding-2xl);
                 box-sizing: border-box;
             }
 
@@ -2922,12 +2922,12 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             color: var(--color-foreground);
             border-radius: var(--radius-md);
             box-shadow: 0px 2px 15px rgb(0 0 0 / 24%);
-            padding: var(--page-padding-xxs);
+            padding: var(--padding-md);
             white-space: nowrap;
             transform: translate(-9999px, -9999px);
 
             .icon {
-                margin-right: var(--page-padding-xs);
+                margin-right: var(--padding-lg);
             }
         }
 
@@ -3050,14 +3050,14 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 0 var(--page-padding-xs) var(--page-padding-sm) var(--page-padding-xs);
+                padding: 0 var(--padding-lg) var(--padding-xl) var(--padding-lg);
                 overflow: hidden;
-                margin-bottom: var(--page-padding-xs);
+                margin-bottom: var(--padding-lg);
                 border-bottom: 1px solid var(--datagrid-layout-comp-border);
 
                 &[class*="border-"] {
                     ~.search {
-                        padding-block: var(--page-padding-sm);
+                        padding-block: var(--padding-xl);
                     }
                 }
 
@@ -3073,7 +3073,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             &__item {
                 display: flex;
                 align-items: center;
-                padding: var(--page-padding-xs) var(--page-padding-sm);
+                padding: var(--padding-lg) var(--padding-xl);
                 border-bottom: 2px solid transparent;
                 border-radius: var(--radius);
 
@@ -3092,7 +3092,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
             .form-field {
                 margin: 0;
-                margin-right: var(--page-padding-2xs);
+                margin-right: var(--padding-sm);
             }
 
             // Search
@@ -3102,8 +3102,8 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 z-index: 1;
                 display: flex;
                 align-items: center;
-                padding-inline: var(--page-padding-sm);
-                padding-block: var(--page-padding-sm);
+                padding-inline: var(--padding-xl);
+                padding-block: var(--padding-xl);
 
                 &__container {
                     display: flex;
@@ -3144,7 +3144,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             border-bottom: 1px solid transparent;
 
             &__container {
-                padding: var(--page-padding-sm);
+                padding: var(--padding-xl);
                 background: var(--color-olive);
                 color: var(--color-foreground);
                 border-radius: var(--radius-md);
@@ -3154,11 +3154,11 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .form-group,
             .form-field {
                 margin-bottom: 0;
-                margin-inline-end: var(--page-padding-xs);
+                margin-inline-end: var(--padding-lg);
             }
 
             .btn {
-                margin-inline-start: var(--page-padding-2xs);
+                margin-inline-start: var(--padding-sm);
             }
 
             span {
@@ -3172,7 +3172,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             max-height: 0;
             overflow: hidden;
             padding: 0px;
-            margin: var(--page-padding-xxs) 0 0 0;
+            margin: var(--padding-md) 0 0 0;
             overflow-y: hidden;
             transition: visibility 0.5s, max-height 0.5s;
 
@@ -3196,12 +3196,12 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__filter {
             &__dropdown {
-                padding-top: var(--page-padding-sm);
+                padding-top: var(--padding-xl);
 
                 .form-field,
                 .form-group {
                     margin: 0;
-                    padding-inline: var(--page-padding-sm);
+                    padding-inline: var(--padding-xl);
                 }
             }
 
@@ -3220,15 +3220,15 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 }
 
                 &__content {
-                    padding: var(--page-padding-xs) var(--page-padding-sm);
+                    padding: var(--padding-lg) var(--padding-xl);
 
                     .form-group {
-                        margin-bottom: var(--page-padding-xs) !important;
+                        margin-bottom: var(--padding-lg) !important;
                     }
                 }
 
                 &__footer {
-                    padding: var(--page-padding-xs) var(--page-padding-sm);
+                    padding: var(--padding-lg) var(--padding-xl);
                     border-top: 1px solid var(--color-border);
 
                     .btn {
@@ -3297,7 +3297,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: calc(var(--page-padding-sm)/2) var(--page-padding-sm);
+            padding: calc(var(--padding-xl)/2) var(--padding-xl);
             background: var(--color-surface-dark);
             color: var(--color-foreground);
             border-radius: var(--radius-md);
@@ -3516,7 +3516,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             justify-content: space-between;
             align-items: center;
             color: var(--color-foreground);
-            padding: var(--page-padding-sm) var(--page-padding);
+            padding: var(--padding-xl) var(--padding-2xl);
             border-bottom: 1px solid var(--color-border);
 
 
@@ -3537,7 +3537,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__content {
             overflow-y: auto;
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             flex-grow: 1;
             -webkit-overflow-scrolling: touch;
         }
@@ -3546,7 +3546,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: calc(var(--page-padding) / 2) var(--page-padding);
+            padding: calc(var(--padding-2xl) / 2) var(--padding-2xl);
             border-top: 1px solid transparent;
 
         }
@@ -3955,7 +3955,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         p {
-            margin-bottom: var(--page-padding-sm);
+            margin-bottom: var(--padding-xl);
         }
     }
 }
@@ -4084,7 +4084,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
             &__header {
                 flex: 0 0 auto;
-                padding: var(--page-padding-sm);
+                padding: var(--padding-xl);
                 border-bottom: 1px solid var(--color-border);
 
                 h1,
@@ -4104,7 +4104,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 flex-grow: 1;
                 position: relative;
                 overflow-y: auto;
-                padding: var(--page-padding) var(--page-padding-sm);
+                padding: var(--padding-2xl) var(--padding-xl);
                 -webkit-overflow-scrolling: touch;
             }
         }
@@ -4137,7 +4137,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 box-shadow: none;
                 background: none;
                 overflow: hidden;
-                height: calc(100vh - var(--header-height) - calc(var(--page-padding)*3));
+                height: calc(100vh - var(--header-height) - calc(var(--padding-2xl)*3));
             }
 
             &.shown {
@@ -4209,7 +4209,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             width: max-content;
             max-width: 100%;
             border-radius: var(--radius-sm);
-            padding: var(--page-padding-sm);
+            padding: var(--padding-xl);
             color: var(--color-foreground);
             background: var(--color-background);
         }
@@ -4256,7 +4256,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &:has(.loader__info) {
             .loader__object {
-                margin-bottom: var(--page-padding-sm);
+                margin-bottom: var(--padding-xl);
             }
         }
 
@@ -4402,7 +4402,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             justify-content: space-between;
             color: var(--color-foreground);
             background: var(--color-background);
-            padding: var(--page-padding-sm) var(--page-padding);
+            padding: var(--padding-xl) var(--padding-2xl);
             border-bottom: 1px solid var(--color-border);
             border-top-left-radius: var(--radius-xs);
             border-top-right-radius: var(--radius-xs);
@@ -4433,7 +4433,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             flex: 1 1 auto;
             position: relative;
             overflow: auto;
-            padding: var(--page-padding-sm) var(--page-padding);
+            padding: var(--padding-xl) var(--padding-2xl);
         }
 
         &__footer {
@@ -4442,7 +4442,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            padding: var(--page-padding-sm) var(--page-padding);
+            padding: var(--padding-xl) var(--padding-2xl);
             color: var(--color-foreground);
             background: var(--color-background);
             border-top: 1px solid var(--color-border);
@@ -4596,7 +4596,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             width: 100%;
             z-index: 2;
             position: relative;
-            padding: 0 var(--page-padding);
+            padding: 0 var(--padding-2xl);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -4637,8 +4637,8 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
             &__container {
                 position: relative;
-                padding-left: var(--page-padding);
-                padding-right: var(--page-padding);
+                padding-left: var(--padding-2xl);
+                padding-right: var(--padding-2xl);
             }
 
             .logo {
@@ -4649,7 +4649,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &__content {
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             transition: padding var(--panel-layout-transition);
             margin-top: 8rem;
         }
@@ -4712,7 +4712,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         &__content {
             width: 100%;
             background-color: var(--color-background);
-            padding: calc(var(--page-padding)*2) var(--page-padding);
+            padding: calc(var(--padding-2xl)*2) var(--padding-2xl);
             text-align: left;
 
             h2 {
@@ -4791,7 +4791,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             overflow-x: hidden;
             will-change: transform, opacity;
             overscroll-behavior: contain;
-            padding: var(--page-padding-sm);
+            padding: var(--padding-xl);
             white-space: normal;
         }
 
@@ -4801,7 +4801,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             align-items: center;
             line-height: 36px;
-            padding: 1rem var(--page-padding-sm) .75rem var(--page-padding-sm);
+            padding: 1rem var(--padding-xl) .75rem var(--padding-xl);
             margin-bottom: 0;
             white-space: nowrap;
             border-bottom: 1px solid transparent;
@@ -4872,7 +4872,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             gap: 2rem;
             overflow-x: auto;
             scroll-behavior: smooth;
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
         }
 
         .widget {
@@ -4916,7 +4916,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__panes {
             height: 100%;
-            padding: var(--page-padding) var(--page-padding-sm);
+            padding: var(--padding-2xl) var(--padding-xl);
 
             .pane {
                 display: none;
@@ -5024,7 +5024,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .tab {
                 z-index: 1;
                 min-width: var(--tab-size);
-                padding: 0 var(--page-padding-sm);
+                padding: 0 var(--padding-xl);
                 height: 100%;
                 cursor: pointer;
                 margin-inline-end: 0;
@@ -5157,7 +5157,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             width: 25em;
             cursor: default;
             word-break: break-all;
-            padding: var(--page-padding-sm);
+            padding: var(--padding-xl);
             border-radius: var(--radius-md);
             color: var(--color-foreground);
             background: var(--color-background);
@@ -5172,15 +5172,15 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         &--top-left,
         &--top-right,
         &--top-center {
-            top: var(--page-padding);
+            top: var(--padding-2xl);
         }
 
         &--top-left {
-            left: var(--page-padding);
+            left: var(--padding-2xl);
         }
 
         &--top-right {
-            right: var(--page-padding);
+            right: var(--padding-2xl);
         }
 
         &--top-center {
@@ -5207,15 +5207,15 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         &--bottom-left,
         &--bottom-right,
         &--bottom-center {
-            bottom: var(--page-padding);
+            bottom: var(--padding-2xl);
         }
 
         &--bottom-right {
-            right: var(--page-padding);
+            right: var(--padding-2xl);
         }
 
         &--bottom-left {
-            left: var(--page-padding);
+            left: var(--padding-2xl);
         }
 
         &--bottom-center {
@@ -5535,7 +5535,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            padding: var(--page-padding-sm);
+            padding: var(--padding-xl);
             color: var(--color-foreground);
         }
 
@@ -5593,7 +5593,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: var(--page-padding-sm);
+            gap: var(--padding-xl);
             padding-bottom: 3rem;
 
             &:after {
@@ -5607,7 +5607,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             }
 
             &:last-child {
-                padding-bottom: var(--page-padding-sm);
+                padding-bottom: var(--padding-xl);
 
                 &:after {
                     display: none;
@@ -5719,8 +5719,8 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 justify-content: space-between;
                 width: 100%;
                 height: 100%;
-                padding-left: var(--page-padding);
-                padding-right: calc(var(--page-padding)*4);
+                padding-left: var(--padding-2xl);
+                padding-right: calc(var(--padding-2xl)*4);
             }
 
             &__item {
@@ -5754,16 +5754,16 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &__content {
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             transition: padding var(--panel-layout-transition);
-            padding-top: calc(var(--wizard-nav-height) + var(--page-padding));
+            padding-top: calc(var(--wizard-nav-height) + var(--padding-2xl));
         }
 
         &__footer {
             position: fixed;
             bottom: 1.5rem;
             width: 100%;
-            padding: var(--page-padding);
+            padding: var(--padding-2xl);
             border-top: 1px solid var(--color-border);
         }
     }
