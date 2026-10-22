@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { useResizableAside } from "../../../../lib/hooks/useResizableAside";
+import ResizeHandle from "../../../UI/ResizeHandle/ResizeHandle";
 import { ColorDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import DismissButton from "../../../UI/DismissButton/DismissButton";
 import Tooltip from "../../../UI/Tooltip/Tooltip";
@@ -48,7 +49,7 @@ export function DatagridTabs({
     tabsDisplay = "auto"
 }: Readonly<DatagridTabsComponentProps>): ReactElement {
 
-    const { width, startResize } = useResizableAside(
+    const { width, resizing, startResize } = useResizableAside(
         tabsMinWidth,
         tabsMinWidth,
         tabsMaxWidth,
@@ -101,12 +102,10 @@ export function DatagridTabs({
                     : undefined
             }>
             {activeTab && (
-                <div
-                    className="datagrid__resizer"
-                    onPointerDown={(e) => {
-                        e.preventDefault();
-                        startResize(e);
-                    }}
+                <ResizeHandle
+                    edge={tabberPosition === "left" ? "right" : "left"}
+                    resizing={resizing}
+                    onResizeStart={startResize}
                 />
             )}
 

@@ -579,8 +579,8 @@ function Datagrid<TData extends { id: string | number }>({
 
 
     const hasFilterableColumns = useMemo(() =>
-        visibleColumns.some((column) => !!column.filter),
-        [visibleColumns]
+        columns.some((column) => !!column.filter),
+        [columns]
     );
 
     // Column chooser
@@ -638,7 +638,7 @@ function Datagrid<TData extends { id: string | number }>({
                 content: (
                     <DatagridFilterList
                         dataRaw={dataRaw}
-                        columns={visibleColumns}
+                        columns={columns}
                         columnFilters={columnFilters}
                         setColumnFilters={setColumnFilters}
                     />
@@ -652,7 +652,7 @@ function Datagrid<TData extends { id: string | number }>({
             ...(tabPanes ?? [])
         ];
     },
-        [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, visibleColumns, columnFilters, setColumnFilters]
+        [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, columns, columnFilters, setColumnFilters]
     );
 
 

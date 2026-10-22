@@ -178,6 +178,17 @@ const prepareFilter = <TData>(
     type: "text" | "number" | "date" | "select",
     filterConfig?: DatagridColumnFilterConfig<TData, any>
 ): PreparedFilter<TData> => {
+    // A list of values means "one of" these values, for every type of column (as Promeetec.ServerSideTableQuery's oneOf)
+    if (filter.values?.length && filter.operator === undefined) {
+        return {
+            key,
+            type: "select",
+            operator: undefined,
+            values: filter.values.map(value => String(value).toLowerCase()),
+            mapOption: filterConfig?.mapOption
+        };
+    }
+
     switch (type) {
         case "text":
             return {

@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { ReactElement } from "react";
+import { handleActivationKey } from "../../../../lib/helpers/helpers";
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import Checkbox from "../../../Forms/Checkbox/Checkbox";
 import Icon from "../../../UI/Icons/Icon/Icon";
@@ -98,12 +99,7 @@ export function DatagridRow<
                 role="none"
                 onClick={() => rowSingleClickAction?.(item)}
                 onDoubleClick={() => rowDoubleClickAction?.(item)}
-                onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        rowSingleClickAction?.(item);
-                    }
-                }}
+                onKeyDown={handleActivationKey(() => rowSingleClickAction?.(item))}
             >
                 {renderedColumns.map(
                     (renderedColumn, index) => {

@@ -21,6 +21,7 @@ import Datagrid, { DatagridRowActionsPosition, DatagridSidebarPosition, Datagrid
 import { hasActiveColumnFilters } from '../Filters/DatagridColumnFilter';
 import { useTableQueryClientFilter } from '../Hooks/useTableQueryClientFilter';
 import { PaginationInfoPosition } from '../Pagination';
+import { PriceRangePicker } from './PriceRangePicker';
 import ProductDetails from './ProductDetails';
 import { ProductOrdersNested } from './ProductOrdersNested';
 import { ProductOrdersWithDetails } from './ProductOrdersNestedTable';
@@ -155,6 +156,39 @@ export const ColumnFilterArray: StoryFn = () => {
             loading={status === "pending"}
             onFilterUpdate={setTableOptions}
             enableFiltersInHeader
+            properties={columns as any}
+        />
+    )
+}
+
+export const ColumnFilterCustomPicker: StoryFn = () => {
+
+    const CUSTOM_PICKER_DEMO_COLUMNS = new Set(["id", "naam", "categorie", "prijs"]);
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    const columns = filterProductColumns()
+        .filter(column => CUSTOM_PICKER_DEMO_COLUMNS.has(column.prop))
+        .map(column => column.prop === "prijs"
+            ? { ...column, filter: { type: "number", customPicker: <PriceRangePicker /> } }
+            : column
+        );
+
+    return (
+        <Datagrid
+            localStorageKey="dg-column-filter-custom-picker"
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            enableFiltersInHeader
+            enableTabs
+            enableTabFilters
             properties={columns as any}
         />
     )

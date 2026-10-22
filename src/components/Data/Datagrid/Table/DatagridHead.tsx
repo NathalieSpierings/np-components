@@ -5,7 +5,7 @@ import Tooltip from "../../../UI/Tooltip/Tooltip";
 import DatagridMenuDropdown from "../Addons/DatagridMenuDropdown";
 import { DatagridSortConfig } from "../Config/DatagridSort";
 import { DatagridColumnRuntime, DatagridRenderedColumn } from "../Datagrid";
-import { DatagridColumnFilterValue } from "../Filters/DatagridColumnFilter";
+import { DatagridColumnFilterValue, setColumnFilterValue } from "../Filters/DatagridColumnFilter";
 import DatagridFilterDropdown from "../Filters/DatagridFilterDropdown";
 import { DatagridTableProps } from "./DatagridTable";
 
@@ -507,17 +507,7 @@ function updateColumnFilter<TData extends { id: string | number }>(
     value: DatagridColumnFilterValue | undefined,
     setColumnFilters: DatagridHeadProps<TData>["setColumnFilters"]
 ): void {
-    setColumnFilters((current) => {
-        if (!value) {
-            const { [prop]: _, ...rest } = current;
-            return rest;
-        }
-
-        return {
-            ...current,
-            [prop]: value
-        };
-    });
+    setColumnFilters((current) => setColumnFilterValue(current, prop, value));
 }
 
 function renderCheckboxHeader<TData extends { id: string | number }>(

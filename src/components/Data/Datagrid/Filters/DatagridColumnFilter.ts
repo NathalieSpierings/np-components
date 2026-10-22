@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import type { NestedKeyOf } from "../Config/DatagridRowConfig";
 import { getNestedValue } from "../Helpers/datagridTypeHelpers";
 
@@ -56,6 +57,13 @@ export interface DatagridColumnFilterConfig<TData = any, TOption = unknown> {
      * Wordt ook gebruikt om de waarden in de rij te vergelijken met de gekozen filterwaarden.
      */
     mapOption?: (value: TOption) => DatagridFilterOption;
+
+    /**
+     * Custom component voor het kiezen van een filterwaarde.
+     * Vervangt de standaard invoer. Gebruik useDatagridFilter() in dit component
+     * om de huidige waarde te lezen en te wijzigen.
+     */
+    customPicker?: ReactElement;
 }
 
 export interface DatagridColumnFilterValue {
@@ -83,6 +91,20 @@ export function isActiveColumnFilter(
     return !!filter.value;
 }
 
+
+// Geeft een nieuwe filter-record terug waarin de waarde van één kolom is gezet (undefined verwijdert hem).
+export function setColumnFilterValue(
+    current: Record<string, DatagridColumnFilterValue | undefined>,
+    prop: string,
+    value: DatagridColumnFilterValue | undefined
+): Record<string, DatagridColumnFilterValue | undefined> {
+    if (!value) {
+        const { [prop]: _, ...rest } = current;
+        return rest;
+    }
+
+    return { ...current, [prop]: value };
+}
 
 // True when at least one of the column filters is active.
 export function hasActiveColumnFilters(

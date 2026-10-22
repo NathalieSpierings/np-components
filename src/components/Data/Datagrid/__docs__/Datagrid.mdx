@@ -237,6 +237,30 @@ In dit voorbeeld filter je op de kolom "Tags" (`dataSource: "tags"`):
 
 <Canvas of={DatagridStories.ColumnFilterArray} />
 
+### Eigen filterinvoer
+
+Met `customPicker` vervang je de standaard invoer van een filter door een eigen component. Dat component
+leest en wijzigt het filter met `useDatagridFilter()`. Het werkt zowel in de kolomkop als in de filtertab.
+
+```tsx
+function PriceRangePicker() {
+    const { value, setValue } = useDatagridFilter();
+
+    return (
+        <Button onClick={() => setValue({ operator: "lessThan", value: "50" })}>
+            Tot € 50
+        </Button>
+    );
+}
+
+{ prop: "prijs", title: "Prijs", filter: { type: "number", customPicker: <PriceRangePicker /> } }
+```
+
+> **Let op:** `type` bepaalt nog steeds hoe de waarde wordt toegepast. Schrijf de waarde in de vorm die bij dat
+> type hoort: `operator` met `value` (en `valueTo`) voor tekst, getal en datum, of `values` voor een keuzelijst.
+
+<Canvas of={DatagridStories.ColumnFilterCustomPicker} />
+
 ---
 
 ## Algemeen zoeken

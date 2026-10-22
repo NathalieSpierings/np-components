@@ -92,6 +92,8 @@ export * from './UI/Icons/FileIcon';
 export * from './UI/Icons/Icon';
 export * from './UI/Loader';
 export * from './UI/Modal';
+export * from './UI/PanelLayout';
+export * from './UI/ResizeHandle';
 export * from './UI/Popover';
 export * from './UI/Slider';
 export * from './UI/Tabs';

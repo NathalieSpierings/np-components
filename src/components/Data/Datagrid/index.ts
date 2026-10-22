@@ -15,7 +15,9 @@ export * from './Addons/DatagridTabs';
  export * from './Config/DatagridSort';
 
 export * from './Filters/DatagridColumnFilter';
+export * from './Filters/DatagridFilterContext';
 export * from './Filters/DatagridFilterDropdown';
+export * from './Filters/DatagridFilterEditor';
 export * from './Filters/DatagridFilterList';
 export * from './Filters/DatagridFilterOperators';
 export * from './Filters/DatagridFilters';

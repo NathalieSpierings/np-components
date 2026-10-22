@@ -1,6 +1,6 @@
 import React from "react";
 import { DatagridRowConfig } from "../Config/DatagridRowConfig";
-import { DatagridColumnFilterValue } from "./DatagridColumnFilter";
+import { DatagridColumnFilterValue, setColumnFilterValue } from "./DatagridColumnFilter";
 import DatagridFilterDropdown from "./DatagridFilterDropdown";
 
 export interface DatagridFiltersProps<TData> {
@@ -38,17 +38,7 @@ function DatagridFilters<TData>({
                     dataRaw={dataRaw}
                     value={columnFilters[column.prop]}
                     onChange={(value) =>
-                        setColumnFilters((current) => {
-                            const next = { ...current };
-
-                            if (!value) {
-                                delete next[column.prop];
-                            } else {
-                                next[column.prop] = value;
-                            }
-
-                            return next;
-                        })
+                        setColumnFilters((current) => setColumnFilterValue(current, column.prop, value))
                     }
                 />
             ))}

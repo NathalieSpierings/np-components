@@ -1,4 +1,5 @@
-import { Children, FC, isValidElement, PropsWithChildren, ReactElement, ReactNode, useCallback, useMemo, useState } from "react";
+import { Children, FC, isValidElement, PropsWithChildren, ReactElement, ReactNode, useMemo } from "react";
+import { useControllableState } from "../../../lib/hooks/useControllableState";
 import { ColumnLayoutContext } from "./ColumnLayoutContext";
 
 export interface ColumnLayoutProps extends PropsWithChildren {
@@ -19,21 +20,7 @@ const ColumnLayout: FC<ColumnLayoutProps> = ({
     isShown: controlledIsShown,
     onShownChange,
 }) => {
-    const [internalIsShown, setInternalIsShown] = useState(false);
-
-    const isControlled = typeof controlledIsShown === "boolean";
-
-    const isShown = isControlled
-        ? controlledIsShown
-        : internalIsShown;
-
-    const setIsShown = useCallback((value: boolean) => {
-        if (!isControlled) {
-            setInternalIsShown(value);
-        }
-
-        onShownChange?.(value);
-    }, [isControlled, onShownChange]);
+    const [isShown, setIsShown] = useControllableState(controlledIsShown, false, onShownChange);
 
     const getDisplayName = (child: ReactNode) =>
         isValidElement(child)

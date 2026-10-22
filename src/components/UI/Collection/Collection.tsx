@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { FC, KeyboardEvent, ReactNode, useState } from 'react';
+import { handleActivationKey, joinClasses } from '../../../lib/helpers/helpers';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import ContentItem, { ContentItemType } from '../ContentItem/ContentItem';
 import Icon from '../Icons/Icon/Icon';
@@ -43,7 +44,6 @@ export interface CollectionProps {
 }
 
 
-const cx = (...classes: Array<string | false | null | undefined>) => classes.filter(Boolean).join(' ');
 
 const NESTED_INTERACTIVE_SELECTOR = [
     'a[href]',
@@ -138,16 +138,13 @@ const Collection: FC<CollectionProps> = ({
     const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>, id: string, hasCollapsibleContent: boolean) => {
         if (event.target !== event.currentTarget) return;
 
-        if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            handleActivate(id, hasCollapsibleContent);
-        }
+        handleActivationKey(() => handleActivate(id, hasCollapsibleContent))(event);
     };
 
     const hasCollapsibleItems = items.some(item => !!item.collapsibleContent);
     const roundedCls = rounded && `rounded-${rounded}`;
 
-    const collectionCls = cx(
+    const collectionCls = joinClasses(
         'collection',
         hasCollapsibleItems && 'collection--collapsible',
         view,
@@ -220,7 +217,7 @@ const Collection: FC<CollectionProps> = ({
                     const itemBackground = item.background ?? background;
                     const itemBorderColor = item.borderColor ?? borderColor;
 
-                    const itemCls = cx(
+                    const itemCls = joinClasses(
                         'collection__item',
                         isOpen && 'active',
                         isSelected && 'selected',
@@ -244,7 +241,7 @@ const Collection: FC<CollectionProps> = ({
                             className={itemCls}
                         >
                             <div
-                                className={cx('collection__item__container', roundedCls)}
+                                className={joinClasses('collection__item__container', roundedCls)}
                                 style={{ cursor: isInteractive ? 'pointer' : 'default' }}
                                 {...interactiveProps}
                             >
@@ -254,7 +251,7 @@ const Collection: FC<CollectionProps> = ({
                             <AnimatePresence initial={false}>
                                 {isOpen && (
                                     <motion.div
-                                        className={cx('collection__item__collapsible', borderColor && `border-${borderColor}`)}
+                                        className={joinClasses('collection__item__collapsible', borderColor && `border-${borderColor}`)}
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: 'auto', opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}

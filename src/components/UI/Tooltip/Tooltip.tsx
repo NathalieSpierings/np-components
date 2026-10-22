@@ -1,5 +1,6 @@
 import React, {	FC,	PropsWithChildren,	ReactNode,	RefObject,	useEffect,	useRef,	useState} from 'react';
 import { createPortal } from 'react-dom';
+import { useMediaQuery } from '../../../lib/hooks/useMediaQuery';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 
 export type TooltipDirection =
@@ -105,28 +106,6 @@ const getPosition = (
 	return positions[direction];
 };
 
-const useIsMobile = (): boolean => {
-	const [isMobile, setIsMobile] = useState(false);
-
-	useEffect(() => {
-		const mediaQuery = globalThis.matchMedia(MOBILE_BREAKPOINT);
-
-		setIsMobile(mediaQuery.matches);
-
-		const handleChange = (event: MediaQueryListEvent) => {
-			setIsMobile(event.matches);
-		};
-
-		mediaQuery.addEventListener('change', handleChange);
-
-		return () => {
-			mediaQuery.removeEventListener('change', handleChange);
-		};
-	}, []);
-
-	return isMobile;
-};
-
 const getEffectiveDirection = (
 	direction: TooltipDirection,
 	isMobile: boolean
@@ -194,7 +173,7 @@ const Tooltip: FC<TooltipProps> = props => {
 		transform: '',
 	});
 
-	const isMobile = useIsMobile();
+	const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
 	const isAnchored = props.mode === 'anchored';
 	const enabled = isAnchored ? props.enabled : false;
 	const effectiveDirection = getEffectiveDirection(direction, isMobile);
