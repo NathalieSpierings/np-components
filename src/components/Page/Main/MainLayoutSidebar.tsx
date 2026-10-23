@@ -5,7 +5,7 @@ import { MainMenuItem } from "../Navigation/MainMenu/MainMenu";
 
 export interface MainLayoutSidebarContentProps {
     css?: string;
-    paddingX?: string; // bv. '0', '1rem', 'var(--padding-xl)'
+    paddingX?: string; // bv. '0', '1rem', 'var(--page-padding-sm)'
     paddingY?: string;
 }
 

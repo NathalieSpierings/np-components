@@ -48,7 +48,7 @@ const ProductOrdersTable = ({ productId }: { productId: string }) => {
             tableInfoContent={
                 <ContentItem item={{
                     id: '1',
-                    content: <div>U heeft <span className="bold text-red">{checkedItems.length}</span> {checkedItems.length === 1 ? "bestand" : "bestanden"} {" "} geselecteerd</div>,
+                    content: <div>U heeft <span className="font-bold text-red">{checkedItems.length}</span> {checkedItems.length === 1 ? "bestand" : "bestanden"} {" "} geselecteerd</div>,
                     postfix: (
                         <Button
                             variant="ghost"

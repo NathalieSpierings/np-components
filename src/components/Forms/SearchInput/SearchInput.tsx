@@ -7,12 +7,11 @@ export interface SearchInputProps extends InputProps {
     placeholder?: string;
     onTextInput?: (val: string) => void;
     size?: "sm" | "md" | "lg" | "xl";
-    css?: string;
 }
 
-const SearchInput: FC<SearchInputProps> = ({ size, placeholder = 'Zoeken...', onTextInput, css = '', ...rest }) => {
+const SearchInput: FC<SearchInputProps> = ({ size, placeholder = 'Zoeken...', onTextInput, ...rest }) => {
     return (
-        <div className={`search-input ${size ? 'search-input--' + size : ''} ${css}`}>
+        <div className={`search-input ${size ? 'search-input--' + size : ''}`}>
             <Input placeholder={placeholder} onValueChange={onTextInput} {...rest} />
             <Icon icon={IconDefinitions.search} />
         </div>
