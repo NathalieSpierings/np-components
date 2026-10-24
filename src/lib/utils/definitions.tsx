@@ -20,7 +20,7 @@ export enum ColorDefinitions {
     Foreground = 'foreground',
     ForegroundLighter = 'foreground-light',
     ForegroundDarker = 'foreground-darker',
-    Mute = 'mute',
+    Muted = 'muted',
     Primary = 'primary',
     Primary5 = 'primary-5',
     Primary10 = 'primary-10',

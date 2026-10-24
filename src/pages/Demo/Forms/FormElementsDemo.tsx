@@ -74,7 +74,7 @@ const FormElementsDemo = (): ReactElement => {
     return (
         <section className="centered centered--wide">
             <Title size="lg">Form elements</Title>
-            <p className="text-mute">Overzicht van alle formuliercomponenten en hun varianten.</p>
+            <p className="text-muted">Overzicht van alle formuliercomponenten en hun varianten.</p>
 
             {/* ===== Input ===== */}
             <Fieldset legend="Input" className="mt-4">

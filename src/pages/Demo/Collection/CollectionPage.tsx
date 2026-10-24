@@ -339,7 +339,7 @@ const CollectionPage = (): ReactElement => {
               content: (
                 <>
                   <span>{file.name}</span>
-                  <small className={`${file.removed ? 'text-rose' : 'text-mute'} mb-05 mt-05`}>
+                  <small className={`${file.removed ? 'text-rose' : 'text-muted'} mb-05 mt-05`}>
                     Aangemaakt: {file.createdAt}
                   </small>
                   <small>{file.removed ? `${file.type} · Verwijderd` : file.type}</small>
@@ -387,7 +387,7 @@ const CollectionPage = (): ReactElement => {
                   />
                 ),
                 content: (
-                  <span className={done ? 'text-mute' : ''} style={{ textDecoration: done ? 'line-through' : 'none' }}>
+                  <span className={done ? 'text-muted' : ''} style={{ textDecoration: done ? 'line-through' : 'none' }}>
                     {task.label}
                   </span>
                 ),
@@ -427,7 +427,7 @@ const CollectionPage = (): ReactElement => {
         />
 
         {dynamicItems.length === 0 && (
-          <p className="text-mute mt-2">Geen items. Klik op "Item toevoegen".</p>
+          <p className="text-muted mt-2">Geen items. Klik op "Item toevoegen".</p>
         )}
       </Fieldset>
 

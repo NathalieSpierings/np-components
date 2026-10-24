@@ -77,7 +77,7 @@ const ArtSuite: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 strokeWidth="1.25903px" />
 
             <rect x="239.67" y="138.91" width="74.32" height="141" rx="2.79"
-                fill="var(--color-mute)" 
+                fill="var(--color-muted)" 
                 stroke="var(--color-dark)"
             strokeLinecap="round" 
             strokeLinejoin="round" 

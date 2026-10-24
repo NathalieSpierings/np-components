@@ -24,7 +24,7 @@
         &__line {
             width: 33px;
             height: 2px;
-            background: var(--color-mute);
+            background: var(--color-muted);
             margin-bottom: 0.3em;
         }
 
@@ -34,7 +34,7 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             font-size: 9px;
-            color: var(--color-mute);
+            color: var(--color-muted);
         }
 
         @include mixins.MQ-min(lg) {
@@ -93,7 +93,7 @@
             }
 
             &.active {
-                color: var(--color-mute);
+                color: var(--color-muted);
             }
         }
     }
@@ -201,7 +201,7 @@
             span {
                 font-size: var(--fs-xs);
                 font-weight: 500;
-                color: var(--color-mute);
+                color: var(--color-muted);
             }
 
             img {

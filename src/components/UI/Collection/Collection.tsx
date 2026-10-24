@@ -221,7 +221,7 @@ const Collection: FC<CollectionProps> = ({
                         'collection__item',
                         isOpen && 'active',
                         isSelected && 'selected',
-                        colorMute && `text-mute-${colorMute}`,
+                        colorMute && `text-muted-${colorMute}`,
                         color && `text-${color}`,
                         itemBackground && `bg-${itemBackground}`,
                         itemBorderColor && `border-${itemBorderColor}`,

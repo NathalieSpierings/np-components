@@ -58,7 +58,7 @@ describe('Box', () => {
         render(
             <Box
                 color={ColorDefinitions.Primary}
-                colorMute={ColorDefinitions.Mute}
+                colorMute={ColorDefinitions.Muted}
                 background={ColorDefinitions.Primary}
                 borderColor={ColorDefinitions.Primary}
                 data-testid="box"
@@ -69,7 +69,7 @@ describe('Box', () => {
 
         expect(screen.getByTestId('box')).toHaveClass(
             'text-primary',
-            'text-mute',
+            'text-muted',
             'bg-primary',
             'border-primary'
         );

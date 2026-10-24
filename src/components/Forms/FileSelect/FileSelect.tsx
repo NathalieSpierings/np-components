@@ -285,7 +285,7 @@ const FileSelect = ({
     const cls = [
         'fileupload__zone',
         borderColor ? `border-${borderColor}` : '',
-        colorMute ? `text-mute-${colorMute}` : '',
+        colorMute ? `text-muted-${colorMute}` : '',
         backgroundColor ? `bg-${backgroundColor}` : '',
         rounded ? `rounded-${rounded}` : '',
         dragActive ? 'drag-active' : '',
@@ -418,7 +418,7 @@ const FileSelect = ({
                                     content: (
                                         <div className="flex flex-column align-start">
                                             <span>{item.name}</span>
-                                            <small className="text-mute">{filesize(item.size)} </small>
+                                            <small className="text-muted">{filesize(item.size)} </small>
                                         </div>
                                     ),
                                     postfix: (

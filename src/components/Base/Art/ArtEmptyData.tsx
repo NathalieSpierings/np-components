@@ -333,7 +333,7 @@ const ArtEmptyData: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                     transform="translate(-60.62 -67.71)"
                 />
             </g>
-            <g id="text" fill="var(--color-mute)">
+            <g id="text" fill="var(--color-muted)">
                 <path
                     d="M224.84,288.59h2l2.87,3.82-.27-3.82h2l.49,6.91h-2L227,291.7l.27,3.8h-2Z"
                     transform="translate(-60.62 -67.71)"

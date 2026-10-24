@@ -162,7 +162,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
       --color-background: var(--color-#{$name});
       --color-foreground: var(--color-foreground-#{$name});
       --color-border: var(--color-border-#{$name});
-      --color-mute: var(--color-mute-#{$name});
+      --color-muted: var(--color-muted-#{$name});
       --color-shadow: var(--color-shadow-#{$name});
 
       background: var(--color-background) !important;
@@ -175,10 +175,10 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
       color: var(--color-#{$name}) !important;
     }
 
-    .text-mute-#{$name},
-    .hover\:text-mute-#{$name}:hover {
-      --color-mute: var(--color-mute-#{$name});
-      color: var(--color-mute-#{$name}) !important;
+    .text-muted-#{$name},
+    .hover\:text-muted-#{$name}:hover {
+      --color-muted: var(--color-muted-#{$name});
+      color: var(--color-muted-#{$name}) !important;
     }
 
     .border-#{$name},
@@ -332,7 +332,7 @@ $light-colors: (
   @return var(--color-offwhite);
 }
 
-@function color-mute($name, $value) {
+@function color-muted($name, $value) {
   @if list.index($light-colors, $name) {
     @return oklab-mix($value, 35, black);
   }
@@ -355,13 +355,13 @@ $light-colors: (
   @each $name, $value in $colors {
 
     $foreground: color-foreground($name);
-    $mute: color-mute($name, $value);
+    $muted: color-muted($name, $value);
     $border: color-border($name, $value);
 
     --color-#{$name}: #{$value};
     --color-foreground-#{$name}: #{$foreground};
     --color-border-#{$name}: #{$border};
-    --color-mute-#{$name}: #{$mute};
+    --color-muted-#{$name}: #{$muted};
     --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
     --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),
     0 4px 23px 0 rgb(0 0 0 / 12%),
@@ -373,7 +373,7 @@ $light-colors: (
   --color-foreground: var(--color-text);
   --color-foreground-darker: var(--color-text-dark);
   --color-border: var(--color-border-surface);
-  --color-mute: var(--color-text-light);
+  --color-muted: var(--color-text-light);
   --color-shadow: var(--color-shadow-surface);
 }
 
@@ -398,7 +398,7 @@ $light-colors: (
   @return var(--color-offwhite);
 }
 
-@function theme-color-mute($name, $value, $theme: null) {
+@function theme-color-muted($name, $value, $theme: null) {
 
   // 1. shades -5 / -10 → always dark
   @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
@@ -474,12 +474,12 @@ $theme-all: list.join($theme-low, $theme-high);
     @if not is-excluded($name) {
 
       $foreground: theme-color-foreground($name, $theme);
-      $mute: theme-color-mute($name, $value, $theme);
+      $muted: theme-color-muted($name, $value, $theme);
       $border: theme-color-border($name, $value, $theme);
 
       --color-foreground-#{$name}: #{$foreground};
       --color-border-#{$name}: #{$border};
-      --color-mute-#{$name}: #{$mute};
+      --color-muted-#{$name}: #{$muted};
 
       --color-shadow-from-#{$name}: hsl(from var(--color-#{$name}) h s l / 42%);
       --color-shadow-#{$name}: 0 14px 26px -12px var(--color-shadow-from-#{$name}, #{$value}),
@@ -493,7 +493,7 @@ $theme-all: list.join($theme-low, $theme-high);
     --color-#{$alias}: var(--color-#{$target});
     --color-foreground-#{$alias}: var(--color-foreground-#{$target});
     --color-border-#{$alias}: var(--color-border-#{$target});
-    --color-mute-#{$alias}: var(--color-mute-#{$target});
+    --color-muted-#{$alias}: var(--color-muted-#{$target});
     --color-shadow-from-#{$alias}: var(--color-shadow-from-#{$target});
     --color-shadow-#{$alias}: var(--color-shadow-#{$target});
   }
@@ -512,7 +512,7 @@ $theme-all: list.join($theme-low, $theme-high);
   @return var(--color-offwhite);
 }
 
-@function shade-color-mute($name, $value) {
+@function shade-color-muted($name, $value) {
 
   @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
     @return oklab-mix($value, 35, black);
@@ -545,13 +545,13 @@ $theme-all: list.join($theme-low, $theme-high);
       }
 
       $foreground: shade-color-foreground($key);
-      $mute: shade-color-mute($key, $shadeValue);
+      $muted: shade-color-muted($key, $shadeValue);
       $border: shade-color-border($key, $shadeValue);
 
       --color-#{$key}: #{$shadeValue};
       --color-foreground-#{$key}: #{$foreground};
       --color-border-#{$key}: #{$border};
-      --color-mute-#{$key}: #{$mute};
+      --color-muted-#{$key}: #{$muted};
       --color-shadow-from-#{$key}: hsl(from var(--color-#{$key}) h s l / 42%);
       --color-shadow-#{$key}: 0 14px 26px -12px var(--color-shadow-from-#{$key}, #{$shadeValue}),
       0 4px 23px 0 rgb(0 0 0 / 12%),

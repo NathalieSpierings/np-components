@@ -18,6 +18,6 @@ export const Default: Story = {
 export const Muted: Story = {
     args: {
         children: "I'm a caption",
-        mute: true,
+        muted: true,
     },
 };

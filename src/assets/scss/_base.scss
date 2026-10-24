@@ -942,7 +942,7 @@
 		&__subtitle {
 			font-size: var(--fs-sm);
 			font-weight: 300;
-			color: var(--color-mute);
+			color: var(--color-muted);
 		}
 
 	}
@@ -1633,11 +1633,11 @@
 	}
 
 
-	.text-mute,
+	.text-muted,
 	.text-foreground-lighter,
 	.hover\:text-foreground-lighter:hover,
-	.hover\:text-mute:hover {
-		color: var(--color-mute);
+	.hover\:text-muted:hover {
+		color: var(--color-muted);
 	}
 
 	.text-foreground-darker,

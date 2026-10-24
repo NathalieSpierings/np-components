@@ -658,7 +658,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		&:disabled,
 		&.readonly,
 		&[readonly] {
-			color: var(--color-mute);
+			color: var(--color-muted);
 			background: color-mix(in oklab, var(--input-background), white 15%);
 			pointer-events: none;
 			cursor: default;
@@ -705,7 +705,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			&:disabled,
 			&.readonly,
 			&[readonly] {
-				color: var(--color-mute);
+				color: var(--color-muted);
 				background: color-mix(in oklab, var(--input-background), white 15%);
 				pointer-events: none;
 				cursor: default;
@@ -3180,7 +3180,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 			padding-block: var(--page-padding-sm);
 
 			small {
-				color: var(--color-mute);
+				color: var(--color-muted);
 				font-size: var(--fs-sm);
 				line-height: 3;
 			}

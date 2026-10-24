@@ -87,7 +87,7 @@ const toggleId = (current: string[], id: string, checked: boolean) =>
     checked ? [...current, id] : current.filter(x => x !== id);
 
 const Status = ({ children }: { children: ReactNode }) => (
-    <p className="text-mute mb-2">{children}</p>
+    <p className="text-muted mb-2">{children}</p>
 );
 
 
@@ -266,7 +266,7 @@ export const CheckboxesWithActions: StoryFn = () => {
                         content: (
                             <>
                                 <span>{file.name}</span>
-                                <small className={`${file.removed ? 'text-rose' : 'text-mute'} mb-05 mt-05`}>
+                                <small className={`${file.removed ? 'text-rose' : 'text-muted'} mb-05 mt-05`}>
                                     Aangemaakt: {file.createdAt}
                                 </small>
                                 <small>{file.removed ? `${file.type} · Verwijderd` : file.type}</small>
@@ -319,7 +319,7 @@ export const TaskList: StoryFn = () => {
                                 />
                             ),
                             content: (
-                                <span className={done ? 'text-mute' : ''} style={{ textDecoration: done ? 'line-through' : 'none' }}>
+                                <span className={done ? 'text-muted' : ''} style={{ textDecoration: done ? 'line-through' : 'none' }}>
                                     {task.label}
                                 </span>
                             ),
@@ -372,7 +372,7 @@ export const DynamicAddRemove: StoryFn = () => {
                 }))}
             />
 
-            {list.length === 0 && <p className="text-mute mt-2">Geen items. Klik op "Item toevoegen".</p>}
+            {list.length === 0 && <p className="text-muted mt-2">Geen items. Klik op "Item toevoegen".</p>}
         </>
     );
 };
