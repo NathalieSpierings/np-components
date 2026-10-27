@@ -36,6 +36,20 @@ import TagsPage from "./Demo/Tags/TagsPage";
 import ToolbarDemo from "./Demo/Toolbar/ToolbarDemo";
 import TooltipPage from "./Demo/Tooltip/TooltipPage";
 import DescriptionListDemo from "./Demo/Typography/DescriptionList";
+import CollapsibleMenuDemo from "./Demo/CollapsibleMenu/CollapsibleMenuDemo";
+import PanelLayoutDefault from "./Demo/PanelLayout/PanelLayoutDefault";
+import PanelLayoutOverlays from "./Demo/PanelLayout/PanelLayoutOverlays";
+import PanelLayoutOverlayGroup from "./Demo/PanelLayout/PanelLayoutOverlayGroup";
+import PanelLayoutSharedHeader from "./Demo/PanelLayout/PanelLayoutSharedHeader";
+import PanelLayoutControlled from "./Demo/PanelLayout/PanelLayoutControlled";
+import PanelLayoutAlwaysExpanded from "./Demo/PanelLayout/PanelLayoutAlwaysExpanded";
+import PanelLayoutMobileStartsOnAside from "./Demo/PanelLayout/PanelLayoutMobileStartsOnAside";
+import PanelLayoutMobileScreen from "./Demo/PanelLayout/PanelLayoutMobileScreen";
+import PanelLayoutSingleAside from "./Demo/PanelLayout/PanelLayoutSingleAside";
+import PanelLayoutWithoutHeaders from "./Demo/PanelLayout/PanelLayoutWithoutHeaders";
+import PanelLayoutMainOnly from "./Demo/PanelLayout/PanelLayoutMainOnly";
+import FormsDemoPage from "./Demo/Forms/FormsDemoPage";
+import ArtDemo from "./Demo/Art/ArtDemo";
 import DemoPage from "./DemoPage";
 import HomePage from "./HomePage";
 import ThemePage from "./ThemePage";
@@ -236,6 +250,18 @@ export const routes = [
 		element: <IconDemo />
 	},
 	{
+		path: "/demo/collapsiblemenu",
+		element: <CollapsibleMenuDemo />
+	},
+	{
+		path: "/demo/art",
+		element: <ArtDemo />
+	},
+	{
+		path: "/demo/forms/:component/:story",
+		element: <FormsDemoPage />
+	},
+	{
 		path: "/demo/columnlayout-aside-left",
 		element: <AsideLeft />
 	},
@@ -298,6 +324,50 @@ export const routes = [
 	{
 		path: "/demo/columnlayout-columns-aside-scrollable",
 		element: <ColumnsScrollable />
+	},
+	{
+		path: "/demo/panellayout",
+		element: <PanelLayoutDefault />
+	},
+	{
+		path: "/demo/panellayout-overlays",
+		element: <PanelLayoutOverlays />
+	},
+	{
+		path: "/demo/panellayout-overlay-group",
+		element: <PanelLayoutOverlayGroup />
+	},
+	{
+		path: "/demo/panellayout-shared-header",
+		element: <PanelLayoutSharedHeader />
+	},
+	{
+		path: "/demo/panellayout-controlled",
+		element: <PanelLayoutControlled />
+	},
+	{
+		path: "/demo/panellayout-always-expanded",
+		element: <PanelLayoutAlwaysExpanded />
+	},
+	{
+		path: "/demo/panellayout-mobile-starts-on-aside",
+		element: <PanelLayoutMobileStartsOnAside />
+	},
+	{
+		path: "/demo/panellayout-mobile-screen",
+		element: <PanelLayoutMobileScreen />
+	},
+	{
+		path: "/demo/panellayout-single-aside",
+		element: <PanelLayoutSingleAside />
+	},
+	{
+		path: "/demo/panellayout-without-headers",
+		element: <PanelLayoutWithoutHeaders />
+	},
+	{
+		path: "/demo/panellayout-main-only",
+		element: <PanelLayoutMainOnly />
 	},
 
 ];
