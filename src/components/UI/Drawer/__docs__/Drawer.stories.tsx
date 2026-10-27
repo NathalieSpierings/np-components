@@ -6,7 +6,6 @@ import Button from '../../../UI/Button/Button';
 import Modal from '../../../UI/Modal/Modal';
 import EventStopper from '../../../Base/EventStopper/EventStopper';
 import Drawer from '../Drawer';
-import React from 'react';
 
 const meta: Meta<typeof Drawer> = {
     title: 'UI Kit/Drawer',

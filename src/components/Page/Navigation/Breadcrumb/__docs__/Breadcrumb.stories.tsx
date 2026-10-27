@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Meta, StoryObj, StoryFn } from '@storybook/react-webpack5';
 import Breadcrumb from '../Breadcrumb';
 import { MemoryRouter } from 'react-router';

@@ -1,38 +1,163 @@
-import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
 import * as MainLayoutStories from './MainLayout.stories';
-import MainLayoutComponent from '../MainLayout';
- 
+
 <Meta of={MainLayoutStories} />
- 
 
 # MainLayout
 
-De `MainLayout` component is verantwoordelijk voor de hoofdstructuur van een pagina.  
-Het combineert een header, sidebars, content-area en optionele loading-indicator.
+De `MainLayout` is de masterpage-layout van de applicatie. Hij bestaat uit een **menu**, een **sidebar**, een **drawer**, een **header** en de **content** (via `<Outlet />` van React Router).
 
-## Belangrijkste functionaliteiten
+De opbouw volgt de `main-layout` CSS:
 
-- **Pagina loader:** toont een `PageLoader` component wanneer `loading` true is.
-- **Sidebar ondersteuning:**  
-  - Dynamisch openen/sluiten van sidebar submenu’s en drawer-menu’s.  
-  - Ondersteuning voor mobiele sidebars.
-- **Header ondersteuning:**  
-  - Toont `pageTitle` en breadcrumbs via `Header` component.  
-  - Kan worden verborgen via layout context.
-- **Menu- en navigatiebeheer:**  
-  - Houdt actieve menu-items bij.  
-  - Ondersteunt drawer-menu-interacties.
-- **Layout context integratie:**  
-  - Respecteert `fullscreen`, `hasSidebars` en `showHeader` vanuit `LayoutContext`.
-- **SVG sprite integratie:**  
-  - Inclusief globale `SvgSprite` voor iconen.
+```
+main-layout
+├── main-layout__menu      (MainLayoutMenu)
+├── main-layout__sidebar   (MainLayoutSidebar)
+├── main-layout__drawer    (MainLayoutDrawer)
+├── main-layout__backdrop  (sluit menu, sidebar en drawer op tablet/mobiel)
+└── pc-layout__main
+    ├── main-layout__header   (burger, titel, breadcrumbs)
+    └── main-layout__content  (<Outlet />)
+```
 
-### Default
+## Gebruik
+
+```tsx
+<MainLayout
+    loading={loading}
+    pageTitle={pageTitle}
+    breadcrumbItems={breadcrumbItems}
+    menuItems={menuItems}
+    currentMenuItem={getInitialMenuItem(location.pathname)}
+    accountMenu={<AccountMenu onOpenSettings={openSettingsDrawer} />}
+    drawerRequest={drawerRequest}
+/>
+```
+
+### Props
+
+| Prop | Omschrijving |
+|---|---|
+| `loading` | Toont de `PageLoader`. |
+| `menuItems` | Items voor het hoofdmenu, inclusief eventuele sidebar of drawer (zie hieronder). |
+| `currentMenuItem` | Id van het actieve menu-item op basis van de route. Bepaalt of de sidebar opent. |
+| `accountMenu` | Element onderin het menu, bijvoorbeeld `SidebarAccount`. |
+| `drawerRequest` | `{ item, key }` om de drawer te openen vanaf een andere plek dan het menu (bijv. het accountmenu). Gebruik een nieuwe `key` (bijv. `Date.now()`) om opnieuw te openen. |
+| `pageTitle` | Titel in de header. |
+| `breadcrumbItems` | Breadcrumbs in de header. |
+
+## Menu-items
+
+Een `MainMenuItem` met een `url` is een navigatie-item. Een item **zonder** `url` opent de drawer.
+
+| Property | Omschrijving |
+|---|---|
+| `sidebar` | Component met de inhoud van de sidebar. De sidebar opent automatisch als de route bij dit item hoort. |
+| `sidebarTitle` | Titel in de vaste sidebar-header (standaard `MENU`). |
+| `sidebarWidth` | Breedte vanaf tablet (`--ml-sidebar-width`). Op mobiel is de sidebar `100% - menu`. |
+| `drawer` | Component met de inhoud van de drawer. |
+| `drawerTitle` | Titel voor de standaard drawer-header. Laat weg als je een eigen `MainLayoutDrawerHeader` gebruikt. |
+| `drawerWidth` | Breedte vanaf tablet (`--ml-drawer-width`). Op mobiel is de drawer `100% - menu`. |
+
+## Sidebar
+
+De sidebar-header (titel + sluitknop) is vast. De inhoud bouw je zelf met:
+
+- `MainLayoutSidebarContent`: scrollbare content. Props: `css`, `paddingX`, `paddingY` (vullen `--ml-sidebar-padding-x` / `-y`).
+- `MainLayoutSidebarFooter`: optionele footer. Prop: `css`.
+
+```tsx
+const ProductSidebar = () => (
+    <>
+        <MainLayoutSidebarContent paddingX="var(--page-padding-sm)" paddingY="var(--page-padding-sm)">
+            <SidebarMenu menuItems={productMenuItems} />
+        </MainLayoutSidebarContent>
+        <MainLayoutSidebarFooter>
+            <Button>Nieuw product</Button>
+        </MainLayoutSidebarFooter>
+    </>
+);
+
+// menu-item
+{ id: 'producten', url: '/producten', sidebarTitle: 'Producten', sidebar: <ProductSidebar />, ... }
+```
+
+<Canvas of={MainLayoutStories.WithSidebar} />
+
+## Drawer
+
+De drawer bouw je op met:
+
+- `MainLayoutDrawerHeader`: header met sluitknop. Props: `css`, `dismiss` (sluitknop tonen, standaard `true`).
+- `MainLayoutDrawerContent`: scrollbare content. Prop: `css`.
+- `MainLayoutDrawerFooter`: optionele footer. Prop: `css`.
+- `useMainLayoutDrawer()`: geeft `close()` om de drawer vanuit je eigen component te sluiten (bijv. na opslaan).
+
+Is er een `drawerTitle` opgegeven, dan maakt de drawer zelf de header. Wil je iets anders in de header, zoals een zoekveld, laat `drawerTitle` dan weg en gebruik `MainLayoutDrawerHeader` in je eigen component. Header, content en footer staan dan in één component en kunnen state delen.
+
+```tsx
+const SettingsDrawer = () => {
+    const { close } = useMainLayoutDrawer();
+
+    return (
+        <>
+            <MainLayoutDrawerContent>...</MainLayoutDrawerContent>
+            <MainLayoutDrawerFooter>
+                <Button color={ColorDefinitions.Primary} onClick={close}>Opslaan</Button>
+            </MainLayoutDrawerFooter>
+        </>
+    );
+};
+
+// menu-item
+{ id: 'settings', drawerTitle: 'Mijn voorkeuren', drawerWidth: '400px', drawer: <SettingsDrawer />, ... }
+```
+
+### Drawer met standaard header
+
+<Canvas of={MainLayoutStories.WithDrawer} />
+
+### Drawer met eigen header
+
+<Canvas of={MainLayoutStories.DrawerWithCustomHeader} />
+
+## Layout context
+
+Via de `LayoutContext` kan een pagina onderdelen van de layout aan- of uitzetten:
+
+- `hasSidebars`: menu, sidebar en drawer tonen. Zet de class `has-sidebars` op de layout.
+- `showHeader`: header tonen.
+- `fullscreen`: stuurt de padding-variabele `--ml-padding` van de layout aan.
+
+```tsx
+const { setShowHeader } = useLayoutContext();
+
+useEffect(() => {
+    setShowHeader(false);
+    return () => setShowHeader(true);
+}, [setShowHeader]);
+```
+
+### Fullscreen
+
+<Canvas of={MainLayoutStories.Fullscreen} />
+
+### Zonder header
+
+<Canvas of={MainLayoutStories.WithoutHeader} />
+
+### Zonder sidebars
+
+<Canvas of={MainLayoutStories.WithoutSidebars} />
+
+## Gedrag op schermformaten
+
+- **Desktop:** menu altijd zichtbaar, burger verborgen.
+- **Tablet/mobiel:** menu opent via de burger. Een backdrop sluit menu, sidebar en drawer.
+- **Mobiel:** sidebar en drawer zijn `100% - menu` breed.
+
+## Default
 
 <Canvas of={MainLayoutStories.Default} />
 
-
-### Props
- 
 <Controls />
-

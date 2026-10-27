@@ -55,7 +55,7 @@
     --alpha-link: 0.6;
 
     // Layout
-    --header-height: 80px;
+    --header-height: 94px;
 
     --root-aside-width: 280px;
 
@@ -93,6 +93,13 @@
 
     // Colors
     --backdrop: rgb(0 0 0 / 50%);
+    
+    --rgb-black: 0 0 0;
+    --rgb-white: 255 255 255;
+
+    --shadow-rgb: var(--rgb-black);
+    --shadow-rgb-inverse: var(--rgb-white);
+    
     --shadow-base: rgb(0 0 0 / 12%);
     --shadow-base-inverse: rgb(255 255 255 / 12%);
     --shadow-light: rgb(0 0 0 / 6%);
@@ -104,6 +111,9 @@
     --color-hover: var(--shadow-light-inverse);
     --color-selected: var(--shadow-base-inverse);
     --color-disabled: var(--color-theme-100);
+    
+    --color-hover:  rgb(var(--overlay-rgb) / 0.03);
+    --color-active: rgb(var(--overlay-rgb) / 0.07);
 
     // Form
     --form-field-background: var(--color-border-surface-dark);
@@ -125,7 +135,7 @@
     // Zindexes
 
     // Alert goes on top of everything
-    --alert-sticy-zindex: 1009;
+    --alert-sticky-zindex: 1009;
 
 
     // Modal goes on top of pageoverlay
@@ -136,12 +146,14 @@
     --pageoverlay-zindex: 1005;
     --drawer-zindex: 1004;
 
-    --sb-main-zindex: 203;
-    --sb-sub-zindex: 201;
+    --ml-menu-zindex: 203;
+    --ml-sidebar-zindex: 201;
     // Drawer on top of sidebar sub
-    --sb-drawer-zindex: 202;
-    --sb-backdrop-zindex: 200;
+    --ml-drawer-zindex: 202;
+    --ml-backdrop-zindex: 200;
 
+    --datagrid-header-zindex: 199
+;
     --header-zindex: 98;
     --gridlayout-zindex-mobile: 99; // must be higher that header
     --gridlayout-zindex-desktop: 96; // Must be lower than header
@@ -156,10 +168,16 @@
 
 }
 
+:root,
+.theme-light {
+    --overlay-rgb: 0 0 0;
+}
+
 .theme-dimmed,
 .theme-dark {
     --scrollbar-thumb: var(--color-theme-200);
     --scrollbar-thumb-hover: var(--color-theme-100);
+     --overlay-rgb: 255 255 255;
 }
 
 .theme-dimmed {
@@ -170,3 +188,4 @@
 .theme-dark {
     --scrollbar-background: var(--color-theme-900);
 }
+

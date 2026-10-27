@@ -19,7 +19,7 @@ const tabs = [
 
 const DatagridTest = (): ReactElement => {
 
-    const { setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile } = useLayoutContext();
+    const { setFullscreen, setShowHeader, setHasSidebars } = useLayoutContext();
     const [selectedTab, setSelectedTab] = useState(0);
     const [tableOptionsTest1, setTableOptionsTest1] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
 
@@ -28,15 +28,13 @@ const DatagridTest = (): ReactElement => {
         setFullscreen(true);
         setShowHeader(false);
         setHasSidebars(true);
-        setShowSidebarMobile(true);
 
         return () => {
             setFullscreen(false);
             setShowHeader(true);
             setHasSidebars(true);
-            setShowSidebarMobile(true);
         };
-    }, [setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile]);
+    }, [setFullscreen, setShowHeader, setHasSidebars]);
 
 
     const handleTabChange = useCallback((index: number) => {
@@ -68,7 +66,7 @@ const DatagridTest = (): ReactElement => {
     return (
         <ColumnLayout>
             <ColumnLayoutMain>
-                <ColumnLayoutHeader enableFixedHeader>
+                <ColumnLayoutHeader >
                     <ContentItem item={
                         {
                             id: '1',

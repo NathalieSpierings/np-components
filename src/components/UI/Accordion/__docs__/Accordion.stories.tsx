@@ -1,7 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Accordion, { AccordionSection } from '../Accordion';
-import React from 'react';
 
 
 const meta: Meta<typeof Accordion> = {

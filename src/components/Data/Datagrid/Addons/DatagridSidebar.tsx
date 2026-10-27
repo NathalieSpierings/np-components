@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode } from "react";
 import { useResizableAside } from "../../../../lib/hooks/useResizableAside";
+import ResizeHandle from "../../../UI/ResizeHandle/ResizeHandle";
 import { ColorDefinitions, SizeDefinitions } from "../../../../lib/utils/definitions";
 import { DismissButton } from "../../../UI/DismissButton";
 import { DatagridSidebarConfig, DatagridSidebarProps } from "../Datagrid";
@@ -56,11 +57,10 @@ export function DatagridSidebar<TData>({
             style={{ "--datagrid-sidebar-width": `${width}px` } as React.CSSProperties}
         >
             {open && (
-                <div className={`datagrid__resizer ${resizing ? "resizing" : ""}`}
-                    onPointerDown={(event) => {
-                        event.preventDefault();
-                        startResize(event);
-                    }}
+                <ResizeHandle
+                    edge={sidebarPosition === "left" ? "right" : "left"}
+                    resizing={resizing}
+                    onResizeStart={startResize}
                 />
             )}
 

@@ -17,7 +17,7 @@ const Scrollable: React.FC = () => {
     
 
   return (
-    <ColumnLayout enableScrollableContent>
+    <ColumnLayout >
       <ColumnLayoutMain>
         <ColumnLayoutHeader>
            Main header

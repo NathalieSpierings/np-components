@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router';
 import { SvgSprite } from '../../../assets/SvgSprite';
 import ArtForbidden from '../../Base/Art/ArtForbidden';

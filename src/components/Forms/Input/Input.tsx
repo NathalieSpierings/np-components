@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef, InputHTMLAttributes, ReactElement, ReactNode } from 'react';
+import { ChangeEvent, forwardRef, InputHTMLAttributes, ReactElement, ReactNode } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 
 export type InputType = 'text' | 'password' | 'email' | 'number' | 'date';

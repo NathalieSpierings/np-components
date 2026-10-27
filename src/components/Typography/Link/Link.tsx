@@ -1,4 +1,4 @@
-import React, { FC, HTMLProps } from 'react';
+import { FC, HTMLProps } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import Ripple from '../../Base/Ripple/Ripple';
 

@@ -2,7 +2,6 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import DuoColumn from '../DuoColumn';
 import DuoColumnLayout from '../DuoColumnLayout';
-import React from 'react';
 
 const meta: Meta<typeof DuoColumnLayout> = {
     title: 'Layout/Duo column',

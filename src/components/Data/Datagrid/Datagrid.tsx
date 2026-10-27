@@ -1,11 +1,13 @@
 import React, { ReactElement, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ColorDefinitions, IconDefinitions } from "../../../lib/utils/definitions";
-import Button from "../../UI/Button/Button";
+import ContentItem from "../../UI/ContentItem/ContentItem";
 import Icon from "../../UI/Icons/Icon/Icon";
 import Loader, { LoaderVariant } from "../../UI/Loader/Loader";
 import Toolbar from "../../UI/Toolbar/Toolbar";
 import Tooltip from "../../UI/Tooltip/Tooltip";
+import DatagridClearFiltersButton, { DatagridClearFiltersButtonProps } from "./Addons/DatagridClearFiltersButton";
 import { useDatagridColumnChooser } from "./Addons/DatagridColumnChooser";
+import DatagridSearch from "./Addons/DatagridSearch";
 import { DatagridSidebar, DatagridSidebarFooter, DatagridSidebarHeader } from "./Addons/DatagridSidebar";
 import DatagridTableInfo from "./Addons/DatagridTableInfo";
 import { DatagridTabItem, DatagridTabPane, DatagridTabs } from "./Addons/DatagridTabs";
@@ -17,6 +19,8 @@ import { DatagridProvider, useDatagridContext } from "./Context/DatagridContext"
 import { DatagridColumnFilterValue, isActiveColumnFilter } from "./Filters/DatagridColumnFilter";
 import DatagridFilterList from "./Filters/DatagridFilterList";
 import { getNestedValue } from "./Helpers/datagridTypeHelpers";
+import { useDatagridColumnFilters } from "./Hooks/useDatagridColumnFilters";
+import { useDatagridSearchTerm } from "./Hooks/useDatagridSearchTerm";
 import { PaginationData, PaginationInfoPosition } from "./Pagination";
 import DatagridTable from "./Table/DatagridTable";
 
@@ -61,8 +65,32 @@ export interface DatagridDataProps<TData> {
     onFilterUpdate: FilterUpdateFunc<TData>;
     properties?: DatagridRowConfig<TData>[];
     initialSortConfig?: DatagridSortConfig;
-    loading: boolean;
+    loading: boolean;    
+    // Unique identity per row. Used as React key and for collapsible state,
+    // checkboxes and selectedRow. A primitive selectedRow is compared
+    // against this key (so pass e.g. "12-1", not 1).
+    // Required when `id` is not unique, e.g. dossiers across organisations.
+    // Default: item.id
     getRowKey?: (item: TData) => string | number;
+    
+    // Column filters set from outside the grid.
+    // - With `onColumnFiltersChange`: fully controlled (grid and parent stay in sync).
+    // - Without: the grid takes over the value each time the reference changes (`undefined` clears).
+    columnFilters?: ColumnFilters<TData>;
+    // Called when the column filters change inside the grid (header, filter tab, "Filter wissen"). 
+    onColumnFiltersChange?: (columnFilters: ColumnFilters<TData>) => void;
+}
+
+export interface DatagridGeneralSearchProps {
+    // Shows a general search field in the toolbar that searches in all columns. 
+    enableSearch?: boolean;
+    searchPlaceholder?: string;
+    // Debounce in ms before the search term is passed to onFilterUpdate. Default 300. 
+    searchDebounce?: number;
+    searchAutoFocus?: boolean;
+    // Controlled search term, e.g. for an external search field. 
+    searchTerm?: string;
+    onSearchTermChange?: (searchTerm: string) => void;
 }
 
 export interface DatagridAppearanceProps {
@@ -132,6 +160,8 @@ export interface DatagridContentProps {
     tableFooterContent?: ReactNode;
 }
 
+export type DatagridTabsDisplay = "auto" | "labels" | "icons";
+
 export interface DatagridTabsProps {
     enableTabs?: boolean;
     tabs?: DatagridTabItem[];
@@ -141,6 +171,9 @@ export interface DatagridTabsProps {
     enableTabFilters?: boolean;
     tabsMinWidth?: number;
     tabsMaxWidth?: number;
+    // "auto": alleen iconen als de labels niet in de hoogte van de tabel passen
+    // "labels": altijd volledige tabs, "icons": altijd alleen iconen (label in tooltip)
+    tabsDisplay?: DatagridTabsDisplay;
 }
 
 export interface DatagridSidebarConfig<TData> {
@@ -161,6 +194,22 @@ export interface DatagridSidebarProps<TData> {
     sidebarMaxWidth?: number;
 }
 
+export type DatagridFilterInfoPosition = "toolbar" | "tableInfo" | "none";
+
+export interface DatagridFilterInfoProps {
+    // Where the built-in "Filter wissen" button and the filter message are shown:
+    // - "toolbar"   (default): button in the toolbar
+    // - "tableInfo": message + button in the table info bar (shown automatically when filters are active or there is a message)
+    // - "none":      nothing built-in, place it yourself (see DatagridClearFiltersButton / hasActiveColumnFilters)   
+    filterInfoPosition?: DatagridFilterInfoPosition;
+    // Message next to the button, e.g. "12 producten gevonden, gefilterd op naam". Only used with "tableInfo". 
+    filterMessage?: ReactNode;
+    // Called after "Filter wissen", e.g. to clear an external search field and message. 
+    onClearFilters?: () => void;
+    // Styling van de ingebouwde "Filter wissen" knop (toolbar en tableInfo). 
+    clearFiltersButtonProps?: Omit<DatagridClearFiltersButtonProps, "onClick">;
+}
+
 export interface DatagridTableInfoProps {
     enableTableInfo?: boolean;
     tableInfoContent?: ReactElement;
@@ -174,9 +223,12 @@ export interface DatagridToolbarProps {
     toolbarPrefixItems?: ReactNode[];
     toolbarPostfixItems?: ReactNode[];
     toolbarSeparator?: boolean;
+    toolbarSticky?: boolean;    
+    toolbarStickyBackground? : ColorDefinitions;
     toolbarBorderBottom?: boolean;
+    toolbarPaddingBottom?: boolean;
+    toolbarMarginBottom?: boolean;
     toolbarCss?: string;
-    toolbarCompact?: boolean;
 }
 
 export interface DatagridLoaderProps {
@@ -191,6 +243,8 @@ export interface DatagridLoaderProps {
 }
 
 export interface DatagridProps<TData> extends DatagridDataProps<TData>,
+    DatagridGeneralSearchProps,
+    DatagridFilterInfoProps,
     DatagridAppearanceProps,
     DatagridPersistenceProps,
     DatagridRowActionProps<TData>,
@@ -238,6 +292,7 @@ function Datagrid<TData extends { id: string | number }>({
     tabberPosition = "right",
     tabsMinWidth,
     tabsMaxWidth,
+    tabsDisplay = "auto",
     enableTabColumnVisibility,
     enableTabFilters,
     enableRowHover = false,
@@ -270,8 +325,11 @@ function Datagrid<TData extends { id: string | number }>({
     toolbarPostfixItems = [],
     toolbarSeparator,
     toolbarBorderBottom = false,
+    toolbarSticky = false,
+    toolbarStickyBackground = ColorDefinitions.Transparent,
+    toolbarPaddingBottom = true,
+    toolbarMarginBottom= true,
     toolbarCss = '',
-    toolbarCompact = false,
     loaderDuration,
     loaderBackground,
     loaderEnableAnimation,
@@ -281,8 +339,21 @@ function Datagrid<TData extends { id: string | number }>({
     loaderLabels,
     loaderVariant = "table-overlay",
     fullHeight = true,
-    css = ""
+    css = "",
+    columnFilters: externalColumnFilters,
+    onColumnFiltersChange,
+    enableSearch = false,
+    searchPlaceholder,
+    searchDebounce = 300,
+    searchAutoFocus = false,
+    searchTerm: externalSearchTerm,
+    onSearchTermChange,
+    filterInfoPosition = "toolbar",
+    filterMessage,
+    onClearFilters,
+    clearFiltersButtonProps
 }: Readonly<DatagridProps<TData>>): ReactElement {
+
 
 
     const storageKey = localStorageKey ? `datagrid_columns_${localStorageKey}` : undefined;
@@ -295,8 +366,6 @@ function Datagrid<TData extends { id: string | number }>({
     const [showCompact, setShowCompact] = useState(false);
     const compactView = isNested ? datagridContext?.compactView ?? false : showCompact;
 
-    const [columnFilters, setColumnFilters] = useState<Record<string, DatagridColumnFilterValue | undefined>>({});
-    const [searchTerm] = useState("");
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [selectedSidebarItem, setSelectedSidebarItem] = useState<TData | null>(null);
     const [pagination, setPagination] = useState<PaginationData>({
@@ -308,6 +377,31 @@ function Datagrid<TData extends { id: string | number }>({
     const [resizing, setResizing] = useState<DatagridResizingState | null>(null);
     const [collapsibleRowIds, setCollapsibleRowIds] = useState<Set<string | number>>(new Set());
 
+    const resetToFirstPage = useCallback(() => {
+        setPagination((current) => current.page === 1 ? current : { ...current, page: 1 });
+    }, []);
+
+    // Blijf binnen het aantal pagina's als total kleiner wordt (bijv. na een toggle die de dataset wisselt of filtert).
+    // Tijdens het laden niets doen: total kan dan tijdelijk 0 zijn.
+    useEffect(() => {
+        if (loading) {
+            return;
+        }
+
+        const lastPage = Math.max(1, Math.ceil(total / pagination.perPage));
+
+        if (pagination.page > lastPage) {
+            setPagination((current) => ({ ...current, page: lastPage }));
+        }
+    }, [total, pagination.page, pagination.perPage, loading]);
+
+
+    // Column filters and general search
+    const { columnFilters, setColumnFilters } =
+        useDatagridColumnFilters(externalColumnFilters, onColumnFiltersChange, resetToFirstPage);
+
+    const { searchTerm, debouncedSearchTerm, handleSearchChange } =
+        useDatagridSearchTerm(externalSearchTerm, onSearchTermChange, searchDebounce, resetToFirstPage);
 
     // Columns
     const [columns, setColumns] = useState<DatagridColumnRuntime<TData>[]>(() => {
@@ -446,19 +540,19 @@ function Datagrid<TData extends { id: string | number }>({
     );
 
 
-    const hasActiveFilters = Object.keys(activeColumnFilters).length > 0;
+    const hasActiveFilters = Object.keys(activeColumnFilters).length > 0 || searchTerm.trim().length > 0;
 
     const clearFilters = useCallback(() => {
 
         setColumnFilters({});
 
-        setPagination(
-            (current) => ({
-                ...current,
-                page: 1
-            })
-        );
-    }, []);
+        if (searchTerm) {
+            handleSearchChange("");
+        }
+
+        resetToFirstPage();
+        onClearFilters?.();
+    }, [setColumnFilters, searchTerm, handleSearchChange, resetToFirstPage, onClearFilters]);
 
 
     // Filter update
@@ -475,18 +569,18 @@ function Datagrid<TData extends { id: string | number }>({
 
     useEffect(() => {
         onFilterUpdateRef.current({
-            searchTerm,
+            searchTerm: debouncedSearchTerm,
             sort,
             propertyConfigs: propertiesRef.current,
             pagination,
             columnFilters: activeColumnFilters
         });
-    }, [searchTerm, sort, pagination.page, pagination.perPage, activeColumnFilters]);
+    }, [debouncedSearchTerm, sort, pagination.page, pagination.perPage, activeColumnFilters]);
 
 
     const hasFilterableColumns = useMemo(() =>
-        visibleColumns.some((column) => !!column.filter),
-        [visibleColumns]
+        columns.some((column) => !!column.filter),
+        [columns]
     );
 
     // Column chooser
@@ -544,7 +638,7 @@ function Datagrid<TData extends { id: string | number }>({
                 content: (
                     <DatagridFilterList
                         dataRaw={dataRaw}
-                        columns={visibleColumns}
+                        columns={columns}
                         columnFilters={columnFilters}
                         setColumnFilters={setColumnFilters}
                     />
@@ -558,7 +652,7 @@ function Datagrid<TData extends { id: string | number }>({
             ...(tabPanes ?? [])
         ];
     },
-        [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, visibleColumns, columnFilters]
+        [tabPanes, enableTabColumnVisibility, enableTabFilters, hasFilterableColumns, columnChooser.renderColumnChooser, dataRaw, columns, columnFilters, setColumnFilters]
     );
 
 
@@ -566,25 +660,45 @@ function Datagrid<TData extends { id: string | number }>({
     const postfixElements = useMemo(() =>
         getToolbarPostfixItems(
             toolbarPostfixItems,
-            hasActiveFilters,
+            hasActiveFilters && filterInfoPosition === "toolbar",
             clearFilters,
+            clearFiltersButtonProps,
             enableCompactView,
             isNested,
             setShowCompact
         ),
-        [toolbarPostfixItems, hasActiveFilters, clearFilters, enableCompactView, isNested]
+        [toolbarPostfixItems, hasActiveFilters, filterInfoPosition, clearFilters, clearFiltersButtonProps, enableCompactView, isNested]
+    );
+
+
+    const prefixElements = useMemo<ReactNode[]>(() =>
+        enableSearch && !isNested
+            ? [
+                <DatagridSearch
+                    key="datagrid-search"
+                    searchTerm={searchTerm}
+                    onSearchChange={handleSearchChange}
+                    placeholder={searchPlaceholder}
+                    autoFocus={searchAutoFocus}
+                />,
+                ...toolbarPrefixItems
+            ]
+            : toolbarPrefixItems,
+        [enableSearch, isNested, searchTerm, handleSearchChange, searchPlaceholder, searchAutoFocus, toolbarPrefixItems]
     );
 
 
     const showToolbar =
         postfixElements.length > 0 ||
-        toolbarPrefixItems.length > 0 ||
+        prefixElements.length > 0 ||
         toolbarTitle !== undefined ||
         toolbarNavItems !== undefined;
 
 
     // Table info
-    const showTableInfo = enableTableInfo && (!!tableInfoContent || checkedItems.length > 0);
+    const showFilterInfo = !isNested && filterInfoPosition === "tableInfo" && (hasActiveFilters || !!filterMessage);
+    const showCheckedInfo = enableTableInfo && checkedItems.length > 0;
+    const showTableInfo = (enableTableInfo && !!tableInfoContent) || showFilterInfo || showCheckedInfo;
     const showHeader = showToolbar || showTableInfo;
 
 
@@ -651,11 +765,14 @@ function Datagrid<TData extends { id: string | number }>({
                             title={toolbarTitle}
                             navItems={toolbarNavItems}
                             showSeparator={toolbarSeparator}
-                            prefixItems={toolbarPrefixItems}
+                            prefixItems={prefixElements}
                             postfixItems={postfixElements}
                             borderBottom={toolbarBorderBottom}
-                            toolbarCss={toolbarCss}
-                            compact={toolbarCompact}
+                            css={toolbarCss}
+                            marginBottom={toolbarMarginBottom}
+                            paddingBottom={toolbarPaddingBottom}
+                            sticky={toolbarSticky}
+                            stickyBackground={toolbarStickyBackground}
                         />
                     )}
 
@@ -664,14 +781,25 @@ function Datagrid<TData extends { id: string | number }>({
                             tableInfoBorderBottom={tableInfoBorderBottom}
                             tableInfoBorderColor={tableInfoBorderColor}
                         >
-                            {tableInfoContent ? (
+                            {enableTableInfo && tableInfoContent ? (
                                 <div>
                                     {tableInfoContent}
                                 </div>
                             ) : (
-                                checkedItems.length > 0 && (
-                                    <div> U heeft{" "} <strong className="text-primary-30">{checkedItems.length}</strong> {" "} {checkedItems.length === 1 ? "rij" : "rijen"} {" "} geselecteerd</div>
-                                )
+                                <>
+                                    {showFilterInfo && (
+                                        <ContentItem item={{
+                                            id: "datagrid-filter-info",
+                                            content: <div>{filterMessage}</div>,
+                                            postfix: hasActiveFilters && (
+                                                <DatagridClearFiltersButton showTooltip={false} {...clearFiltersButtonProps} onClick={clearFilters} />
+                                            )
+                                        }} />
+                                    )}
+                                    {showCheckedInfo && (
+                                        <div> U heeft{" "} <strong className="text-primary-30">{checkedItems.length}</strong> {" "} {checkedItems.length === 1 ? "rij" : "rijen"} {" "} geselecteerd</div>
+                                    )}
+                                </>
                             )}
                         </DatagridTableInfo>
                     )}
@@ -692,6 +820,7 @@ function Datagrid<TData extends { id: string | number }>({
                             tabberPosition={tabberPosition}
                             tabsMinWidth={tabsMinWidth}
                             tabsMaxWidth={tabsMaxWidth}
+                            tabsDisplay={tabsDisplay}
                         />
                     )}
 
@@ -811,6 +940,7 @@ function Datagrid<TData extends { id: string | number }>({
                             tabberPosition={tabberPosition}
                             tabsMinWidth={tabsMinWidth}
                             tabsMaxWidth={tabsMaxWidth}
+                            tabsDisplay={tabsDisplay}
                         />
 
                     )}
@@ -820,9 +950,9 @@ function Datagrid<TData extends { id: string | number }>({
 
 
             {/* footer */}
-              {footerContent && (
+            {footerContent && (
                 // <div className="datagrid__footer__content">
-                 <div className="pc-layout__footer datagrid-layout__footer">
+                <div className="pc-layout__footer datagrid-layout__footer">
                     {footerContent}
                 </div>
             )}
@@ -1174,6 +1304,7 @@ function getToolbarPostfixItems(
     toolbarPostfixItems: ReactNode[],
     hasActiveFilters: boolean,
     clearFilters: () => void,
+    clearFiltersButtonProps: Omit<DatagridClearFiltersButtonProps, "onClick"> | undefined,
     enableCompactView: boolean,
     isNested: boolean,
     setShowCompact: React.Dispatch<React.SetStateAction<boolean>>
@@ -1185,19 +1316,11 @@ function getToolbarPostfixItems(
 
     if (hasActiveFilters) {
         items.push(
-            <Tooltip
+            <DatagridClearFiltersButton
                 key="clear-filters"
-                content="Alle filters wissen"
-                direction="top"
-            >
-                <Button
-                    variant="ghost"
-                    onClick={clearFilters}
-                >
-                    <Icon icon={IconDefinitions.funnel_cross} position="left" />
-                    Filter wissen
-                </Button>
-            </Tooltip>
+                {...clearFiltersButtonProps}
+                onClick={clearFilters}
+            />
         );
     }
 

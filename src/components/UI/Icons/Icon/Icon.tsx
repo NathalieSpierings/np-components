@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ReactElement } from 'react';
+import { MouseEventHandler, ReactElement } from 'react';
 import { IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Box, { BoxProps } from '../../../Base/Box/Box';
 

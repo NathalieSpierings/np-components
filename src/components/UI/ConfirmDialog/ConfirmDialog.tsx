@@ -1,8 +1,8 @@
 import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { ColorDefinitions, IconDefinitions } from '../../../lib/utils/definitions';
 import Button from '../Button/Button';
-import Modal, { ModalVariant } from '../Modal/Modal';
 import { Icon } from '../Icons/Icon';
+import Modal, { ModalVariant } from '../Modal/Modal';
 
 export type ConfirmDialogItemType = {
     title?: string;

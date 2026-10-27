@@ -6,7 +6,7 @@ import { ScrollProvider, useScrollContext } from '../../../Providers/ScrollConte
 import Badge from '../../Badge/Badge';
 import Button from '../../Button/Button';
 import Card from '../Card';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import  Dropdown from '../../../Forms/Dropdown/Dropdown';
 
 const meta: Meta<typeof Card> = {

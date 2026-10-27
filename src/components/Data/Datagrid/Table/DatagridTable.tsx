@@ -8,7 +8,7 @@ import DatagridHead from "./DatagridHead";
 import { DatagridRow } from "./DatagridRow";
 import DatagridSummaryRow from "./DatagridSummaryRow";
 
-//enableRowHover
+
 
 export type DatagridTableRowActionProps<TData> = Required<DatagridRowActionProps<TData>>;
 
@@ -119,18 +119,21 @@ export interface DatagridTableProps<TData>
 
 function isSelectedRow<TData extends { id: string | number }>(
     item: TData,
-    selectedRow: TData | string | number | undefined
+    selectedRow: TData | string | number | undefined,
+    resolveRowKey: (row: TData) => string | number
 ): boolean {
     if (selectedRow == null) {
         return false;
     }
 
-    const selectedId =
+    // Object → resolve its key; primitive → treat it as the key itself.
+    // resolveRowKey falls back to item.id when no getRowKey is given.
+    const selectedKey =
         typeof selectedRow === "object"
-            ? selectedRow.id
+            ? resolveRowKey(selectedRow)
             : selectedRow;
 
-    return String(selectedId) === String(item.id);
+    return String(selectedKey) === String(resolveRowKey(item));
 }
 
 function DatagridTable<TData extends { id: string | number }>({
@@ -187,6 +190,9 @@ function DatagridTable<TData extends { id: string | number }>({
     lastColumnIndex,
     compactView
 }: Readonly<DatagridTableProps<TData>>): ReactElement {
+
+    const resolveRowKey = (row: TData): string | number =>
+        getRowKey ? getRowKey(row) : row.id;
 
     //const showPagination = enablePagination && (isNested || paginationPosition === "inside table");
     const showPagination = enablePagination;
@@ -262,30 +268,35 @@ function DatagridTable<TData extends { id: string | number }>({
                                 <div className="pc-layout__main datagrid__body">
                                     {data.length > 0 ? (
                                         <>
-                                            {data.map((item) => (
-                                                <DatagridRow
-                                                    key={getRowKey ? getRowKey(item) : item.id}
-                                                    item={item}
-                                                    selected={isSelectedRow(item, selectedRow)}
-                                                    expanded={collapsibleRowIds.has(item.id)}
-                                                    rowActions={rowActions}
-                                                    renderedColumns={renderedColumns}
-                                                    checkedItems={checkedItems}
-                                                    onRowsChecked={onRowsChecked}
-                                                    useCheckboxes={useCheckboxes}
-                                                    collapsibleRowData={collapsibleRowData}
-                                                    hasCollapsibleRow={hasCollapsibleRow}
-                                                    toggleCollapsibleRow={toggleCollapsibleRow}
-                                                    rowSingleClickAction={rowSingleClickAction}
-                                                    rowDoubleClickAction={rowDoubleClickAction}
-                                                    resizing={resizing}
-                                                    renderColumnValue={renderColumnValue}
-                                                    firstPinnedRight={firstPinnedRight}
-                                                    lastPinnedLeft={lastPinnedLeft}
-                                                    getPinnedStyle={getPinnedStyle}
-                                                    lastColumnIndex={lastColumnIndex}
-                                                />
-                                            ))}
+                                            {data.map((item) => {
+                                                const rowKey = resolveRowKey(item);
+                                                return (
+                                                    <DatagridRow
+                                                        key={rowKey}
+                                                        item={item}
+                                                        rowKey={rowKey}
+                                                        resolveRowKey={resolveRowKey}
+                                                        selected={isSelectedRow(item, selectedRow, resolveRowKey)}
+                                                        expanded={collapsibleRowIds.has(rowKey)}
+                                                        rowActions={rowActions}
+                                                        renderedColumns={renderedColumns}
+                                                        checkedItems={checkedItems}
+                                                        onRowsChecked={onRowsChecked}
+                                                        useCheckboxes={useCheckboxes}
+                                                        collapsibleRowData={collapsibleRowData}
+                                                        hasCollapsibleRow={hasCollapsibleRow}
+                                                        toggleCollapsibleRow={toggleCollapsibleRow}
+                                                        rowSingleClickAction={rowSingleClickAction}
+                                                        rowDoubleClickAction={rowDoubleClickAction}
+                                                        resizing={resizing}
+                                                        renderColumnValue={renderColumnValue}
+                                                        firstPinnedRight={firstPinnedRight}
+                                                        lastPinnedLeft={lastPinnedLeft}
+                                                        getPinnedStyle={getPinnedStyle}
+                                                        lastColumnIndex={lastColumnIndex}
+                                                    />
+                                                );
+                                            })}
 
 
                                         </>

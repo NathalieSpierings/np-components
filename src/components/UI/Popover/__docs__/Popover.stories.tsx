@@ -1,10 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import { useState } from 'react';
-import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
-import Avatar from '../../Avatar/Avatar';
-import Icon from '../../Icons/Icon/Icon';
+import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
 import Popover from '../Popover';
-import React from 'react';
 
 const meta: Meta<typeof Popover> = {
     title: 'Forms/Popover',

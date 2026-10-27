@@ -46,8 +46,8 @@ describe("useServersideTableQuery", () => {
     };
 
     const data: ServersideTableQueryResult<TestData> = {
-        TotalCount: 2,
-        Items: [
+        totalCount: 2,
+        items: [
             {
                 id: 1,
                 name: "John",
@@ -61,9 +61,9 @@ describe("useServersideTableQuery", () => {
         ],
     };
 
-    /**
-     * A promise whose resolution/rejection can be controlled by the test.
-     */
+    
+     //A promise whose resolution/rejection can be controlled by the test.
+     
     const deferred = <T,>() => {
         let resolve!: (value: T) => void;
         let reject!: (reason?: unknown) => void;
@@ -80,13 +80,41 @@ describe("useServersideTableQuery", () => {
         };
     };
 
-    /**
-     * A promise that never resolves.
-     * Useful when a test is only interested in one of the hook's
-     * two independent requests.
-     */
+    
+     //A promise that never resolves.
+     //Useful when a test is only interested in one of the hook's
+     //two independent requests.
+     
     const pending = <T,>() =>
         new Promise<T>(() => {});
+
+    const initialTableOptions = {
+        searchTerm: "",
+        sort: undefined,
+        pagination: { page: 1, perPage: 25 },
+        columnFilters: {},
+    };
+
+     //Render the hook and report the initial table options, as DataGrid does when it is mounted.
+
+    const renderTableHook = (
+        fetchConfig: FetchConfig,
+        fetchData: FetchData,
+    ) => {
+        const rendered = renderHook(() =>
+            useServersideTableQuery(
+                fetchConfig,
+                fetchData,
+                dataRowConfig,
+            ),
+        );
+
+        act(() => {
+            rendered.result.current.onFilterUpdate(initialTableOptions);
+        });
+
+        return rendered;
+    };
 
     describe("initial state", () => {
         it("starts with loading state and empty data", () => {
@@ -98,13 +126,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             expect(result.current.data).toEqual([]);
             expect(result.current.total).toBe(0);
@@ -126,13 +148,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            renderTableHook(fetchConfig, fetchData);
 
             expect(fetchConfig).toHaveBeenCalledTimes(1);
 
@@ -152,13 +168,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             expect(result.current.dataRowConfig).toEqual([]);
         });
@@ -174,13 +184,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await act(async () => {
                 configRequest.resolve(config);
@@ -205,13 +209,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await act(async () => {
                 configRequest.resolve(config);
@@ -235,13 +233,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await act(async () => {
                 configRequest.resolve(config);
@@ -252,6 +244,74 @@ describe("useServersideTableQuery", () => {
             );
 
             expect(statusConfig?.filter).toBeDefined();
+        });
+
+        it.each([null, undefined])("adds no filter options when allowed values are %p", async allowedValues => {
+            const fetchConfig = jest.fn(() =>
+                Promise.resolve<ServersideTableQueryConfig<TestData>>({
+                    ...config,
+                    filterOperations: {
+                        status: {
+                            columnFilterType: "text",
+                            allowedValues,
+                        },
+                    },
+                }),
+            );
+
+            const fetchData = jest.fn(() =>
+                pending<ServersideTableQueryResult<TestData>>(),
+            );
+
+            const { result } = renderTableHook(fetchConfig, fetchData);
+
+            await waitFor(() => {
+                expect(result.current.dataRowConfig).not.toHaveLength(0);
+            });
+
+            const statusConfig = result.current.dataRowConfig.find(
+                x => x.prop === "status",
+            );
+
+            expect(statusConfig?.filter).toEqual({ type: "text", options: undefined });
+        });
+
+        it("maps allowed values to filter options", async () => {
+            const fetchConfig = jest.fn(() =>
+                Promise.resolve<ServersideTableQueryConfig<TestData>>({
+                    ...config,
+                    filterOperations: {
+                        status: {
+                            columnFilterType: "multiSelect",
+                            allowedValues: [
+                                { value: "active", label: "Actief" },
+                                { value: "inactive" },
+                                { value: "unknown", label: null },
+                            ],
+                        },
+                    },
+                }),
+            );
+
+            const fetchData = jest.fn(() =>
+                pending<ServersideTableQueryResult<TestData>>(),
+            );
+
+            const { result } = renderTableHook(fetchConfig, fetchData);
+
+            await waitFor(() => {
+                expect(result.current.dataRowConfig).not.toHaveLength(0);
+            });
+
+            const statusConfig = result.current.dataRowConfig.find(
+                x => x.prop === "status",
+            );
+
+            expect(statusConfig?.filter?.options).toEqual([
+                { value: "active", label: "Actief" },
+                { value: "inactive", label: "inactive" },
+                { value: "unknown", label: "unknown" },
+            ]);
         });
 
         it("does not modify the original dataRowConfig", async () => {
@@ -269,13 +329,7 @@ describe("useServersideTableQuery", () => {
                 ...item,
             }));
 
-            renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            renderTableHook(fetchConfig, fetchData);
 
             await act(async () => {
                 configRequest.resolve(config);
@@ -286,7 +340,29 @@ describe("useServersideTableQuery", () => {
     });
 
     describe("data", () => {
-        it("fetches data with empty query parameters initially", async () => {
+        it("does not fetch data before the table reports its options", () => {
+            const fetchConfig = jest.fn(() =>
+                pending<ServersideTableQueryConfig<TestData>>(),
+            );
+
+            const fetchData = jest.fn(() =>
+                pending<ServersideTableQueryResult<TestData>>(),
+            );
+
+            const { result } = renderHook(() =>
+                useServersideTableQuery(
+                    fetchConfig,
+                    fetchData,
+                    dataRowConfig,
+                ),
+            );
+
+            // (Without pagination, the server would return the whole table)
+            expect(fetchData).not.toHaveBeenCalled();
+            expect(result.current.isLoading).toBe(true);
+        });
+
+        it("fetches data with the initial table options", async () => {
             const configRequest = deferred<
                 ServersideTableQueryConfig<TestData>
             >();
@@ -303,20 +379,14 @@ describe("useServersideTableQuery", () => {
                 () => dataRequest.promise,
             );
 
-            renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            renderTableHook(fetchConfig, fetchData);
 
             expect(fetchData).toHaveBeenCalledTimes(1);
 
             const queryParameters = fetchData.mock.calls[0][0];
 
             expect(queryParameters).toBeInstanceOf(URLSearchParams);
-            expect(queryParameters.toString()).toBe("");
+            expect(queryParameters.toString()).toBe("pagination.page=1&pagination.perpage=25");
 
             await act(async () => {
                 configRequest.resolve(config);
@@ -336,21 +406,15 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await act(async () => {
                 configRequest.resolve(config);
                 dataRequest.resolve(data);
             });
 
-            expect(result.current.data).toEqual(data.Items);
-            expect(result.current.total).toBe(data.TotalCount);
+            expect(result.current.data).toEqual(data.items);
+            expect(result.current.total).toBe(data.totalCount);
         });
 
         it("returns empty data before config has loaded", async () => {
@@ -365,13 +429,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -389,8 +447,8 @@ describe("useServersideTableQuery", () => {
                 configRequest.resolve(config);
             });
 
-            expect(result.current.data).toEqual(data.Items);
-            expect(result.current.total).toBe(data.TotalCount);
+            expect(result.current.data).toEqual(data.items);
+            expect(result.current.total).toBe(data.totalCount);
         });
     });
 
@@ -407,13 +465,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             expect(result.current.isLoading).toBe(true);
 
@@ -436,13 +488,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             expect(result.current.isLoading).toBe(true);
 
@@ -471,13 +517,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await act(async () => {
                 configRequest.resolve(config);
@@ -510,13 +550,7 @@ describe("useServersideTableQuery", () => {
                 .mockImplementationOnce(() => firstRequest.promise)
                 .mockImplementationOnce(() => secondRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -563,13 +597,7 @@ describe("useServersideTableQuery", () => {
                 .mockImplementationOnce(() => firstRequest.promise)
                 .mockImplementationOnce(() => secondRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -622,13 +650,7 @@ describe("useServersideTableQuery", () => {
                 .mockImplementationOnce(() => firstRequest.promise)
                 .mockImplementationOnce(() => secondRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -683,13 +705,7 @@ describe("useServersideTableQuery", () => {
                 .mockImplementationOnce(() => firstRequest.promise)
                 .mockImplementationOnce(() => secondRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -734,6 +750,74 @@ describe("useServersideTableQuery", () => {
         });
     });
 
+    describe("refetch", () => {
+        it("fetches data again with the same query parameters", async () => {
+            const fetchConfig = jest.fn().mockResolvedValue(config);
+            const fetchData = jest.fn<ReturnType<FetchData>, Parameters<FetchData>>().mockResolvedValue(data);
+
+            const { result } = renderTableHook(fetchConfig, fetchData);
+
+            await waitFor(() => {
+                expect(fetchData).toHaveBeenCalledTimes(1);
+            });
+
+            await act(async () => {
+                result.current.refetch();
+            });
+
+            await waitFor(() => {
+                expect(fetchData).toHaveBeenCalledTimes(2);
+            });
+
+            expect(fetchData.mock.calls[1][0].toString()).toBe(fetchData.mock.calls[0][0].toString());
+            expect(fetchConfig).toHaveBeenCalledTimes(1);
+        });
+
+        it("returns the refetched data", async () => {
+            const secondResult: ServersideTableQueryResult<TestData> = {
+                totalCount: 1,
+                items: [{ id: 3, name: "Jim", status: "active" }],
+            };
+
+            const fetchConfig = jest.fn().mockResolvedValue(config);
+            const fetchData = jest.fn().mockResolvedValueOnce(data).mockResolvedValueOnce(secondResult);
+
+            const { result } = renderTableHook(fetchConfig, fetchData);
+
+            await waitFor(() => {
+                expect(result.current.data).toEqual(data.items);
+            });
+
+            await act(async () => {
+                result.current.refetch();
+            });
+
+            await waitFor(() => {
+                expect(result.current.data).toEqual(secondResult.items);
+            });
+            expect(result.current.total).toBe(secondResult.totalCount);
+        });
+
+        it("does not fetch data before the table reports its options", async () => {
+            const fetchConfig = jest.fn().mockResolvedValue(config);
+            const fetchData = jest.fn().mockResolvedValue(data);
+
+            const { result } = renderHook(() =>
+                useServersideTableQuery(
+                    fetchConfig,
+                    fetchData,
+                    dataRowConfig,
+                ),
+            );
+
+            await act(async () => {
+                result.current.refetch();
+            });
+
+            expect(fetchData).not.toHaveBeenCalled();
+        });
+    });
+
     describe("errors", () => {
         it("returns config error", async () => {
             const configRequest = deferred<
@@ -747,13 +831,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             const error = new Error("Failed to fetch config");
 
@@ -778,13 +856,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             const error = new Error("Failed to fetch data");
 
@@ -809,13 +881,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn(() => configRequest.promise);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             const configError = new Error("Failed to fetch config");
             const dataError = new Error("Failed to fetch data");
@@ -842,13 +908,7 @@ describe("useServersideTableQuery", () => {
                 pending<ServersideTableQueryResult<TestData>>(),
             );
 
-            const { result, unmount } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result, unmount } = renderTableHook(fetchConfig, fetchData);
 
             unmount();
 
@@ -867,13 +927,7 @@ describe("useServersideTableQuery", () => {
             const fetchConfig = jest.fn().mockResolvedValue(config);
             const fetchData = jest.fn(() => dataRequest.promise);
 
-            const { result, unmount } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result, unmount } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -899,8 +953,8 @@ describe("useServersideTableQuery", () => {
             >();
 
             const firstResult: ServersideTableQueryResult<TestData> = {
-                TotalCount: 1,
-                Items: [
+                totalCount: 1,
+                items: [
                     {
                         id: 1,
                         name: "Old",
@@ -910,8 +964,8 @@ describe("useServersideTableQuery", () => {
             };
 
             const secondResult: ServersideTableQueryResult<TestData> = {
-                TotalCount: 1,
-                Items: [
+                totalCount: 1,
+                items: [
                     {
                         id: 2,
                         name: "New",
@@ -927,13 +981,7 @@ describe("useServersideTableQuery", () => {
                 .mockImplementationOnce(() => firstRequest.promise)
                 .mockImplementationOnce(() => secondRequest.promise);
 
-            const { result } = renderHook(() =>
-                useServersideTableQuery(
-                    fetchConfig,
-                    fetchData,
-                    dataRowConfig,
-                ),
-            );
+            const { result } = renderTableHook(fetchConfig, fetchData);
 
             await waitFor(() => {
                 expect(fetchData).toHaveBeenCalledTimes(1);
@@ -960,8 +1008,8 @@ describe("useServersideTableQuery", () => {
                 secondRequest.resolve(secondResult);
             });
 
-            expect(result.current.data).toEqual(secondResult.Items);
-            expect(result.current.total).toBe(secondResult.TotalCount);
+            expect(result.current.data).toEqual(secondResult.items);
+            expect(result.current.total).toBe(secondResult.totalCount);
 
             // Old request finishes afterwards.
             await act(async () => {
@@ -969,8 +1017,8 @@ describe("useServersideTableQuery", () => {
             });
 
             // The stale response must not overwrite the newer result.
-            expect(result.current.data).toEqual(secondResult.Items);
-            expect(result.current.total).toBe(secondResult.TotalCount);
+            expect(result.current.data).toEqual(secondResult.items);
+            expect(result.current.total).toBe(secondResult.totalCount);
         });
     });
 });

@@ -1,8 +1,8 @@
 import { FC, ReactElement, useState } from 'react';
 import { ColorDefinitions, SizeDefinitions } from '../../../lib/utils/definitions';
 import Button from '../../UI/Button/Button';
-import FileSelect from '../FileSelect/FileSelect';
 import { CollectionItemVariant } from '../../UI/Collection/Collection';
+import FileSelect from '../FileSelect/FileSelect';
 
 export interface FileReaderProps {
     processContent: (file: File) => void;

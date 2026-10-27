@@ -1,5 +1,4 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import React from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Ripple from '../Ripple';
 

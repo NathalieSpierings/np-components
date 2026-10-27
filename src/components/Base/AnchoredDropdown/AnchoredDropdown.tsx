@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { ReactElement, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 const AchoredDropdown = ({

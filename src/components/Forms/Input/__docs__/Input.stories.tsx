@@ -5,9 +5,9 @@ import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../
 import Button from '../../../UI/Button/Button';
 import Icon from '../../../UI/Icons/Icon/Icon';
 import FormInline from '../../FormInline';
+import FormInput from '../FormInput';
 import Input from '../Input';
 import StaticInput from '../StaticInput';
-import FormInput from '../FormInput';
 
 const meta: Meta<typeof Input> = {
     title: 'Forms/Input',

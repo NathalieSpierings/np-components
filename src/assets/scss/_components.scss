@@ -1,10 +1,10 @@
 @use "./mixins";
 
-@layer contentItem, buttons, dismiss, accordion, alert, art, avatar, badge,
+@layer contentItem, buttons, dismiss, resizeHandle, accordion, alert, art, avatar, badge,
 bottomSheet, card, collapsible, columnLayout, columns, dismissableBox,
 collection, datagrid, filterbar, drawer, duocolumn, errorPages, gridCollection,
 gridLayout, loader, modal, navs, onboarding, pageOverlay, popover, slider, tabs, tags,
-toastr, toolbar, tooltip, widget, wizard;
+panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 @layer contentItem {
 
@@ -287,8 +287,8 @@ toastr, toolbar, tooltip, widget, wizard;
             }
         }
 
-        &--icon{
-           --button-padding: 0.8rem 0 !important;
+        &--icon {
+            --button-padding: 0.8rem 0 !important;
         }
 
         &--shadow {
@@ -381,6 +381,26 @@ toastr, toolbar, tooltip, widget, wizard;
         display: flex;
         gap: 0.5rem;
     }
+
+    .btn-outline.btn-accent {
+        &:hover {
+            --button-foreground: var(--color-offwhite);
+            --color-border: var(--color-primary);
+        }
+
+        &::before {
+            --color-background: var(--color-primary);
+
+        }
+    }
+
+    .btn.btn-accent {
+        &:hover {
+            --button-foreground: var(--color-offwhite);
+            --color-background: var(--color-primary);
+        }
+    }
+
 }
 
 @layer dismiss {
@@ -573,6 +593,39 @@ toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
+@layer resizeHandle {
+
+    // A drag handle on the edge of a resizable element: a border on hover and while resizing,
+    // in --resize-handle-color (set it on a parent to match the surrounding borders)
+    .resize-handle {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        width: 5px;
+        height: 100%;
+        cursor: ew-resize;
+        touch-action: none;
+
+        &--left {
+            left: -3px;
+
+            &:hover,
+            &.is-resizing {
+                border-right: 2px solid var(--resize-handle-color, var(--color-border));
+            }
+        }
+
+        &--right {
+            right: -3px;
+
+            &:hover,
+            &.is-resizing {
+                border-left: 2px solid var(--resize-handle-color, var(--color-border));
+            }
+        }
+    }
+}
+
 @layer accordion {
 
     .accordion {
@@ -739,13 +792,13 @@ toastr, toolbar, tooltip, widget, wizard;
             --color-background: var(--alert-dismiss-background);
         }
 
-        &--sticky {
+         &--sticky {
             border-radius: 0;
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
-            z-index: var(--alert-sticy-zindex);
+            z-index: var(--alert-sticky-zindex);
         }
 
         &.bg-informational {
@@ -856,109 +909,55 @@ toastr, toolbar, tooltip, widget, wizard;
 }
 
 @layer avatar {
-
-    :root {
-        --avatar-size: 36px;
-        --avatar-font-size: 12px;
-        --avatar-background: var(--color-surface);
-    }
-
     .avatar {
+        --avatar-background: var(--color-surface-dark);
+        --avatar-color: var(--color-foreground);
+        --avatar-shadow-alpha: 15%;
+        --avatar-tint-alpha: 50%;
+
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: var(--avatar-size);
-        height: var(--avatar-size);
-        border-radius: var(--radius-full);
-        background: var(--avatar-background);
-        color: var(--color-foreground);
-        font-weight: 600;
-        font-size: var(--avatar-font-size);
-        user-select: none;
-        overflow: hidden;
+        display: grid;
+        place-items: center;
         flex-shrink: 0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        width: var(--avatar-size, 4.8rem);
+        height: var(--avatar-size, 4.8rem);
+        border-radius: 50%;
+        overflow: hidden;
+        background: var(--avatar-background);
+        color: var(--avatar-color);
 
-        &__text {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        &__image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        &__initials {
+            line-height: 1;
+            text-transform: uppercase;
+            font-size: var(--avatar-fs, var(--fs-base));
         }
 
         &__icon {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: var(--avatar-icon-size, 2.4rem);
+            height: var(--avatar-icon-size, 2.4rem);
 
             svg {
+                display: block;
                 width: 100%;
                 height: 100%;
+                fill: currentColor;
             }
         }
 
-        &__initials {
-            line-height: 1;
-            text-transform: uppercase;
-        }
+        &__image {
+            position: absolute;
+            inset: 0;
 
-        &-group {
-            display: inline-flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            margin-inline-start: calc(3rem / 2);
-
-            >li {
-                display: list-item;
-                text-align: -webkit-match-parent;
-                margin-left: calc(3rem / -2);
+            img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: inherit;
             }
-
-            &__counter {
-                font-size: var(--fs-md);
-                font-weight: 600;
-                border: 3px solid var(--color-border);
-                box-shadow: 0px 3px 16px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1);
-            }
-        }
-
-
-        &--xs {
-            --avatar-size: 24px;
-            --avatar-font-size: 10px;
-        }
-
-        &--sm {
-            --avatar-size: 28px;
-            --avatar-font-size: 12px;
-        }
-
-        &--md {
-            --avatar-size: 40px;
-            --avatar-font-size: 14px;
-        }
-
-        &--lg {
-            --avatar-size: 56px;
-            --avatar-font-size: 18px;
-        }
-
-        &--xl {
-            --avatar-size: 72px;
-            --avatar-font-size: 22px;
-        }
-
-        &--2xl {
-            --avatar-size: 96px;
-            --avatar-font-size: 28px;
         }
 
         &--square {
@@ -966,19 +965,113 @@ toastr, toolbar, tooltip, widget, wizard;
         }
 
         &--border {
-            border: 3px solid var(--color-border);
+            border: 2px solid var(--shadow-base);
         }
 
         &--shadow {
             box-shadow:
-                0 -1px 1px 0 transparent,
-                0 4px 6px 0 rgb(0 0 0 / 24%);
+                0 2px 5px rgb(var(--shadow-rgb) / var(--avatar-shadow-alpha)),
+                var(--avatar-shadow-tint, 0 0 transparent);
+        }
+
+        &--has-background {
+            --avatar-shadow-color: var(--color-background);
+        }
+
+        &--has-background,
+        &--auto-color {
+            --avatar-shadow-tint: 0 4px 12px -2px hsl(from var(--avatar-shadow-color) h s calc(l * .7) / var(--avatar-tint-alpha));
         }
 
         &--float {
             animation: floatAvatar 6s ease-in-out infinite;
         }
     }
+
+    .avatar-group {
+        --avatar-group-ring: var(--color-surface-light);
+
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        >li+li .avatar {
+            margin-inline-start: calc(var(--avatar-size, 4.8rem) * -0.25);
+        }
+
+        .avatar {
+            outline: 2px solid var(--avatar-group-ring, #fff);
+            transition: transform .15s ease;
+        }
+
+        >li:hover .avatar {
+            z-index: 1;
+            transform: translateY(-2px);
+        }
+    }
+
+    .avatar--xxs,
+    .avatar-group--xxs {
+        --avatar-size: 2rem;
+        --avatar-icon-size: 1rem;
+        --avatar-fs: 1rem;
+    }
+
+    .avatar--xs,
+    .avatar-group--xs {
+        --avatar-size: 2.8rem;
+        --avatar-icon-size: 1.4rem;
+        --avatar-fs: 1.4rem;
+    }
+
+    .avatar--sm,
+    .avatar-group--sm {
+        --avatar-size: 3.6rem;
+        --avatar-icon-size: 2rem;
+        --avatar-fs: 1.6rem;
+    }
+
+    .avatar--md,
+    .avatar-group--md {
+        --avatar-size: 5.6rem;
+        --avatar-icon-size: 2.8rem;
+        --avatar-fs: 2.2rem;
+    }
+
+    .avatar--lg,
+    .avatar-group--lg {
+        --avatar-size: 6.4rem;
+        --avatar-icon-size: 3.2rem;
+        --avatar-fs: 2.2rem;
+    }
+
+    .avatar--xl,
+    .avatar-group--xl {
+        --avatar-size: 7.2rem;
+        --avatar-icon-size: 3.6rem;
+        --avatar-fs: 2.4rem;
+    }
+
+    .avatar--2xl,
+    .avatar-group--2xl {
+        --avatar-size: 9.6rem;
+        --avatar-icon-size: 4.8rem;
+        --avatar-fs: 3.6rem;
+    }
+
+    .avatar--3xl,
+    .avatar-group--3xl {
+        --avatar-size: 12rem;
+        --avatar-icon-size: 6rem;
+        --avatar-fs: 5rem;
+    }
+
+    .avatar--count {
+        --avatar-fs: calc(var(--avatar-size, 4.8rem) * 0.3);
+    }
+
 
     @keyframes floatAvatar {
         0% {
@@ -994,6 +1087,19 @@ toastr, toolbar, tooltip, widget, wizard;
         }
     }
 
+    .theme-dimmed {
+        .avatar.avatar--shadow {
+            --avatar-shadow-alpha: 25%;
+            --avatar-tint-alpha: 70%;
+        }
+    }
+
+    .theme-dark {
+        .avatar.avatar--shadow {
+            --avatar-shadow-alpha: 50%;
+            --avatar-tint-alpha: 70%;
+        }
+    }
 }
 
 @layer badge {
@@ -1096,6 +1202,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &__content {
             padding: var(--page-padding);
+            transition: padding var(--panel-layout-transition);
         }
     }
 
@@ -1288,120 +1395,70 @@ toastr, toolbar, tooltip, widget, wizard;
 
     .column-layout {
         position: relative;
-        display: flex;
-        gap: 0;
-        width: 100%;
-        min-height: 100vh;
-        height: 100%;
 
-        &--aside-right {
-            flex-direction: row;
-        }
-
-        &--aside-left {
-            flex-direction: row-reverse;
-
-            .column-layout__aside {
-                border-inline-start: none;
-                border-inline-end: 1px solid transparent;
-            }
-        }
-
-        &--scrollable {
-            .column-layout__content {
-                height: calc(100vh - var(--header-height));
-                overflow-y: auto;
-                overflow-x: hidden;
-            }
-
-            .column-layout__main,
-            .column-layout__aside {
-                >.column-layout__content:first-child {
-                    height: 100vh;
-                }
-            }
-        }
-
-        &__main,
-        &__aside {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            height: 100%;
-        }
-
-        &__main {
-            flex: 1 1 auto;
-            position: relative;
-        }
-
-        &__aside {
-            position: relative;
-            flex: 0 0 30%;
-            border-inline-end: none;
-            border-inline-start: 1px solid transparent;
-        }
-
-        &__header {
-            position: relative;
+        .column-layout__header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            min-height: var(--header-height);
-            padding: var(--page-padding-sm) var(--page-padding);
-            border-bottom: 1px solid transparent;
-
-            &--fixed {
-                position: sticky;
-                top: 0;
-                z-index: 10;
-                background: var(--color-background);
-            }
-
-            .title,
-            .subtitle,
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                margin-block: 0;
-                margin-bottom: 0.5rem;
-            }
+            padding: var(--page-padding);
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border);            
         }
 
-        &__content {
-            flex: 1 1 auto;
-            min-height: 0;
+        .column-layout__content {
             padding: var(--page-padding);
 
             &:has(.columns) {
                 padding: 0;
             }
+
+            &:has(.pc-layout--full-height) {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 0;
+                min-height: 0;
+
+                > :not(.pc-layout--full-height, :has(.pc-layout--full-height)) {
+                    flex: 0 0 auto;
+                }
+
+                > :is(.pc-layout--full-height, :has(.pc-layout--full-height)) {
+                    flex: 1 1 0;
+                    min-height: 0;
+                }
+
+                :not(.pc-layout, [class*="pc-layout__"]):has(.pc-layout--full-height) {
+                    height: 100%;
+                    min-height: 0;
+                }
+            }
         }
 
+        // Toggles for the aside: only shown on small screens (see below), where main and aside are shown one at the time
         >.dismiss,
-        >.burger {
+        >.burger,
+        .column-layout__header>.dismiss,
+        .column-layout__header>.burger {
             display: none;
             cursor: pointer;
         }
 
         @include mixins.MQ-max(md) {
-            height: 100vh;
-            height: 100%;
-            overflow: hidden auto;
 
-            &__main,
-            &__aside {
+            >.pc-layout__content {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .column-layout__main,
+            .column-layout__aside {
                 position: absolute;
                 inset: 0;
                 width: 100%;
                 height: 100%;
-                display: flex;
-                flex-direction: column;
                 background: var(--color-background);
-                transition: transform 0.3s ease, opacity 0.3s ease;
+                transition:
+                    transform 0.3s ease,
+                    opacity 0.3s ease;
                 will-change: transform;
             }
 
@@ -1439,11 +1496,15 @@ toastr, toolbar, tooltip, widget, wizard;
                     }
                 }
 
-                &.column-layout--aside-right .column-layout__aside {
-                    transform: translateX(100%);
+                &.column-layout--aside-right {
+
+                    .column-layout__aside {
+                        transform: translateX(100%);
+                    }
                 }
 
                 &.is-shown {
+
                     .column-layout__aside {
                         transform: translateX(0);
                         opacity: 1;
@@ -1456,14 +1517,17 @@ toastr, toolbar, tooltip, widget, wizard;
                         transform: translateX(-100%);
                     }
 
-                    &.column-layout--aside-left .column-layout__main {
-                        transform: translateX(100%);
-                    }
+                    &.column-layout--aside-left {
 
+                        .column-layout__main {
+                            transform: translateX(100%);
+                        }
+                    }
                 }
             }
 
             &.aside-primary {
+
                 .column-layout__aside {
                     transform: translateX(0);
                     opacity: 1;
@@ -1496,12 +1560,15 @@ toastr, toolbar, tooltip, widget, wizard;
                     }
                 }
 
-                &.column-layout--aside-right .column-layout__main {
-                    transform: translateX(100%);
+                &.column-layout--aside-right {
+
+                    .column-layout__main {
+                        transform: translateX(100%);
+                    }
                 }
 
-
                 &.is-shown {
+
                     .column-layout__main {
                         transform: translateX(0);
                         opacity: 1;
@@ -1515,10 +1582,12 @@ toastr, toolbar, tooltip, widget, wizard;
                         transform: translateX(-100%);
                     }
 
-                    &.column-layout--aside-left .column-layout__aside {
-                        transform: translateX(100%);
-                    }
+                    &.column-layout--aside-left {
 
+                        .column-layout__aside {
+                            transform: translateX(100%);
+                        }
+                    }
                 }
             }
 
@@ -1526,6 +1595,330 @@ toastr, toolbar, tooltip, widget, wizard;
             >.burger {
                 display: none;
             }
+      
+            .column-layout__header > .content-item:has(.content-item__prefix),
+            .column-layout__header > .content-item:has(.content-item__postfix){
+                scale: .8;
+            }
+        }
+    }
+
+}
+
+@layer panelLayout {
+
+    // Built on .pc-layout: the root is a full-height .pc-layout whose content row holds the columns
+    // (pc-layout__main / pc-layout__aside), each with a nested full-height .pc-layout for its header and body.
+    .panel-layout {
+        --panel-layout-aside-width: var(--root-aside-width);
+        // As wide as the main layout's menu strip; 75px outside the main layout (where --ml-menu-width is not defined)
+        --panel-layout-collapsed-width: var(--ml-menu-width, 75px);
+        // Keep in sync with TRANSITION in PanelLayout.tsx
+        --panel-layout-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        // The resize handles in the accent colour
+        --resize-handle-color: var(--color-accent);
+
+        // Every column: a pane, a block of asides, or a shared header
+        &__column {
+            min-width: 0;
+        }
+
+        // Like the ColumnLayout header
+        &__header {
+            display: flex;
+            align-items: center;
+            height: var(--header-height);
+            padding: var(--page-padding);
+            border-bottom: 1px solid var(--panel-layout-border);
+            transition: padding var(--panel-layout-transition);
+
+            // Title and buttons on one line, also on mobile (where a ContentItem normally puts its postfix below)
+            > .content-item {
+                align-items: center;
+                flex-wrap: nowrap;
+
+                > .content-item__postfix {
+                    flex: 0 0 auto;
+                    margin-left: auto;
+                }
+            }
+
+            .title,
+            .subtitle,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+                margin-block: 0;
+            }
+
+            .content-item__postfix {
+                display: flex;
+                align-items: center;
+                gap: var(--page-padding-2xs);
+
+                .burger {
+                    margin-right: 0;
+                }
+
+                .dismiss {
+                    opacity: 1;
+                    visibility: visible;
+                }
+            }
+        }
+
+        // A collapsed aside's `collapsedHeader` (typically an icon), centered in the strip
+        &__header--collapsed {
+            justify-content: center;
+            padding-inline: var(--page-padding-2xs);
+
+            > .content-item {
+                width: auto;
+            }
+
+            // Collapsed asides have no header buttons (the collapse arrow only shows when expanded)
+            .content-item__postfix {
+                display: none;
+            }
+        }
+
+        &__body {
+            overflow-x: hidden;
+            // Own stacking context, so z-indexes inside (e.g. a Datagrid's sticky header) stay below an open overlay.
+            // Not on headers: that would trap dropdowns opening from a header below the body.
+            isolation: isolate;
+        }
+
+        &__content {
+            padding: var(--page-padding);
+            transition: padding var(--panel-layout-transition);
+
+            &--flush {
+                padding: 0;
+            }
+
+            &[hidden] {
+                display: none;
+            }
+
+            // Allow nested full-height pc-layouts
+            &:has(> .pc-layout--full-height) {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+
+                > .pc-layout--full-height {
+                    flex: 1 1 0;
+                    min-height: 0;
+                }
+            }
+        }
+
+        // PanelLayout.Strip (a .grid-y): as wide as a collapsed aside, its content centered
+        &__strip {
+            flex: none;
+            align-items: center;
+            width: var(--panel-layout-collapsed-width);
+        }
+
+        // The border between an aside and the main pane
+        &__pane--left {
+            border-right: 1px solid var(--panel-layout-border);
+        }
+
+        &__pane--right {
+            border-left: 1px solid var(--panel-layout-border);
+        }
+
+        // Hidden while collapsed (no collapsed view, no preview): no width, so no border either
+        &__pane.is-hidden {
+            border-inline-width: 0;
+        }
+
+        // A collapsed aside that expands on click: the whole aside (header and body) is one target
+        &__pane.is-clickable {
+            cursor: pointer;
+
+            // The hover highlight, as a layer on top
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: var(--color-hover);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity var(--panel-layout-transition);
+            }
+
+            &:hover::after {
+                opacity: 1;
+            }
+        }
+
+        // === Desktop: all panes side by side
+        @include mixins.MQ-min(lg) {
+
+            &__header--hidden-desktop,
+            &__action--mobile {
+                display: none !important;
+            }
+
+            // An aside: its collapsed width, or its (resized) width when expanded.
+            // Clipped horizontally while it animates (its content keeps its full width, see --fixed-width).
+            &__pane--aside {
+                flex: 0 0 var(--panel-layout-collapsed-width);
+                overflow: hidden;
+                transition: flex-basis var(--panel-layout-transition);
+
+                &.is-expanded {
+                    flex-basis: var(--panel-layout-pane-width);
+                }
+            }
+
+            // Keep an aside's content and header at their full width while it animates, so they do not reflow
+            &__content--fixed-width,
+            &__header--fixed-width {
+                min-width: var(--panel-layout-pane-width);
+            }
+
+            // A block of asides (a group, or a single aside): as wide as its asides together.
+            // Its resize handle sits on its edge, so it does not clip.
+            &__block {
+                flex: 0 0 var(--panel-layout-block-width);
+                overflow: visible;
+                transition: flex-basis var(--panel-layout-transition);
+
+                > .panel-layout__block-inner {
+                    overflow: visible;
+
+                    > .pc-layout__content {
+                        overflow: hidden;
+                    }
+                }
+            }
+
+            // An overlay block only takes its collapsed width in the row; its inside grows over the main pane
+            // as a whole (laid out as if it pushed), anchored at the side away from the main pane
+            &__block--overlay {
+                flex-basis: var(--panel-layout-block-footprint);
+
+                > .panel-layout__block-inner {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    height: auto;
+                    width: var(--panel-layout-block-width);
+                    z-index: 2;
+                    background: var(--color-background);
+                    transition:
+                        width var(--panel-layout-transition),
+                        box-shadow var(--panel-layout-transition);
+                }
+
+                &.panel-layout__block--left > .panel-layout__block-inner {
+                    left: 0;
+                }
+
+                &.panel-layout__block--right > .panel-layout__block-inner {
+                    right: 0;
+                }
+
+                // Shadow only on the edge facing the main pane
+                &.is-open.panel-layout__block--left > .panel-layout__block-inner {
+                    box-shadow: 1.2rem 0 2.4rem -1.2rem var(--shadow-base);
+                }
+
+                &.is-open.panel-layout__block--right > .panel-layout__block-inner {
+                    box-shadow: -1.2rem 0 2.4rem -1.2rem var(--shadow-base);
+                }
+            }
+
+            // A shared header around asides only: as wide as they are together
+            &__shared--asides {
+                flex: 0 0 var(--panel-layout-shared-width);
+                transition: flex-basis var(--panel-layout-transition);
+            }
+
+            // Follow the pointer directly while resizing
+            &:has(.resize-handle.is-resizing) {
+                .panel-layout__pane--aside,
+                .panel-layout__block,
+                .panel-layout__block-inner,
+                .panel-layout__shared--asides {
+                    transition: none;
+                }
+            }
+        }
+
+        // === Mobile: every pane is a separate screen
+        @include mixins.MQ-max(md) {
+
+            // Only the column with the pane shown, at each level (block, shared header, pane)
+            .panel-layout__column:not(.is-active) {
+                display: none;
+            }
+
+            .panel-layout__column {
+                flex: 1 1 0;
+            }
+
+            &__pane--aside {
+                border-inline: 0;
+            }
+
+            .panel-layout__pane.is-active {
+                animation: panelLayoutFadeIn 0.3s ease;
+            }
+
+            .panel-layout__pane.is-active[data-side="left"] {
+                animation-name: panelLayoutInFromLeft;
+            }
+
+            .panel-layout__pane.is-active[data-side="right"] {
+                animation-name: panelLayoutInFromRight;
+            }
+
+            &__header--hidden-mobile,
+            &__action--desktop {
+                display: none !important;
+            }
+
+            .resize-handle {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .panel-layout__pane,
+            .panel-layout__block,
+            .panel-layout__block-inner,
+            .panel-layout__shared--asides {
+                transition: none;
+                animation: none !important;
+            }
+        }
+    }
+
+    @keyframes panelLayoutFadeIn {
+        from {
+            opacity: 0;
+        }
+    }
+
+    @keyframes panelLayoutInFromLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-3rem);
+        }
+    }
+
+    @keyframes panelLayoutInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(3rem);
         }
     }
 }
@@ -1730,7 +2123,7 @@ toastr, toolbar, tooltip, widget, wizard;
             border: 1px solid transparent;
             border-radius: var(--radius-sm);
             transition: width 0.3s ease-in-out;
-            
+
             &__container {
                 padding: var(--page-padding-2xs) var(--page-padding-xs);
                 background: var(--color-background);
@@ -1764,7 +2157,7 @@ toastr, toolbar, tooltip, widget, wizard;
                     }
                 }
 
-            }  
+            }
         }
 
         &.scroll {
@@ -1784,7 +2177,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &--md {
             gap: 1.5rem;
-           --collection-padding: var(--page-padding-xs) var(--page-padding-sm);
+            --collection-padding: var(--page-padding-xs) var(--page-padding-sm);
         }
 
         &--bordered {
@@ -1834,6 +2227,12 @@ toastr, toolbar, tooltip, widget, wizard;
 }
 
 @layer datagrid {
+
+    // The sidebar and tabs' resize handles in the datagrid's border colour
+    .datagrid-layout__sidebar,
+    .datagrid-layout__tabber {
+        --resize-handle-color: var(--datagrid-layout-comp-border);
+    }
 
     :root {
         --datagrid-layout-padding: var(--page-padding-sm);
@@ -1913,6 +2312,7 @@ toastr, toolbar, tooltip, widget, wizard;
         &__tabber {
             --datagrid-tabber-width: var(--root-aside-width);
 
+            position: relative;
             min-height: 100%;
             overflow: hidden;
 
@@ -1932,14 +2332,6 @@ toastr, toolbar, tooltip, widget, wizard;
                 }
             }
 
-            .datagrid__resizer {
-                left: -3px;
-                right: auto;
-
-                &:hover {
-                    border-right: 2px solid var(--datagrid-layout-comp-border);
-                }
-            }
 
             &__tabs {
                 display: flex;
@@ -1948,12 +2340,57 @@ toastr, toolbar, tooltip, widget, wizard;
                 height: 100%;
                 background: var(--datagrid-layout-comp-background);
                 padding-top: var(--datagrid-header-row-height);
+                contain: size;
+                // past de inhoud niet, dan scrollen (zonder zichtbare scrollbar), in elke weergave
+                overflow-x: hidden;
+                overflow-y: auto;
+                scrollbar-width: none;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                &--measure {
+                    position: absolute;
+                    top: 0;
+                    width: 35px;
+                    height: auto;
+                    contain: none;
+                    overflow: visible;
+                    visibility: hidden;
+                    pointer-events: none;
+                }
+
+                &--compact {
+                    .datagrid-layout__tabber__tabs__tab:last-child{
+                        border-bottom: 0;
+                    }
+
+                    .datagrid-layout__tabber__tabs__tab--has-icon {
+                        .datagrid-layout__tabber__tabs__tab__content{
+                            padding: 0.75rem 0.5rem;
+                            gap: 0;
+
+                             .icon{
+                                --icon-size: 1.2em;
+                            }
+                        }
+
+                        .datagrid-layout__tabber__tabs__tab__label {
+                            display: none;
+                        }
+                    }
+                }
 
                 &__tab {
                     position: relative;
                     flex: 0 0 auto;
                     background: var(--datagrid-layout-comp-background);
                     border-bottom: 1px solid var(--datagrid-layout-comp-border);
+
+                    &:first-child{
+                        border-top: 1px solid var(--datagrid-layout-comp-border);
+                    }
 
                     &:hover {
                         background: var(--color-hover);
@@ -2062,14 +2499,6 @@ toastr, toolbar, tooltip, widget, wizard;
             &--left {
                 flex-direction: row;
 
-                .datagrid__resizer {
-                    right: -3px;
-                    left: auto;
-
-                    &:hover {
-                        border-left: 2px solid var(--datagrid-layout-comp-border);
-                    }
-                }
 
                 &.shown {
                     &:has(.datagrid-layout__tabber__pane.shown) {
@@ -2124,14 +2553,6 @@ toastr, toolbar, tooltip, widget, wizard;
                 border-right: 1px solid var(--datagrid-layout-comp-border);
             }
 
-            .datagrid__resizer {
-                left: -3px;
-                right: auto;
-
-                &:hover {
-                    border-right: 2px solid var(--datagrid-layout-comp-border);
-                }
-            }
 
             &--left {
 
@@ -2140,14 +2561,6 @@ toastr, toolbar, tooltip, widget, wizard;
                     border-left: 1px solid var(--datagrid-layout-comp-border);
                 }
 
-                .datagrid__resizer {
-                    right: -3px;
-                    left: auto;
-
-                    &:hover {
-                        border-left: 2px solid var(--datagrid-layout-comp-border);
-                    }
-                }
             }
 
             &__container {
@@ -2250,15 +2663,6 @@ toastr, toolbar, tooltip, widget, wizard;
             container-type: inline-size;
         }
 
-        &__resizer {
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: -3px;
-            width: 5px;
-            z-index: 1;
-            cursor: ew-resize;
-        }
 
         &__row {
             display: grid;
@@ -2305,7 +2709,7 @@ toastr, toolbar, tooltip, widget, wizard;
                 box-sizing: border-box;
             }
 
-            > .datagrid-layout {
+            >.datagrid-layout {
                 height: auto;
                 min-height: 0;
             }
@@ -2493,12 +2897,11 @@ toastr, toolbar, tooltip, widget, wizard;
         &__header-row {
             height: var(--datagrid-header-row-height);
             border-bottom: 2px solid var(--color-border);
-            
 
             &--sticky {
                 position: sticky;
                 top: 0;
-                z-index: 100;
+                z-index: var(--datagrid-header-zindex);
             }
         }
 
@@ -2810,6 +3213,10 @@ toastr, toolbar, tooltip, widget, wizard;
                         height: 12px;
                         border-radius: var(--radius-full);
                     }
+
+                    &--hidden {
+                        color: var(--color-mute);
+                    }
                 }
 
                 &__content {
@@ -2838,6 +3245,7 @@ toastr, toolbar, tooltip, widget, wizard;
             --color-hover: rgb(0 0 0 / 3%);
             --color-selected: var(--shadow-light);
         }
+
         .datagrid__drag__tooltip {
             background: var(--color-offwhite);
         }
@@ -2860,8 +3268,9 @@ toastr, toolbar, tooltip, widget, wizard;
                 background: var(--color-surface-light);
             }
         }
+
         .datagrid--hover {
-             .datagrid__body .datagrid__row:not(.datagrid__row--collapsible):hover .datagrid__cell {
+            .datagrid__body .datagrid__row:not(.datagrid__row--collapsible):hover .datagrid__cell {
                 background: var(--color-surface-dark);
             }
         }
@@ -3967,24 +4376,24 @@ toastr, toolbar, tooltip, widget, wizard;
             border-radius: var(--radius-xs);
         }
 
-         &--sm{
+        &--sm {
             @include mixins.MQ-min(sm) {
                 max-width: 300px;
             }
         }
 
-        &--md{
+        &--md {
             @include mixins.MQ-min(sm) {
                 max-width: 800px;
             }
         }
 
-         &--lg{
+        &--lg {
             @include mixins.MQ-min(sm) {
                 max-width: 1140px;
             }
         }
-        
+
         &__header {
             flex: 0 0 auto;
             position: relative;
@@ -4055,14 +4464,14 @@ toastr, toolbar, tooltip, widget, wizard;
             .modal__header .icon {
                 --color-foreground: var(--color-primary);
             }
-            
+
         }
 
         &-warning {
             .modal__header .icon {
                 --color-foreground: var(--color-orange);
             }
-            
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4074,9 +4483,9 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &-negative {
             .modal__header .icon {
-                    --color-foreground: var(--color-rose-30);
+                --color-foreground: var(--color-rose-30);
             }
-            
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4090,7 +4499,7 @@ toastr, toolbar, tooltip, widget, wizard;
             .modal__header .icon {
                 --color-foreground: var(--color-blue);
             }
-            
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4104,7 +4513,7 @@ toastr, toolbar, tooltip, widget, wizard;
             .modal__header .icon {
                 --color-foreground: var(--color-green);
             }
-            
+
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
@@ -4241,6 +4650,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &__content {
             padding: var(--page-padding);
+            transition: padding var(--panel-layout-transition);
             margin-top: 8rem;
         }
 
@@ -4834,15 +5244,14 @@ toastr, toolbar, tooltip, widget, wizard;
 @layer toolbar {
 
     .toolbar {
-         display: flex;
+        --toolbar-padding-bottom: 1rem;
+        --toolbar-margin-bottom: 1rem;
+
+        display: flex;
         flex-direction: column;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
         border-bottom: 1px solid transparent;
-
-         &--compact{
-            padding-bottom: 0
-        }
 
         &__header {
             flex: 0 0 auto;
@@ -4899,6 +5308,25 @@ toastr, toolbar, tooltip, widget, wizard;
             height: 24px;
             background: var(--color-border);
             margin: 0 8px 0 8px;
+        }
+
+        .btn{
+            margin-bottom: 0;
+        }
+
+        &--pb-0{
+            padding-bottom: 0;
+        }
+
+        &--mb-0{
+            margin-bottom: 0;
+        }
+
+        &--sticky {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--color-surface-dark);
         }
     }
 
@@ -5327,6 +5755,7 @@ toastr, toolbar, tooltip, widget, wizard;
 
         &__content {
             padding: var(--page-padding);
+            transition: padding var(--panel-layout-transition);
             padding-top: calc(var(--wizard-nav-height) + var(--page-padding));
         }
 
@@ -5386,7 +5815,7 @@ toastr, toolbar, tooltip, widget, wizard;
             background: var(--color-theme-500);
             max-width: 100%;
             align-items: center;
-            padding:.2rem .5rem;
+            padding: .2rem .5rem;
 
             .content-item {
                 gap: .5rem;

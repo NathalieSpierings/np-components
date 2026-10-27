@@ -1,14 +1,14 @@
 import { Meta, StoryFn } from "@storybook/react-webpack5";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Datagrid from "../../../Datagrid";
 import { MemoryRouter } from "react-router";
 import { SvgSprite } from "../../../../../../assets/SvgSprite";
-import { defaultProductColumns, serversideQueryConfig } from "../../../../../../lib/testdata/mock";
+import { defaultProductColumns, serversideQueryConfig} from "../../../../../../lib/testdata/mock";
 import { ProductGetModel, generateProducts } from "../../../../../../lib/testdata/models";
-import useServersideTableQuery, { ApplyConfigToTable } from "../useServersideTableQuery";
-import type { ServersideTableQueryConfig, ServersideTableQueryResult } from "../types";
-import { getDatagridGetDataArguments } from "../useServersideTableQueryParams";
+import Datagrid from "../../../Datagrid";
 import { filterDataTable } from "../../useTableQueryClientFilter";
+import type { ServersideTableQueryConfig, ServersideTableQueryResult } from "../types";
+import useServersideTableQuery, { ApplyConfigToTable } from "../useServersideTableQuery";
+import { getDatagridGetDataArguments } from "../useServersideTableQueryParams";
 
 const queryClient = new QueryClient();
 
@@ -58,8 +58,8 @@ const fetchQuery = async (queryParameters: URLSearchParams) : Promise<Serverside
         });
 
         return {
-            Items: items,
-            TotalCount: totalCount,
+            items: items,
+            totalCount: totalCount,
         }
     } catch (e) {
         console.error("Caught exception in fake fetchQuery", e);

@@ -1,9 +1,9 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
-import { TagsInputTagItem } from '../TagsInput';
 import { useState } from 'react';
+import { ColorDefinitions, IconDefinitions } from '../../../../lib/utils/definitions';
 import { Icon } from '../../../UI/Icons/Icon';
 import StaticTagsInput from '../StaticTagsInput';
+import { TagsInputTagItem } from '../TagsInput';
 
 const meta: Meta<typeof StaticTagsInput> = {
     title: 'Forms/TagsInput/Static',

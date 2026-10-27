@@ -1,6 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import Toastr, { ToastrPosition } from '../Toastr';
-import React from 'react';
 import { ToastrProvider, useToastr } from '../../../Providers/ToastrContext/ToastrContext';
 import Button from '../../Button/Button';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';

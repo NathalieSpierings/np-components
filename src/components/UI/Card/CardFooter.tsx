@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactElement } from 'react';
+import { forwardRef, ReactElement } from 'react';
 import Box, { BoxProps } from '../../Base/Box/Box';
 
 export interface CardFooterProps extends Omit<BoxProps, 'title'> {

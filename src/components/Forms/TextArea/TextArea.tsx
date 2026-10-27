@@ -1,5 +1,4 @@
-import React, { ChangeEvent, FC, ReactElement, ReactNode, TextareaHTMLAttributes, forwardRef } from 'react';
-import { Control, FieldValues, Path, RegisterOptions, useController } from 'react-hook-form';
+import { ChangeEvent, ReactElement, ReactNode, TextareaHTMLAttributes, forwardRef } from 'react';
 import { InputVariant, ValidationState } from '../Input/Input';
 import { ColorDefinitions } from '../../..';
 

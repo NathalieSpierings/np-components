@@ -1,0 +1,42 @@
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+import * as ResizeHandleStories from './ResizeHandle.stories';
+
+<Meta of={ResizeHandleStories} />
+
+# ResizeHandle Component
+
+`ResizeHandle` is een sleepgreep op de rand van een element waarmee de gebruiker de breedte aanpast, zoals de sidebar en tabs van de `Datagrid` en de asides van de `PanelLayout`.
+
+Het component regelt alleen de greep zelf; de breedte komt uit `useResizableAside` (houdt de breedte zelf bij) of `useResizeDrag` (als de breedte ergens anders wordt bewaard):
+
+```tsx
+const { width, resizing, startResize } = useResizableAside(300, 200, 500, "right");
+
+<div style={{ position: "relative", width }}>
+    <ResizeHandle edge="left" resizing={resizing} onResizeStart={startResize} />
+    ...
+</div>
+```
+
+## Belangrijkste functionaliteiten
+
+- **Rand:** `edge` bepaalt op welke rand van het element de greep staat (voor een paneel rechts: `"left"`). Het element heeft `position: relative` nodig.
+- **Slepen:** bij het indrukken start `onResizeStart` het slepen; de greep blijft de muis volgen, ook buiten de greep.
+- **Weergave:** een rand bij hover en tijdens het slepen (`resizing`), in `--resize-handle-color` (standaard `--color-border`). Zet die variabele op een parent om bij de omliggende randen aan te sluiten.
+- **Alleen muis/aanwijzer:** de greep is niet bedienbaar met het toetsenbord en verborgen voor screenreaders.
+
+### Paneel rechts
+
+<Canvas of={ResizeHandleStories.PanelRight} />
+
+### Paneel links
+
+<Canvas of={ResizeHandleStories.PanelLeft} />
+
+### Eigen kleur
+
+<Canvas of={ResizeHandleStories.CustomColor} />
+
+### Props
+
+<Controls />

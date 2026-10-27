@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import DismissButton from '../DismissButton/DismissButton';
 

@@ -139,20 +139,18 @@ const tabs = [
 
 const DatagridDetailsAndNestedDetailsDemo: React.FC = () => {
 
-    const { setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile } = useLayoutContext();
+    const { setFullscreen, setShowHeader, setHasSidebars } = useLayoutContext();
     useEffect(() => {
         setFullscreen(true);
         setShowHeader(false);
         setHasSidebars(true);
-        setShowSidebarMobile(true);
 
         return () => {
             setFullscreen(false);
             setShowHeader(true);
             setHasSidebars(true);
-            setShowSidebarMobile(true);
         };
-    }, [setFullscreen, setShowHeader, setHasSidebars, setShowSidebarMobile]);
+    }, [setFullscreen, setShowHeader, setHasSidebars]);
 
 
     const [selectedItem, setSelectedItem] = useState<ProductGetModel | undefined>();
@@ -182,7 +180,7 @@ const DatagridDetailsAndNestedDetailsDemo: React.FC = () => {
     return (
         <ColumnLayout>
             <ColumnLayoutMain>
-                <ColumnLayoutHeader enableFixedHeader>
+                <ColumnLayoutHeader>
                     <ContentItem item={
                         {
                             id: '1',
@@ -200,8 +198,8 @@ const DatagridDetailsAndNestedDetailsDemo: React.FC = () => {
                  <ColumnLayoutContent>
 
                 <Toolbar
-                    borderBottom
-                    compact
+                    borderBottom 
+                    marginBottom={false}
                     navItems={(
                         <Tabs
                             tabs={tabs}

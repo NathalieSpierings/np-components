@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-webpack5';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../../assets/SvgSprite';
-import { IconDefinitions } from '../../../../../lib/utils/definitions';
-import Menu, { SidebarMenuPlacement } from '../MainMenu';
-import React from 'react';
+import { IconDefinitions, VerticalPositionDefinition } from '../../../../../lib/utils/definitions';
+import Menu from '../MainMenu';
 
 const meta: Meta<typeof Menu> = {
     title: 'Navigation/MainMenu',
@@ -34,7 +33,7 @@ const menuItems = [
         tooltip: 'Home',
         iconName: IconDefinitions.home,
         url: '#',
-        placement: SidebarMenuPlacement.Top,
+        placement: VerticalPositionDefinition.Top,
     },
     {
         id: '2',
@@ -43,7 +42,7 @@ const menuItems = [
         iconName: IconDefinitions.cog,
         active: true,
         url: '#',
-        placement: SidebarMenuPlacement.Top,
+        placement: VerticalPositionDefinition.Top,
     },
 ];
 

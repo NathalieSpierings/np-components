@@ -18,7 +18,7 @@ const FixedHeaders: React.FC = () => {
     return (
         <ColumnLayout>
             <ColumnLayoutMain>
-                <ColumnLayoutHeader enableFixedHeader>
+                <ColumnLayoutHeader >
                     Main header
                 </ColumnLayoutHeader>
                 <ColumnLayoutContent>
@@ -194,7 +194,7 @@ const FixedHeaders: React.FC = () => {
                 </ColumnLayoutContent>
             </ColumnLayoutMain>
             <ColumnLayoutAside>
-                <ColumnLayoutHeader enableFixedHeader>
+                <ColumnLayoutHeader >
                     Aside header
                 </ColumnLayoutHeader>
                 <ColumnLayoutContent>

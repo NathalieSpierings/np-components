@@ -4,31 +4,32 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../assets/SvgSprite';
-import { defaultProductColumns, filterProductColumns } from '../../../../lib/testdata/mock';
-import { getProductsQuery, getProductsWithOrdersQuery, ProductGetModel, ProductMetOrdersModel } from '../../../../lib/testdata/models';
+import { defaultProductColumns, defaultShopColumns, defaultShopProductColumns, filterProductColumns } from '../../../../lib/testdata/mock';
+import { getProductsQuery, getProductsWithOrdersQuery, getShopProductenQuery, getShopsMetProductenQuery, ProductGetModel, ProductMetOrdersModel, ShopMetProductenModel, ShopProductModel } from '../../../../lib/testdata/models';
 import { ColorDefinitions, IconDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
-import { EventStopper } from '../../../Base/EventStopper';
 import SearchInput from '../../../Forms/SearchInput/SearchInput';
+import Select from '../../../Forms/Select/Select';
 import Toggle from '../../../Forms/Toggle/Toggle';
-import Fieldset from '../../../Typography/Fieldset/Fieldset';
-import Subtitle from '../../../Typography/Subtitle/Subtitle';
 import Title from '../../../Typography/Title/Title';
 import Button from '../../../UI/Button/Button';
-import ColumnLayout from '../../../UI/ColumnLayout/ColumnLayout';
-import ColumnLayoutAside from '../../../UI/ColumnLayout/ColumnLayoutAside';
-import ColumnLayoutContent from '../../../UI/ColumnLayout/ColumnLayoutContent';
-import ColumnLayoutMain from '../../../UI/ColumnLayout/ColumnLayoutMain';
 import ContentItem from '../../../UI/ContentItem/ContentItem';
 import Icon from '../../../UI/Icons/Icon/Icon';
 import Tooltip from '../../../UI/Tooltip/Tooltip';
-import { DatagridGetDataArguments } from '../Config/DatagridData';
-import Datagrid, { DatagridRowActionsPosition, DatagridSidebarPosition, DatagridTabberPosition } from '../Datagrid';
+import DatagridClearFiltersButton from '../Addons/DatagridClearFiltersButton';
+import { ColumnFilters, DatagridGetDataArguments } from '../Config/DatagridData';
+import Datagrid, { DatagridRowActionsPosition, DatagridSidebarPosition, DatagridTabberPosition, DatagridTabsDisplay } from '../Datagrid';
+import { hasActiveColumnFilters } from '../Filters/DatagridColumnFilter';
 import { useTableQueryClientFilter } from '../Hooks/useTableQueryClientFilter';
 import { PaginationInfoPosition } from '../Pagination';
+import { PriceRangePicker } from './PriceRangePicker';
 import ProductDetails from './ProductDetails';
-import { ProductOrders } from './ProductOrdersTable';
 import { ProductOrdersNested } from './ProductOrdersNested';
+import { ProductOrdersWithDetails } from './ProductOrdersNestedTable';
+import { ProductOrders } from './ProductOrdersTable';
 import { ProductWithOrdersNested } from './ProductWithOrdersNested';
+import { ShopProductOrdersNested } from './ShopProductOrdersNested';
+import { ShopProductsNested } from './ShopProductsNested';
+import { useExternalProductSearch } from './useExternalProductSearch';
 
 const queryClient = new QueryClient();
 
@@ -40,7 +41,9 @@ const meta: Meta<typeof Datagrid> = {
             <MemoryRouter>
                 <SvgSprite />
                 <QueryClientProvider client={queryClient}>
-                    <Story />
+                    <div className="centered centered--wide mt-5">
+                        <Story />
+                    </div>
                 </QueryClientProvider>
             </MemoryRouter>
         ),
@@ -50,19 +53,20 @@ const meta: Meta<typeof Datagrid> = {
 export default meta;
 
 
-
-interface SidebarContentProps {
-    item: ProductGetModel | null;
-}
-function renderSidebarContent({ item }: SidebarContentProps) {
+function ProductSidebarContent({ item }: Readonly<{ item?: Readonly<{ naam: string; sku: string; prijs: number; categorie: string }> | null }>) {
     if (!item) {
         return <div>Selecteer een rij</div>;
     }
 
-    return <ProductDetails item={item} />;
+    return (
+        <div>
+            <h3>{item.naam}</h3>
+            <p>SKU: {item.sku}</p>
+            <p>Prijs: € {item.prijs}</p>
+            <p>Categorie: {item.categorie}</p>
+        </div>
+    );
 }
-
-
 
 export const Default: StoryFn = () => {
 
@@ -85,51 +89,8 @@ export const Default: StoryFn = () => {
     )
 }
 
-export const Nested: StoryFn = () => {
-
-    const [selected, setSelected] = useState<ProductGetModel | undefined>();
-
-    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
-    const [dataRaw, data, total, status] = useTableQueryClientFilter({
-        queryFn: getProductsQuery(),
-        filters: tableOptions
-    });
-
-    return (
-
-        <Datagrid
-            data={data || []}
-            dataRaw={dataRaw}
-            total={total || 0}
-            loading={status === "pending"}
-            onFilterUpdate={setTableOptions}
-            collapsibleRowData={ProductOrders}
-            initialPageSize={10}
-            enableColumnPinning
-            enableColumnVisibility
-            enableColumnMenu
-            enableColumnMenuColumnVisibility
-            enableCompactView
-            enableColumnReorder
-            enableColumnResize
-            enableStickyHeader
-            selectedRow={selected}
-            rowSingleClickAction={(row) => {
-                setSelected(row)
-                console.log(`Clicked row: ${row.naam}`);
-            }}
-            rowDoubleClickAction={(row) => {
-                setSelected(row)
-                console.log(`Double clicked row ${row.naam}`);
-            }}
-           properties={defaultProductColumns() as any}
-        />
-    )
-}
-
-export const NestedWithSummaryRow: StoryFn = () => {
-
-    const [selected, setSelected] = useState<ProductGetModel | undefined>();
+// Options
+export const RowKey: StoryFn = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -138,88 +99,20 @@ export const NestedWithSummaryRow: StoryFn = () => {
     });
 
     return (
-
-       <>
-       <p>enableSummaryRow prop is added and on the table properties 'summary: true' is set. </p>
         <Datagrid
             data={data || []}
             dataRaw={dataRaw}
+            getRowKey={(item) => `${item.naam}-${item.id}`}
             total={total || 0}
             loading={status === "pending"}
             onFilterUpdate={setTableOptions}
-            collapsibleRowData={ProductOrdersNested}
-            initialPageSize={10}
-            enableCompactView
-            enableSummaryRow
-            enableRowHover           
-            enableStickyHeader            
             enableColumnReorder
-            enableColumnResize
-            enableColumnPinning
-            enableColumnVisibility
-            enableColumnMenu
-            enableColumnMenuColumnVisibility
-                       selectedRow={selected}
-            rowSingleClickAction={(row) => {
-                setSelected(row)
-                console.log(`Clicked row: ${row.naam}`);
-            }}
-            rowDoubleClickAction={(row) => {
-                setSelected(row)
-                console.log(`Double clicked row ${row.naam}`);
-            }}
             properties={defaultProductColumns() as any}
         />
-        </>
     )
 }
 
-export const NoArrowIfNoNestedRecords: StoryFn = () => {
-
-     const [selected, setSelected] = useState<ProductMetOrdersModel | undefined>();
-
-    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductMetOrdersModel> | null>(null);
-    const [dataRaw, data, total, status] = useTableQueryClientFilter({
-        queryFn: getProductsWithOrdersQuery(),
-        filters: tableOptions
-    });
-
-    return (
-
-        <Datagrid
-            data={data || []}
-            dataRaw={dataRaw}
-            total={total || 0}
-            loading={status === "pending"}
-            onFilterUpdate={setTableOptions}
-            collapsibleRowData={ProductWithOrdersNested}
-            hasCollapsibleRow={(product) =>
-                product.orders.length > 0
-            }
-            initialPageSize={10}
-            enableColumnPinning
-            enableColumnVisibility
-            enableColumnMenu
-            enableColumnMenuColumnVisibility
-            enableCompactView
-            enableColumnReorder
-            enableColumnResize
-            enableStickyHeader
-            selectedRow={selected}
-            rowSingleClickAction={(row) => {
-                setSelected(row)
-                console.log(`Clicked row: ${row.naam}`);
-            }}
-            rowDoubleClickAction={(row) => {
-                setSelected(row)
-                console.log(`Double clicked row ${row.naam}`);
-            }}
-           properties={defaultProductColumns() as any}
-        />
-    )
-}
-
-
+// Colun
 export const ColumnFilter: StoryFn = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
@@ -238,6 +131,65 @@ export const ColumnFilter: StoryFn = () => {
             onFilterUpdate={setTableOptions}
             enableFiltersInHeader
             properties={filterProductColumns() as any}
+        />
+    )
+}
+
+export const ColumnFilterArray: StoryFn = () => {
+
+    const ARRAY_DEMO_COLUMNS = new Set(["id", "sku", "naam", "categorie", "merk", "status", "tags"]);
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    const columns = filterProductColumns().filter(column => ARRAY_DEMO_COLUMNS.has(column.prop));
+
+    return (
+        <Datagrid
+            localStorageKey="dg-column-filter-array"
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            enableFiltersInHeader
+            properties={columns as any}
+        />
+    )
+}
+
+export const ColumnFilterCustomPicker: StoryFn = () => {
+
+    const CUSTOM_PICKER_DEMO_COLUMNS = new Set(["id", "naam", "categorie", "prijs"]);
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    const columns = filterProductColumns()
+        .filter(column => CUSTOM_PICKER_DEMO_COLUMNS.has(column.prop))
+        .map(column => column.prop === "prijs"
+            ? { ...column, filter: { type: "number", customPicker: <PriceRangePicker /> } }
+            : column
+        );
+
+    return (
+        <Datagrid
+            localStorageKey="dg-column-filter-custom-picker"
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            enableFiltersInHeader
+            enableTabs
+            enableTabFilters
+            properties={columns as any}
         />
     )
 }
@@ -320,33 +272,6 @@ export const ColumnResize: StoryFn = () => {
     )
 }
 
-export const StickyHeader: StoryFn = () => {
-
-    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
-    const [dataRaw, data, total, status] = useTableQueryClientFilter({
-        queryFn: getProductsQuery(),
-        filters: tableOptions
-    });
-
-    return (
-
-        <>
-            <p>Ze de pager op een groter aantal rows zodat je kan scrollen.</p>
-
-            <Datagrid
-                localStorageKey="dg-column-sticky"
-                data={data || []}
-                dataRaw={dataRaw}
-                total={total || 0}
-                loading={status === "pending"}
-                onFilterUpdate={setTableOptions}
-                enableStickyHeader
-                properties={defaultProductColumns() as any}
-            />
-        </>
-    )
-}
-
 export const ColumnVisibility: StoryFn = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
@@ -376,6 +301,8 @@ export const ColumnVisibility: StoryFn = () => {
     )
 }
 
+
+
 export const Checkboxes: StoryFn = () => {
 
     const [checkedItems, setCheckedItems] = useState<ProductGetModel[]>([]);
@@ -402,27 +329,6 @@ export const Checkboxes: StoryFn = () => {
     )
 }
 
-export const RowKey: StoryFn = () => {
-
-    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
-    const [dataRaw, data, total, status] = useTableQueryClientFilter({
-        queryFn: getProductsQuery(),
-        filters: tableOptions
-    });
-
-    return (
-        <Datagrid
-            data={data || []}
-            dataRaw={dataRaw}
-            getRowKey={(item) => `${item.naam}-${item.id}`}
-            total={total || 0}
-            loading={status === "pending"}
-            onFilterUpdate={setTableOptions}
-            enableColumnReorder
-            properties={defaultProductColumns() as any}
-        />
-    )
-}
 
 export const RowHover: StoryFn = () => {
 
@@ -446,7 +352,6 @@ export const RowHover: StoryFn = () => {
     )
 }
 
-
 export const HeaderFooter: StoryFn = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
@@ -456,28 +361,28 @@ export const HeaderFooter: StoryFn = () => {
     });
 
     return (
-     
-            <Datagrid
-                data={data || []}
-                dataRaw={dataRaw}
-                total={total || 0}
-                loading={status === "pending"}
-                onFilterUpdate={setTableOptions}
-                toolbarTitle={<Title size="md">All products</Title>}
-                toolbarBorderBottom={true}
-                toolbarPrefixItems={[
-                    <Button key="create" onClick={() => alert('Create')}>
-                        <Icon icon={IconDefinitions.plus} />
-                        Toevoegen
-                    </Button>
-                ]}
-                collapsibleRowData={ProductOrders}
-                tableHeaderContent={(<span>DatagridTable header content goes here... </span>)}
-                tableFooterContent={(<span>DatagridTable footer content goes here...</span>)}
-                footerContent={(<span>Datagrid footer content goes here...</span>)}
-                properties={defaultProductColumns() as any}
-            />
-       
+
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            toolbarTitle={<Title size="md">All products</Title>}
+            toolbarBorderBottom={true}
+            toolbarPrefixItems={[
+                <Button key="create" onClick={() => alert('Create')}>
+                    <Icon icon={IconDefinitions.plus} />
+                    Toevoegen
+                </Button>
+            ]}
+            collapsibleRowData={ProductOrders}
+            tableHeaderContent={(<span>Table header content goes here... Hier kan later bijv. column grouping in als we dit maken of een externe zoekbalk of iets dergelijkst </span>)}
+            tableFooterContent={(<span>Table footer content goes here... Hier kan later bijv. rij totalen in of iets anders </span>)}
+            footerContent={(<span>Footer content goes here... Denk aan bijv. totalen of andere beschrijvingen</span>)}
+            properties={defaultProductColumns() as any}
+        />
+
     )
 }
 
@@ -540,31 +445,26 @@ export const Pager: StoryFn = () => {
 
 
     return (
-        <>
-            <p>De pager in de nested table staat altijd inside table. De info staat standaard links, dit voorkomt dat als je veel kolommen hebt je helemaal naar rechts moet scrollen om de pager info te zien.</p>
-            <p>Mogelijk wil je de pager van de master in de table hebben zodat er in de footer meer ruimte over is voor andere content zoals bijv. totalen. Dit wordt nu nog niet gebruikt maar mogelijk wel in de toekomst. </p>
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            toolbarTitle="All products"
+            toolbarBorderBottom={true}
+            toolbarPrefixItems={[
+                <Button key="pager" onClick={togglePagerInfoPosition}>Pager info naar {paginationInfoPosition === "right" ? "left" : "right"}</Button>,
+                <Button key="pagesizes" onClick={togglePageSizes}>Pagesizes {extendedPageSizes ? "extended" : "default"}</Button>
+            ]}
+            collapsibleRowData={ProductOrders}
 
-            <Datagrid
-                data={data || []}
-                dataRaw={dataRaw}
-                total={total || 0}
-                loading={status === "pending"}
-                onFilterUpdate={setTableOptions}
-                toolbarTitle={<Title size="md">All products</Title>}
-                toolbarBorderBottom={true}
-                toolbarPrefixItems={[
-                    <Button key="pager" onClick={togglePagerInfoPosition}>Pager info naar {paginationInfoPosition === "right" ? "left" : "right"}</Button>,
-                    <Button key="pagesizes" onClick={togglePageSizes}>Pagesizes {extendedPageSizes ? "extended" : "default"}</Button>
-                ]}
-                collapsibleRowData={ProductOrders}
-
-                //pagination
-                paginationRowInfoPosition={paginationInfoPosition}
-                pageSizeOptions={pageSizes}
-                footerContent={(<span>Dit is een test</span>)}
-                properties={defaultProductColumns() as any}
-            />
-        </>
+            //pagination
+            paginationRowInfoPosition={paginationInfoPosition}
+            pageSizeOptions={pageSizes}
+            footerContent={(<span>Dit is een test</span>)}
+            properties={defaultProductColumns() as any}
+        />
     )
 }
 
@@ -576,22 +476,22 @@ export const PagerInitialSize: StoryFn = () => {
         filters: tableOptions
     });
 
-    return (     
-          
-            <Datagrid
-                data={data || []}
-                dataRaw={dataRaw}
-                total={total || 0}
-                loading={status === "pending"}
-                onFilterUpdate={setTableOptions}
-                toolbarTitle={<Title size="md">All products</Title>}
-                toolbarBorderBottom={true}                
-                collapsibleRowData={ProductOrders}
-                initialPageSize={5}
-                footerContent={(<span>Dit is een test</span>)}
-                properties={defaultProductColumns() as any}
-            />
-        
+    return (
+
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            toolbarTitle={<Title size="md">All products</Title>}
+            toolbarBorderBottom={true}
+            collapsibleRowData={ProductOrders}
+            initialPageSize={5}
+            footerContent={(<span>Dit is een test</span>)}
+            properties={defaultProductColumns() as any}
+        />
+
     )
 }
 
@@ -647,7 +547,7 @@ export const RowActions: StoryFn = () => {
                 action: (item) => { alert(`Bekijk order ${item.naam}`) }
             },
             {
-                icon: <Tooltip content="Verwijder"><Icon icon={IconDefinitions.bin} hover={true} iconCss="pointer" /></Tooltip>,
+                icon: <Tooltip content="Verwijder"><Icon icon={IconDefinitions.bin} color={ColorDefinitions.Red} hover={true} iconCss="pointer" /></Tooltip>,
                 action: (item) => { alert(`Verwijder order ${item.naam}`) }
             }]}
         />
@@ -779,7 +679,7 @@ export const SidebarAndTabs: StoryFn = () => {
                     content: "Product details",
                     borderColor: ColorDefinitions.Surface,
                 },
-                content: ({ item }) => renderSidebarContent({ item }),
+                content: ProductSidebarContent,
                 footer: {
                     content: <Button>Opslaan</Button>,
                     borderColor: ColorDefinitions.Surface,
@@ -789,6 +689,8 @@ export const SidebarAndTabs: StoryFn = () => {
         />
     )
 }
+
+
 
 export const Sidebar: StoryFn = () => {
 
@@ -845,7 +747,7 @@ export const Sidebar: StoryFn = () => {
                         content: "Product details",
                         borderColor: ColorDefinitions.Surface,
                     },
-                    content: ({ item }) => renderSidebarContent({ item }),
+                    content: ProductSidebarContent,
                     footer: {
                         content: <Button>Opslaan</Button>,
                         borderColor: ColorDefinitions.Surface,
@@ -916,7 +818,7 @@ export const Tabs: StoryFn = () => {
     const [tabsDirection, setTabsDirection] = useState<DatagridTabberPosition>("right");
     const [enableTabFilters, setEnableTabFilters] = useState(false);
     const [enableTabColumnVisibility, setEnableTabColumnVisibility] = useState(false);
-   
+
     const toggleTabberPosition = () => {
         const nextPosition = tabsDirection === "right" ? "left" : "right";
         setTabsDirection(nextPosition);
@@ -975,7 +877,129 @@ export const Tabs: StoryFn = () => {
                     }
                 },
 
-            ]}           
+            ]}
+            properties={filterProductColumns() as any}
+        />
+    )
+}
+
+export const TabsSingleRow: StoryFn = () => {
+
+    const data = [
+        { id: 1, sku: "SKU-0001", naam: "Bureaustoel", prijs: 199.95 }
+    ];
+
+    const tabs = [
+        { id: "details", title: "Productdetails", icon: IconDefinitions.info_circle },
+        { id: "orders", title: "Bestellingen", icon: IconDefinitions.file_csv },
+        { id: "history", title: "Wijzigingsgeschiedenis", icon: IconDefinitions.info_circle },
+    ];
+
+    return (
+        <Datagrid
+            data={data}
+            total={data.length}
+            loading={false}
+            onFilterUpdate={() => { }}
+            fullHeight={false}
+            enableTabs
+            tabberPosition="right"
+            tabs={tabs.map((tab) => ({
+                id: tab.id,
+                title: tab.title,
+                icon: <Icon icon={tab.icon} size={SizeDefinitions.Small} />
+            }))}
+            tabPanes={tabs.map((tab) => ({
+                tabId: tab.id,
+                content: (<span>{tab.title} content goes here...</span>),
+                header: {
+                    content: tab.title
+                }
+            }))}
+            properties={[
+                { prop: "id", title: "Id", visible: true, width: 80 },
+                { prop: "sku", title: "SKU", visible: true },
+                { prop: "naam", title: "Product", visible: true },
+                { prop: "prijs", title: "Prijs", visible: true },
+            ]}
+        />
+    )
+}
+
+export const TabsDisplay: StoryFn = () => {
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, , status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    const [rowCount, setRowCount] = useState(1);
+    const [tabsDisplay, setTabsDisplay] = useState<DatagridTabsDisplay>("auto");
+
+    
+
+    const visibleRows = (data ?? []).slice(0, rowCount);
+
+    const rowOptions = [1, 5, 10, 25];
+
+    const displayOptions: { value: DatagridTabsDisplay; label: string }[] = [
+        { value: "auto", label: "Auto" },
+        { value: "labels", label: "Labels" },
+        { value: "icons", label: "Icons" },
+    ];
+
+    const tabs = [
+        { id: "info", title: "Informatie", icon: IconDefinitions.info_circle },
+        { id: "history", title: "Historie", icon: IconDefinitions.history },
+        { id: "settings", title: "Instellingen", icon: IconDefinitions.cog },
+    ];
+
+    return (
+        <Datagrid
+            data={visibleRows}
+            dataRaw={dataRaw}
+            total={visibleRows.length}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            fullHeight={false}
+            toolbarTitle={<Title size="md">Tabs weergave</Title>}
+            toolbarBorderBottom={true}
+            toolbarPrefixItems={[
+                <Select
+                    key="rows"
+                    label="Aantal rijen"
+                    small
+                    value={String(rowCount)}
+                    onValueChange={(value) => setRowCount(Number(value))}
+                >
+                    {rowOptions.map((count) => (
+                        <option key={count} value={count}>{count}</option>
+                    ))}
+                </Select>,
+                ...displayOptions.map((option) => (
+                    <Button
+                        key={option.value}
+                        color={tabsDisplay === option.value ? ColorDefinitions.Primary : undefined}
+                        onClick={() => setTabsDisplay(option.value)}
+                    >
+                        {option.label}
+                    </Button>
+                )),
+            ]}
+            enableTabs
+            tabberPosition="right"
+            tabsDisplay={tabsDisplay}
+            tabs={tabs.map((tab) => ({
+                id: tab.id,
+                title: tab.title,
+                icon: <Icon icon={tab.icon} size={SizeDefinitions.Small} />
+            }))}
+            tabPanes={tabs.map((tab) => ({
+                tabId: tab.id,
+                content: (<span>{tab.title} content goes here...</span>),
+                header: { content: tab.title }
+            }))}
             properties={filterProductColumns() as any}
         />
     )
@@ -984,6 +1008,7 @@ export const Tabs: StoryFn = () => {
 export const Toolbar: StoryFn = () => {
 
     const [toggleChecked, setToggleChecked] = useState(true);
+    const [checkedItems, setCheckedItems] = useState<ProductGetModel[]>([]);
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -1015,6 +1040,10 @@ export const Toolbar: StoryFn = () => {
                     labelPosition="left"
                 />
             ]}
+            enableCheckboxes
+            checkedItems={checkedItems}
+            onRowsChecked={setCheckedItems}
+            enableTableInfo={checkedItems.length > 0}
             enableCompactView={true}
             properties={defaultProductColumns() as any}
         />
@@ -1031,12 +1060,11 @@ export const FullHeight: StoryFn = () => {
         filters: tableOptions
     });
 
-    const [enableFullHeight, setEnableFullHeight] = useState(false);
-  
- return (
+    const [fullHeight, setFullHeight] = useState(false);
 
+    return (
         <Datagrid
-            fullHeight={enableFullHeight}
+            fullHeight={fullHeight}
             data={data || []}
             dataRaw={dataRaw}
             total={total || 0}
@@ -1047,9 +1075,8 @@ export const FullHeight: StoryFn = () => {
             initialPageSize={10}
             enableCompactView
             enableSummaryRow
-            enableRowHover           
+            enableRowHover
             enableStickyHeader
-
             enableFiltersInHeader
             enableColumnReorder
             enableColumnResize
@@ -1057,11 +1084,11 @@ export const FullHeight: StoryFn = () => {
             enableColumnPinning
             enableColumnMenu
             enableColumnMenuColumnVisibility
-            tableHeaderContent={<Title size="xs">Alle products table</Title>}
-            toolbarTitle={<Title size="md">Alle products</Title>}
+            tableHeaderContent="Alle products table"
+            toolbarTitle="Alle products"
             toolbarBorderBottom={true}
             toolbarPrefixItems={[
-                <Button key="fullHeight" onClick={() => setEnableFullHeight(!enableFullHeight)}>{enableFullHeight === false ? "Enable" : "Disable"} full height</Button>,
+                <Button key="height" onClick={() => setFullHeight(!fullHeight)}>{fullHeight ? "default" : "full"} height</Button>
             ]}
             toolbarPostfixItems={[
                 <Icon key="icon" icon={IconDefinitions.file_csv} />
@@ -1102,17 +1129,15 @@ export const FullHeight: StoryFn = () => {
                     content: "Product details",
                     borderColor: ColorDefinitions.Surface,
                 },
-                content: ({ item }) => renderSidebarContent({ item }),
+                content: ProductSidebarContent,
                 footer: {
                     content: <Button>Opslaan</Button>,
                     borderColor: ColorDefinitions.Surface,
                 },
             }}
-            
         />
     )
 }
-
 
 export const RowSummary: StoryFn = () => {
 
@@ -1137,262 +1162,9 @@ export const RowSummary: StoryFn = () => {
     )
 }
 
-export const All: StoryFn = () => {
 
-    // Datagrid options 
-    const [enableTotalRow, setEnableTotalRow] = useState(true);
-
-    // tabs
-    const [enableTabber, setEnableTabber] = useState(true);
-    const [tabsDirection, setTabsDirection] = useState<DatagridTabberPosition>("right");
-    const [enableTabFilters, setEnableTabFilters] = useState(true);
-    const [enableTabColumnVisibility, setEnableTabColumnVisibility] = useState(true);
-
-    // sidebar
-    const [enableSidebar, setEnableSidebar] = useState(true);
-    const [sidebarDirection, setSidebarDirection] = useState<DatagridSidebarPosition>("right");
-
-    // Paging
-   const [paginationInfoPosition, setPaginationInfoPosition] = useState<PaginationInfoPosition>("right");
-
-
-    // Datagrid table options
-    const [enableCheckboxes, setEnableCheckboxes] = useState(true);
-    const [selected, setSelected] = useState<ProductGetModel | undefined>();
-    const [checkedItems, setCheckedItems] = useState<ProductGetModel[]>([]);
-    const [actionsPosition, setActionsPosition] = useState<DatagridRowActionsPosition>('right');
-
-    // Datagrid column options
-    const [enableColumnFilter, setEnableColumnFilter] = useState(true);
-    const [enableStickyColumn, setEnableStickyColumn] = useState(true);
-    const [enableColumnMenu, setEnableColumnMenu] = useState(true);
-    const [enableColumnMenuColumnVisibility, setEnableColumnMenuColumnVisibility] = useState(true);
-
-
-    const [enableSorting, setEnableSorting] = useState(true);
-    const [enableColumnResize, setEnableColumnResize] = useState(true);
-    const [enableColumnReorder, setEnableColumnReorder] = useState(true);
-    const [enableColumnVisibility, setEnableColumnVisibility] = useState(true);
-    const [enableColumnPinning, setEnableColumnPinning] = useState(true);
-
-
-    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
-    const [dataRaw, data, total, status] = useTableQueryClientFilter({
-        queryFn: getProductsQuery(),
-        filters: tableOptions
-    });
-
-    const toggleActionsPosition = () => {
-        const nextPosition = actionsPosition === "right" ? "left" : "right";
-        setActionsPosition(nextPosition);
-    };
-
-    const toggleSidebarPosition = () => {
-        const nextPosition = sidebarDirection === "right" ? "left" : "right";
-        setSidebarDirection(nextPosition);
-    };
-
-    const toggleTabberPosition = () => {
-        const nextPosition = tabsDirection === "right" ? "left" : "right";
-        setTabsDirection(nextPosition);
-    };
-
-
-    const togglePagerInfoPosition = () => {
-        const nextPosition = paginationInfoPosition === "right" ? "left" : "right";
-        setPaginationInfoPosition(nextPosition);
-    };
-
-    const [headerSearch, setHeaderSearch] = useState("");
-    const searchAndNavigate = (term: string) => {
-        if (!term.trim()) return;
-
-        const lower = term.toLowerCase();
-
-        const matches = dataRaw.filter(x =>
-            x.naam?.toLowerCase().includes(lower) ||
-            x.omschrijving?.toLowerCase().includes(lower)
-        );
-
-        if (matches.length === 1) {
-            alert('Match gevonden')
-            return;
-        }
-
-        // Wat ga ik hier doen. nu standaard naar 1e gevonden item
-        if (matches.length > 1) {
-            alert('Meerdere matches gevonden');          
-        }
-    };
-
-    return (
-        <ColumnLayout>
-            <ColumnLayoutAside>
-                <ColumnLayoutContent>
-                    <Fieldset legend="Column options" borderColor={ColorDefinitions.Surface}>
-                        <Button key="enableSorting" onClick={() => setEnableSorting(!enableSorting)}>{enableSorting === false ? "Enable" : "Disible"} sorting</Button>
-                        <Button key="enableColumnResize" onClick={() => setEnableColumnResize(!enableColumnResize)}>{enableColumnResize === false ? "Enable" : "Disible"} column resize</Button>
-                        <Button key="enableColumnReorder" onClick={() => setEnableColumnReorder(!enableColumnReorder)}>{enableColumnReorder === false ? "Enable" : "Disible"} column reorder</Button>
-                        <Button key="enableColumnVisibility" onClick={() => setEnableColumnVisibility(!enableColumnVisibility)}>{enableColumnVisibility === false ? "Enable" : "Disible"} column visibility</Button>
-                        <Button key="enableColumnPinning" onClick={() => setEnableColumnPinning(!enableColumnPinning)}>{enableColumnPinning === false ? "Enable" : "Disible"} column pinning</Button>
-                        <Button key="enableStickyColumn" onClick={() => setEnableStickyColumn(!enableColumnFilter)}>{enableStickyColumn === false ? "Enable" : "Disible"} column fixed</Button>
-                        <Button key="headerFilters" onClick={() => setEnableColumnFilter(!enableColumnFilter)}>{enableColumnFilter === false ? "Enable" : "Disible"} column filters</Button>
-                        <Button key="enableColumnMenu" onClick={() => setEnableColumnMenu(!enableColumnMenu)}>{enableColumnMenu === false ? "Enable" : "Disible"} column menu</Button>
-                        <Button key="enableColumnMenuColumnVisibility" onClick={() => setEnableColumnMenuColumnVisibility(!enableColumnMenuColumnVisibility)}>{enableColumnMenuColumnVisibility === false ? "Enable" : "Disible"} column menu column visibility</Button>
-                    </Fieldset>
-                    <Fieldset legend="Tab options" borderColor={ColorDefinitions.Surface}>
-                        <Button key="tabberEnabler" onClick={() => setEnableTabber(!enableTabber)}> {enableTabber === false ? "Enable" : "Disible"} tabs</Button>
-                        <Button key="tabber" disabled={!enableTabber} onClick={toggleTabberPosition}>Tabs naar {tabsDirection === "right" ? "links" : "rechts"}</Button>
-                        <Button key="enableTabFilters" onClick={() => setEnableTabFilters(!enableTabFilters)}>{enableTabFilters === false ? "Enable" : "Disible"} tab filters</Button>
-                        <Button key="enableTabColumnVisibility" onClick={() => setEnableTabColumnVisibility(!enableTabColumnVisibility)}>{enableTabColumnVisibility === false ? "Enable" : "Disible"} column tab column visibility</Button>
-                    </Fieldset>
-                    <Fieldset legend="Row options" borderColor={ColorDefinitions.Surface}>
-                        <Button key="enableTotalRow" onClick={() => setEnableTotalRow(!enableTotalRow)}>{enableTotalRow === false ? "Enable" : "Disible"} total row</Button>
-                    </Fieldset>
-                    <Fieldset legend="Sidebar options" borderColor={ColorDefinitions.Surface}>
-                        <Subtitle>To open sidebar double click a row</Subtitle>
-                        <Button key="sidebarEnabler" onClick={() => setEnableSidebar(!enableSidebar)}>{enableSidebar === false ? "Enable" : "Disible"} sidebar</Button>
-                        <Button key="sidebar" disabled={!enableSidebar} onClick={toggleSidebarPosition}>Sidebar naar {sidebarDirection === "right" ? "links" : "rechts"}</Button>
-                    </Fieldset>
-                </ColumnLayoutContent>
-            </ColumnLayoutAside>
-            <ColumnLayoutMain>
-                <ColumnLayoutContent>
-
-                    <div className="grid" style={{ gap: '1rem' }}>
-                        <SearchInput
-                            name="Searcher"
-                            value={headerSearch}
-                            onTextInput={setHeaderSearch}
-                            onSubmit={() => searchAndNavigate(headerSearch)}
-                            placeholder="Zoeken..."
-                            style={{ minWidth: '480px' }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    searchAndNavigate(headerSearch);
-                                }
-                            }}
-                        />
-                    </div>
-
-                    <Datagrid
-                        data={data || []}
-                        dataRaw={dataRaw}
-                        total={total || 0}
-                        loading={status === "pending"}
-                        onFilterUpdate={setTableOptions}
-                        enableRowHover
-                        enableSummaryRow={enableTotalRow}
-
-                        toolbarTitle={<Title size="md">All products</Title>}
-                        toolbarBorderBottom={true}
-                        toolbarPrefixItems={[
-                            <Button key="actions" onClick={toggleActionsPosition}>Actions naar {actionsPosition === "right" ? "links" : "rechts"}</Button>,
-                            <Button key="enableCheckboxes" onClick={() => setEnableCheckboxes(!enableCheckboxes)}> {enableCheckboxes === false ? "Enable" : "Disible"} checkboxes</Button>,
-                            <Button key="pager" onClick={togglePagerInfoPosition}>Pager info naar {paginationInfoPosition === "right" ? "left" : "right"}</Button>,
-
-                        ]}
-                        toolbarPostfixItems={[
-                            <Button key="download" onClick={() => alert('Create')}>
-                                <Icon icon={IconDefinitions.file_csv} />
-                                Export
-                            </Button>
-                        ]}
-
-                        enableCompactView={true}
-                        enableColumnReorder={enableColumnReorder}
-                        enableColumnResize={enableColumnResize}
-                        enableColumnVisibility={enableColumnVisibility}
-                        enableColumnPinning={enableColumnPinning}
-
-                        // Sticky columns
-                        enableStickyHeader={enableStickyColumn}
-                        // Table info
-                        enableTableInfo={checkedItems.length > 0}
-                        // Column filters
-                        enableFiltersInHeader={enableColumnFilter}
-                        // Column menu
-                        enableColumnMenu={enableColumnMenu}
-                        enableColumnMenuColumnVisibility={enableColumnMenuColumnVisibility}
-
-                        // Sidebar
-                        enableSidebar={enableSidebar}
-                        sidebarPosition={sidebarDirection}
-                        sidebar={{
-                            header: {
-                                content: "Product details",
-                                borderColor: ColorDefinitions.Surface,
-                            },
-                            content: ({ item }) => renderSidebarContent({ item }),
-                            footer: {
-                                content: <Button>Opslaan</Button>,
-                                borderColor: ColorDefinitions.Surface,
-                            },
-                        }}
-
-                        // Tabs
-                        enableTabs={enableTabber}
-                        tabberPosition={tabsDirection}
-                        enableTabColumnVisibility={enableTabColumnVisibility}
-                        enableTabFilters={enableTabFilters}
-                        tabs={[{
-                            id: "tabTest",
-                            title: "Test",
-                            icon: <Icon icon={IconDefinitions.info_circle} size={SizeDefinitions.Small} />
-                        },
-                        ]}
-                        tabPanes={[
-                            {
-                                tabId: "tabTest",
-                                content: (<span>Custom content goes here...</span>),
-                                header: {
-                                    content: "Test tab"
-                                }
-                            },
-
-                        ]}
-
-                        // Nested datagrid
-                        collapsibleRowData={ProductOrders}
-                        // Row selection
-                        selectedRow={selected}
-                        rowSingleClickAction={(row) => {
-                            setSelected(row)
-                            console.log(`Clicked row: `, row.naam);
-                        }}
-                        rowDoubleClickAction={(row) => {
-                            setSelected(row)
-                            console.log(`Dobule clicked row`, row.naam);
-                        }}
-                        // Checkboxes
-                        enableCheckboxes={enableCheckboxes}
-                        checkedItems={checkedItems}
-                        onRowsChecked={setCheckedItems}
-
-                        //pagination
-                        paginationRowInfoPosition={paginationInfoPosition}
-                        footerContent={(<span>Dit is een test</span>)}
-
-                        properties={filterProductColumns() as any}
-                        // Row actions
-                        rowActionPosition={actionsPosition}
-                        rowActions={[{
-                            icon: <Tooltip content="Bekijk"><Icon icon={IconDefinitions.eye} hover={true} iconCss="pointer" /></Tooltip>,
-                            action: (item) => { alert(`Bekijk order ${item.naam}`) }
-                        },
-                        {
-                            icon: <Tooltip content="Verwijder"><Icon icon={IconDefinitions.bin} hover={true} iconCss="pointer" /></Tooltip>,
-                            action: (item) => { alert(`Verwijder order ${item.naam}`) }
-                        }]}
-                    />
-
-                </ColumnLayoutContent>
-            </ColumnLayoutMain>
-        </ColumnLayout>
-    )
-}
-
-export const InEventstopper: StoryFn = () => {
+// Filtering
+export const GlobalSearch: StoryFn = () => {
 
     const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
     const [dataRaw, data, total, status] = useTableQueryClientFilter({
@@ -1401,16 +1173,461 @@ export const InEventstopper: StoryFn = () => {
     });
 
     return (
-        <EventStopper>
-            <Datagrid
+        <Datagrid
             data={data || []}
             dataRaw={dataRaw}
             total={total || 0}
             loading={status === "pending"}
             onFilterUpdate={setTableOptions}
+            properties={filterProductColumns() as any}
+            enableFiltersInHeader
+            toolbarTitle="Producten"
+            enableSearch
+            searchPlaceholder="Zoeken in alle kolommen..."
+            clearFiltersButtonProps={{
+                label: "Wis filters",
+                buttonProps: { variant: "outline", color: ColorDefinitions.Accent }
+            }}
+        />
+    )
+}
+
+export const ExternalFiltersInfoToolbar: StoryFn = () => {
+
+    const s = useExternalProductSearch();
+
+    return (
+        <Datagrid
+            {...s.gridProps}
+            toolbarTitle="External filters – infotoolbar"
+            filterInfoPosition="tableInfo"
+            filterMessage={s.message}
+            onClearFilters={s.resetSearch}
+            clearFiltersButtonProps={{
+                label: "Wis filters",
+                buttonProps: { variant: "outline", color: ColorDefinitions.Olive }
+            }}
+            toolbarPrefixItems={[
+                <SearchInput
+                    key="search"
+                    name="externalSearch"
+                    value={s.search}
+                    onTextInput={s.setSearch}
+                    placeholder="Zoek op id, naam, SKU of EAN en druk op Enter..."
+                    style={{ minWidth: "420px" }}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") s.handleSearch();
+                    }}
+                />
+            ]}
+        />
+    )
+}
+
+export const ExternalFiltersToolbar: StoryFn = () => {
+
+    const s = useExternalProductSearch();
+
+    return (
+        <Datagrid
+            {...s.gridProps}
+            toolbarTitle="External filters – toolbar"
+            filterInfoPosition="toolbar"
+            onClearFilters={s.resetSearch}
+            clearFiltersButtonProps={{
+                label: "Wis filters",
+                buttonProps: { variant: "outline", color: ColorDefinitions.Primary }
+            }}
+            toolbarPrefixItems={[
+                <SearchInput
+                    key="search"
+                    name="externalSearch"
+                    value={s.search}
+                    onTextInput={s.setSearch}
+                    placeholder="Zoek op id, naam, SKU of EAN en druk op Enter..."
+                    style={{ minWidth: "420px" }}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") s.handleSearch();
+                    }}
+                />
+            ]}
+            toolbarPostfixItems={
+                s.message
+                    ? [<span key="message" className="text-muted">{s.message}</span>]
+                    : []
+            }
+        />
+    )
+}
+
+export const ExternalFiltersCustom: StoryFn = () => {
+
+    const s = useExternalProductSearch();
+
+    return (
+        <>
+            <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginBottom: "1rem" }}>
+                <SearchInput
+                    name="externalSearch"
+                    value={s.search}
+                    onTextInput={s.setSearch}
+                    placeholder="Zoek op id, naam, SKU of EAN en druk op Enter..."
+                    style={{ minWidth: "420px" }}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") s.handleSearch();
+                    }}
+                />
+
+                {s.message && <span>{s.message}</span>}
+
+                {hasActiveColumnFilters(s.filters) && (
+                    <DatagridClearFiltersButton onClick={s.clearAll} />
+                )}
+            </div>
+
+            <Datagrid
+                {...s.gridProps}
+                toolbarTitle="External filters – custom"
+                filterInfoPosition="none"
+            />
+        </>
+    )
+}
+
+export const CurstomPlacementClearFiltersButton: StoryFn = () => {
+
+    const [filters, setFilters] = useState<ColumnFilters<ProductGetModel>>({});
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    return (
+        <Datagrid
+            localStorageKey="dg-column-filter"
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            enableFiltersInHeader
+            properties={filterProductColumns() as any}
+
+            toolbarBorderBottom
+            toolbarTitle={(<Title key="titleBePrestaties" size="sm"> Alle producten</Title>)}
+            filterInfoPosition="none"
+            columnFilters={filters}
+            onColumnFiltersChange={setFilters}
+            clearFiltersButtonProps={{
+                label: "Filters wissen",
+                buttonProps: { color: ColorDefinitions.Accent }
+            }}
+            toolbarPrefixItems={[
+                hasActiveColumnFilters(filters) && (
+                    <DatagridClearFiltersButton
+                        key="wis"
+                        onClick={() => setFilters({})}
+                        buttonProps={{ variant: "outline" }}
+                    />
+                ),
+            ]}
+        />
+    )
+}
+
+
+
+export const NestedDetails: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ProductGetModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    return (
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ProductOrdersWithDetails}
+            enableColumnPinning
+            enableColumnVisibility
+            enableColumnMenu
+            enableColumnMenuColumnVisibility
+            enableCompactView
             enableColumnReorder
+            enableColumnResize
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => {
+                setSelected(row)
+                console.log(`Clicked row: ${row.naam}`);
+            }}
+            rowDoubleClickAction={(row) => {
+                setSelected(row)
+                console.log(`Double clicked row ${row.naam}`);
+            }}
             properties={defaultProductColumns() as any}
         />
-        </EventStopper>
+    )
+}
+
+export const DetailsAndNestedDetails: StoryFn = () => {
+
+    const [selectedItem, setSelectedItem] = useState<ProductGetModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    const sidebarContent = ({ item }: { item?: ProductGetModel | null }) =>
+        item ? <ProductDetails item={item} /> : <div>Selecteer een rij</div>;
+
+    return (
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            properties={defaultProductColumns() as any}
+            initialPageSize={10}
+            pageSizeOptions={[10, 25, 50, 100, 250, 500, 1000]}
+            toolbarTitle="Alle producten"
+            enableCompactView
+            enableColumnReorder
+            enableColumnResize
+            enableColumnVisibility
+            enableColumnPinning
+            enableStickyHeader
+            enableColumnMenu
+            enableColumnMenuColumnVisibility
+            enableFiltersInHeader
+            enableSummaryRow
+            enableTabs
+            enableTabFilters
+            enableTabColumnVisibility
+            collapsibleRowData={ProductOrdersWithDetails}
+            selectedRow={selectedItem}
+            rowSingleClickAction={(item) => setSelectedItem(item)}
+            enableSidebar
+            sidebar={{
+                header: {
+                    content: "Nederlandse prestatie details",
+                    borderColor: ColorDefinitions.Surface,
+                },
+                content: sidebarContent
+            }}
+        />
+    )
+}
+
+export const Nested: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ProductMetOrdersModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductMetOrdersModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsWithOrdersQuery(),
+        filters: tableOptions
+    });
+
+    return (
+
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ProductOrdersNested}
+            hasCollapsibleRow={(product) =>
+                product.orders.length > 0
+            }
+            initialPageSize={10}
+            enableColumnPinning
+            enableColumnVisibility
+            enableColumnMenu
+            enableColumnMenuColumnVisibility
+            enableCompactView
+            enableColumnReorder
+            enableColumnResize
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => {
+                setSelected(row)
+                console.log(`Clicked row: ${row.naam}`);
+            }}
+            rowDoubleClickAction={(row) => {
+                setSelected(row)
+                console.log(`Double clicked row ${row.naam}`);
+            }}
+            properties={defaultProductColumns() as any}
+        />
+    )
+}
+
+export const NestedWithSummaryRow: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ProductGetModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductGetModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsQuery(),
+        filters: tableOptions
+    });
+
+    return (
+
+        <>
+            <p>enableSummaryRow prop is added and on the table properties 'summary: true' is set. </p>
+            <Datagrid
+                data={data || []}
+                dataRaw={dataRaw}
+                total={total || 0}
+                loading={status === "pending"}
+                onFilterUpdate={setTableOptions}
+                collapsibleRowData={ProductOrdersNested}
+                initialPageSize={10}
+                enableCompactView
+                enableSummaryRow
+                enableRowHover
+                enableStickyHeader
+                enableColumnReorder
+                enableColumnResize
+                enableColumnPinning
+                enableColumnVisibility
+                enableColumnMenu
+                enableColumnMenuColumnVisibility
+                selectedRow={selected}
+                rowSingleClickAction={(row) => {
+                    setSelected(row)
+                    console.log(`Clicked row: ${row.naam}`);
+                }}
+                rowDoubleClickAction={(row) => {
+                    setSelected(row)
+                    console.log(`Double clicked row ${row.naam}`);
+                }}
+                properties={defaultProductColumns() as any}
+            />
+        </>
+    )
+}
+
+export const NoArrowIfNoNestedRecords: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ProductMetOrdersModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ProductMetOrdersModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getProductsWithOrdersQuery(),
+        filters: tableOptions
+    });
+
+    return (
+
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ProductWithOrdersNested}
+            hasCollapsibleRow={(product) =>
+                product.orders.length > 0
+            }
+            initialPageSize={10}
+            enableColumnPinning
+            enableColumnVisibility
+            enableColumnMenu
+            enableColumnMenuColumnVisibility
+            enableCompactView
+            enableColumnReorder
+            enableColumnResize
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => {
+                setSelected(row)
+                console.log(`Clicked row: ${row.naam}`);
+            }}
+            rowDoubleClickAction={(row) => {
+                setSelected(row)
+                console.log(`Double clicked row ${row.naam}`);
+            }}
+            properties={defaultProductColumns() as any}
+        />
+    )
+}
+
+export const NestedShops: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ShopMetProductenModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ShopMetProductenModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getShopsMetProductenQuery(),
+        filters: tableOptions
+    });
+
+    return (
+        <Datagrid
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ShopProductsNested}
+            hasCollapsibleRow={(shop) => shop.products.length > 0}
+            enableColumnResize
+            enableColumnVisibility
+            enableColumnMenu
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => setSelected(row)}
+            properties={defaultShopColumns() as any}
+        />
+    )
+}
+
+export const NestedDuplicateIds: StoryFn = () => {
+
+    const [selected, setSelected] = useState<ShopProductModel | undefined>();
+
+    const [tableOptions, setTableOptions] = useState<DatagridGetDataArguments<ShopProductModel> | null>(null);
+    const [dataRaw, data, total, status] = useTableQueryClientFilter({
+        queryFn: getShopProductenQuery(),
+        filters: tableOptions
+    });
+
+    return (
+        <Datagrid
+            getRowKey={(p) => `${p.shopId}-${p.id}`}
+            data={data || []}
+            dataRaw={dataRaw}
+            total={total || 0}
+            loading={status === "pending"}
+            onFilterUpdate={setTableOptions}
+            collapsibleRowData={ShopProductOrdersNested}
+            hasCollapsibleRow={(product) => product.orders.length > 0}
+            initialPageSize={25}
+            enableColumnPinning
+            enableColumnVisibility
+            enableColumnMenu
+            enableColumnReorder
+            enableColumnResize
+            enableStickyHeader
+            selectedRow={selected}
+            rowSingleClickAction={(row) => setSelected(row)}
+            properties={defaultShopProductColumns() as any}
+        />
     )
 }

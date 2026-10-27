@@ -1,6 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import moment from 'moment';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Input } from '../../Input/Input';
 import Datepicker, { FormDatepicker } from '../Datepicker';

@@ -11,8 +11,11 @@ export interface ToolbarProps {
     postfixItems?: ReactNode[];
     borderBottom?: boolean;
     borderColor?: ColorDefinitions;
-    compact?: boolean;
-    toolbarCss?: string;
+    sticky?: boolean;
+    stickyBackground?: ColorDefinitions;
+    paddingBottom?: boolean;
+    marginBottom?: boolean;
+    css?: string;
 }
 
 const Toolbar = ({
@@ -24,8 +27,11 @@ const Toolbar = ({
     postfixItems = [],
     borderBottom = false,
     borderColor = ColorDefinitions.Surface,
-    compact = false,
-    toolbarCss = ''
+    sticky = false,
+    stickyBackground,
+    paddingBottom = true,
+    marginBottom = true,
+    css = ''
 }: ToolbarProps) => {
 
     const hasPrefixItems = prefixItems.length > 0;
@@ -34,8 +40,21 @@ const Toolbar = ({
     const showTitleInActions = title && !hasPrefixItems && hasPostfixItems;
     const showTitleAsHeader = title && !showTitleInActions;
 
+    const cls = [
+        'toolbar',
+        borderBottom && 'border-' + borderColor,
+        paddingBottom ? '' : 'toolbar--pb-0',
+        marginBottom ? '' : 'toolbar--mb-0',
+        sticky && 'toolbar--sticky',
+        stickyBackground && `bg-${stickyBackground}`,
+        css,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
+
     return (
-        <div className={`toolbar ${borderBottom ? 'border-' + borderColor : ''} ${compact ? 'toolbar--compact' : ''} ${toolbarCss}`}>
+        <div className={cls}>
 
             {showTitleAsHeader && (
                 <div className="toolbar__header">

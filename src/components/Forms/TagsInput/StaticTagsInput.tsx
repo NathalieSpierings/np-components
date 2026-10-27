@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { TagListProps, TagsList } from "./TagsInput";
 import { StaticInput, StaticInputProps } from "../Input";
 

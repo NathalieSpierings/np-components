@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { ColorDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import DismissButton from "../DismissButton/DismissButton";
 import Box, { BoxProps } from "../../Base/Box/Box";

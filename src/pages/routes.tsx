@@ -12,7 +12,6 @@ import ColumnResizeDemo from "./Demo/Datagrid/ColumnResizeDemo";
 import ColumnStickyDemo from "./Demo/Datagrid/ColumnStickyDemo";
 import ColumnTotalRowDemo from "./Demo/Datagrid/ColumnTotalRowDemo";
 import ColumnVisibilityDemo from "./Demo/Datagrid/ColumnVisibilityDemo";
-import DatagridAllDemo from "./Demo/Datagrid/DatagridAllDemo";
 import DatagridCheckboxDemo from "./Demo/Datagrid/DatagridCheckboxDemo";
 import DatagridDemo from "./Demo/Datagrid/DatagridDemo";
 import DatagridHeaderFooterDemo from "./Demo/Datagrid/DatagridHeaderFooterDemo";
@@ -135,10 +134,6 @@ export const routes = [
 	{
 		path: "/demo/dg-column-visibility",
 		element: <ColumnVisibilityDemo />
-	},
-	{
-		path: "/demo/dg-all",
-		element: <DatagridAllDemo />
 	},
 	{
 		path: "/demo/dg-checkbox",

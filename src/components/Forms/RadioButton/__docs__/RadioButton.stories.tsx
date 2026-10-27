@@ -2,7 +2,6 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { useState } from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import RadioButton, { FormRadio } from '../RadioButton';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import FormInline from '../../FormInline/FormInline';
 import Button from '../../../UI/Button/Button';

@@ -1,9 +1,7 @@
 import type { DatagridColumnFilterConfig } from "../../Filters/DatagridColumnFilter";
 import type { DatagridColumnFilterTypeServer } from "./types";
 
-/**
- * Map a server type -> client type
- */
+// Map a server type -> client type 
 const serverToClientColumnFilterTypeMap = {
     number: {
         type: "number",

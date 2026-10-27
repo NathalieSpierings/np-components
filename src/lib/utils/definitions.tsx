@@ -170,6 +170,7 @@ export enum AlertColorDefinitions {
 
 export enum SizeDefinitions {
     Tiny = 'tiny',
+    ExtraExtraSmall = 'xxs',
     ExtraSmall = 'xs',
     Small = 'sm',
     Medium = 'md',
@@ -180,6 +181,17 @@ export enum SizeDefinitions {
     None = 'none',
     Full = 'full',
 }
+
+export enum HorizontalPositionDefinition{
+    Left = 'left',
+    Right = 'right'
+}
+
+export enum VerticalPositionDefinition{
+    Top = 'top',
+    Bottom = 'bottom',
+}
+
 
 export enum PositionDefinition {
     Left = 'left',
@@ -199,6 +211,7 @@ export enum CenteredSizeDefinition {
 export enum ArtDefinitions {
     Contract = 'Contract',
     Document = 'Document',
+    Suite = 'Suite',
     Dossier = 'Dossier',
     Igo = 'Igo',
     Ketenzorg = 'Ketenzorg',
@@ -463,6 +476,7 @@ export enum IconDefinitions {
     'tablet' = 'tablet',
     'table_refresh' = 'table_refresh',
     'table_cog' = 'table_cog',
+    'tag' = 'tag',
     'themes' = 'themes',
     'thumbs_down' = 'thumbs_down',
     'thumbs_up' = 'thumbs_up',

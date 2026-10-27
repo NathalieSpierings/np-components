@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 
 export type PaginationInfoPosition = "left" | "right";

@@ -1,4 +1,3 @@
-import React from "react";
 import { IconDefinitions, SizeDefinitions } from "../../../lib/utils/definitions";
 import { Icon } from "../../UI/Icons/Icon";
 

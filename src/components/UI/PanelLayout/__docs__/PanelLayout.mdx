@@ -1,0 +1,48 @@
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+import * as PanelLayoutStories from './PanelLayout.stories';
+
+<Meta of={PanelLayoutStories} />
+
+# PanelLayout
+
+Een layout met één hoofdpaneel en nul of meer asides, links en/of rechts. 
+
+```tsx
+<PanelLayout>
+    <PanelLayout.Aside id="filters" icon={IconDefinitions.funnel} header={<Title>Filters</Title>} mode="collapsible">
+        ...
+    </PanelLayout.Aside>
+    <PanelLayout.Main header={<Title>Titel</Title>}>
+        ...
+    </PanelLayout.Main>
+    <PanelLayout.Aside id="details" header={<Title>Details</Title>}>
+        ...
+    </PanelLayout.Aside>
+</PanelLayout>
+```
+
+- **Volgorde = positie**: asides vóór `PanelLayout.Main` staan links, erna rechts.
+- **Inklappen** (`mode`):
+  - `"closable"` (standaard): ingeklapt onzichtbaar, alleen via code (of op mobiel met zijn knop) te openen.
+  - `"collapsible"`: ingeklapt een smalle strook met het begin van de gewone inhoud (op volle breedte, afgeknipt, dus zonder herschikken). De inhoud kan zich aanpassen met `usePanelLayoutAside()` (`collapsed`), en `PanelLayout.Strip` gebruiken voor wat in de strook moet passen, zoals iconen (met `flush`, zodat de padding het niet verschuift).
+  - `"persistent"`: altijd uitgeklapt, niet in te klappen (ook niet via code). Op mobiel wel een eigen scherm dat je kunt verlaten. Niet in een `PanelLayout.Group` of met `exclusive`.
+- **Uitklappen**: asides klappen onafhankelijk van elkaar uit.
+  - `expandOn="click"` (standaard): klik op de ingeklapte aside (of de header). `"hover"`: uitgeklapt zolang de muis (of focus) erin is. `"none"`: alleen via code.
+  - `overlay`: klapt uit over het hoofdpaneel heen in plaats van het te versmallen, handig voor navigatie.
+  - Inklappen: met de pijl in de header van de aside (uit te zetten met `collapseButton={false}`), of met `collapseOnMainClick` op de layout door op het hoofdpaneel te klikken of op Escape te drukken.
+  - Via code: `usePanelLayout()` (`open`, `close`, `toggle`, `isOpen`, `expandedAsides`) binnen de layout, of de `expandedAsides` / `onExpandedAsidesChange` props van buitenaf.
+- **Groepen**: `PanelLayout.Group` bundelt opeenvolgende asides tot één blok: er is er maximaal één tegelijk uitgeklapt, en `width`, `resizable` en `overlay` gelden voor de hele groep.
+- **Koppelen**: asides en groepen met dezelfde `exclusive="..."` sluiten elkaar uit (ook als ze niet naast elkaar staan), maar houden elk hun eigen breedte.
+- **Resizen**: met `resizable` (op een aside of groep) kan de gebruiker het paneel resizen, eventueel binnen grenzen: `resizable={{ min: 160, max: 400 }}` (standaard 200 tot 800px)
+- **Headers**: elk paneel heeft een optionele `header`. Met `<PanelLayout.Header content={...}>` deel je één header over opeenvolgende panelen of groep.
+- **Mobiel**: Op kleine schemen wordt elk paneel een eigen scherm. 
+  - Welk scherm op mobiel getoond wordt: `defaultMobileScreen` (bijvoorbeeld beginnen op een aside), of van buitenaf met `mobileScreen` / `onMobileScreenChange`. Een aside die zo getoond wordt, wordt ook uitgeklapt.
+  - `mobileButton={false}` op een aside: geen knop in de header van het hoofdpaneel om zijn scherm te openen (open het dan via code of `mobileScreen`).
+
+### Default
+
+<Canvas of={PanelLayoutStories.Default} />
+
+### Props
+
+<Controls />

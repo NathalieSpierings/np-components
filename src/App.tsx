@@ -4,11 +4,10 @@ import { RouterProvider, createBrowserRouter, useNavigation } from 'react-router
 import { LayoutProvider, useLayoutContext } from './components/Providers/LayoutContext/LayoutContext';
 import { ToastrProvider, useToastr } from './components/Providers/ToastrContext/ToastrContext';
 import Toastr from './components/UI/Toastr/Toastr';
-import { IconDefinitions } from './lib/utils/definitions';
+import { IconDefinitions, VerticalPositionDefinition } from './lib/utils/definitions';
 import { errorRoutes,  getInitialMenuItem,  routes } from './pages/routes';
 import Avatar from './components/UI/Avatar/Avatar';
 import SidebarAccount from './components/Page/Sidebar/SidebarAccount/SidebarAccount';
-import { SidebarMenuPlacement } from './components/Page/Navigation/MainMenu/MainMenu';
 import ErrorPage from './components/Page/ErrorPage/ErrorPage';
 import BasicLayout from './components/Page/Basic/BasicLayout';
 import { ConfirmDialogProvider, useConfirmDialog } from './components/Providers/ConfirmDialogContext/ConfirmDialogContext';
@@ -16,6 +15,7 @@ import { ScrollProvider } from './components/Providers/ScrollContext/ScrollConte
 import MainLayout from './components/Page/Main/MainLayout';
 import ConfirmDialog from './components/UI/ConfirmDialog/ConfirmDialog';
 import SidebarDemo from './pages/SidebarDemo';
+import Icon from './components/UI/Icons/Icon/Icon';
 
 
 
@@ -39,7 +39,7 @@ const TemplateSidebarAccountMenu = () => {
             menuItems={[
                 {
                     label: 'Afmelden',
-                    icon: (<svg><use xlinkHref="#svg_icon_power" /></svg>),
+                    icon: (<Icon icon={IconDefinitions.power} renderPlainSvg />),
                 }]}
         />
     )
@@ -53,7 +53,7 @@ const TemplateLayout = () => {
             title: 'Home',
             tooltip: 'Home',
             iconName: IconDefinitions.home,
-            placement: SidebarMenuPlacement.Top,
+            placement: VerticalPositionDefinition.Top,
             url: '/'
         },
         {
@@ -61,7 +61,7 @@ const TemplateLayout = () => {
             title: 'Demo',
             tooltip: 'Demo',
             iconName: IconDefinitions.paint_palette,
-            placement: SidebarMenuPlacement.Top,
+            placement: VerticalPositionDefinition.Top,
             sidebar: <SidebarDemo />,
             url: '/demo'
         },       

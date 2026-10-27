@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import { DropdownMenuItem } from '../../../Forms/Dropdown/DropdownMenu';
 import Dropdown, { DropdownHeader, DropdownToggle, DropdownVerticalPosition } from '../../../Forms/Dropdown/Dropdown';

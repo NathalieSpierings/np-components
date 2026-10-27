@@ -1,7 +1,6 @@
 import { FC, PropsWithChildren } from 'react';
 import { ColorDefinitions } from '../../../lib/utils/definitions';
 import GridLayoutDrawer from './GridLayoutDrawer';
-import React from 'react';
 
 export interface GridLayoutProps extends PropsWithChildren {
     open?: boolean | null;

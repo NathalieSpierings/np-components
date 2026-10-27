@@ -2,7 +2,6 @@ import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import styled from 'styled-components';
 import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import DismissButton from '../DismissButton';
-import React from 'react';
 
 const meta: Meta<typeof DismissButton> = {
     title: 'UI kit/DismissButton',

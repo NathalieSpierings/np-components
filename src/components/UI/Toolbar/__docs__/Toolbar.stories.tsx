@@ -1,6 +1,5 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 
-import React from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Toggle from '../../../Forms/Toggle/Toggle';
 import Title from '../../../Typography/Title/Title';
@@ -134,9 +133,9 @@ export const DefaultAndNavItems: StoryFn = (args) => {
                         { index: 0, label: "Tab 1" },
                         { index: 1, label: "Tab 2" },
                     ]}
-                    borderBottomColor={ColorDefinitions.None} 
+                    borderBottomColor={ColorDefinitions.None}
                     selectedTab={0}
-                    />
+                />
             )}
         />
     );
@@ -170,9 +169,9 @@ export const NavItemsAfterPrefixActions: StoryFn = (args) => {
                         { index: 0, label: "Tab 1" },
                         { index: 1, label: "Tab 2" },
                     ]}
-                    borderBottomColor={ColorDefinitions.None} 
+                    borderBottomColor={ColorDefinitions.None}
                     selectedTab={0}
-                    />
+                />
             )}
         />
     );
@@ -206,9 +205,90 @@ export const NavItemsRight: StoryFn = (args) => {
                         { index: 0, label: "Tab 1" },
                         { index: 1, label: "Tab 2" },
                     ]}
-                    borderBottomColor={ColorDefinitions.None} 
+                    borderBottomColor={ColorDefinitions.None}
                     selectedTab={0}
-                    />
+                />
+            )}
+        />
+    );
+};
+
+export const Sticky: StoryFn = (args) => {
+    return (
+        <Toolbar
+            sticky
+            stickyBackground={ColorDefinitions.SurfaceDark}
+            paddingBottom={false}
+            marginBottom={false}
+            title={<Title size="sm">My Title</Title>}
+            prefixItems={[
+                <Button key="btn1">Action</Button>,
+                <Button key="btn2">Action</Button>
+            ]}
+            postfixItems={[
+                <Toggle key='btnToggleProcessed'
+                    color={ColorDefinitions.Primary}
+                    label="Verwerkte dossiers verbergen"
+                    labelPosition="left" checked={false} onChange={function (checked: boolean): void {
+                        throw new Error('Function not implemented.');
+                    }} />,
+                <Toggle key='btnToggleArchived'
+                    color={ColorDefinitions.Primary}
+                    label="Gearchiveerd verbergen"
+                    labelPosition="left" checked={false} onChange={function (checked: boolean): void {
+                        throw new Error('Function not implemented.');
+                    }} />
+            ]}
+            navItems={(
+                <Tabs
+                    tabs={[
+                        { index: 0, label: "Tab 1" },
+                        { index: 1, label: "Tab 2" },
+                    ]}
+                    borderBottomColor={ColorDefinitions.None}
+                    selectedTab={0}
+                />
+            )}
+        />
+    );
+};
+
+
+export const NoPaddingAndMargin: StoryFn = (args) => {
+    return (
+        <Toolbar
+            borderBottom
+            
+            paddingBottom={false}
+            marginBottom={false}
+            title={<Title size="sm">My Title</Title>}
+            prefixItems={[
+                <Button key="btn1">Action</Button>,
+                <Button key="btn2">Action</Button>
+            ]}
+            postfixItems={[
+                <Toggle key='btnToggleProcessed'
+                    color={ColorDefinitions.Primary}
+                    label="Verwerkte dossiers verbergen"
+                    labelPosition="left" checked={false} onChange={function (checked: boolean): void {
+                        throw new Error('Function not implemented.');
+                    }} />,
+                <Toggle key='btnToggleArchived'
+                    color={ColorDefinitions.Primary}
+                    label="Gearchiveerd verbergen"
+                    labelPosition="left" checked={false} onChange={function (checked: boolean): void {
+                        throw new Error('Function not implemented.');
+                    }} />
+            ]}
+            navItems={(
+                <Tabs
+                    tabs={[
+                        { index: 0, label: "Tab 1" },
+                        { index: 1, label: "Tab 2" },
+                    ]}
+                    borderBottomColor={ColorDefinitions.None}
+                    selectedTab={0}
+                />
             )}
         />
     );

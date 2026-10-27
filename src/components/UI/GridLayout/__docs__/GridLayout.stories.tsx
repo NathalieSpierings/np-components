@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import Button from '../../../UI/Button/Button';
 import GridLayout from '../GridLayout';
-import React from 'react';
 import { Toolbar } from '../../Toolbar';
 
 const meta: Meta<typeof GridLayout> = {

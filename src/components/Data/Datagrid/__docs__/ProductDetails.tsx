@@ -1,4 +1,3 @@
-import React from "react";
 import { ProductGetModel } from "../../../../lib/testdata/models";
 import StaticInput from "../../../../components/Forms/Input/StaticInput";
 import { toDutchDateString } from "../../../../lib/helpers/helpers"

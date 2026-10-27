@@ -1,7 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import { ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Fieldset from '../Fieldset';
-import React from 'react';
 
 const meta: Meta<typeof Fieldset> = {
     title: 'Typography/Fieldset',

@@ -1,4 +1,4 @@
-import { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 import { ColorDefinitions } from "../../../lib/utils/definitions";
 
 export interface DividerProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

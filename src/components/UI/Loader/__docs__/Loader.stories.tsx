@@ -1,6 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
 import { MemoryRouter } from 'react-router';
 import { SvgSprite } from '../../../../assets/SvgSprite';
 import { defaultProductColumns } from '../../../../lib/testdata/mock';
@@ -8,8 +8,8 @@ import { ProductGetModel, getProductsQuery } from '../../../../lib/testdata/mode
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
 import { DatagridGetDataArguments } from '../../../Data/Datagrid/Config/DatagridData';
 import Datagrid from '../../../Data/Datagrid/Datagrid';
-import Loader from '../Loader';
 import { useTableQueryClientFilter } from '../../../Data/Datagrid/Hooks/useTableQueryClientFilter';
+import Loader from '../Loader';
 
 const queryClient = new QueryClient();
 

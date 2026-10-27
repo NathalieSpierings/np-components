@@ -1,6 +1,6 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 import DismissableBox from '../DismissableBox';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const meta: Meta<typeof DismissableBox> = {
     title: 'UI kit/Dismissable box',

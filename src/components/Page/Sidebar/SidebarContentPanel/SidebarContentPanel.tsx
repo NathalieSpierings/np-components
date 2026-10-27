@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 export interface SidebarContentPanel extends PropsWithChildren {
     title?: string;

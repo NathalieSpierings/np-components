@@ -1,40 +1,130 @@
-import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
 import * as AvatarStories from './Avatar.stories';
-import AvatarComponent from '../Avatar';
- 
+
 <Meta of={AvatarStories} />
- 
 
-# Avatar Component
+# Avatar
 
-De `Avatar` component toont een enkele avatar die kan bestaan uit initialen, een icoon, een afbeelding of een predefined avatar.
-
-## Belangrijkste functionaliteiten
-
-- **Flexibele content:** Initialen, iconen, URL-afbeeldingen of predefined avatars.
-- **Styling opties:** Border, shadow, vierkant of rond, achtergrondkleur en borderkleur.
-- **Grootte aanpasbaar:** Via `size` prop.
-- **Float-optie:** Laat avatars zweven, bijvoorbeeld in een lijst of naast tekst.
-
-
-# Stacked avatar
-
-De `StackedAvatar` component toont een rij van avatars die elkaar deels overlappen, met een teller voor extra gebruikers die niet zichtbaar zijn.
+De `Avatar` toont één persoon of object als initialen, een icoon of een afbeelding.
 
 ## Belangrijkste functionaliteiten
 
-- **Meerdere avatars:** Toon een lijst van `ReactElement` avatars.
-- **Teller:** Geeft aan hoeveel extra avatars er zijn met `+{counter}`.
-- **Aanpasbare grootte:** Optionele `size`-prop om de avatar-groep te schalen.
-- **Sleutelbeheer:** Zorgt voor unieke keys bij het renderen van avatars.
+- **Flexibele content:** initialen, een icoon of een afbeelding.
+- **Styling:** rond of vierkant, border, shadow en float.
+- **Kleuren:** eigen kleuren via `background` en `color`, of automatische kleuren via `autoColor`.
+- **Groottes:** van `xxs` tot en met `3xl` via de `size`-prop.
+- **Tooltip:** de `tooltip` wordt getoond als je met de muis op de avatar staat. Bij een afbeelding wordt hij ook de `alt`-tekst.
 
+## Content
 
-### Default
+Als je meerdere soorten content meegeeft, geldt deze volgorde: `initials` → `icon` → `imageUrl`.
 
 <Canvas of={AvatarStories.Default} />
 
+## Varianten
+
+### Vierkant
+
+<Canvas of={AvatarStories.Square} />
+
+### Border
+
+<Canvas of={AvatarStories.Border} />
+
+### Shadow
+
+<Canvas of={AvatarStories.Shadow} />
+
+### Float
+
+<Canvas of={AvatarStories.Float} />
+
+### Achtergrondkleur
+
+Met `background` en `color` kies je zelf de kleuren uit de kleurdefinities.
+
+<Canvas of={AvatarStories.Background} />
+
+## Automatische kleuren
+
+Met `autoColor` krijgt de avatar automatisch een lichte achtergrond en een donkere tekst- of icoonkleur in dezelfde tint. Zo is de avatar altijd goed leesbaar.
+
+```tsx
+<Avatar autoColor initials="TS" tooltip="Thomas Smith" />
+```
+
+- Werkt voor avatars met **initialen** en **iconen**.
+- Werkt **niet** voor afbeeldingen, want de foto bedekt de achtergrond.
+- Geef je ook `background` of `color` mee, dan gaan die voor en wordt `autoColor` genegeerd.
+
+### Hoe de kleur wordt bepaald: de seed
+
+De kleur wordt berekend uit een tekst: de **seed**. De Avatar gebruikt daarvoor de `tooltip`, of als die er niet is de `initials`.
+
+1. De seed wordt omgezet naar kleine letters, bijvoorbeeld `"thomas smith"`.
+2. Daar wordt een getal van gemaakt, een soort vingerafdruk. Dezelfde tekst geeft altijd hetzelfde getal.
+3. Dat getal bepaalt één van **12 vaste tinten**, die 30° uit elkaar liggen op de kleurencirkel.
+4. Met die tint worden een lichte achtergrond en een donkere voorgrond gemaakt.
+
+**Waarom dit handig is:** dezelfde persoon krijgt altijd dezelfde kleur, op elke pagina en na elke herlaadbeurt. Gebruikers herkennen elkaar zo aan de kleur.
+
+**Om op te letten:**
+
+- **Gebruik steeds dezelfde schrijfwijze.** `"Thomas Smith"` en `"T. Smith"` krijgen waarschijnlijk verschillende kleuren. Gebruik bij voorkeur de volledige naam uit je data.
+- **Kleuren kunnen dubbel voorkomen.** Er zijn 12 tinten, dus twee verschillende personen kunnen dezelfde kleur krijgen.
+- **Alleen initialen als seed:** twee personen met dezelfde initialen en zonder `tooltip` krijgen dezelfde kleur.
+- **Geen seed:** een icoon zonder `tooltip` en zonder `initials` krijgt een willekeurige kleur, die bij elke paginalading anders kan zijn.
+
+De kleurberekening zit in de helper `getColorPair(seed)` in `lib/helpers/helpers.ts`. Die kun je ook gebruiken voor andere componenten, zoals badges of tags.
+
+<Canvas of={AvatarStories.AutoColor} />
+
+## Groottes
+
+<Canvas of={AvatarStories.Sizes} />
+
+## Met tekst (media object)
+
+Zet de avatar in een `media-object` om hem naast een titel en subtitel te tonen.
+
+<Canvas of={AvatarStories.MediaObject} />
 
 ### Props
- 
+
 <Controls />
 
+---
+
+# Stacked avatar
+
+De `StackedAvatar` toont een rij avatars die elkaar deels overlappen, met een teller voor extra personen die niet zichtbaar zijn.
+
+```tsx
+<StackedAvatar
+    autoColor
+    size={SizeDefinitions.Small}
+    counter={4}
+    avatars={[
+        <Avatar key="ts" initials="TS" tooltip="Thomas Smith" />,
+        <Avatar key="js" initials="JS" tooltip="Jackson Smutt" />,
+    ]}
+/>
+```
+
+## Belangrijkste functionaliteiten
+
+- **Meerdere avatars:** geef een lijst van `Avatar`-elementen mee via `avatars`. Geef elke avatar een unieke `key`.
+- **Teller:** `counter` toont `+4`, `+12` enzovoort met een neutrale kleur. Bij `0` of zonder `counter` wordt er geen teller getoond.
+- **Grootte voor de hele groep:** `size` geldt voor alle avatars in de groep. Een `size` op een losse avatar gaat daarvoor.
+- **Automatische kleuren voor de hele groep:** `autoColor` zet automatische kleuren aan voor alle avatars. Met `autoColor={false}` op een losse avatar zet je het voor die avatar weer uit.
+- **Extra classes:** via `css`, bijvoorbeeld `css="mb-3"`.
+
+<Canvas of={AvatarStories.Stacked} />
+
+### Met automatische kleuren
+
+<Canvas of={AvatarStories.StackedAutoColor} />
+
+### Groottes
+
+<Canvas of={AvatarStories.StackedSizes} />

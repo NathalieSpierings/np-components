@@ -1,35 +1,105 @@
-import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
 import * as BasicLayoutStories from './BasicLayout.stories';
-import BasicLayoutComponent from '../BasicLayout';
- 
+
 <Meta of={BasicLayoutStories} />
- 
 
-# BasicLayout Component
+# BasicLayout
 
-De `BasicLayout` component biedt een eenvoudige pagina-layout zonder sidebars.  
-Het combineert een header, content-area en optionele pagina loader.
+De `BasicLayout` is een eenvoudige pagina-layout **zonder menu, sidebar en drawer**. Hij bestaat alleen uit een **header** (paginatitel en breadcrumb) en de **content** (via `<Outlet />` van React Router).
 
-## Belangrijkste functionaliteiten
+Geschikt voor pagina's die buiten de `MainLayout` vallen, zoals login-, fout- of printpagina's.
 
-- **Pagina loader:** toont een `PageLoader` component wanneer `loading` true is.
-- **Header ondersteuning:**  
-  - Toont `pageTitle` en breadcrumbs via `Header` component.  
-  - Header kan worden verborgen via layout context (`showHeader`).
-- **Content area:**  
-  - `Outlet` wordt gebruikt om nested routes te renderen.
-- **Layout context integratie:**  
-  - Respecteert `fullscreen` en `showHeader` vanuit `LayoutContext`.
-- **SVG sprite integratie:**  
-  - Inclusief globale `SvgSprite` voor iconen.
+De opbouw gebruikt dezelfde `main-layout` classes als de `MainLayout`, zodat header en content er hetzelfde uitzien:
 
+```
+main-layout
+└── pc-layout__main
+    ├── main-layout__header   (titel, breadcrumbs)
+    └── main-layout__content  (<Outlet />)
+```
 
-### Default
+## Gebruik
+
+`BasicLayout` rendert een `<Outlet />`. Gebruik hem daarom als layout van een eigen route-tak, naast de tak met de `MainLayout`:
+
+```tsx
+const TemplateBasicLayout = () => {
+    const nav = useNavigation();
+    const loading = nav.state === 'loading';
+    const { pageTitle, breadcrumbItems } = useLayoutContext();
+
+    return (
+        <BasicLayout
+            loading={loading}
+            pageTitle={pageTitle}
+            breadcrumbItems={breadcrumbItems}
+        />
+    );
+};
+
+const router = createBrowserRouter([
+    { path: '/', element: <TemplateLayout />, children: routes },             // MainLayout
+    { path: '/basic', element: <TemplateBasicLayout />, children: basicRoutes } // BasicLayout
+]);
+```
+
+### Props
+
+| Prop | Omschrijving |
+|---|---|
+| `loading` | Toont de `PageLoader`. |
+| `pageTitle` | Titel in de header. |
+| `breadcrumbItems` | Breadcrumbs in de header. |
+
+## Paginatitel en breadcrumb
+
+Net als bij de `MainLayout` zet een pagina zelf de titel en breadcrumb via de `LayoutContext`, met de hooks `usePageTitle` en `useBreadcrumb`:
+
+```tsx
+const MyPage = () => {
+    usePageTitle('Mijn pagina', []);
+
+    useBreadcrumb([
+        { label: 'Home', href: '/' },
+        { label: 'Mijn pagina', href: '/basic' },
+    ]);
+
+    return <p>Content...</p>;
+};
+```
+
+## Layout context
+
+De `BasicLayout` gebruikt deze waarden uit de `LayoutContext`:
+
+- `showHeader`: header tonen of verbergen.
+- `fullscreen`: zet de class `main-layout--fullscreen` op de layout. Die zet `--ml-padding` op `0`, waardoor de content geen padding meer heeft.
+
+```tsx
+const { setShowHeader } = useLayoutContext();
+
+useEffect(() => {
+    setShowHeader(false);
+    return () => setShowHeader(true);
+}, [setShowHeader]);
+```
+
+Herstel de waarden bij het verlaten van de pagina (zoals hierboven in de cleanup). De `LayoutContext` wordt gedeeld met de `MainLayout`.
+
+### Zonder header
+
+<Canvas of={BasicLayoutStories.WithoutHeader} />
+
+### Fullscreen
+
+<Canvas of={BasicLayoutStories.Fullscreen} />
+
+## Loading
+
+<Canvas of={BasicLayoutStories.Loading} />
+
+## Default
 
 <Canvas of={BasicLayoutStories.Default} />
 
-
-### Props
- 
 <Controls />
-
