@@ -1,0 +1,66 @@
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+import * as CollapsibleMenuStories from './CollapsibleMenu.stories';
+
+<Meta of={CollapsibleMenuStories} />
+
+# CollapsibleMenu Component
+
+De `CollapsibleMenu` component is een verticaal menu met onbeperkt veel levels. Elk item is een `ContentItem`: het icoon in de prefix, titel en optionele omschrijving in de content, en badge en chevron in de postfix.
+
+## Belangrijkste functionaliteiten
+
+- **Multi-level:** items met `children` klappen in en uit, met animatie via `framer-motion`.
+- **Links en acties:** een item met `url` wordt een `NavLink` (met actieve status), een item met `onClick` een knop.
+- **Iconen:** `icon` is een `ReactNode`, zodat je zelf een `<Icon/>` met de gewenste size en styling meegeeft. De chevron is te vervangen met `chevronIcon`.
+- **Accordion:** met `accordion` staat per level maximaal één item open.
+- **Controlled of uncontrolled:** gebruik `openIds` en `onOpenChange`, of alleen `defaultOpenIds`.
+- **Styling:** extra CSS-klassen via `menuCss`; inspringing via de CSS-variabele `--collapsible-menu-indent`.
+- **Hulplijnen:** standaard loopt er een lijn langs elk submenu; zet `showLines={false}` om die te verbergen.
+- **Collapsed:** met `collapsed` toont het menu alleen de iconen (of de eerste letter), met de titel als tooltip. Een klik op een item met children zet dat item open en roept `onCollapsedClick` aan, bijvoorbeeld om een PanelLayout-aside uit te klappen. Zet `collapsedTooltips={false}` als de container zelf al opent bij hover. Het icoon staat in een vak met de breedte `--collapsible-menu-collapsed-width` (in een PanelLayout automatisch de strip-breedte).
+
+### Default
+
+<Canvas of={CollapsibleMenuStories.Default} />
+
+### With icons
+
+<Canvas of={CollapsibleMenuStories.WithIcons} />
+
+### Accordion
+
+<Canvas of={CollapsibleMenuStories.Accordion} />
+
+### Controlled
+
+<Canvas of={CollapsibleMenuStories.Controlled} />
+
+### On click
+
+<Canvas of={CollapsibleMenuStories.OnClick} />
+
+### Custom chevron
+
+<Canvas of={CollapsibleMenuStories.CustomChevron} />
+
+### Without lines
+
+<Canvas of={CollapsibleMenuStories.WithoutLines} />
+
+### Collapsed
+
+<Canvas of={CollapsibleMenuStories.Collapsed} />
+
+### In panel layout
+
+```tsx
+const { id, collapsed } = usePanelLayoutAside();
+const { open } = usePanelLayout();
+
+<CollapsibleMenu items={items} collapsed={collapsed} onCollapsedClick={() => open(id)} />
+```
+
+<Canvas of={CollapsibleMenuStories.InPanelLayout} />
+
+### Props
+
+<Controls />

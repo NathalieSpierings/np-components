@@ -18,7 +18,7 @@ const Art: React.FC<ArtProps> = ({ art, size, artCss = '', svgCss = '', ...rest 
     }
 
     return (
-        <div className={`art ${size ? "art-" + size : null} ${artCss}`}>
+        <div className={`art ${size ? "art-" + size : ''} ${artCss}`}>
             <ArtComponent className={svgCss} {...rest} />
         </div>
     );

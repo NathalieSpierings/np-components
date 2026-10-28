@@ -210,7 +210,7 @@ export enum CenteredSizeDefinition {
 
 export enum ArtDefinitions {
     Contract = 'Contract',
-    Document = 'Document',
+    ClaimManager = 'ClaimManager',
     Suite = 'Suite',
     Dossier = 'Dossier',
     Igo = 'Igo',
@@ -223,6 +223,11 @@ export enum ArtDefinitions {
     Forbidden = 'Forbidden',
     NotFound = 'NotFound',
     ServerError = 'ServerError',
+    Faq = "Faq",
+    Warning = "Warning",
+    UnderConstruction = "UnderConstruction",
+    Bulb = "Bulb",
+    Question = "Question"
 }
 
 export enum IconDefinitions {
