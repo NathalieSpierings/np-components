@@ -1,10 +1,195 @@
 @use "./mixins";
 
 @layer contentItem, buttons, dismiss, resizeHandle, accordion, alert, art, avatar, badge,
-bottomSheet, card, collapsible, columnLayout, columns, dismissableBox,
+bottomSheet, card, collapsible,  collapsibleMenu, quickAccessMenu, columnLayout, columns, dismissableBox,
 collection, datagrid, filterbar, drawer, duocolumn, errorPages, gridCollection,
 gridLayout, loader, modal, navs, onboarding, pageOverlay, popover, slider, tabs, tags,
 panelLayout, toastr, toolbar, tooltip, widget, wizard;
+
+@layer collapsibleMenu {
+    .collapsible-menu {
+        --collapsible-menu-indent: 1.25rem;
+        --collapsible-menu-gap: var(--page-padding-2xs);
+        --collapsible-menu-accent: var(--color-primary);
+        --collapsible-menu-accent-width: 2px;
+        --collapsible-menu-collapsed-width: var(--panel-layout-collapsed-width, 75px);
+
+        &__items {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        &__item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__link {
+            display: flex;
+            width: 100%;
+            padding: var(--page-padding-2xs) var(--page-padding-xs);
+            border: 0;
+            border-radius: var(--radius);
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+
+            &:hover { background: var(--color-hover); text-decoration: none; }
+            &.active {
+                background: var(--color-active);
+                font-weight: var(--fw-semibold);
+            }
+            &:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+            &:disabled { opacity: 0.5; cursor: not-allowed; }
+        }
+
+        > .collapsible-menu__items > .collapsible-menu__item > .collapsible-menu__link.active,
+        > .collapsible-menu__items > .collapsible-menu__item.open > .collapsible-menu__link {
+            box-shadow: inset var(--collapsible-menu-accent-width) 0 0 var(--collapsible-menu-accent);
+        }
+
+        // Items op het eerste niveau: rechte hoeken (zoals MainMenu); diepere items blijven afgerond
+        > .collapsible-menu__items > .collapsible-menu__item > .collapsible-menu__link {
+            border-radius: 0;
+        }
+
+        .content-item {
+            gap: var(--collapsible-menu-gap);
+            flex-wrap: nowrap;
+
+            &__prefix,
+            &__postfix {
+                gap: var(--collapsible-menu-gap);
+                flex: 0 0 auto;
+                margin-left: auto;
+
+                > div,
+                > button {
+                    margin-inline-start: 0;
+                }
+            }
+
+            &__prefix {
+                margin-left: 0;
+            }
+        }
+
+        &__title,
+        &__description {
+            display: block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        &__description {
+            font-size: var(--fs-xs);
+            opacity: 0.7;
+        }
+
+        &__chevron {
+            display: inline-flex;
+        }
+
+        &__submenu {
+            overflow: hidden;
+
+            > .collapsible-menu__items {
+                margin-block: 2px;
+                margin-inline-start: var(--collapsible-menu-indent);
+                padding-inline-start: var(--page-padding-2xs);
+                border-inline-start: 1px solid var(--color-border);
+            }
+        }
+  &--no-lines &__submenu > &__items {
+            border-inline-start-color: transparent;
+        }
+
+        &__initial {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--icon-size, 20px);
+            height: var(--icon-size, 20px);
+            font-weight: var(--fw-semibold);
+            text-transform: uppercase;
+        }
+
+        &--collapsed {
+            .collapsible-menu__link {
+                padding-inline: 0;
+            }
+
+            .content-item__prefix {
+                flex: 0 0 var(--collapsible-menu-collapsed-width);
+                justify-content: center;
+            }
+
+            .content-item__meta,
+            .content-item__postfix {
+                display: none;
+            }
+        }
+    }
+}
+@layer quickAccessMenu {
+    .quick-access-menu {
+        --quick-access-menu-columns: 3;
+        --quick-access-menu-tile-size: 11rem;
+        // Art klein: .art leest --art-size als er geen size is gezet
+        --art-size: 4.8rem;
+
+        display: grid;
+        grid-template-columns: repeat(var(--quick-access-menu-columns), var(--quick-access-menu-tile-size));
+        gap: var(--page-padding-2xs);
+        padding: var(--page-padding-xs);
+
+        &__tile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: var(--page-padding-2xs);
+            aspect-ratio: 1 / 1;
+            min-width: 0;
+            padding: var(--page-padding-xs);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            background: var(--color-surface);
+            color: inherit;
+            font: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s;
+
+            &:hover { background: var(--color-hover); text-decoration: none; }
+            &.active { background: var(--color-active); }
+            &:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+            &:disabled { opacity: 0.5; cursor: not-allowed; }
+        }
+
+        &__visual {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: var(--art-size);
+        }
+
+        &__label {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: var(--fs-xs);
+        }
+    }
+}
 
 @layer contentItem {
 

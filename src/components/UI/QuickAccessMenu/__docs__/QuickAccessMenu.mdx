@@ -1,0 +1,50 @@
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
+import * as QuickAccessMenuStories from './QuickAccessMenu.stories';
+
+<Meta of={QuickAccessMenuStories} />
+
+# QuickAccessMenu Component
+
+De `QuickAccessMenu` component is een snelmenu, vergelijkbaar met "Top apps" in Windows Zoeken: een icoon als toggle, en in de dropdown een raster met tegels. Elke tegel toont een art-illustratie (of een eigen icoon) met een label.
+
+## Belangrijkste functionaliteiten
+
+- **Toggle:** standaard `<Icon icon={IconDefinitions.list_apps} />`; aan te passen met `toggleIcon` en optioneel `toggleLabel`.
+- **Tegels:** een item toont `art` (via `<Art/>`, in het klein) of anders `icon`. Een item met `url` wordt een `NavLink` (met actieve status), anders een knop met `onClick`. Na een keuze sluit de dropdown.
+- **Raster:** `columns` bepaalt het aantal tegels naast elkaar (default 3).
+- **Hoogte:** `maxHeight` is de maximale hoogte van de dropdown in px, daarna scrolt de inhoud (default 420; de gewone `Dropdown` gebruikt 300).
+- **Header en footer:** via `title` en `footer`.
+- **Controlled of uncontrolled:** gebruik `open` en `onOpenChange`, of laat het menu zelf zijn status bijhouden.
+- **Styling:** CSS-variabelen `--quick-access-menu-tile-size` (tegelgrootte) en `--art-size` (grootte van de art); extra klassen via `menuCss`.
+
+### Default
+
+<Canvas of={QuickAccessMenuStories.Default} />
+
+### With icons
+
+<Canvas of={QuickAccessMenuStories.WithIcons} />
+
+### Four columns
+
+<Canvas of={QuickAccessMenuStories.FourColumns} />
+
+### With links
+
+<Canvas of={QuickAccessMenuStories.WithLinks} />
+
+### With footer
+
+<Canvas of={QuickAccessMenuStories.WithFooter} />
+
+### Custom toggle
+
+<Canvas of={QuickAccessMenuStories.CustomToggle} />
+
+### Disabled item
+
+<Canvas of={QuickAccessMenuStories.DisabledItem} />
+
+### Props
+
+<Controls />
