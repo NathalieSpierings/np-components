@@ -4,6 +4,68 @@
 @use "sass:string";
 @use "sass:map";
 
+$primary: #db7e49;
+
+
+$neutrals-dark: (
+    'neutral-50':  #FFFFFF, // text-strong
+    'neutral-100': #C7C7C7, // text
+    'neutral-200': #656460, // text-muted
+    'neutral-300': #424242, // surface-light-subtle
+    'neutral-400': #3a3a3a, // surface-dark-subtle
+    'neutral-500': #323232, // surface-light
+    'neutral-600': #2d2d2d, // surface-light-strong
+    'neutral-700': #292929, // surface-dark
+    'neutral-800': #242424, // surface-dark-strong
+    'neutral-900': #202020, // surface
+);
+
+
+
+$surface: #FAF9F7; 
+$darkStrong: #eae6e3;// isabilline
+$dark: lighten($darkStrong, 3%);
+$darkSubtle: lighten($dark, 3%);
+
+$light: #FDFCFB; 
+$lightSubtle: darken($light, 2%);
+$lightStrong: darken($light, 4%);
+
+$neutrals-light: (	
+    'neutral-50':  #201F1D, // text-strong
+    'neutral-100': #494745, // text
+    'neutral-200': #656360, // text-muted
+    'neutral-300': $lightSubtle, // surface-light-subtle
+	  'neutral-400': $darkSubtle, // surface-dark-subtle
+    'neutral-500': $light, // surface-light
+    'neutral-600': $lightStrong, // surface-light-strong
+    'neutral-700': $dark, // surface-dark
+    'neutral-800': $darkStrong, // surface-dark-strong
+    'neutral-900': #f9f7f5, // surface
+
+	/*
+	 'neutral-50':  #201F1D, // text-strong
+    'neutral-100': #494745, // text
+    'neutral-200': #656360, // text-muted
+    'neutral-300': #E9E6E1, // surface-light-subtle
+	'neutral-400': #EEEBE7, // surface-dark-subtle
+    'neutral-500': #F2F0ED, // surface-light
+    'neutral-600': #E5E1DB, // surface-light-strong
+    'neutral-700': #E9E6E1, // surface-dark
+    'neutral-800': #E1DCD5, // surface-dark-strong
+    'neutral-900': #FAF8F6, // surface
+	*/
+	
+);
+$surface: #FAF9F7; 
+$darkStrong: #eae6e3;
+$dark: lighten($darkStrong, 3%);
+$darkSubtle: lighten($dark, 4%);
+
+$light: #FDFCFB; 
+$lightSubtle: darken($light, 2%);
+$lightStrong: darken($light, 4%);
+
 
 $colors: (
   "black": #000000,
@@ -18,7 +80,9 @@ $colors: (
   "pale": #FBB7A7,
   "pepper": #9A928A,
   "sand": #CAC6C3,
-  "transparent": transparent
+  "transparent": transparent,
+  "secondary":  #173D4B,
+  "tertiary": #587068,
 );
 
 $shades: (
@@ -43,12 +107,15 @@ $shades: (
   "mulberry": ("base": #D06495, "5": #f6e0ea, "10":#ecc1d5, "20": #de93b5, "30": #A65077),
   "pink": ("base": #F691BE, "5": #fde9f2, "10": #fbd3e5, "20": #f9b2d2, "30": #E17EAA),
   "brown": ("base": #87705B, "5": #e7e2de, "10": #cfc6bd, "20": #ab9b8c, "30": #6C5A49),
-  "secondary": ("base": #5EAFB1, "5": #ddffff, "10": #c1edee, "20": #88cacb, "30": #3f898b),
+  //"secondary": ("base": #5EAFB1, "5": #ddffff, "10": #c1edee, "20": #88cacb, "30": #3f898b),
 );
+
+
 
 $themes: (
   light: (
-		theme-100: #fffffe,
+    /*
+    	theme-100: #fffffe,
 		theme-200: #fefcfc,
 		theme-300: #f9f7f5,
 		theme-400: #f2eeeb,
@@ -57,10 +124,20 @@ $themes: (
 		theme-700: #cfcbc9,
 		theme-800: #c5c2bf,
 		theme-900: #bbb8b6,
-		text-light: #a2a1a0,
-		text: #3c3c3c,
-		text-dark: #000000,
-		primary: #ff8b5d,
+    */
+		theme-100: #fffffe,
+		theme-200: map.get($neutrals-light, 'neutral-500'),
+		theme-300: map.get($neutrals-light, 'neutral-900'),
+		theme-400: map.get($neutrals-light, 'neutral-700'),
+		theme-500: map.get($neutrals-light, 'neutral-800'),
+		theme-600: #d8d5d2,
+		theme-700: #cfcbc9,
+		theme-800: #c5c2bf,
+		theme-900: #bbb8b6,
+		text-light: map.get($neutrals-light, 'neutral-200'),
+		text: map.get($neutrals-light, 'neutral-100'),
+		text-dark: map.get($neutrals-light, 'neutral-50'),
+		primary: $primary,//#ff8b5d,
 		primary-5: #ffdcce,
 		primary-10: #ffc5ae,
 		primary-20: #ffae8e,

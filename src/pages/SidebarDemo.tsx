@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { MainLayoutSidebarContent, MainLayoutSidebarFooter } from "../components/Page/Main/MainLayoutSidebar";
-import CollapsibleMenu, { CollapsibleMenuItem } from "../components/UI/CollapsibleMenu/CollapsibleMenu";
+import CollapsibleMenu, { CollapsibleMenuItem } from "../components/Page/Navigation/CollapsibleMenu/CollapsibleMenu";
 import Button from "../components/UI/Button/Button";
 import { formsDemoComponents } from "./Demo/Forms/formsStories";
 import { DemoComponent } from "./Demo/Stories/storyRegistry";

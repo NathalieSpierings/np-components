@@ -1,24 +1,171 @@
-import { Canvas, Meta, Controls  } from '@storybook/addon-docs/blocks';
+import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
 import * as DropdownStories from './Dropdown.stories';
-import DropdownComponent from '../Dropdown';
- 
+
 <Meta of={DropdownStories} />
- 
 
 # Dropdown Component
 
-Het `Dropdown` component biedt een flexibele manier om keuzemenu's weer te geven binnen je applicatie. 
-Het ondersteunt zowel standaard menu-items als volledig aangepaste children, tabs, headers, icons, en verschillende richtingen. Het component is interactief, sluit automatisch wanneer er buiten wordt geklikt en kan gebruikt worden in formulieren of navigatie-elementen.
+Het `Dropdown` component toont een uitklapmenu bij een toggle-knop. De inhoud is een menu (met submenu's), tabs, of
+volledig eigen content. De dropdown wordt via een portal in `document.body` gerenderd en positioneert zich ten opzichte
+van de toggle, binnen het scherm. Hij sluit bij een klik buiten de dropdown, met Escape, of na het kiezen van een
+menu-item.
 
-Het `Dropdown` component is ideaal voor navigatie, filters of elke situatie waarbij een compact en interactief keuzemenu gewenst is. Het biedt uitgebreide aanpassingsmogelijkheden terwijl de interactie intuïtief blijft.
+```tsx
+<Dropdown
+    dropdownToggle={{ label: 'Acties', arrow: true }}
+    menuItems={[
+        { id: 'edit', label: 'Bewerken', icon: <Icon icon={IconDefinitions.pencil} />, onClick: edit },
+        { id: 'remove', label: 'Verwijderen', onClick: remove },
+    ]}
+/>
+```
 
+## Inhoud
 
-### Default 
+De dropdown toont één van deze drie, in deze volgorde van voorrang:
+
+1. **`tabs` + `tabPanes`:** tabs, met per tab een menu (`menuItems`) of eigen `content`, en eventueel een eigen zoekveld.
+2. **`menuItems`:** een menu, met submenu's via `items`.
+3. **`children`:** volledig eigen content.
+
+### DropdownMenuItem
+
+| Prop | Type | Omschrijving |
+|---|---|---|
+| `id` | `string \| number` | Unieke sleutel. |
+| `label` | `ReactNode` | Tekst van het item. |
+| `icon` | `ReactNode` | Icoon, bv. `<Icon/>`. |
+| `onClick` | `() => void` | Actie; de dropdown sluit daarna (niet bij een menu in tabs). |
+| `items` | `DropdownMenuItem[]` | Submenu. |
+| `selected` | `boolean` | Toont het item als gekozen. |
+| `disabled` | `boolean` | Niet klikbaar. |
+| `divider` | `boolean` | Scheidingslijn. |
+
+### Tabs
+
+```tsx
+<Dropdown
+    dropdownToggle={{ label: 'Kies', arrow: true }}
+    tabs={[{ id: 'a', title: 'Tab A' }, { id: 'b', title: 'Tab B' }]}
+    tabPanes={[
+        { tabId: 'a', menuItems: [...], search: { enabled: true, placeholder: 'Zoeken…' } },
+        { tabId: 'b', content: <p>Eigen content</p> },
+    ]}
+/>
+```
+
+Een klik op een menu-item in een tab sluit de dropdown níet; gebruik `open` en `setOpen` als dat wel moet.
+
+## Toggle
+
+`dropdownToggle` bepaalt de knop:
+
+| Prop | Type | Omschrijving |
+|---|---|---|
+| `label` | `ReactNode` | Inhoud van de knop; mag ook een `<Icon/>` zijn. |
+| `prefix` | `ReactNode` | Iets vóór het label. |
+| `arrow` | `boolean` | Pijltje achter het label. |
+| `variant` | `'default' \| 'input'` | `input` toont de toggle als een formulierveld. |
+| `dropdownToggleCss` | `string` | Extra CSS-klassen op de knop. |
+
+## Header en footer
+
+`dropdownHeader` en `dropdownFooter` hebben dezelfde vorm:
+
+| Prop | Type | Omschrijving |
+|---|---|---|
+| `content` | `ReactNode` | Inhoud. |
+| `border` | `boolean` | Lijn tussen header/footer en de inhoud. |
+| `onClick` | `() => void` | Gereserveerd: wordt nog niet gebruikt. |
+| `keepOpen` | `boolean` | Gereserveerd: wordt nog niet gebruikt. |
+
+Wil je een actie in de header of footer, zet dan zelf een knop of link in `content`.
+
+## Zoeken
+
+Met `enableSearch` krijgt een menu een zoekveld. Het filtert ook in submenu's en klapt die open bij resultaten.
+Gebruik `searchPlaceholder`, `searchNoResultsText` (default "Geen resultaten") en `searchBorder`. Bij tabs stel je
+zoeken per tab in, via `tabPanes[].search`.
+
+## Positie
+
+- **`verticalPosition`:** `DropdownVerticalPosition.Down` (default, onder de toggle) of `Up` (erboven).
+- **`horizontalPosition`:** de kant waar de dropdown naartoe uitklapt. `DropdownHorizontalPosition.Left` (default):
+  de rechterkant van de dropdown staat gelijk met de rechterkant van de toggle. `Right`: de linkerkant staat gelijk
+  met de linkerkant van de toggle.
+
+Past de dropdown niet in de gekozen richting, dan klapt hij om naar de andere kant. Hij blijft altijd minstens 8px
+binnen het scherm.
+
+## Afmetingen
+
+- **`maxHeight`:** maximale hoogte in px (default `300`). Daarboven scrolt de inhoud.
+- **`maxWidth`:** maximale breedte, in px of als CSS-waarde. Zonder waarde geldt de CSS-variabele `--dropdown-max-width`
+  (`min(48rem, 100vw - 2rem)`). Daarboven loopt de inhoud door op de volgende regel.
+
+## Controlled
+
+Zonder `open` houdt de dropdown zelf bij of hij open is. Met `open` en `setOpen` bepaal je dat zelf, bijvoorbeeld om
+hem te sluiten na een keuze in eigen content (zoals de `QuickAccessMenu` doet).
+
+## Styling
+
+- **`dropdownCss`:** extra CSS-klassen op de dropdown.
+- **`background`, `borderColor`, …:** de props van `Box` (bv. `background={ColorDefinitions.SurfaceDark}`).
+- **CSS-variabelen:** `--dropdown-min-width` (22rem) en `--dropdown-max-width`.
+
+## Voorbeelden
+
+### Default
 
 <Canvas of={DropdownStories.Default} />
 
+### Menu
+
+<Canvas of={DropdownStories.DropdownMenuClick} />
+<Canvas of={DropdownStories.LongMenu} />
+<Canvas of={DropdownStories.WithIcon} />
+
+### Multi-level menu
+
+<Canvas of={DropdownStories.MultiLevelMenu} />
+<Canvas of={DropdownStories.MultiLevelMenuAndSearch} />
+
+### Header en footer
+
+<Canvas of={DropdownStories.WithHeader} />
+<Canvas of={DropdownStories.WithHeaderAndBorder} />
+<Canvas of={DropdownStories.WithFooter} />
+<Canvas of={DropdownStories.WithFooterAndBorder} />
+<Canvas of={DropdownStories.WithHeaderAndFooter} />
+
+### Zoeken
+
+<Canvas of={DropdownStories.WithSearch} />
+<Canvas of={DropdownStories.WithSearchAndBorderBottom} />
+<Canvas of={DropdownStories.WithHeaderAndSearch} />
+
+### Tabs
+
+<Canvas of={DropdownStories.WidthTabs} />
+<Canvas of={DropdownStories.WidthTabsAndSearch} />
+
+### Eigen content
+
+<Canvas of={DropdownStories.CustomContent} />
+<Canvas of={DropdownStories.CustomLongContent} />
+
+### Positie
+
+<Canvas of={DropdownStories.DirectionUp} />
+<Canvas of={DropdownStories.DirectionDown} />
+<Canvas of={DropdownStories.DirectionLeft} />
+<Canvas of={DropdownStories.DirectionRight} />
+
+### Achtergrond
+
+<Canvas of={DropdownStories.Background} />
 
 ### Props
- 
-<Controls />
 
+<Controls />

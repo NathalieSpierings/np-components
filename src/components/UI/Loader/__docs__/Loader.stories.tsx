@@ -10,6 +10,7 @@ import { DatagridGetDataArguments } from '../../../Data/Datagrid/Config/Datagrid
 import Datagrid from '../../../Data/Datagrid/Datagrid';
 import { useTableQueryClientFilter } from '../../../Data/Datagrid/Hooks/useTableQueryClientFilter';
 import Loader from '../Loader';
+import Button from '../../Button/Button';
 
 const queryClient = new QueryClient();
 
@@ -36,7 +37,13 @@ export default meta;
 type Story = StoryObj<typeof Loader>;
 
 export const Default: StoryFn = () => {
-    return <Loader loading={true} />;
+    const [loading, setLoading] = useState<boolean>(false);
+    return (
+        <>
+            <Button key="loadingEnabler" onClick={() => setLoading(!loading)}> {loading === false ? "Enable" : "Disable"} loading</Button>
+            <Loader loading={loading} />
+        </>
+    )
 };
 
 export const Centered: StoryFn = () => {

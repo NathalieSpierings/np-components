@@ -7,7 +7,6 @@ import * as ButtonStories from "../../../components/UI/Button/__docs__/Button.st
 import * as CardStories from "../../../components/UI/Card/__docs__/Card.stories";
 import * as CheckboxAnimatedStories from "../../../components/UI/CheckboxAnimated/__docs__/CheckboxAnimated.stories";
 import * as CollapsibleStories from "../../../components/UI/Collapsible/__docs__/Collapsible.stories";
-import * as CollapsibleMenuStories from "../../../components/UI/CollapsibleMenu/__docs__/CollapsibleMenu.stories";
 import * as QuickAccessMenuStories from "../../../components/UI/QuickAccessMenu/__docs__/QuickAccessMenu.stories";
 import * as CollectionStories from "../../../components/UI/Collection/__docs__/Collection.stories";
 import * as ConfirmDialogStories from "../../../components/UI/ConfirmDialog/__docs__/ConfirmDialog.stories";
@@ -51,7 +50,6 @@ export const uiDemoComponents: DemoComponent[] = [
     fromStoriesModule('card', 'Card', CardStories),
     fromStoriesModule('checkboxanimated', 'Checkbox animated', CheckboxAnimatedStories),
     fromStoriesModule('collapsible', 'Collapsible', CollapsibleStories),
-    fromStoriesModule('collapsiblemenu', 'Collapsible menu', CollapsibleMenuStories, { decorators: false }),
     fromStoriesModule('collection', 'Collection', CollectionStories),
     fromStoriesModule('confirmdialog', 'Confirm dialog', ConfirmDialogStories),
     fromStoriesModule('contentitem', 'Content item', ContentItemStories),

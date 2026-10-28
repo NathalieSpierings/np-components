@@ -51,6 +51,7 @@ export interface DropdownProps extends PropsWithChildren, BoxProps {
 	verticalPosition?: DropdownVerticalPosition;
 	horizontalPosition?: DropdownHorizontalPosition;
 	maxHeight?: number;
+	maxWidth?: number | string;   // in px, of een CSS-waarde; zonder waarde geldt --dropdown-max-width (48rem)
 	open?: boolean;
 	setOpen?: (open: boolean) => void;
 	dropdownCss?: string;
@@ -75,6 +76,7 @@ function Dropdown({
 	verticalPosition = DropdownVerticalPosition.Down,
 	horizontalPosition = DropdownHorizontalPosition.Left,
 	maxHeight = 300,
+	maxWidth,
 	open,
 	setOpen,
 	children,
@@ -311,6 +313,7 @@ function Dropdown({
 							left: coordinates.left,
 							zIndex: 9999,
 							maxHeight,
+							maxWidth,
 						}}
 					>
 						{dropdownHeader && (

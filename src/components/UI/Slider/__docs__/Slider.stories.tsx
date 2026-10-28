@@ -1,7 +1,7 @@
 import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
 
 import { ColorDefinitions } from '../../../../lib/utils/definitions';
-import ArtAanlevering from '../../../Base/Art/ArtAanlevering';
+import ArtAanlevering from '../../../Base/Art/ArtClaimManager';
 import ArtContract from '../../../Base/Art/ArtContract';
 import ArtDossier from '../../../Base/Art/ArtDossier';
 import ArtIgo from '../../../Base/Art/ArtIgo';

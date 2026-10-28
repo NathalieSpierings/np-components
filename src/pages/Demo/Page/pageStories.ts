@@ -2,6 +2,7 @@ import { DemoComponent, fromStoriesModule } from "../Stories/storyRegistry";
 import * as BasicLayoutStories from "../../../components/Page/Basic/__docs__/BasicLayout.stories";
 import * as BottomSheetStories from "../../../components/Page/BottomSheet/__docs__/BottomSheet.stories";
 import * as BurgerStories from "../../../components/Page/Burger/__docs__/Burger.stories";
+import * as CollapsibleMenuStories from "../../../components/Page/Navigation/CollapsibleMenu/__docs__/CollapsibleMenu.stories";
 import * as LogoStories from "../../../components/Page/Logo/__docs__/Logo.stories";
 import * as MainLayoutStories from "../../../components/Page/Main/__docs__/MainLayout.stories";
 import * as BreadcrumbStories from "../../../components/Page/Navigation/Breadcrumb/__docs__/Breadcrumb.stories";
@@ -17,6 +18,7 @@ export const pageDemoComponents: DemoComponent[] = [
     fromStoriesModule('bottomsheet', 'Bottom sheet', BottomSheetStories),
     fromStoriesModule('breadcrumb', 'Breadcrumb', BreadcrumbStories, { decorators: false }),
     fromStoriesModule('burger', 'Burger', BurgerStories),
+    fromStoriesModule('collapsiblemenu', 'Collapsible menu', CollapsibleMenuStories, { decorators: false }),
     fromStoriesModule('logo', 'Logo', LogoStories),
     fromStoriesModule('mainlayout', 'Main layout', MainLayoutStories, { isolate: true }),
     fromStoriesModule('mainmenu', 'Main menu', MainMenuStories, { decorators: false }),

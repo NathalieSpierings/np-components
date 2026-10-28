@@ -1565,6 +1565,8 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		--color-background: var(--color-surface-light);
 		--color-border: var(--color-border-surface-light);
 		--dropdown-min-width: 22rem;
+		// Daarboven loopt de inhoud door op de volgende regel (en scrolt hij in de hoogte); nooit breder dan het scherm
+		--dropdown-max-width: min(48rem, calc(100vw - 2rem));
 		--dropdown-shadow: 0 4px 12px rgba(0, 0, 0, .10), 0 2px 4px rgba(0, 0, 0, .05);
 		--color-hover: var(--shadow-light);
 		--color-selected: var(--shadow-base);
@@ -1573,6 +1575,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 		flex-direction: column;
 		overflow: hidden;
 		min-width: var(--dropdown-min-width);
+		max-width: var(--dropdown-max-width);
 		background: var(--color-background);
 		box-shadow: var(--dropdown-shadow);
 		border-radius: var(--radius-sm);
