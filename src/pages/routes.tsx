@@ -2,9 +2,6 @@ import React from "react";
 import { matchPath } from "react-router";
 import ErrorPage from "../components/Page/ErrorPage/ErrorPage";
 import { proxyPrefix } from "../config";
-import ButtonDemo from "./Demo/Button/ButtonDemo";
-import CollectionPage from "./Demo/Collection/CollectionPage";
-import ContentItemPage from "./Demo/ContentItem/ContentItemPage";
 import ColumnFilterDemo from "./Demo/Datagrid/ColumnFilterDemo";
 import ColumnPinningDemo from "./Demo/Datagrid/ColumnPinningDemo";
 import ColumnReorderDemo from "./Demo/Datagrid/ColumnReorderDemo";
@@ -27,50 +24,47 @@ import DatagridTableInfoDemo from "./Demo/Datagrid/DatagridTableInfoDemo";
 import DatagridTabsDemo from "./Demo/Datagrid/DatagridTabsDemo";
 import DatagridToolbarDemo from "./Demo/Datagrid/DatagridToolbarDemo";
 import DatagridTest from "./Demo/Datagrid/Test/DatagridTest";
-import DismissButtonDemo from "./Demo/DismissButton/DismissButtonDemo";
-import DropdownPage from "./Demo/Dropdown/DropdownPage";
-import IconDemo from "./Demo/Icon/IconDemo";
-import ModalDemo from "./Demo/Modal/ModalDemo";
-import MultiselectDemo from "./Demo/Multiselect/MultiSelectDemo";
-import TagsPage from "./Demo/Tags/TagsPage";
-import ToolbarDemo from "./Demo/Toolbar/ToolbarDemo";
-import TooltipPage from "./Demo/Tooltip/TooltipPage";
-import DescriptionListDemo from "./Demo/Typography/DescriptionList";
-import CollapsibleMenuDemo from "./Demo/CollapsibleMenu/CollapsibleMenuDemo";
-import PanelLayoutDefault from "./Demo/PanelLayout/PanelLayoutDefault";
-import PanelLayoutOverlays from "./Demo/PanelLayout/PanelLayoutOverlays";
-import PanelLayoutOverlayGroup from "./Demo/PanelLayout/PanelLayoutOverlayGroup";
-import PanelLayoutSharedHeader from "./Demo/PanelLayout/PanelLayoutSharedHeader";
-import PanelLayoutControlled from "./Demo/PanelLayout/PanelLayoutControlled";
-import PanelLayoutAlwaysExpanded from "./Demo/PanelLayout/PanelLayoutAlwaysExpanded";
-import PanelLayoutMobileStartsOnAside from "./Demo/PanelLayout/PanelLayoutMobileStartsOnAside";
-import PanelLayoutMobileScreen from "./Demo/PanelLayout/PanelLayoutMobileScreen";
-import PanelLayoutSingleAside from "./Demo/PanelLayout/PanelLayoutSingleAside";
-import PanelLayoutWithoutHeaders from "./Demo/PanelLayout/PanelLayoutWithoutHeaders";
-import PanelLayoutMainOnly from "./Demo/PanelLayout/PanelLayoutMainOnly";
+import DropdownPage from "./Demo/Forms/Dropdown/DropdownPage";
+import MultiselectDemo from "./Demo/Forms/Multiselect/MultiSelectDemo";
+import ToolbarDemo from "./Demo/UI/Toolbar/ToolbarDemo";
+import PanelLayoutDefault from "./Demo/UI/PanelLayout/PanelLayoutDefault";
+import PanelLayoutOverlays from "./Demo/UI/PanelLayout/PanelLayoutOverlays";
+import PanelLayoutOverlayGroup from "./Demo/UI/PanelLayout/PanelLayoutOverlayGroup";
+import PanelLayoutSharedHeader from "./Demo/UI/PanelLayout/PanelLayoutSharedHeader";
+import PanelLayoutControlled from "./Demo/UI/PanelLayout/PanelLayoutControlled";
+import PanelLayoutAlwaysExpanded from "./Demo/UI/PanelLayout/PanelLayoutAlwaysExpanded";
+import PanelLayoutMobileStartsOnAside from "./Demo/UI/PanelLayout/PanelLayoutMobileStartsOnAside";
+import PanelLayoutMobileScreen from "./Demo/UI/PanelLayout/PanelLayoutMobileScreen";
+import PanelLayoutSingleAside from "./Demo/UI/PanelLayout/PanelLayoutSingleAside";
+import PanelLayoutWithoutHeaders from "./Demo/UI/PanelLayout/PanelLayoutWithoutHeaders";
+import PanelLayoutMainOnly from "./Demo/UI/PanelLayout/PanelLayoutMainOnly";
 import FormsDemoPage from "./Demo/Forms/FormsDemoPage";
-import ArtDemo from "./Demo/Art/ArtDemo";
+import FormsOverviewPage from "./Demo/Forms/FormsOverviewPage";
+import UiDemoPage from "./Demo/UI/UiDemoPage";
+import UiOverviewPage from "./Demo/UI/UiOverviewPage";
+import PageDemoPage from "./Demo/Page/PageDemoPage";
+import PageOverviewPage from "./Demo/Page/PageOverviewPage";
 import DemoPage from "./DemoPage";
 import HomePage from "./HomePage";
 import ThemePage from "./ThemePage";
 import DatagridDetailsAndNestedDetailsDemo from "./Demo/Datagrid/DatagridDetailsAndNestedDetailsDemo";
-import LayoutPage from "./Demo/LayoutPage";
-import ColumnsScrollable from "./Demo/ColumnLayout/Columns/ColumnsScroll";
-import ColumnLayoutColumnsDemo from "./Demo/ColumnLayout/Columns/ColumnLayoutColumnsDemo";
-import ColumnLayoutToggleFromAsideDemo from "./Demo/ColumnLayout/ToggleFromAside";
-import WithTabs from "./Demo/ColumnLayout/WithTabs";
-import Scrollable from "./Demo/ColumnLayout/Scrollable";
-import MainPrimary from "./Demo/ColumnLayout/MainPrimary";
-import MainOnlyNoHeader from "./Demo/ColumnLayout/MainOnlyNoHeader";
-import MainOnly from "./Demo/ColumnLayout/MainOnly";
-import MainAndAsideWithHeader from "./Demo/ColumnLayout/MainAndAsideWithHeader";
-import MainAndAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideNoHeader";
-import MainAndAsideMainNoHeader from "./Demo/ColumnLayout/MainAndAsideMainNoHeader";
-import MainAndAsideAsideNoHeader from "./Demo/ColumnLayout/MainAndAsideAsideNoHeader";
-import FixedHeaders from "./Demo/ColumnLayout/Fixedheaders";
-import AsideRight from "./Demo/ColumnLayout/AsideRight";
-import AsidePrimary from "./Demo/ColumnLayout/AsidePrimary";
-import AsideLeft from "./Demo/ColumnLayout/AsideLeft";
+import ColumnsScrollable from "./Demo/UI/ColumnLayout/Columns/ColumnsScroll";
+import ColumnLayoutColumnsDemo from "./Demo/UI/ColumnLayout/Columns/ColumnLayoutColumnsDemo";
+import ColumnLayoutToggleFromAsideDemo from "./Demo/UI/ColumnLayout/ToggleFromAside";
+import WithTabs from "./Demo/UI/ColumnLayout/WithTabs";
+import Scrollable from "./Demo/UI/ColumnLayout/Scrollable";
+import MainPrimary from "./Demo/UI/ColumnLayout/MainPrimary";
+import MainOnlyNoHeader from "./Demo/UI/ColumnLayout/MainOnlyNoHeader";
+import MainOnly from "./Demo/UI/ColumnLayout/MainOnly";
+import MainAndAsideWithHeader from "./Demo/UI/ColumnLayout/MainAndAsideWithHeader";
+import MainAndAsideNoHeader from "./Demo/UI/ColumnLayout/MainAndAsideNoHeader";
+import MainAndAsideMainNoHeader from "./Demo/UI/ColumnLayout/MainAndAsideMainNoHeader";
+import MainAndAsideAsideNoHeader from "./Demo/UI/ColumnLayout/MainAndAsideAsideNoHeader";
+import FixedHeaders from "./Demo/UI/ColumnLayout/Fixedheaders";
+import AsideRight from "./Demo/UI/ColumnLayout/AsideRight";
+import AsidePrimary from "./Demo/UI/ColumnLayout/AsidePrimary";
+import AsideLeft from "./Demo/UI/ColumnLayout/AsideLeft";
+import ArtDemo from "./Demo/UI/Art/ArtDemo";
 
 
 export const getInitialMenuItem = (pathname: string) => {
@@ -101,16 +95,8 @@ export const routes = [
 		element: <DemoPage />,
 	},
 	{
-		path: "/demo/layout",
-		element: <LayoutPage />
-	},
-	{
 		path: "/demo/theme",
 		element: <ThemePage />
-	},
-	{
-		path: "/demo/tags",
-		element: <TagsPage />
 	},
 	{
 		path: '/demo/dg-details-and-nested-details',
@@ -206,56 +192,37 @@ export const routes = [
 		element: <DatagridToolbarDemo />
 	},
 	{
-		path: "/demo/btn",
-		element: <ButtonDemo />
-	},
-	{
 		path: "/demo/multiselect",
 		element: <MultiselectDemo />
-	},
-	{
-		path: "/demo/modal",
-		element: <ModalDemo />
-	},
-	{
-		path: "/demo/contentitem",
-		element: <ContentItemPage />
 	},
 	{
 		path: "/demo/dropdown",
 		element: <DropdownPage />
 	},
 	{
-		path: "/demo/collection",
-		element: <CollectionPage />
-	},
-	{
-		path: "/demo/tooltip",
-		element: <TooltipPage />
-	},
-	{
 		path: "/demo/toolbar",
 		element: <ToolbarDemo />
 	},
+	
 	{
-		path: "/demo/descriptionlist",
-		element: <DescriptionListDemo />
+		path: "/demo/ui/overview",
+		element: <UiOverviewPage />
 	},
 	{
-		path: "/demo/dismissbutton",
-		element: <DismissButtonDemo />
+		path: "/demo/ui/:component/:story",
+		element: <UiDemoPage />
 	},
 	{
-		path: "/demo/icon",
-		element: <IconDemo />
+		path: "/demo/page/overview",
+		element: <PageOverviewPage />
 	},
 	{
-		path: "/demo/collapsiblemenu",
-		element: <CollapsibleMenuDemo />
+		path: "/demo/page/:component/:story",
+		element: <PageDemoPage />
 	},
 	{
-		path: "/demo/art",
-		element: <ArtDemo />
+		path: "/demo/forms/overview",
+		element: <FormsOverviewPage />
 	},
 	{
 		path: "/demo/forms/:component/:story",
@@ -368,6 +335,10 @@ export const routes = [
 	{
 		path: "/demo/panellayout-main-only",
 		element: <PanelLayoutMainOnly />
+	},
+{
+		path: "/demo/art",
+		element: <ArtDemo />
 	},
 
 ];

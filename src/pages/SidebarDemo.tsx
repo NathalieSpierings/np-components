@@ -4,6 +4,9 @@ import { MainLayoutSidebarContent, MainLayoutSidebarFooter } from "../components
 import CollapsibleMenu, { CollapsibleMenuItem } from "../components/UI/CollapsibleMenu/CollapsibleMenu";
 import Button from "../components/UI/Button/Button";
 import { formsDemoComponents } from "./Demo/Forms/formsStories";
+import { DemoComponent } from "./Demo/Stories/storyRegistry";
+import { uiDemoComponents } from "./Demo/UI/uiStories";
+import { pageDemoComponents } from "./Demo/Page/pageStories";
 
 interface DemoLink {
     title: string;
@@ -15,6 +18,26 @@ const toMenuGroup = (id: string, title: string, links: DemoLink[]): CollapsibleM
     title,
     children: links.map((link) => ({ id: `${id}:${link.url}`, title: link.title, url: link.url })),
 });
+
+/** Menu voor componenten uit Storybook: Overview, eventuele extra items, daarna component > story. */
+const toStoriesMenu = (
+    prefix: string,
+    basePath: string,
+    components: DemoComponent[],
+    extraItems: CollapsibleMenuItem[] = [],
+): CollapsibleMenuItem[] => [
+    { id: `${prefix}:overview`, title: 'Overview', url: `${basePath}/overview` },
+    ...extraItems,
+    ...components.map((c) => ({
+        id: `${prefix}:${c.id}`,
+        title: c.title,
+        children: c.stories.map((s) => ({
+            id: `${prefix}:${c.id}:${s.id}`,
+            title: s.title,
+            url: `${basePath}/${c.id}/${s.id}`,
+        })),
+    })),
+];
 
 const SidebarDemo: React.FC = () => {
     const { pathname } = useLocation();
@@ -46,35 +69,31 @@ const SidebarDemo: React.FC = () => {
         { title: "Row actions", url: "/demo/dg-actions" },
     ];
 
-    const uiItems: DemoLink[] = [
-        { title: "Theme", url: "/demo/theme" },
-        { title: "Art", url: "/demo/art" },
-        { title: "Layout", url: "/demo/layout" },
-        { title: "Tags", url: "/demo/tags" },
-        { title: "Modal", url: "/demo/modal" },
-        { title: "Button", url: "/demo/btn" },
-        { title: "Content item", url: "/demo/contentitem" },
-        { title: "Collection", url: "/demo/collection" },
-        { title: "Tooltip", url: "/demo/tooltip" },
-        { title: "Description list", url: "/demo/descriptionlist" },
-        { title: "Dismiss button", url: "/demo/dismissbutton" },
-        { title: "Icons", url: "/demo/icon" },
-        { title: "Collapsible menu", url: "/demo/collapsiblemenu" },
-    ];
-
     const formsGroup: CollapsibleMenuItem = {
         id: 'forms',
         title: 'Forms',
-        children: formsDemoComponents.map((c) => ({
-            id: `forms:${c.id}`,
-            title: c.title,
-            children: c.stories.map((s) => ({
-                id: `forms:${c.id}:${s.id}`,
-                title: s.title,
-                url: `/demo/forms/${c.id}/${s.id}`,
-            })),
-        })),
+        children: toStoriesMenu('forms', '/demo/forms', formsDemoComponents),
     };
+
+    const pageGroup: CollapsibleMenuItem = {
+        id: 'page',
+        title: 'Page',
+        children: toStoriesMenu('page', '/demo/page', pageDemoComponents),
+    };
+
+    const panelLayoutItems: DemoLink[] = [
+        { title: 'Default', url: '/demo/panellayout' },
+        { title: 'Overlays', url: '/demo/panellayout-overlays' },
+        { title: 'Overlay group', url: '/demo/panellayout-overlay-group' },
+        { title: 'Shared header', url: '/demo/panellayout-shared-header' },
+        { title: 'Controlled from outside', url: '/demo/panellayout-controlled' },
+        { title: 'Always expanded', url: '/demo/panellayout-always-expanded' },
+        { title: 'Mobile starts on aside', url: '/demo/panellayout-mobile-starts-on-aside' },
+        { title: 'Mobile screen from outside', url: '/demo/panellayout-mobile-screen' },
+        { title: 'Single aside', url: '/demo/panellayout-single-aside' },
+        { title: 'Without headers', url: '/demo/panellayout-without-headers' },
+        { title: 'Main only', url: '/demo/panellayout-main-only' },
+    ];
 
     const columnLayoutItems: DemoLink[] = [
         { title: 'Default', url: '/demo/columnlayout' },
@@ -95,25 +114,21 @@ const SidebarDemo: React.FC = () => {
         { title: 'Columns aside scrollable', url: '/demo/columnlayout-columns-aside-scrollable' },
     ];
 
-    const panelLayoutItems: DemoLink[] = [
-        { title: 'Default', url: '/demo/panellayout' },
-        { title: 'Overlays', url: '/demo/panellayout-overlays' },
-        { title: 'Overlay group', url: '/demo/panellayout-overlay-group' },
-        { title: 'Shared header', url: '/demo/panellayout-shared-header' },
-        { title: 'Controlled from outside', url: '/demo/panellayout-controlled' },
-        { title: 'Always expanded', url: '/demo/panellayout-always-expanded' },
-        { title: 'Mobile starts on aside', url: '/demo/panellayout-mobile-starts-on-aside' },
-        { title: 'Mobile screen from outside', url: '/demo/panellayout-mobile-screen' },
-        { title: 'Single aside', url: '/demo/panellayout-single-aside' },
-        { title: 'Without headers', url: '/demo/panellayout-without-headers' },
-        { title: 'Main only', url: '/demo/panellayout-main-only' },
-    ];
+    const uiGroup: CollapsibleMenuItem = {
+        id: 'ui',
+        title: 'UI',
+        children: toStoriesMenu('ui', '/demo/ui', uiDemoComponents, [
+            { id: 'ui:art', title: 'Art', url: '/demo/art' },
+            { id: 'ui:theme', title: 'Theme', url: '/demo/theme' },
+            toMenuGroup('ui:panellayout', 'Panel layout', panelLayoutItems),
+            toMenuGroup('ui:columnlayout', 'Column layout', columnLayoutItems),
+        ]),
+    };
 
     const menuItems: CollapsibleMenuItem[] = [
-        toMenuGroup('columnlayout', 'Column layout', columnLayoutItems),
-        toMenuGroup('panellayout', 'Panel layout', panelLayoutItems),
-        toMenuGroup('ui', 'UI', uiItems),
+        uiGroup,
         formsGroup,
+        pageGroup,
         toMenuGroup('datagrid', 'Datagrid', datagridItems),
     ];
 
