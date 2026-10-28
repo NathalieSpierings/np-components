@@ -4,28 +4,28 @@ const ArtBulb: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
         <svg id="svg_art_bulb" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 500 500" {...props}>
                 <defs>
-                        <clipPath id="a">
+                        <clipPath id="bulb-a">
                                 <path fill="var(--art-light)" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M250.43 155.56c-46.89.66-85 39.11-85.34 86a86.4 86.4 0 0 0 32.26 68 23.7 23.7 0 0 1 7.56 11.14l4 12.37h85.48l4.09-12.62a23 23 0 0 1 7.38-10.8 86.57 86.57 0 0 0-55.45-154.06Z">
                                 </path>
                         </clipPath>
-                        <clipPath id="b">
+                        <clipPath id="bulb-b">
                                 <path fill="#999" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M284.06 398.88h-64.78l-7.71-54.9h80.2z">
 
                                 </path>
                         </clipPath>
-                        <clipPath id="c">
+                        <clipPath id="bulb-c">
                                 <path fill="#bfbfbf" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M214.68 371.21a2.31 2.31 0 0 1-.17-4.62l74-5.47a2.31 2.31 0 1 1 .34 4.61l-74 5.47Z">
                                 </path></clipPath>
-                        <clipPath id="d">
+                        <clipPath id="bulb-d">
                                 <path fill="#bfbfbf" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M216 380.13a2.31 2.31 0 0 1-.17-4.62l71.44-5.29a2.31 2.31 0 0 1 .34 4.61l-71.44 5.29Z">
                                 </path></clipPath>
-                        <clipPath id="e">
+                        <clipPath id="bulb-e">
                                 <path fill="#bfbfbf" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M217.21 389.05a2.31 2.31 0 0 1-.16-4.62l68.9-5.09a2.31 2.31 0 0 1 .34 4.61l-68.9 5.1Z">
                                 </path></clipPath>
-                        <clipPath id="f">
+                        <clipPath id="bulb-f">
                                 <path fill="#bfbfbf" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M218.48 398a2.31 2.31 0 0 1-.17-4.62l66.37-4.91a2.31 2.31 0 1 1 .34 4.61L218.65 398Z">
                                 </path></clipPath>
-                        <clipPath id="g">
+                        <clipPath id="bulb-g">
                                 <path fill="#92e3a9" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M300.71 326.66 298.17 355l-5.94 4.48h-81.12l-5.95-4.48-2.53-28.34 1.76-4.49h94.55z">
                                 </path>
                         </clipPath>
@@ -36,7 +36,7 @@ const ArtBulb: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 </g>
                 <path fill="var(--art-light)" d="M250.43 155.56c-46.89.66-85 39.11-85.34 86a86.4 86.4 0 0 0 32.26 68 23.7 23.7 0 0 1 7.56 11.14l4 12.37h85.48l4.09-12.62a23 23 0 0 1 7.38-10.8 86.57 86.57 0 0 0-55.45-154.06Z">
                 </path>
-                <g clipPath="url(#a)">
+                <g clipPath="url(#bulb-a)">
                         <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M230.6 325.91c.05 2.17 0 3.4 0 3.4M228.5 299.42c1.07 7.86 1.61 15.05 1.88 20.41M220.79 255.47h-6.08c6.29 9.53 10.09 22.66 12.39 35.22M232.89 252.98l-.71 2.49h-9.34M239.57 260.05l-.81 2.74-4.67-14.03-.74 2.59M249.22 256.74l-1.85 6.05-4.49-14.03-2.41 8.22M262.33 255.15l-1.87-6.39-4.49 14.03-4.3-14.03-1.26 4.11M273.92 255.47h-2.77l-1.9-6.71-4.68 14.03-1.47-5.03M277.55 284.21c2.36-10.47 5.86-20.85 11.07-28.74h-11.8M275 298.12c.48-3.37 1.07-6.86 1.77-10.36M273.27 314.62c.25-3.52.61-7.49 1.12-11.73M272.85 322.17c0-.92.09-1.92.14-3M272.7 329.31s0-1.64.06-4.47" />
                         <path fill="var(--art-accent)" d="M250.43 155.56c-46.89.66-85 39.11-85.34 86a86.4 86.4 0 0 0 32.26 68 23.7 23.7 0 0 1 7.56 11.14l4 12.37h85.48l4.09-12.62a23 23 0 0 1 7.38-10.8 86.57 86.57 0 0 0-55.45-154.06Zm1.24 141.7A66.28 66.28 0 1 1 317.94 231a66.27 66.27 0 0 1-66.27 66.26" opacity=".2" />
                 </g>
@@ -48,42 +48,42 @@ const ArtBulb: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
                 </path>
                 <path fill="#999" d="M284.06 398.88h-64.78l-7.71-54.9h80.2z">
                 </path>
-                <g fill="var(--art-light)" clipPath="url(#b)">
+                <g fill="var(--art-light)" clipPath="url(#bulb-b)">
                         <path d="m222.6 380.82.71 6.29 57.21-4.43.73-6.52zM244.15 397H274a5.48 5.48 0 0 0 4.74-2.75ZM223.61 389.78l.26 2.35a5.47 5.47 0 0 0 2 3.62l53.67-4.16.71-6.31ZM282.55 364.63l.22-1.98h-62.2l.75 6.73zM221.62 372.05l.69 6.09 59.24-4.59.7-6.31z" opacity=".4" />
                 </g>
                 <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M284.06 398.88h-64.78l-7.71-54.9h80.2z">
                 </path>
                 <path fill="#bfbfbf" d="M214.68 371.21a2.31 2.31 0 0 1-.17-4.62l74-5.47a2.31 2.31 0 1 1 .34 4.61l-74 5.47Z">
                 </path>
-                <g clipPath="url(#c)">
+                <g clipPath="url(#bulb-c)">
                         <path fill="var(--art-light)" d="M290.69 362.36a2.27 2.27 0 0 1-1.87 1.23l-74 5.47h-.17a1.38 1.38 0 1 1-.17-2.48l74-5.47a2.3 2.3 0 0 1 2.21 1.25" opacity=".4" />
                 </g>
                 <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M214.68 371.21a2.31 2.31 0 0 1-.17-4.62l74-5.47a2.31 2.31 0 1 1 .34 4.61l-74 5.47Z">
                 </path>
                 <path fill="#bfbfbf" d="M216 380.13a2.31 2.31 0 0 1-.17-4.62l71.44-5.29a2.31 2.31 0 0 1 .34 4.61l-71.44 5.29Z">
                 </path>
-                <g clipPath="url(#d)">
+                <g clipPath="url(#bulb-d)">
                         <path fill="var(--art-light)" d="M289.43 371.46a2.27 2.27 0 0 1-1.87 1.23L216.12 378H216a1.38 1.38 0 1 1-.17-2.48l71.44-5.29a2.33 2.33 0 0 1 2.16 1.23" opacity=".4" />
                 </g>
                 <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M216 380.13a2.31 2.31 0 0 1-.17-4.62l71.44-5.29a2.31 2.31 0 0 1 .34 4.61l-71.44 5.29Z">
                 </path>
                 <path fill="#bfbfbf" d="M217.21 389.05a2.31 2.31 0 0 1-.16-4.62l68.9-5.09a2.31 2.31 0 0 1 .34 4.61l-68.9 5.1Z">
                 </path>
-                <g clipPath="url(#e)">
+                <g clipPath="url(#bulb-e)">
                         <path fill="var(--art-light)" d="M288.16 380.58a2.24 2.24 0 0 1-1.87 1.23l-68.9 5.1h-.18a1.38 1.38 0 1 1-.17-2.49l68.9-5.09a2.31 2.31 0 0 1 2.22 1.25" opacity=".4" />
                 </g>
                 <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M217.21 389.05a2.31 2.31 0 0 1-.16-4.62l68.9-5.09a2.31 2.31 0 0 1 .34 4.61l-68.9 5.1Z">
                 </path>
                 <path fill="#bfbfbf" d="M218.48 398a2.31 2.31 0 0 1-.17-4.62l66.37-4.91a2.31 2.31 0 1 1 .34 4.61L218.65 398Z">
                 </path>
-                <g clipPath="url(#f)">
+                <g clipPath="url(#bulb-f)">
                         <path fill="var(--art-light)" d="M286.9 389.68a2.29 2.29 0 0 1-1.87 1.24l-66.38 4.91h-.17a1.38 1.38 0 1 1-.17-2.48l66.37-4.91a2.32 2.32 0 0 1 2.22 1.24" opacity=".4" />
                 </g>
                 <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M218.48 398a2.31 2.31 0 0 1-.17-4.62l66.37-4.91a2.31 2.31 0 1 1 .34 4.61L218.65 398Z">
                 </path>
                 <path fill="var(--art-accent)" d="M300.71 326.66 298.17 355l-5.94 4.48h-81.12l-5.95-4.48-2.53-28.34 1.76-4.49h94.55z">
                 </path>
-                <g clipPath="url(#g)">
+                <g clipPath="url(#bulb-g)">
                         <path fillOpacity=".7" d="m298.17 355-5.94 4.48h-81.12l-5.95-4.48z" opacity=".2" />
                         <path fill="var(--art-light)" d="M300.71 326.66h-98.08l1.76-4.49h94.55z" opacity=".4" />
                 </g>

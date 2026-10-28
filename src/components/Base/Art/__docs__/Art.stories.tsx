@@ -1,9 +1,8 @@
-import type { Meta, StoryFn, StoryObj } from '@storybook/react-webpack5';
-import styled from 'styled-components';
-import { ArtDefinitions, ColorDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
-import Art from '../Art';
+import type { Meta, StoryFn } from '@storybook/react-webpack5';
 import { useState } from 'react';
+import { ArtDefinitions, SizeDefinitions } from '../../../../lib/utils/definitions';
 import Button from '../../../UI/Button/Button';
+import Art from '../Art';
 
 const meta: Meta<typeof Art> = {
     title: 'UI kit/Art',
@@ -14,7 +13,6 @@ const meta: Meta<typeof Art> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Art>;
 
 
 const STATUS_ARTS: ArtDefinitions[] = [
@@ -24,8 +22,17 @@ const STATUS_ARTS: ArtDefinitions[] = [
     ArtDefinitions.ServerError,
 ];
 
+const GENERAL_ARTS: ArtDefinitions[] = [
+    ArtDefinitions.Bulb,
+    ArtDefinitions.Faq,
+    ArtDefinitions.Question,
+    ArtDefinitions.UnderConstruction,
+    ArtDefinitions.Warning,
+];
+
 const ALL_ARTS = Object.values(ArtDefinitions);
-const PRODUCT_ARTS = ALL_ARTS.filter((art) => !STATUS_ARTS.includes(art));
+// Product: alles wat geen status of algemeen is, zodat een nieuwe product-art vanzelf meekomt
+const PRODUCT_ARTS = ALL_ARTS.filter((art) => !STATUS_ARTS.includes(art) && !GENERAL_ARTS.includes(art));
 
 const SIZES: { size: SizeDefinitions; tile: string }[] = [
     { size: SizeDefinitions.ExtraSmall, tile: '12rem' },
@@ -67,7 +74,7 @@ const ArtGrid = ({ arts, size, tile }: { arts: ArtDefinitions[]; size: SizeDefin
 );
 
 
-export const Default: StoryFn = (args) => {
+export const Default: StoryFn = () => {
     const [size, setSize] = useState<SizeDefinitions>(SizeDefinitions.Medium);
     const tile = SIZES.find((s) => s.size === size)?.tile ?? '24rem';
 
@@ -90,6 +97,9 @@ export const Default: StoryFn = (args) => {
 
             <h4 className="mt-4">Status</h4>
             <ArtGrid arts={STATUS_ARTS} size={size} tile={tile} />
+
+            <h4 className="mt-4">Algemeen</h4>
+            <ArtGrid arts={GENERAL_ARTS} size={size} tile={tile} />
         </>
     );
 };

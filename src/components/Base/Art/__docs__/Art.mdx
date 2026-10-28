@@ -1,65 +1,81 @@
 import { Canvas, Meta, Controls } from '@storybook/addon-docs/blocks';
-import * as CollapsibleMenuStories from './CollapsibleMenu.stories';
+import * as ArtStories from './Art.stories';
 
-<Meta of={CollapsibleMenuStories} />
+<Meta of={ArtStories} />
 
-# CollapsibleMenu Component
+# Art Component
 
-De `CollapsibleMenu` component is een verticaal menu met onbeperkt veel levels. Elk item is een `ContentItem`: het icoon in de prefix, titel en optionele omschrijving in de content, en badge en chevron in de postfix.
-
-## Belangrijkste functionaliteiten
-
-- **Multi-level:** items met `children` klappen in en uit, met animatie via `framer-motion`.
-- **Links en acties:** een item met `url` wordt een `NavLink` (met actieve status), een item met `onClick` een knop.
-- **Iconen:** `icon` is een `ReactNode`, zodat je zelf een `<Icon/>` met de gewenste size en styling meegeeft. De chevron is te vervangen met `chevronIcon`.
-- **Accordion:** met `accordion` staat per level maximaal één item open.
-- **Controlled of uncontrolled:** gebruik `openIds` en `onOpenChange`, of alleen `defaultOpenIds`.
-- **Styling:** extra CSS-klassen via `menuCss`; inspringing via de CSS-variabele `--collapsible-menu-indent`.
-- **Hulplijnen:** standaard loopt er een lijn langs elk submenu; zet `showLines={false}` om die te verbergen.
-- **Collapsed:** met `collapsed` toont het menu alleen de iconen (of de eerste letter), met de titel als tooltip. Een klik op een item met children zet dat item open en roept `onCollapsedClick` aan, bijvoorbeeld om een PanelLayout-aside uit te klappen. Zet `collapsedTooltips={false}` als de container zelf al opent bij hover. Het icoon staat in een vak met de breedte `--collapsible-menu-collapsed-width` (in een PanelLayout automatisch de strip-breedte).
-
-### Default
-
-<Canvas of={CollapsibleMenuStories.Default} />
-
-### With icons
-
-<Canvas of={CollapsibleMenuStories.WithIcons} />
-
-### Accordion
-
-<Canvas of={CollapsibleMenuStories.Accordion} />
-
-### Controlled
-
-<Canvas of={CollapsibleMenuStories.Controlled} />
-
-### On click
-
-<Canvas of={CollapsibleMenuStories.OnClick} />
-
-### Custom chevron
-
-<Canvas of={CollapsibleMenuStories.CustomChevron} />
-
-### Without lines
-
-<Canvas of={CollapsibleMenuStories.WithoutLines} />
-
-### Collapsed
-
-<Canvas of={CollapsibleMenuStories.Collapsed} />
-
-### In panel layout
+De `Art` component toont een illustratie (SVG) uit de vaste set `ArtDefinitions`. Gebruik art voor productpagina's,
+lege staten, foutpagina's en tegels zoals in de `QuickAccessMenu`.
 
 ```tsx
-const { id, collapsed } = usePanelLayoutAside();
-const { open } = usePanelLayout();
-
-<CollapsibleMenu items={items} collapsed={collapsed} onCollapsedClick={() => open(id)} />
+<Art art={ArtDefinitions.Contract} size={SizeDefinitions.Medium} />
 ```
 
-<Canvas of={CollapsibleMenuStories.InPanelLayout} />
+## Props
+
+| Prop | Type | Omschrijving |
+|---|---|---|
+| `art` | `ArtDefinitions` | Welke illustratie (verplicht). |
+| `size` | `SizeDefinitions` | Vaste grootte, zie hieronder. Zonder `size` geldt `--art-size`. |
+| `artCss` | `string` | Extra CSS-klassen op de wrapper (`.art`). |
+| `svgCss` | `string` | Extra CSS-klassen op de `<svg>`. |
+
+## Groottes
+
+| `size` | `--art-size` |
+|---|---|
+| `xs` | 9.6rem |
+| `sm` | 12.8rem |
+| `md` | 19.6rem |
+| `lg` | 26rem |
+| `xl` | 32rem |
+| `2xl` | 42rem |
+| `3xl` | 64rem |
+
+Zonder `size` leest `.art` de CSS-variabele `--art-size` (standaard 12.8rem). Zo kun je de grootte vanuit een
+omliggend element zetten, bijvoorbeeld kleine art in een tegel:
+
+```scss
+.mijn-tegel {
+    --art-size: 4.8rem;
+}
+```
+
+## Illustraties
+
+- **Product:** `ClaimManager`, `Contract`, `Dossier`, `Igo`, `Ketenzorg`, `Meekijkconsult`, `Populatiebekostiging`,
+  `Suite`, `Ticket`, `Verbruiksmiddel`.
+- **Status:** `EmptyData`, `Forbidden`, `NotFound`, `ServerError`.
+- **Algemeen:** `Bulb`, `Faq`, `Question`, `UnderConstruction`, `Warning`.
+
+## Kleuren (theming)
+
+De illustraties gebruiken CSS-variabelen, zodat ze meekleuren met het thema (light en dark):
+
+| Variabele | Standaard |
+|---|---|
+| `--art-background` | `var(--color-theme-500)` |
+| `--art-dark` | `var(--color-dark)` |
+| `--art-light` | `var(--color-light)` |
+| `--art-mute` | `var(--color-mute)` |
+| `--art-accent` | `var(--color-primary)` |
+| `--art-foreground` | `var(--color-foreground)` |
+| `--art-grey` | `#737373` |
+
+## Een illustratie toevoegen
+
+1. Maak `ArtNaam.tsx` als React-component met `(props) => <svg ... {...props}>`, en gebruik de `--art-*`-variabelen
+   voor de kleuren.
+2. Geef ids binnen de SVG (zoals `clipPath`, `mask` en `linearGradient`) een **unieke prefix**, bijvoorbeeld
+   `id="naam-a"` met `url(#naam-a)`. Ids als `a` en `b` botsen met andere illustraties op dezelfde pagina.
+   Controleer ook dat elke `url(#...)` naar een id in hetzelfde bestand verwijst.
+3. Voeg de naam toe aan `ArtDefinitions` in `lib/utils/definitions.tsx`.
+4. Voeg hem toe aan `ArtMap.ts` en exporteer hem in `index.ts`.
+
+### Alle illustraties
+
+<Canvas of={ArtStories.Default} />
 
 ### Props
 
