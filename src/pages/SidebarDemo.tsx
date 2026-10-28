@@ -7,6 +7,7 @@ import { formsDemoComponents } from "./Demo/Forms/formsStories";
 import { DemoComponent } from "./Demo/Stories/storyRegistry";
 import { uiDemoComponents } from "./Demo/UI/uiStories";
 import { pageDemoComponents } from "./Demo/Page/pageStories";
+import { dataDemoComponents } from "./Demo/Data/dataStories";
 
 interface DemoLink {
     title: string;
@@ -42,32 +43,11 @@ const toStoriesMenu = (
 const SidebarDemo: React.FC = () => {
     const { pathname } = useLocation();
 
-    const datagridItems: DemoLink[] = [
-        { title: "Default", url: "/demo/dg" },
-        { title: "Details and nested details", url: "/demo/dg-details-and-nested-details" },
-        { title: "Datagrid test", url: "/demo/dg-test" },
-        { title: "All", url: "/demo/dg-all" },
-        { title: "Checkboxes", url: "/demo/dg-checkbox" },
-        { title: "Loading", url: "/demo/dg-loading" },
-        { title: "Header footer content", url: "/demo/dg-headerfooter" },
-        { title: "Nested", url: "/demo/dg-nested" },
-        { title: "Nested with details", url: "/demo/dg-nested-detail" },
-        { title: "Toolbar", url: "/demo/dg-toolbar" },
-        { title: "Table info", url: "/demo/dg-info" },
-        { title: "Sidebar", url: "/demo/dg-sidebar" },
-        { title: "Tabs", url: "/demo/dg-tabs" },
-        { title: "Sidebar & tabs", url: "/demo/dg-sidebarandtabs" },
-        { title: "Pager", url: "/demo/dg-pager" },
-        { title: "Column Filters", url: "/demo/dg-column-filter" },
-        { title: "Column Pinning", url: "/demo/dg-column-pinning" },
-        { title: "Column Reorder", url: "/demo/dg-column-reorder" },
-        { title: "Column Resize", url: "/demo/dg-column-resize" },
-        { title: "Column Sticky", url: "/demo/dg-column-sticky" },
-        { title: "Column Visibility", url: "/demo/dg-column-visibility" },
-        { title: "Row totals", url: "/demo/dg-total-row" },
-        { title: "Row selection", url: "/demo/dg-selected-row" },
-        { title: "Row actions", url: "/demo/dg-actions" },
-    ];
+    const dataGroup: CollapsibleMenuItem = {
+        id: 'data',
+        title: 'Data',
+        children: toStoriesMenu('data', '/demo/data', dataDemoComponents),
+    };
 
     const formsGroup: CollapsibleMenuItem = {
         id: 'forms',
@@ -129,7 +109,7 @@ const SidebarDemo: React.FC = () => {
         uiGroup,
         formsGroup,
         pageGroup,
-        toMenuGroup('datagrid', 'Datagrid', datagridItems),
+        dataGroup,
     ];
 
     // Alle bovenliggende items van de huidige pagina openklappen (op elk niveau)
