@@ -10,9 +10,19 @@ const HomePage = ({
     useBreadcrumb([
         { label: "Home", href: "/" },
     ]);
-    
-    return (       
-       <h3>Welkom to the home page</h3>
+
+    return (
+        <><h3>Welkom to the home page</h3>
+
+
+
+
+
+           
+
+
+        </>
+
     )
 }
 
