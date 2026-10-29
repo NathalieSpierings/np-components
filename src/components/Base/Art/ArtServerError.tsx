@@ -33,7 +33,7 @@ const ArtServerError: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             </g>
         </g>
 
-        <g fill="none" stroke="var(--art-mute)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.232">
+        <g fill="none" stroke="var(--art-muted)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.232">
             <circle cx="114.73" cy="163.35" r="31.91"></circle>
             <circle cx="114.73" cy="163.35" r="26.44" transform="rotate(-8.96 114.66 163.274)"></circle><path d="M97.86 163.35h16.87v24.33"></path>
             </g><path fill="var(--art-dark)" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.232" d="M261.75 406.94a5.35 5.35 0 1 1 5.35 5.35 5.34 5.34 0 0 1-5.35-5.35"></path>

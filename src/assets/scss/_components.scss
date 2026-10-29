@@ -413,7 +413,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &-outline {
-            --color-border: var(--color-border-theme-500);
+            --color-border: var(--color-theme-500-border);
             color: var(--button-foreground);
             border-color: var(--color-border);
             background: transparent !important;
@@ -824,7 +824,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         &__item {
             border: none;
             border-top: 1px solid;
-            border-top-color: var(--color-border-surface-dark);
+            border-top-color: var(--color-surface-dark-border);
 
             &:first-child {
                 border-top: 0;
@@ -892,7 +892,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             }
 
             &__item {
-                border-top-color: var(--color-border-surface);
+                border-top-color: var(--color-surface-border);
             }
         }
 
@@ -909,7 +909,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             }
 
             &__item {
-                border-top-color: var(--color-border-surface-light);
+                border-top-color: var(--color-surface-light-border);
             }
         }
 
@@ -920,7 +920,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
     .alert {
         --alert-bg: var(--color-theme-100);
-        --alert-border: var(--color-border-theme-100);
+        --alert-border: var(--color-theme-100-border);
         --alert-foreground: var(--color-foreground);
         --alert-dismiss-foreground: var(--color-foreground);
         --alert-dismiss-background: var(--color-theme-500);
@@ -988,7 +988,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &.bg-informational {
             --alert-bg: var(--color-blue-5);
-            --alert-border: var(--color-blue-20);
+            --alert-border: var(--color-blue);
             --alert-foreground: var(--color-blue);
             --alert-icon-foreground: var(--color-blue);
             --alert-dismiss-foreground: var(--color-blue-30);
@@ -997,7 +997,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &.bg-warning {
             --alert-bg: var(--color-orange-5);
-            --alert-border: var(--color-orange-20);
+            --alert-border: var(--color-orange);
             --alert-foreground: var(--color-orange);
             --alert-icon-foreground: var(--color-orange);
             --alert-dismiss-foreground: var(--color-orange-30);
@@ -1006,7 +1006,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &.bg-positive {
             --alert-bg: var(--color-green-5);
-            --alert-border: var(--color-green-20);
+            --alert-border: var(--color-green);
             --alert-foreground: var(--color-green);
             --alert-icon-foreground: var(--color-green);
             --alert-dismiss-foreground: var(--color-green-30);
@@ -1015,7 +1015,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &.bg-negative {
             --alert-bg: var(--color-rose-5);
-            --alert-border: var(--color-rose-20);
+            --alert-border: var(--color-rose);
             --alert-foreground: var(--color-rose);
             --alert-icon-foreground: var(--color-rose);
             --alert-dismiss-foreground: var(--color-rose-30);
@@ -1027,7 +1027,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     .theme-dark {
         .alert {
             --alert-bg: var(--color-surface-light);
-            --alert-dismiss-background: var(--color-border-theme-300);
+            --alert-dismiss-background: var(--color-theme-300-border);
 
             &.bg-informational,
             &.bg-warning,
@@ -1539,7 +1539,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
         &__header {
             --color-background: var(--color-surface-dark);
-            --color-border: var(--color-border-surface-dark);
+            --color-border: var(--color-surface-dark-border);
 
             display: flex;
             justify-content: space-between;
@@ -2268,7 +2268,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             span {
                 width: 2px;
                 height: 10px;
-                background: var(--color-mute);
+                background: var(--color-muted);
                 margin: 0 1px;
                 display: inline-block;
                 -webkit-transition: all .3s ease;
@@ -2423,7 +2423,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         --datagrid-layout-padding: var(--page-padding-sm);
         --datagrid-root-padding: var(--page-padding-xs) var(--page-padding-sm);
         --datagrid-layout-comp-background: var(--color-surface-dark);
-        --datagrid-layout-comp-border: var(--color-border-surface-dark);
+        --datagrid-layout-comp-border: var(--color-surface-dark-border);
 
         --datagrid-padding: var(--page-padding-2xs) var(--page-padding-sm);
         --datagrid-header-row-height: 48px;
@@ -2950,7 +2950,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                         top: 35%;
                         width: 2px;
                         height: 30%;
-                        background-color: var(--color-mute);
+                        background-color: var(--color-muted);
                     }
                 }
             }
@@ -3091,8 +3091,8 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &--resizing {
-            color: var(--color-mute);
-            border-right: 1px dashed var(--color-mute);
+            color: var(--color-muted);
+            border-right: 1px dashed var(--color-muted);
         }
 
         &__drag__tooltip {
@@ -3170,7 +3170,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
             &__item {
                 --color-background: transparent;
-                --color-border: var(--color-border-surface);
+                --color-border: var(--color-surface-border);
                 --color-shadow: var(--color-shadow-surface);
 
                 position: relative;
@@ -3216,7 +3216,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
                 &:disabled,
                 &.disabled {
-                    --color-foreground: var(--color-mute);
+                    --color-foreground: var(--color-muted);
 
                     cursor: default;
                     pointer-events: none;
@@ -3316,7 +3316,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 cursor: grab;
                 display: inline-flex;
                 align-items: center;
-                color: var(--color-mute);
+                color: var(--color-muted);
 
                 &:active {
                     cursor: grabbing;
@@ -3400,7 +3400,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                     }
 
                     &--hidden {
-                        color: var(--color-mute);
+                        color: var(--color-muted);
                     }
                 }
 
@@ -3597,7 +3597,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                     opacity: 0.7;
                     -webkit-box-shadow: none;
                     box-shadow: none;
-                    color: var(--color-mute);
+                    color: var(--color-muted);
                 }
             }
         }
@@ -4195,7 +4195,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             span {
                 width: 2px;
                 height: 10px;
-                background: var(--color-mute);
+                background: var(--color-muted);
                 margin: 0 1px;
                 display: inline-block;
                 -webkit-transition: all .3s ease;
@@ -4527,7 +4527,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         50% {
-            background: var(--color-foreground-lighter);
+            background: var(--color-foreground-light);
             transform: translateY(-3px);
         }
     }
@@ -4661,7 +4661,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-orange) !important;
-                --color-border: var(--color-border-orange) !important;
+                --color-border: var(--color-orange-border) !important;
                 --color-shadow: var(--color-shadow-orange) !important;
             }
         }
@@ -4675,7 +4675,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-rose-30) !important;
-                --color-border: var(--color-border-rose-30) !important;
+                --color-border: var(--color-rose-30-border) !important;
                 --color-shadow: var(--color-shadow-rose-30) !important;
             }
         }
@@ -4689,7 +4689,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-blue) !important;
-                --color-border: var(--color-border-blue) !important;
+                --color-border: var(--color-blue-border) !important;
                 --color-shadow: var(--color-shadow-blue) !important;
             }
         }
@@ -4703,7 +4703,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-green) !important;
-                --color-border: var(--color-border-green) !important;
+                --color-border: var(--color-green-border) !important;
                 --color-shadow: var(--color-shadow-green) !important;
             }
         }
@@ -4758,7 +4758,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
                 &.active {
                     color: var(--menu-accent-color);
-                    background: var(--color-highlight-light);
+                    background: var(--color-surface-light);
                 }
             }
 
@@ -4818,7 +4818,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             background: var(--color-surface-light);
             z-index: 1;
             border-inline-end: 1px solid var(--color-border);
-            border-bottom: 1px solid var(--color-border-surface-light);
+            border-bottom: 1px solid var(--color-surface-light-border);
 
             &__container {
                 position: relative;
@@ -5851,7 +5851,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                     &:nth-child(2) {
                         font-family: var(--fontstack1);
                         font-size: var(--fs-sm);
-                        color: var(--color-mute);
+                        color: var(--color-muted);
                     }
                 }
 
@@ -5920,7 +5920,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
                 p {
                     font-size: var(--fs-lg);
-                    color: var(--color-mute);
+                    color: var(--color-muted);
                 }
 
                 h4 {
@@ -6039,7 +6039,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             flex: 0 1 15rem;
             min-width: 15rem;
             padding: 0 .5rem;
-            border: 1px solid var(--color-border-surface);
+            border: 1px solid var(--color-surface-border);
             border-radius: var(--radius);
             font: inherit;
             outline: none;

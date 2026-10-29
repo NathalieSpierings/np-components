@@ -24,7 +24,7 @@
         &__line {
             width: 33px;
             height: 2px;
-            background: var(--color-mute);
+            background: var(--color-muted);
             margin-bottom: 0.3em;
         }
 
@@ -34,7 +34,7 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             font-size: 9px;
-            color: var(--color-mute);
+            color: var(--color-muted);
         }
 
         @include mixins.MQ-min(lg) {
@@ -93,7 +93,7 @@
             }
 
             &.active {
-                color: var(--color-mute);
+                color: var(--color-muted);
             }
         }
     }
@@ -201,7 +201,7 @@
             span {
                 font-size: var(--fs-xs);
                 font-weight: 500;
-                color: var(--color-mute);
+                color: var(--color-muted);
             }
 
             img {
@@ -241,9 +241,9 @@
         --ml-aside-background: var(--color-surface-dark);
 
         --ml-menu-margin: var(--page-padding-sm) 0 var(--page-padding-sm) var(--page-padding-sm);
-        --ml-menu-width: 75px;
+        --ml-menu-width: 70px;
         --ml-menu-background: var(--color-theme-500);
-        --ml-menu-border: var(--color-border-theme-500);
+        --ml-menu-border: var(--color-theme-500-border);
 
         --ml-sidebar-width: 280px;
         --ml-sidebar-padding-x: var(--page-padding-sm);
@@ -276,7 +276,7 @@
                 opacity: 1;
                 flex-basis: var(--ml-menu-width);
                 margin: var(--ml-menu-margin);
-                border-radius: var(--radius-md);
+                border-radius: var(--radius-xl);
                 background: var(--ml-menu-background);
                 display: flex;
                 align-items: center;

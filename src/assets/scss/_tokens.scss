@@ -71,7 +71,7 @@
     --accessibility-focus-outline-style: dashed;
     --accessibility-focus-outline-offset: 3px;
     --accessibility-focus-outline-width: 1px;
-    --accessibility-focus-outline-color: var(--color-foreground-lighter);
+    --accessibility-focus-outline-color: var(--color-foreground-light);
     --accessibility-focus-outline-box-shadow: 0 0 0 0 #fdefe880, 0 0 #0000, 0 0 #0000;
 
 
@@ -116,18 +116,18 @@
     --color-active: rgb(var(--overlay-rgb) / 0.07);
 
     // Form
-    --form-field-background: var(--color-border-surface-dark);
-    --form-field-accent: var(--color-border-surface-dark);
+    --form-field-background: var(--color-surface-dark-border);
+    --form-field-accent: var(--color-surface-dark-border);
 
     --form-group-padding: var(--page-padding);
     --input-padding: 1.5rem;
     --input-background: var(--color-surface-dark);
     --input-foreground: var(--color-foreground);
-    --input-border: var(--color-border-surface-dark);
-    --input-disabled-border: var(--color-border-surface-dark);
+    --input-border: var(--color-surface-dark-border);
+    --input-disabled-border: var(--color-surface-dark-border);
     --input-radius: var(--radius);
     --input-height: 48px;
-    --input-label-foreground: var(--color-mute);
+    --input-label-foreground: var(--color-muted);
     --input-addon-padding: 1rem;
     --input-offset-left: 1.5rem;
     --input-offset-right: 1.5rem;
@@ -166,7 +166,7 @@
     --art-background: var(--color-theme-500);
 	--art-dark: var(--color-dark);
 	--art-light: var(--color-light);
-	--art-mute: var(--color-mute);
+	--art-muted: var(--color-muted);
 	--art-accent: var(--color-primary);
     --art-secondary: var(--color-secondary);
 	--art-foreground: var(--color-foreground);

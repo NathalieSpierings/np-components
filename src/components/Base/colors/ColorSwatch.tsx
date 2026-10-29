@@ -49,7 +49,7 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ theme }) => {
                                 <div key={name} className={`color ${className}`}>
                                     <div className="color__desc">
                                         <span>{name}</span>
-                                        <span className="text-mute">Muted</span>
+                                        <span className="text-muted">Muted</span>
                                     </div>
                                 </div>
                             )
@@ -69,7 +69,7 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ theme }) => {
                                         <div key={name} className={`color ${className}`}>
                                             <div className="color__desc">
                                                 <span>{name}</span>
-                                                <span className="text-mute">Muted</span>
+                                                <span className="text-muted">Muted</span>
                                             </div>
                                         </div>
                                     )

@@ -1,12 +1,12 @@
 import { PropsWithChildren, ReactElement } from 'react';
 
 export interface SmallProps extends PropsWithChildren {
-    mute?: boolean;
+    muted?: boolean;
 }
 
-function Small({ mute = false, children, ...props }: Readonly<SmallProps>): ReactElement {
+function Small({ muted = false, children, ...props }: Readonly<SmallProps>): ReactElement {
     return (
-        <small className={`${mute ? 'text-mute' : ''}`} {...props}>
+        <small className={`${muted ? 'text-muted' : ''}`} {...props}>
             {children}
         </small>
     );

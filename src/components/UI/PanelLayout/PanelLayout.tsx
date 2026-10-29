@@ -109,7 +109,7 @@ const PanelLayoutRoot: FC<PanelLayoutProps> = (props) => {
                     <div
                         ref={rootRef}
                         className={joinClasses("pc-layout", "pc-layout--full-height", "panel-layout", className)}
-                        style={{ "--panel-layout-border": `var(--color-border-${borderColor})` } as CSSProperties}
+                        style={{ "--panel-layout-border": `var(--color-${borderColor}-border)` } as CSSProperties}
                     >
                         <div className="pc-layout__content">
                             <RowItems items={items} layout={layout} />

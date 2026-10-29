@@ -5,7 +5,7 @@ const ArtForbidden: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 
         <path fill="var(--art-background)" d="M55.48 273.73s2.32 72 62.43 120 143.41 51.43 210.84 56 119.23-33.62 127-91.32-43.72-74.64-71.68-140.33-25.43-87.28-84.58-127.68S147.8 74.81 99.29 144 55.48 273.73 55.48 273.73"></path>
 
-        <g fill="none" stroke="var(--art-mute)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.166">
+        <g fill="none" stroke="var(--art-muted)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.166">
             <path d="M83.61 179.69v-25.77c0-18.24 15.16-33.08 33.79-33.08s33.79 14.84 33.79 33.08v25.77h13.47v-25.77c0-25.51-21.2-46.27-47.26-46.27s-47.26 20.76-47.26 46.27v25.77ZM65.14 179.87h103.18v85.35H65.14z"></path>
         <path d="M127.46 215.32a11.24 11.24 0 0 0-22.47 0 11 11 0 0 0 5.9 9.68L109 244.38h14.45L121.56 225a11 11 0 0 0 5.9-9.68"></path></g>
         <path fill="var(--art-grey)" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.166" d="m232.64 267.99-25.69-1.69v-.42l-3.16.21-3.15-.21v.42l-25.69 1.69L156 423.79h18.95l28.21-124.22h1.27l28.21 124.22h18.95z"></path>

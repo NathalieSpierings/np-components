@@ -66,7 +66,7 @@ function MainLayoutSidebar({
                     <ContentItem item={{
                         content: item?.sidebarTitle
                             ? item.sidebarTitle
-                            : (<div className="caption text-mute">MENU</div>),
+                            : (<div className="caption text-muted">MENU</div>),
                         postfix: (
                             <DismissButton
                                 circle={true}

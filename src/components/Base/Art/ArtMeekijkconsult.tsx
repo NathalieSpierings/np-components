@@ -30,7 +30,7 @@ const ArtMeekijkconsult: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <path fill="#919191" d="M178.67 132.63c12.37 4.56 10.14 13.18 10.14 13.18h11.71v-13.18Z"></path>
     <path fill="var(--art-light)" d="M182.62 132.63c12.36 4.56 10.13 13.18 10.13 13.18h11.72v-13.18Z"></path>
   </g>
-  <path fill="var(--art-mute)" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M344.48 85.95h103.56v143.76H344.48z"></path>
+  <path fill="var(--art-muted)" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M344.48 85.95h103.56v143.76H344.48z"></path>
   <path fill="var(--art-accent)"  d="M348.98 92.19h94.57v131.28h-94.57z"></path>
   <path fill="var(--art-light)" d="M348.98 92.19h94.57v131.28h-94.57z" opacity=".8"></path>
   <path fill="none" stroke="var(--art-dark)" strokeLinecap="round" strokeLinejoin="round" d="M369.77 213.5a39 39 0 0 1-9.46 10h83.24V92.19h-15.34l-2 .63c-15 4.73-30.5 18.42-39.29 43.3"></path>

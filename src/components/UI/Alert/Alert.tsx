@@ -13,7 +13,7 @@ export interface AlertProps extends PropsWithChildren {
 }
 
 const Alert: FC<AlertProps> = ({
-    dismissable = false,
+    dismissable = true,
     variant = 'default',
     shown = true,
     sticky = false,

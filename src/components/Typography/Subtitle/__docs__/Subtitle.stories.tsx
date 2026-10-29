@@ -21,6 +21,6 @@ export const Default: Story = {
 export const Muted: Story = {
     args: {
         children: "I'm a subtitle",
-        mute: true,
+        muted: true,
     },
 };

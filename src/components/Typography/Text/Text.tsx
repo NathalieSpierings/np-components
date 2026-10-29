@@ -56,7 +56,7 @@ const Text: React.FC<TextProps> = ({
                 >
                     <div
                         ref={ref}
-                        className={`tdata ${muted ? 'text-mute' : ''}`}
+                        className={`tdata ${muted ? 'text-muted' : ''}`}
                         style={{
                             textAlign: textAlign,
                             overflow: 'hidden',
@@ -75,7 +75,7 @@ const Text: React.FC<TextProps> = ({
             content = (
                 <div
                     ref={ref}
-                    className={`tdata ${muted ? 'text-mute' : ''}`}
+                    className={`tdata ${muted ? 'text-muted' : ''}`}
                     style={{
                         textAlign: textAlign,
                         overflow: 'hidden',
@@ -94,7 +94,7 @@ const Text: React.FC<TextProps> = ({
         content = (
             <div
                 ref={ref}
-                className={`tdata ${muted ? 'text-mute' : ''}`}
+                className={`tdata ${muted ? 'text-muted' : ''}`}
                 style={{
                     textAlign: textAlign,
                     lineHeight: '1.5em',

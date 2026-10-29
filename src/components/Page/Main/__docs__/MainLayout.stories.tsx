@@ -82,7 +82,7 @@ const SearchDrawer = (): ReactElement => {
                         ))}
                     </ul>
                 ) : (
-                    <p className="text-mute">Geen resultaten</p>
+                    <p className="text-muted">Geen resultaten</p>
                 )}
             </MainLayoutDrawerContent>
         </>
@@ -129,7 +129,7 @@ const menuItems: MainMenuItem[] = [
         drawerTitle: (
             <div className="grid-y gap-0">
                 <h4>Mijn voorkeuren</h4>
-                <h6 className="mt-1 text-mute">Instellen</h6>
+                <h6 className="mt-1 text-muted">Instellen</h6>
             </div>
         ),
         drawerWidth: '400px',

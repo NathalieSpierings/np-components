@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 
 export interface SubtitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-    mute?: boolean;
+    muted?: boolean;
 }
 
-function Subtitle({ mute = false, children, ...props }: Readonly<SubtitleProps>): ReactElement {
+function Subtitle({ muted = false, children, ...props }: Readonly<SubtitleProps>): ReactElement {
     return (
-        <div className={`subtitle ${mute ? 'text-mute' : ''}`} {...props}>
+        <div className={`subtitle ${muted ? 'text-muted' : ''}`} {...props}>
             {children}
         </div>
     );

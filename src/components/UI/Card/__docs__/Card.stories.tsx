@@ -50,7 +50,7 @@ export const Default: StoryFn = () => {
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -76,7 +76,7 @@ export const Shadow: StoryFn = () => {
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -102,7 +102,7 @@ export const ShadowHover: StoryFn = () => {
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -125,7 +125,7 @@ export const Background: StoryFn = () => {
                 />,
                 <Dropdown 
                     key="2"
-                    background={ColorDefinitions.Olive20}
+                    background={ColorDefinitions.Olive}
                     dropdownToggle={{
                         prefix: (<Icon
                             icon={IconDefinitions.ellipsis_h}
@@ -155,12 +155,12 @@ export const Background: StoryFn = () => {
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                background: ColorDefinitions.Olive20,
-                borderColor: ColorDefinitions.Olive20,
+                background: ColorDefinitions.Olive10,
+                borderColor: ColorDefinitions.Olive10,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -184,7 +184,7 @@ export const Transparent: StoryFn = () => {
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -216,7 +216,7 @@ export const TitleContent: StoryFn = () => {
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -381,7 +381,7 @@ export const Image: StoryFn = () => {
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -390,7 +390,7 @@ export const Collapse: StoryFn = () => {
     return (
         <Card collapsible={true} cardCollapsed={false} title={'Card title'}>
             <p>The forest was alive with the soft murmur of nature.</p>
-            <p className="text-mute">Muted text.</p>
+            <p className="text-muted">Muted text.</p>
         </Card>
     );
 };
@@ -403,7 +403,7 @@ export const CollapseControlled: StoryFn = () => {
             Current state: {collapsed ? "collapsed": "expanded"}
             <Card collapsible={true} cardCollapsed={collapsed} setCardCollapsed={setCollapsed} title={'Card title'}>
                 <p>The forest was alive with the soft murmur of nature.</p>
-                <p className="text-mute">Muted text.</p>
+                <p className="text-muted">Muted text.</p>
             </Card>
         </>
     );
