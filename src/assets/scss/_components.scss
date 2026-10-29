@@ -1,12 +1,12 @@
 @use "./mixins";
 
-@layer contentItem, buttons, dismiss, resizeHandle, accordion, alert, art, avatar, badge,
-bottomSheet, card, collapsible,  collapsibleMenu, quickAccessMenu, columnLayout, columns, dismissableBox,
-collection, datagrid, filterbar, drawer, duocolumn, errorPages, gridCollection,
-gridLayout, loader, modal, navs, onboarding, pageOverlay, popover, slider, tabs, tags,
-panelLayout, toastr, toolbar, tooltip, widget, wizard;
+@layer pds.contentItem, pds.buttons, pds.dismiss, pds.resizeHandle, pds.accordion, pds.alert, pds.art, pds.avatar, pds.badge,
+pds.bottomSheet, pds.card, pds.collapsible,  pds.collapsibleMenu, pds.quickAccessMenu, pds.columnLayout, pds.columns, pds.dismissableBox,
+pds.collection, pds.datagrid, pds.filterbar, pds.drawer, pds.duocolumn, pds.errorPages, pds.gridCollection,
+pds.gridLayout, pds.loader, pds.modal, pds.navs, pds.onboarding, pds.pageOverlay, pds.popover, pds.slider, pds.tabs, pds.tags,
+pds.panelLayout, pds.toastr, pds.toolbar, pds.tooltip, pds.widget, pds.wizard;
 
-@layer collapsibleMenu {
+@layer pds.collapsibleMenu {
     .collapsible-menu {
         --collapsible-menu-indent: 1.25rem;
         --collapsible-menu-gap: var(--page-padding-2xs);
@@ -138,7 +138,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
     }
 }
-@layer quickAccessMenu {
+@layer pds.quickAccessMenu {
     .quick-access-menu {
         --quick-access-menu-columns: 3;
         --quick-access-menu-tile-size: 11rem;
@@ -191,7 +191,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer contentItem {
+@layer pds.contentItem {
 
     .content-item {
         display: flex;
@@ -308,7 +308,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer buttons {
+@layer pds.buttons {
 
     .btn {
         --button-icon-size: 2.4;
@@ -588,7 +588,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer dismiss {
+@layer pds.dismiss {
 
     .dismiss {
         --dismiss-cross-size: 2rem;
@@ -778,7 +778,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer resizeHandle {
+@layer pds.resizeHandle {
 
     // A drag handle on the edge of a resizable element: a border on hover and while resizing,
     // in --resize-handle-color (set it on a parent to match the surrounding borders)
@@ -811,7 +811,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer accordion {
+@layer pds.accordion {
 
     .accordion {
         --accordion-accent: var(--color-primary);
@@ -916,7 +916,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer alert {
+@layer pds.alert {
 
     .alert {
         --alert-bg: var(--color-theme-100);
@@ -987,39 +987,39 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         &.bg-informational {
-            --alert-bg: var(--color-blue-5);
+            --alert-bg: var(--color-blue-subtle);
             --alert-border: var(--color-blue);
             --alert-foreground: var(--color-blue);
             --alert-icon-foreground: var(--color-blue);
-            --alert-dismiss-foreground: var(--color-blue-30);
-            --alert-dismiss-background: var(--color-blue-10);
+            --alert-dismiss-foreground: var(--color-blue-dark);
+            --alert-dismiss-background: var(--color-blue-light);
         }
 
         &.bg-warning {
-            --alert-bg: var(--color-orange-5);
+            --alert-bg: var(--color-orange-subtle);
             --alert-border: var(--color-orange);
             --alert-foreground: var(--color-orange);
             --alert-icon-foreground: var(--color-orange);
-            --alert-dismiss-foreground: var(--color-orange-30);
-            --alert-dismiss-background: var(--color-orange-10);
+            --alert-dismiss-foreground: var(--color-orange-dark);
+            --alert-dismiss-background: var(--color-orange-light);
         }
 
         &.bg-positive {
-            --alert-bg: var(--color-green-5);
+            --alert-bg: var(--color-green-subtle);
             --alert-border: var(--color-green);
             --alert-foreground: var(--color-green);
             --alert-icon-foreground: var(--color-green);
-            --alert-dismiss-foreground: var(--color-green-30);
-            --alert-dismiss-background: var(--color-green-10);
+            --alert-dismiss-foreground: var(--color-green-dark);
+            --alert-dismiss-background: var(--color-green-light);
         }
 
         &.bg-negative {
-            --alert-bg: var(--color-rose-5);
+            --alert-bg: var(--color-rose-subtle);
             --alert-border: var(--color-rose);
             --alert-foreground: var(--color-rose);
             --alert-icon-foreground: var(--color-rose);
-            --alert-dismiss-foreground: var(--color-rose-30);
-            --alert-dismiss-background: var(--color-rose-10);
+            --alert-dismiss-foreground: var(--color-rose-dark);
+            --alert-dismiss-background: var(--color-rose-light);
         }
     }
 
@@ -1047,7 +1047,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer art {
+@layer pds.art {
 
     :root {
         --art-size: 12.8rem;
@@ -1093,7 +1093,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer avatar {
+@layer pds.avatar {
     .avatar {
         --avatar-background: var(--color-surface-dark);
         --avatar-color: var(--color-foreground);
@@ -1287,7 +1287,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer badge {
+@layer pds.badge {
 
     .badge {
         --badge-icon-size: 2.4rem;
@@ -1368,7 +1368,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer bottomSheet {
+@layer pds.bottomSheet {
 
     .bottom-sheet {
         position: fixed;
@@ -1394,7 +1394,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer card {
+@layer pds.card {
 
     .card {
         --color-background: transparent;
@@ -1531,7 +1531,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer collapsible {
+@layer pds.collapsible {
 
     .collapsible {
         display: flex;
@@ -1576,7 +1576,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer columnLayout {
+@layer pds.columnLayout {
 
     .column-layout {
         position: relative;
@@ -1790,7 +1790,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer panelLayout {
+@layer pds.panelLayout {
 
     // Built on .pc-layout: the root is a full-height .pc-layout whose content row holds the columns
     // (pc-layout__main / pc-layout__aside), each with a nested full-height .pc-layout for its header and body.
@@ -2108,7 +2108,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer columns {
+@layer pds.columns {
 
     .columns {
         display: grid;
@@ -2190,7 +2190,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer dismissableBox {
+@layer pds.dismissableBox {
     .dismissable-box {
         display: flex;
         flex-direction: column;
@@ -2212,7 +2212,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer collection {
+@layer pds.collection {
 
     :root {
         --collection-item-margin: 1rem;
@@ -2411,7 +2411,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer datagrid {
+@layer pds.datagrid {
 
     // The sidebar and tabs' resize handles in the datagrid's border colour
     .datagrid-layout__sidebar,
@@ -3171,7 +3171,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
             &__item {
                 --color-background: transparent;
                 --color-border: var(--color-surface-border);
-                --color-shadow: var(--color-shadow-surface);
+                --color-shadow: var(--color-surface-shadow);
 
                 position: relative;
                 display: inline-flex;
@@ -3436,7 +3436,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
         }
 
         .datagrid__info__container {
-            background: var(--color-olive-5);
+            background: var(--color-olive-subtle);
         }
     }
 
@@ -3467,7 +3467,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer filterbar {
+@layer pds.filterbar {
     .filterbar {
         width: 100%;
         color: var(--color-foreground);
@@ -3610,7 +3610,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer drawer {
+@layer pds.drawer {
 
     :root {
         --drawer-width: 30vw;
@@ -3743,7 +3743,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer duocolumn {
+@layer pds.duocolumn {
 
     .duo-column-parent {
         width: 100%;
@@ -3826,7 +3826,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer errorPages {
+@layer pds.errorPages {
 
     // 403 error page
     #error403:not(.animated) .animable {
@@ -4145,7 +4145,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer gridCollection {
+@layer pds.gridCollection {
 
     .grid-collection {
         display: grid;
@@ -4230,7 +4230,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer gridLayout {
+@layer pds.gridLayout {
 
     .gridlayout {
         --gridlayout-drawer-width: 280px;
@@ -4343,7 +4343,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer loader {
+@layer pds.loader {
 
     .loader {
         --loader-animation-height: 40px;
@@ -4533,7 +4533,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer modal {
+@layer pds.modal {
 
     .modal-backdrop {
         position: fixed;
@@ -4662,21 +4662,21 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-orange) !important;
                 --color-border: var(--color-orange-border) !important;
-                --color-shadow: var(--color-shadow-orange) !important;
+                --color-shadow: var(--color-orange-shadow) !important;
             }
         }
 
         &-negative {
             .modal__header .icon {
-                --color-foreground: var(--color-rose-30);
+                --color-foreground: var(--color-rose-dark);
             }
 
 
             .btn-primary {
                 --button-foreground: var(--color-offwhite) !important;
-                --color-background: var(--color-rose-30) !important;
-                --color-border: var(--color-rose-30-border) !important;
-                --color-shadow: var(--color-shadow-rose-30) !important;
+                --color-background: var(--color-rose-dark) !important;
+                --color-border: var(--color-rose-dark-border) !important;
+                --color-shadow: var(--color-rose-dark-shadow) !important;
             }
         }
 
@@ -4690,7 +4690,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-blue) !important;
                 --color-border: var(--color-blue-border) !important;
-                --color-shadow: var(--color-shadow-blue) !important;
+                --color-shadow: var(--color-blue-shadow) !important;
             }
         }
 
@@ -4704,14 +4704,14 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
                 --button-foreground: var(--color-offwhite) !important;
                 --color-background: var(--color-green) !important;
                 --color-border: var(--color-green-border) !important;
-                --color-shadow: var(--color-shadow-green) !important;
+                --color-shadow: var(--color-green-shadow) !important;
             }
         }
     }
 
 }
 
-@layer navs {
+@layer pds.navs {
 
     .nav {
         display: -webkit-box;
@@ -4770,7 +4770,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer onboarding {
+@layer pds.onboarding {
 
     .onboarding-layout {
         overflow: hidden;
@@ -4863,7 +4863,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer pageOverlay {
+@layer pds.pageOverlay {
 
     .pageoverlay {
         position: fixed;
@@ -4919,7 +4919,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer popover {
+@layer pds.popover {
     .popover {
         --color-background: var(--color-surface-light);
         --popover-toggle-offset: .75rem;
@@ -5027,7 +5027,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer slider {
+@layer pds.slider {
 
     .slider {
         position: relative;
@@ -5078,7 +5078,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer tabs {
+@layer pds.tabs {
 
     .tabs {
         display: flex;
@@ -5325,13 +5325,13 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer toastr {
+@layer pds.toastr {
 
     .toastr {
         --scrollbar-background: rgba(255, 255, 255, 0.1);
         --scrollbar-thumb: rgba(255, 255, 255, 0.2);
         --color-background: var(--color-dark);
-        --color-foreground: var(--color-light);
+        --color-foreground: var(--color-offwhite);
 
         position: fixed;
         z-index: 1000;
@@ -5426,7 +5426,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer toolbar {
+@layer pds.toolbar {
 
     .toolbar {
         --toolbar-padding-bottom: 1rem;
@@ -5517,7 +5517,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
 
 }
 
-@layer tooltip {
+@layer pds.tooltip {
 
     .tooltip {
         --tooltip-offset: 1.5rem;
@@ -5698,7 +5698,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer widget {
+@layer pds.widget {
 
     .widget {
         position: relative;
@@ -5882,7 +5882,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer wizard {
+@layer pds.wizard {
 
     .wizard {
         --wizard-nav-height: 6.4rem;
@@ -5974,7 +5974,7 @@ panelLayout, toastr, toolbar, tooltip, widget, wizard;
     }
 }
 
-@layer tags {
+@layer pds.tags {
 
     .tags {
         display: flex;

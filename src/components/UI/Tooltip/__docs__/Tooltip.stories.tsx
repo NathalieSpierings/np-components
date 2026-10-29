@@ -257,7 +257,7 @@ export const OnValidation: StoryFn = () => {
                 enabled={email.length > 0 && !isValidEmail(email)}
                 content="Voer een geldig e-mailadres in"
                 direction="bottom"
-                background={ColorDefinitions.Rose30}
+                background={ColorDefinitions.RoseDark}
             />
         </>
     )

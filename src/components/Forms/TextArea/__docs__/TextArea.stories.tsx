@@ -54,7 +54,7 @@ export const Background: StoryFn = () => {
 
     return (
 
-        <TextArea name="message" label="Message" value={message} rows={6} onChange={e => setMessage(e.target.value)} background={ColorDefinitions.Purple10} />
+        <TextArea name="message" label="Message" value={message} rows={6} onChange={e => setMessage(e.target.value)} background={ColorDefinitions.PurpleLight} />
     );
 };
 
@@ -63,7 +63,7 @@ export const ColorAndBackground: StoryFn = () => {
     const [message, setMessage] = useState('');
 
     return (
-        <TextArea name="message" label="Message" value={message} rows={6} onChange={e => setMessage(e.target.value)} color={ColorDefinitions.Purple30} background={ColorDefinitions.Purple10} />
+        <TextArea name="message" label="Message" value={message} rows={6} onChange={e => setMessage(e.target.value)} color={ColorDefinitions.PurpleDark} background={ColorDefinitions.PurpleLight} />
     );
 };
 
@@ -71,7 +71,7 @@ export const Utilities: StoryFn = () => {
     const [message, setMessage] = useState('');
 
     return (
-        <TextArea name="message" label="Message" value={message} rows={6} onChange={e => setMessage(e.target.value)} labelCss="text-green-30" inputCss="bg-green-10 text-green-30 border-green-30" />
+        <TextArea name="message" label="Message" value={message} rows={6} onChange={e => setMessage(e.target.value)} labelCss="text-green-dark" inputCss="bg-green-light text-green-dark border-green-dark" />
 
     );
 };

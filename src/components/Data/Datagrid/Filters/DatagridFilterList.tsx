@@ -69,7 +69,7 @@ export default function DatagridFilterList<TData>({
 
                         {active && (
                             <div className="datagrid__filter__collection__footer">
-                                <Button onClick={() => setFilterValue(undefined)} variant="ghost" color={ColorDefinitions.Rose30} size={SizeDefinitions.Small}>
+                                <Button onClick={() => setFilterValue(undefined)} variant="ghost" color={ColorDefinitions.RoseDark} size={SizeDefinitions.Small}>
                                     <Icon icon={IconDefinitions.funnel_cross} />
                                     Filter wissen
                                 </Button>

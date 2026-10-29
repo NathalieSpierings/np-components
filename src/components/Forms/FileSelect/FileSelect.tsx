@@ -302,7 +302,7 @@ const FileSelect = ({
                     title={errorModalTitle}
                     onClose={() => setErrorModalContent(null)}
                     footerActions={
-                        <Button color={ColorDefinitions.Rose30} shadow onClick={() => setErrorModalContent(null)}>
+                        <Button color={ColorDefinitions.RoseDark} shadow onClick={() => setErrorModalContent(null)}>
                             Ok
                         </Button>
                     }
@@ -429,8 +429,8 @@ const FileSelect = ({
                                                 iconCss="pointer"
                                                 ring={true}
                                                 ringSize="ring-1"
-                                                ringHoverColor={ColorDefinitions.Rose30}
-                                                hoverBackground={ColorDefinitions.Rose30}
+                                                ringHoverColor={ColorDefinitions.RoseDark}
+                                                hoverBackground={ColorDefinitions.RoseDark}
                                                 rounded={SizeDefinitions.Full}
                                                 size={SizeDefinitions.Small}
                                                 onClick={() => {

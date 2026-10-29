@@ -53,7 +53,7 @@ export const Color: StoryFn = () => {
 
 export const Background: StoryFn = () => {
     return (
-        <Select label="Fruits" background={ColorDefinitions.Purple10}>
+        <Select label="Fruits" background={ColorDefinitions.PurpleLight}>
             <option>Apple</option>
             <option>Pear</option>
             <option>Bananna</option>
@@ -63,7 +63,7 @@ export const Background: StoryFn = () => {
 
 export const ColorAndBackground: StoryFn = () => {
     return (
-        <Select label="Fruits" color={ColorDefinitions.Purple30} background={ColorDefinitions.Purple10}>
+        <Select label="Fruits" color={ColorDefinitions.PurpleDark} background={ColorDefinitions.PurpleLight}>
             <option>Apple</option>
             <option>Pear</option>
             <option>Bananna</option>
@@ -73,7 +73,7 @@ export const ColorAndBackground: StoryFn = () => {
 
 export const Utilities: StoryFn = () => {
     return (
-        <Select label="Fruits" labelCss="text-green-30" inputCss="bg-green-10 text-green-30 border-green-30">
+        <Select label="Fruits" labelCss="text-green-dark" inputCss="bg-green-light text-green-dark border-green-dark">
             <option>Apple</option>
             <option>Pear</option>
             <option>Bananna</option>

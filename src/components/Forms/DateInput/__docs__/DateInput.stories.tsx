@@ -70,7 +70,7 @@ export const Background: StoryFn = () => {
 
     return (
         <>
-            <DateInput label="Startdatum" value={startdatum} onChange={(d) => setStartdatum(d!)} background={ColorDefinitions.Purple10} />
+            <DateInput label="Startdatum" value={startdatum} onChange={(d) => setStartdatum(d!)} background={ColorDefinitions.PurpleLight} />
             <div id="msg">Startdatum is: {moment(startdatum).format('DD-MM-YYYY')}</div>
         </>
 
@@ -82,7 +82,7 @@ export const ColorAndBackground: StoryFn = () => {
 
     return (
         <>
-            <DateInput label="Startdatum" value={startdatum} onChange={(d) => setStartdatum(d!)} color={ColorDefinitions.Purple30} background={ColorDefinitions.Purple10} />
+            <DateInput label="Startdatum" value={startdatum} onChange={(d) => setStartdatum(d!)} color={ColorDefinitions.PurpleDark} background={ColorDefinitions.PurpleLight} />
             <div id="msg">Startdatum is: {moment(startdatum).format('DD-MM-YYYY')}</div>
         </>
     );
@@ -93,7 +93,7 @@ export const Utilities: StoryFn = () => {
 
     return (
         <>
-            <DateInput label="Startdatum" value={startdatum} onChange={(d) => setStartdatum(d!)} labelCss="text-green-30" inputCss="bg-green-10 text-green-30 border-green-30" />
+            <DateInput label="Startdatum" value={startdatum} onChange={(d) => setStartdatum(d!)} labelCss="text-green-dark" inputCss="bg-green-light text-green-dark border-green-dark" />
             <div id="msg">Startdatum is: {moment(startdatum).format('DD-MM-YYYY')}</div>
         </>
     );

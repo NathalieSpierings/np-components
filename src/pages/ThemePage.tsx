@@ -3,12 +3,13 @@ import { ColorDefinitions, IconDefinitions } from "../lib/utils/definitions";
 import Icon from "../components/UI/Icons/Icon/Icon";
 import ColorSwatch from "../components/Base/colors/ColorSwatch";
 import { Input } from "../components/Forms/Input/Input";
+import { CSSProperties } from "styled-components";
 
 const ThemePage = ({
 }): ReactElement => {
 
 	return (
-	
+
 
 		<section className="centered centered--slim">
 
@@ -153,27 +154,89 @@ const ThemePage = ({
 				</div>
 			</div>
 
-			<h3>Text</h3>
-			<div className="grid mb-3">
-				<div className="bg-surface-light p-2">
-					<div className="box text-red p-2">I am a negative message</div>
-					<div className="box text-green p-2">I am a positive message</div>
-					<div className="box text-blue p-2">I am a informational message</div>
-					<div className="box text-orange p-2">I am a warning message</div>
+			<h2>Typography</h2>
+			<section className="mb-4">
+				<div className="grid-x grid-x--third mb-5">
+					<div className="app">
+						<h4>Headings</h4>
+						<h1>Heading 1 – The quick brown fox</h1>
+						<h2>Heading 2 – The quick brown fox</h2>
+						<h3>Heading 3 – The quick brown fox</h3>
+						<h4>Heading 4 – The quick brown fox</h4>
+						<h5>Heading 5 – The quick brown fox</h5>
+						<h6>Heading 6 – The quick brown fox</h6>
+					</div>
+					<div>
+						<h4>Titles</h4>
+						<div className="title-lg">Title lg – Goodshepard</div>
+						<div className="title">Title – Goodshepard</div>
+						<div className="title-md">Title md – Goodshepard</div>
+						<div className="title-sm">Title sm – Goodshepard</div>
+						<div className="title-xs">Title xs – Goodshepard</div>
+					</div>
+					<div>
+						<h4>Captions</h4>
+						<div className="caption-lg">Caption lg – Goodshepard</div>
+						<div className="caption">Caption – Goodshepard</div>
+						<div className="caption-sm">Caption sm – Goodshepard</div>
+					</div>
 				</div>
-				<div className="bg-surface p-2">
-					<div className="box text-red p-2">I am a negative message</div>
-					<div className="box text-green p-2">I am a positive message</div>
-					<div className="box text-blue p-2">I am a informational message</div>
-					<div className="box text-orange p-2">I am a warning message</div>
+
+				<div className="grid-x grid-x--third mb-5">
+					<div>
+						<h4>Text sizes</h4>
+						<p className="text-xxs">This is a text-tiny</p>
+						<p className="text-xs">This is a text-xs</p>
+						<p className="text-sm">This is a text-sm</p>
+						<p className="text-base">This is a base text</p>
+						<p className="text-md">This is a text-md</p>
+						<p className="text-lg">This is a text-lg</p>
+						<p className="text-xl">This is a text-xl</p>
+						<p className="text-2xl">This is a text-2xl</p>
+						<p className="text-3xl">This is a text-3xl</p>
+						<p className="text-4xl">This is a text-4xl</p>
+						<p className="text-5xl">This is a text-5xl</p>
+						<p className="text-6xl">This is a text-6xl</p>
+					</div>
+					<div>
+						<h4>Text</h4>
+						<p className="title">Title - The quick brown fox</p>
+						<p className="subtitle">Subtitle - The quick brown fox</p>
+						<p className="caption">Caption - The quick brown fox</p>
+						<small>Small - The quick brown fox</small>
+						<p><em>Em - The quick brown fox</em></p>
+						<pre>Pre - The quick brown fox</pre>
+						<p className="mb-5"><code>Monospace - The quick brown fox</code></p>
+					</div>
+					<div className="grid-y">
+						<div>
+							<h4>Body tekst</h4>
+							<p>
+								Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+							</p>
+						</div>
+						<div>
+							<h4>Text body extra small</h4>
+							<p className="text-body-xs">
+								Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+							</p>
+						</div>
+						<div>
+							<h4>Text body small</h4>
+							<p className="text-body-sm">
+								Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+							</p>
+						</div>
+						<div>
+							<h4>Text body large</h4>
+							<p className="text-body-lg">
+								Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+							</p>
+						</div>
+					</div>
 				</div>
-				<div className="bg-surface-dark p-2">
-					<div className="box text-red p-2">I am a negative message</div>
-					<div className="box text-green p-2">I am a positive message</div>
-					<div className="box text-blue p-2">I am a informational message</div>
-					<div className="box text-orange p-2">I am a warning message</div>
-				</div>
-			</div>
+			</section>
+
 
 			<h3>Alert</h3>
 			<div className="grid mb-3">
@@ -484,1038 +547,304 @@ const ThemePage = ({
 				<button type="button" className="btn btn-flat btn-blue">Flat</button>
 			</div>
 
-			<h1>Colors</h1>
-			<h3>Theme colors</h3>
-			<div className="colors mb-5">
-				<div className="color bg-theme-100">
-					<div className="color__desc">
-						<span>theme-100</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-200">
-					<div className="color__desc">
-						<span>theme-100</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-300">
-					<div className="color__desc">
-						<span>theme-300</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-400">
-					<div className="color__desc">
-						<span>theme-400</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-500">
-					<div className="color__desc">
-						<span>theme-500</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-600">
-					<div className="color__desc">
-						<span>theme-600</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-700">
-					<div className="color__desc">
-						<span>theme-700</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-800">
-					<div className="color__desc">
-						<span>theme-800</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-theme-900">
-					<div className="color__desc">
-						<span>theme-900</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Theme gray</h3>
-			<div className="colors mb-5">
-				<div className="color bg-gray-25">
-					<div className="color__desc">
-						<span>gray-25</span>
-					</div>
-				</div>
-				<div className="color bg-gray-50">
-					<div className="color__desc">
-						<span>gray-50</span>
-					</div>
-				</div>
-				<div className="color bg-gray-100">
-					<div className="color__desc">
-						<span>gray-100</span>
-					</div>
-				</div>
-				<div className="color bg-gray-200">
-					<div className="color__desc">
-						<span>gray-200</span>
-					</div>
-				</div>
-				<div className="color bg-gray-300">
-					<div className="color__desc">
-						<span>gray-300</span>
-					</div>
-				</div>
-				<div className="color bg-gray-400">
-					<div className="color__desc">
-						<span>gray-400</span>
-					</div>
-				</div>
-				<div className="color bg-gray-500">
-					<div className="color__desc">
-						<span>gray-500</span>
-					</div>
-				</div>
-				<div className="color bg-gray-600">
-					<div className="color__desc">
-						<span>gray-600</span>
-					</div>
-				</div>
-				<div className="color bg-gray-700">
-					<div className="color__desc">
-						<span>gray-700</span>
-					</div>
-				</div>
-				<div className="color bg-gray-800">
-					<div className="color__desc">
-						<span>gray-800</span>
-					</div>
-				</div>
-				<div className="color bg-gray-900">
-					<div className="color__desc">
-						<span>gray-900</span>
-					</div>
-				</div>
-				<div className="color bg-gray-950">
-					<div className="color__desc">
-						<span>gray-950</span>
-					</div>
-				</div>
-			</div>
+			<h1>Hello kitty catty, the wylde cat</h1>
+			<section className="mb-4">
 
-			<h3>Primary</h3>
-			<div className="colors mb-5">
-				<div className="color bg-primary-5">
-					<div className="color__desc">
-						<span>primary-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-primary-10">
-					<div className="color__desc">
-						<span>primary-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-primary-20">
-					<div className="color__desc">
-						<span>primary-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-primary">
-					<div className="color__desc">
-						<span>primary</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-primary-30">
-					<div className="color__desc">
-						<span>primary-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Secondary</h3>
-			<div className="colors mb-5">
-				<div className="color bg-secondary-5">
-					<div className="color__desc">
-						<span>secondary-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-secondary-10">
-					<div className="color__desc">
-						<span>secondary-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-secondary-20">
-					<div className="color__desc">
-						<span>secondary-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-secondary">
-					<div className="color__desc">
-						<span>secondary</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-secondary-30">
-					<div className="color__desc">
-						<span>secondary-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+				<h2>Brand</h2>
+				<section className="mb-4">
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="blob drop-shadow-md bg-primary-dark"><div className="color__desc"><span>Primary</span><span className="text-mute">Dark</span></div></div>
+							<div className="blob drop-shadow-md bg-primary"><div className="color__desc"><span>Primary</span><span className="text-mute">Base</span></div></div>
+							<div className="blob drop-shadow-md bg-primary-light"><div className="color__desc"><span>Primary</span><span className="text-mute">Light</span></div></div>
+							<div className="blob drop-shadow-md bg-primary-subtle"><div className="color__desc"><span>Primary</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="blob drop-shadow-md bg-secondary-dark"><div className="color__desc"><span>Secondary</span><span className="text-mute">Dark</span></div></div>
+							<div className="blob drop-shadow-md bg-secondary"><div className="color__desc"><span>Secondary</span><span className="text-mute">Base</span></div></div>
+							<div className="blob drop-shadow-md bg-secondary-light"><div className="color__desc"><span>Secondary</span><span className="text-mute">Light</span></div></div>
+							<div className="blob drop-shadow-md bg-secondary-subtle"><div className="color__desc"><span>Secondary</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="blob drop-shadow-md bg-tertiary-dark"><div className="color__desc"><span>Tertiary</span><span className="text-mute">Dark</span></div></div>
+							<div className="blob drop-shadow-md bg-tertiary"><div className="color__desc"><span>Tertiary</span><span className="text-mute">Base</span></div></div>
+							<div className="blob drop-shadow-md bg-tertiary-light"><div className="color__desc"><span>Tertiary</span><span className="text-mute">Light</span></div></div>
+							<div className="blob drop-shadow-md bg-tertiary-subtle"><div className="color__desc"><span>Tertiary</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
 
-			<h3>Basic colors</h3>
-			<div className="colors mb-5">
-				<div className="color bg-black">
-					<div className="color__desc">
-						<span>black</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-white">
-					<div className="color__desc">
-						<span>white</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-offwhite">
-					<div className="color__desc">
-						<span>offwhite</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-light">
-					<div className="color__desc">
-						<span>light</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-silver">
-					<div className="color__desc">
-						<span>silver</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-beige">
-					<div className="color__desc">
-						<span>beige</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-terracotta">
-					<div className="color__desc">
-						<span>terracotta</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-bordeaux">
-					<div className="color__desc">
-						<span>bordeaux</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-magenta">
-					<div className="color__desc">
-						<span>magenta</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-pale">
-					<div className="color__desc">
-						<span>pale</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-pepper">
-					<div className="color__desc">
-						<span>pepper</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-sand">
-					<div className="color__desc">
-						<span>sand</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-transparent">
-					<div className="color__desc">
-						<span>transparent</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+				</section>
 
-			<h1>Shades</h1>
 
-			<h3>Purple</h3>
-			<div className="colors mb-5">
-				<div className="color bg-purple-5">
-					<div className="color__desc">
-						<span>purple-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-purple-10">
-					<div className="color__desc">
-						<span>purple-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-purple-20">
-					<div className="color__desc">
-						<span>purple-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-purple">
-					<div className="color__desc">
-						<span>purple</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
+				<h2>Brand shades</h2>
+				<section className="mb-4">
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-cotton-dark"><div className="color__desc"><span>Cotton</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-cotton"><div className="color__desc"><span>Cotton</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-cotton-light"><div className="color__desc"><span>Cotton</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-cotton-subtle"><div className="color__desc"><span>Cotton</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-marine-dark"><div className="color__desc"><span>Marine</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-marine"><div className="color__desc"><span>Marine</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-marine-light"><div className="color__desc"><span>Marine</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-marine-subtle"><div className="color__desc"><span>Marine</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-ice-dark"><div className="color__desc"><span>Ice</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-ice"><div className="color__desc"><span>Ice</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-ice-light"><div className="color__desc"><span>Ice</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-ice-subtle"><div className="color__desc"><span>Ice</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-cyprus-dark"><div className="color__desc"><span>Cyprus</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-cyprus"><div className="color__desc"><span>Cyprus</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-cyprus-light"><div className="color__desc"><span>Cyprus</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-cyprus-subtle"><div className="color__desc"><span>Cyprus</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-highland-dark"><div className="color__desc"><span>Highland</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-highland"><div className="color__desc"><span>Highland</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-highland-light"><div className="color__desc"><span>Highland</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-highland-subtle"><div className="color__desc"><span>Highland</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-dull-orange-dark"><div className="color__desc"><span>Dull orange</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-dull-orange"><div className="color__desc"><span>Dull orange</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-dull-orange-light"><div className="color__desc"><span>Dull orange</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-dull-orange-subtle"><div className="color__desc"><span>Dull orange</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-cherry-dark"><div className="color__desc"><span>Cherry</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-cherry"><div className="color__desc"><span>Cherry</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-cherry-light"><div className="color__desc"><span>Cherry</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-cherry-subtle"><div className="color__desc"><span>Cherry</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-golden-dark"><div className="color__desc"><span>Golden</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-golden"><div className="color__desc"><span>Golden</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-golden-light"><div className="color__desc"><span>Golden</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-golden-subtle"><div className="color__desc"><span>Golden</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+					<section className="mb-4">
+						<div className="colors mb-3">
+							<div className="color drop-shadow-md bg-cottage-blue-dark"><div className="color__desc"><span>Cottage blue</span><span className="text-mute">Dark</span></div></div>
+							<div className="color drop-shadow-md bg-cottage-blue"><div className="color__desc"><span>Cottage blue</span><span className="text-mute">Base</span></div></div>
+							<div className="color drop-shadow-md bg-cottage-blue-light"><div className="color__desc"><span>Cottage blue</span><span className="text-mute">Light</span></div></div>
+							<div className="color drop-shadow-md bg-cottage-blue-subtle"><div className="color__desc"><span>Cottage blue</span><span className="text-mute">Subtle</span></div></div>
+						</div>
+					</section>
+				</section>
 
-				<div className="color bg-purple-30">
-					<div className="color__desc">
-						<span>purple-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+				<h2>Colors</h2>
+				<section className="mb-4">
 
-			<h3>Violet</h3>
-			<div className="colors mb-5">
-				<div className="color bg-violet-5">
-					<div className="color__desc">
-						<span>violet-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-violet-10">
-					<div className="color__desc">
-						<span>violet-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-violet-20">
-					<div className="color__desc">
-						<span>violet-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-violet">
-					<div className="color__desc">
-						<span>violet</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
+					<div className="blob drop-shadow-md bg-primary">primary</div>
+					<div className="blob drop-shadow-md bg-secondary">secondary</div>
+					<div className="blob drop-shadow-md bg-tertiary">tertiary</div>
+					<div className="blob drop-shadow-md bg-hot-pink">hot-pink</div>
+					<div className="blob drop-shadow-md bg-bordeaux">bordeaux</div>
+					<div className="blob drop-shadow-md bg-magenta">magenta</div>
+					<div className="blob drop-shadow-md bg-pale">pale</div>
 
-				<div className="color bg-violet-30">
-					<div className="color__desc">
-						<span>violet-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+					<div className="blob drop-shadow-md bg-black">black</div>
+					<div className="blob drop-shadow-md bg-dark-brown">dark-brown</div>
+					<div className="blob drop-shadow-md bg-stone">stone</div>
 
-			<h3>Royalblue</h3>
-			<div className="colors mb-5">
-				<div className="color bg-royalblue-5">
-					<div className="color__desc">
-						<span>royalblue-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-royalblue-10">
-					<div className="color__desc">
-						<span>royalblue-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-royalblue-20">
-					<div className="color__desc">
-						<span>royalblue-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-royalblue">
-					<div className="color__desc">
-						<span>royalblue</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
+					<div className="blob drop-shadow-md bg-pepper">pepper</div>
+					<div className="blob drop-shadow-md bg-sand">sand</div>
+					<div className="blob drop-shadow-md bg-beige">beige</div>
+					<div className="blob drop-shadow-md bg-isabelline">isabelline</div>
+					<div className="blob drop-shadow-md bg-offwhite">offwhite</div>
+					<div className="blob drop-shadow-md bg-white">white</div>
 
-				<div className="color bg-royalblue-30">
-					<div className="color__desc">
-						<span>royalblue-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+					<div className="blob drop-shadow-md bg-chinese-white">chinese-white</div>
+					<div className="blob drop-shadow-md bg-terracotta">terracotta</div>
+					<div className="blob drop-shadow-md bg-overcast">overcast</div>
+					<div className="blob drop-shadow-md bg-silver">silver</div>
 
-			<h3>Blue</h3>
-			<div className="colors mb-5">
-				<div className="color bg-blue-5">
-					<div className="color__desc">
-						<span>blue-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-blue-10">
-					<div className="color__desc">
-						<span>blue-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-blue-20">
-					<div className="color__desc">
-						<span>blue-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-blue">
-					<div className="color__desc">
-						<span>blue</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
+				</section>
 
-				<div className="color bg-blue-30">
-					<div className="color__desc">
-						<span>blue-30</span>
-						<span className="text-">Muted</span>
+				<h2>Color shades</h2>
+				<section className="mb-4">
+					<div className="colors mb-3">
+						<div className="color  bg-purple-dark"><div className="color__desc"><span>Purple</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-purple"><div className="color__desc"><span>Purple</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-purple-light"><div className="color__desc"><span>Purple</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-purple-subtle"><div className="color__desc"><span>Purple</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-			</div>
 
-			<h3>vintage Blue</h3>
-			<div className="colors mb-5">
-				<div className="color bg-vintage-blue-5">
-					<div className="color__desc">
-						<span>vintage-blue-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-violet-dark"><div className="color__desc"><span>Violet</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-violet"><div className="color__desc"><span>Violet</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-violet-light"><div className="color__desc"><span>Violet</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-violet-subtle"><div className="color__desc"><span>Violet</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-vintage-blue-10">
-					<div className="color__desc">
-						<span>vintage-blue-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-vintage-blue-20">
-					<div className="color__desc">
-						<span>vintage-blue-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-vintage-blue">
-					<div className="color__desc">
-						<span>vintage-blue</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
 
-				<div className="color bg-vintage-blue-30">
-					<div className="color__desc">
-						<span>vintage-blue-30</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-royalblue-dark"><div className="color__desc"><span>Royalblue</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-royalblue"><div className="color__desc"><span>Royalblue</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-royalblue-light"><div className="color__desc"><span>Royalblue</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-royalblue-subtle"><div className="color__desc"><span>Royalblue</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-			</div>
 
-			<h3>Cyan</h3>
-			<div className="colors mb-5">
-				<div className="color bg-cyan-5">
-					<div className="color__desc">
-						<span>cyan-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-blue-dark"><div className="color__desc"><span>Blue</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-blue"><div className="color__desc"><span>Blue</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-blue-light"><div className="color__desc"><span>Blue</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-blue-subtle"><div className="color__desc"><span>Blue</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-cyan-10">
-					<div className="color__desc">
-						<span>cyan-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
 
-				<div className="color bg-cyan">
-					<div className="color__desc">
-						<span>cyan</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-vintage-blue-dark"><div className="color__desc"><span>Vintage blue</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-vintage-blue"><div className="color__desc"><span>Vintage blue</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-vintage-blue-light"><div className="color__desc"><span>Vintage blue</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-vintage-blue-subtle"><div className="color__desc"><span>Vintage blue</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-cyan-20">
-					<div className="color__desc">
-						<span>cyan-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-cyan-30">
-					<div className="color__desc">
-						<span>cyan-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Sea</h3>
-			<div className="colors mb-5">
-				<div className="color bg-sea-5">
-					<div className="color__desc">
-						<span>sea-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-cyan-dark"><div className="color__desc"><span>Cyan</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-cyan"><div className="color__desc"><span>Cyan</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-cyan-light"><div className="color__desc"><span>Cyan</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-cyan-subtle"><div className="color__desc"><span>Cyan</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-sea-10">
-					<div className="color__desc">
-						<span>sea-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-sea-20">
-					<div className="color__desc">
-						<span>sea-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-sea">
-					<div className="color__desc">
-						<span>sea</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
 
-				<div className="color bg-sea-30">
-					<div className="color__desc">
-						<span>sea-30</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-sea-dark"><div className="color__desc"><span>Sea</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-sea"><div className="color__desc"><span>Sea</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-sea-light"><div className="color__desc"><span>Sea</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-sea-subtle"><div className="color__desc"><span>Sea</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-			</div>
 
-			<h3>Olive</h3>
-			<div className="colors mb-5">
-				<div className="color bg-olive-5">
-					<div className="color__desc">
-						<span>olive-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-olive-dark"><div className="color__desc"><span>Olive</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-olive"><div className="color__desc"><span>Olive</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-olive-light"><div className="color__desc"><span>Olive</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-olive-subtle"><div className="color__desc"><span>Olive</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-olive-10">
-					<div className="color__desc">
-						<span>olive-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
 
-				<div className="color bg-olive">
-					<div className="color__desc">
-						<span>olive</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-sage-dark"><div className="color__desc"><span>Sage</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-sage"><div className="color__desc"><span>Sage</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-sage-light"><div className="color__desc"><span>Sage</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-sage-subtle"><div className="color__desc"><span>Sage</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-olive-20">
-					<div className="color__desc">
-						<span>olive-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-olive-30">
-					<div className="color__desc">
-						<span>olive-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Sage</h3>
-			<div className="colors mb-5">
-				<div className="color bg-sage-5">
-					<div className="color__desc">
-						<span>sage-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-green-dark"><div className="color__desc"><span>Green</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-green"><div className="color__desc"><span>Green</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-green-light"><div className="color__desc"><span>Green</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-green-subtle"><div className="color__desc"><span>Green</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-sage-10">
-					<div className="color__desc">
-						<span>sage-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-sage-20">
-					<div className="color__desc">
-						<span>sage-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-sage">
-					<div className="color__desc">
-						<span>sage</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
 
-				<div className="color bg-sage-30">
-					<div className="color__desc">
-						<span>sage-30</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-spring-dark"><div className="color__desc"><span>Spring</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-spring"><div className="color__desc"><span>Spring</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-spring-light"><div className="color__desc"><span>Spring</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-spring-subtle"><div className="color__desc"><span>Spring</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-			</div>
 
-			<h3>Green</h3>
-			<div className="colors mb-5">
-				<div className="color bg-green-5">
-					<div className="color__desc">
-						<span>green-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-yellow-dark"><div className="color__desc"><span>Yellow</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-yellow"><div className="color__desc"><span>Yellow</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-yellow-light"><div className="color__desc"><span>Yellow</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-yellow-subtle"><div className="color__desc"><span>Yellow</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-green-10">
-					<div className="color__desc">
-						<span>green-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-green-20">
-					<div className="color__desc">
-						<span>green-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-green">
-					<div className="color__desc">
-						<span>green</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
 
-				<div className="color bg-green-30">
-					<div className="color__desc">
-						<span>green-30</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-havanna-dark"><div className="color__desc"><span>Havanna</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-havanna"><div className="color__desc"><span>Havanna</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-havanna-light"><div className="color__desc"><span>Havanna</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-havanna-subtle"><div className="color__desc"><span>Havanna</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-			</div>
 
-			<h3>Spring</h3>
-			<div className="colors mb-5">
-				<div className="color bg-spring-5">
-					<div className="color__desc">
-						<span>spring-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-orange-dark"><div className="color__desc"><span>Orange</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-orange"><div className="color__desc"><span>Orange</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-orange-light"><div className="color__desc"><span>Orange</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-orange-subtle"><div className="color__desc"><span>Orange</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-spring-10">
-					<div className="color__desc">
-						<span>spring-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-spring-20">
-					<div className="color__desc">
-						<span>spring-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-spring">
-					<div className="color__desc">
-						<span>spring</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-spring-30">
-					<div className="color__desc">
-						<span>spring-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Yellow</h3>
-			<div className="colors mb-5">
-				<div className="color bg-yellow-5">
-					<div className="color__desc">
-						<span>yellow-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-salmon-dark"><div className="color__desc"><span>Salmon</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-salmon"><div className="color__desc"><span>Salmon</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-salmon-light"><div className="color__desc"><span>Salmon</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-salmon-subtle"><div className="color__desc"><span>Salmon</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-yellow-10">
-					<div className="color__desc">
-						<span>yellow-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-yellow-20">
-					<div className="color__desc">
-						<span>yellow-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-yellow">
-					<div className="color__desc">
-						<span>yellow</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-yellow-30">
-					<div className="color__desc">
-						<span>yellow-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Havanna</h3>
-			<div className="colors mb-5">
-				<div className="color bg-havanna-5">
-					<div className="color__desc">
-						<span>havanna-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-red-dark"><div className="color__desc"><span>Red</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-red"><div className="color__desc"><span>Red</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-red-light"><div className="color__desc"><span>Red</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-red-subtle"><div className="color__desc"><span>Red</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-havanna-10">
-					<div className="color__desc">
-						<span>havanna-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-havanna-20">
-					<div className="color__desc">
-						<span>havanna-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-havanna">
-					<div className="color__desc">
-						<span>havanna</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-havanna-30">
-					<div className="color__desc">
-						<span>havanna-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Orange</h3>
-			<div className="colors mb-5">
-				<div className="color bg-orange-5">
-					<div className="color__desc">
-						<span>orange-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-rose-dark"><div className="color__desc"><span>Rose</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-rose"><div className="color__desc"><span>Rose</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-rose-light"><div className="color__desc"><span>Rose</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-rose-subtle"><div className="color__desc"><span>Rose</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-orange-10">
-					<div className="color__desc">
-						<span>orange-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-orange-20">
-					<div className="color__desc">
-						<span>orange-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-orange">
-					<div className="color__desc">
-						<span>orange</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-orange-30">
-					<div className="color__desc">
-						<span>orange-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Salmon</h3>
-			<div className="colors mb-5">
-				<div className="color bg-salmon-5">
-					<div className="color__desc">
-						<span>salmon-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-soft-pink-dark"><div className="color__desc"><span>Soft pink</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-soft-pink"><div className="color__desc"><span>Soft pink</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-soft-pink-light"><div className="color__desc"><span>Soft pink</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-soft-pink-subtle"><div className="color__desc"><span>Soft pink</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-salmon-10">
-					<div className="color__desc">
-						<span>salmon-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-salmon-20">
-					<div className="color__desc">
-						<span>salmon-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-salmon">
-					<div className="color__desc">
-						<span>salmon</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-salmon-30">
-					<div className="color__desc">
-						<span>salmon-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Red</h3>
-			<div className="colors mb-5">
-				<div className="color bg-red-5">
-					<div className="color__desc">
-						<span>red-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-nude-dark"><div className="color__desc"><span>Nude</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-nude"><div className="color__desc"><span>Nude</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-nude-light"><div className="color__desc"><span>Nude</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-nude-subtle"><div className="color__desc"><span>Nude</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-red-10">
-					<div className="color__desc">
-						<span>red-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-red-20">
-					<div className="color__desc">
-						<span>red-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-red">
-					<div className="color__desc">
-						<span>red</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-red-30">
-					<div className="color__desc">
-						<span>red-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Soft-pink</h3>
-			<div className="colors mb-5">
-				<div className="color bg-soft-pink-5">
-					<div className="color__desc">
-						<span>soft-pink-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-mulberry-dark"><div className="color__desc"><span>Mulberry</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-mulberry"><div className="color__desc"><span>Mulberry</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-mulberry-light"><div className="color__desc"><span>Mulberry</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-mulberry-subtle"><div className="color__desc"><span>Mulberry</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-soft-pink-10">
-					<div className="color__desc">
-						<span>soft-pink-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-soft-pink-20">
-					<div className="color__desc">
-						<span>soft-pink-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-soft-pink">
-					<div className="color__desc">
-						<span>soft-pink</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-soft-pink-30">
-					<div className="color__desc">
-						<span>soft-pink-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Nude</h3>
-			<div className="colors mb-5">
-				<div className="color bg-nude-5">
-					<div className="color__desc">
-						<span>nude-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-pink-dark"><div className="color__desc"><span>Pink</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-pink"><div className="color__desc"><span>Pink</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-pink-light"><div className="color__desc"><span>Pink</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-pink-subtle"><div className="color__desc"><span>Pink</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-nude-10">
-					<div className="color__desc">
-						<span>nude-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-nude-20">
-					<div className="color__desc">
-						<span>nude-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-nude">
-					<div className="color__desc">
-						<span>nude</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-nude-30">
-					<div className="color__desc">
-						<span>nude-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
 
-			<h3>Rose</h3>
-			<div className="colors mb-5">
-				<div className="color bg-rose-5">
-					<div className="color__desc">
-						<span>rose-5</span>
-						<span className="text-">Muted</span>
+					<div className="colors mb-3">
+						<div className="color  bg-brown-dark"><div className="color__desc"><span>Brown</span><span className="text-mute">Dark</span></div></div>
+						<div className="color  bg-brown"><div className="color__desc"><span>Brown</span><span className="text-mute">Base</span></div></div>
+						<div className="color  bg-brown-light"><div className="color__desc"><span>Brown</span><span className="text-mute">Light</span></div></div>
+						<div className="color  bg-brown-subtle"><div className="color__desc"><span>Brown</span><span className="text-mute">Subtle</span></div></div>
 					</div>
-				</div>
-				<div className="color bg-rose-10">
-					<div className="color__desc">
-						<span>rose-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-rose-20">
-					<div className="color__desc">
-						<span>rose-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-rose">
-					<div className="color__desc">
-						<span>rose</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-rose-30">
-					<div className="color__desc">
-						<span>rose-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+				</section>
 
-			<h3>Mulberry</h3>
-			<div className="colors mb-5">
-				<div className="color bg-mulberry-5">
-					<div className="color__desc">
-						<span>mulberry-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-mulberry-10">
-					<div className="color__desc">
-						<span>mulberry-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-mulberry-20">
-					<div className="color__desc">
-						<span>mulberry-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-mulberry">
-					<div className="color__desc">
-						<span>mulberry</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-mulberry-30">
-					<div className="color__desc">
-						<span>mulberry-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
-
-			<h3>Pink</h3>
-			<div className="colors mb-5">
-				<div className="color bg-pink-5">
-					<div className="color__desc">
-						<span>pink-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-pink-10">
-					<div className="color__desc">
-						<span>pink-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-pink-20">
-					<div className="color__desc">
-						<span>pink-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-pink">
-					<div className="color__desc">
-						<span>pink</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-pink-30">
-					<div className="color__desc">
-						<span>pink-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
-
-			<h3>Brown</h3>
-			<div className="colors mb-5">
-				<div className="color bg-brown-5">
-					<div className="color__desc">
-						<span>brown-5</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-brown-10">
-					<div className="color__desc">
-						<span>brown-10</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-brown-20">
-					<div className="color__desc">
-						<span>brown-20</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-brown">
-					<div className="color__desc">
-						<span>brown</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-				<div className="color bg-brown-30">
-					<div className="color__desc">
-						<span>brown-30</span>
-						<span className="text-">Muted</span>
-					</div>
-				</div>
-			</div>
+			</section>
 
 			<h1>Swatches </h1>
 

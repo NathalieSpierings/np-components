@@ -288,7 +288,7 @@ const ArtEmptyData: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             <path
                 d="M340,319.82H159.37a3.06,3.06,0,0,1-3-2.82l-7.63-105.94a2.58,2.58,0,0,1,2.32-2.8H332a3.08,3.08,0,0,1,3,2.81L342.66,317a2.58,2.58,0,0,1-2.35,2.81A2,2,0,0,1,340,319.82Z"
                 transform="translate(-60.62 -67.71)"
-                fill="var(--color-light)"
+                fill="var(--art-light)"
             />
 
             <g id="face">

@@ -89,7 +89,7 @@ export const InsideToastr: StoryFn = () => {
     return (
         <div className="toastr toastr-negative toastr--bottom-center">
             <div>
-                <div className="toastr__container bg-rose-30 shown move-up-enter-done">
+                <div className="toastr__container bg-rose-dark shown move-up-enter-done">
                     <div className="toastr__message">Toastr message</div>
                     <DismissButton
                         circle={true}

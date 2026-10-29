@@ -1,8 +1,8 @@
 @use "./mixins";
 
-@layer logo, menu, sidebarAccount, burger, breadcrumb, themeSwitch, mainLayout, sidebarMenu;
+@layer pds.logo, pds.menu, pds.sidebarAccount, pds.burger, pds.breadcrumb, pds.themeSwitch, pds.mainLayout, pds.sidebarMenu;
 
-@layer burger {
+@layer pds.burger {
     .burger {
         display: flex;
         flex-direction: column;
@@ -45,7 +45,7 @@
 
 }
 
-@layer breadcrumb {
+@layer pds.breadcrumb {
     .breadcrumb {
         display: inline-flex;
         flex-wrap: wrap;
@@ -99,7 +99,7 @@
     }
 }
 
-@layer sidebarAccount {
+@layer pds.sidebarAccount {
     .sidebar-account {
         flex-direction: column;
         justify-content: center;
@@ -114,7 +114,7 @@
 
 }
 
-@layer menu {
+@layer pds.menu {
     .menu {
         --ml-menu-menu-accent: var(--color-primary);
         --ml-menu-menu-icon-size: 24px;
@@ -184,7 +184,7 @@
     }
 }
 
-@layer logo {
+@layer pds.logo {
 
     .logo {
         padding-top: var(--page-padding-sm);
@@ -211,7 +211,7 @@
     }
 }
 
-@layer themeSwitch {
+@layer pds.themeSwitch {
     .theme-switcher {
         display: flex;
         flex-direction: column;
@@ -233,7 +233,7 @@
     }
 }
 
-@layer mainLayout {
+@layer pds.mainLayout {
     .main-layout {
         --ml-padding: var(--page-padding);
         --ml-aside-header-height: var(--header-height);
@@ -487,7 +487,7 @@
     }
 }
 
-@layer sidebarMenu {
+@layer pds.sidebarMenu {
     .sidebar-menu {
         display: flex;
         flex-direction: column;

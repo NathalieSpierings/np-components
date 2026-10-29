@@ -1,9 +1,9 @@
 @use "./mixins";
 
-@layer reset, animations, page, layout, general, utiltities, typography, ripple, ring, icon;
+@layer pds.reset, pds.animations, pds.page, pds.layout, pds.general, pds.utiltities, pds.typography, pds.ripple, pds.ring, pds.icon;
 
 
-@layer reset {
+@layer pds.reset {
 
 	*,
 	::before,
@@ -245,7 +245,7 @@
 
 }
 
-@layer animations {
+@layer pds.animations {
 	@-webkit-keyframes inputFadeInDown {
 		0% {
 			opacity: 0;
@@ -378,7 +378,7 @@
 	}
 }
 
-@layer page {
+@layer pds.page {
 
 	*,
 	*::before,
@@ -456,7 +456,7 @@
 	}
 }
 
-@layer layout {
+@layer pds.layout {
 
 	.page {
 		width: 100%;
@@ -577,7 +577,7 @@
 
 }
 
-@layer typography {
+@layer pds.typography {
 
 	mark,
 	::selection,
@@ -918,7 +918,7 @@
 
 }
 
-@layer general {
+@layer pds.general {
 
 	.media-object {
 		display: flex;
@@ -1343,7 +1343,7 @@
 	}
 }
 
-@layer utiltities {
+@layer pds.utiltities {
 
 	.centered {
 		padding: 0 var(--page-padding);
@@ -2311,7 +2311,7 @@
 }
 
 
-@layer ripple {
+@layer pds.ripple {
 
 	.ripple {
 		--ripple-background: var(--color-white);
@@ -2337,7 +2337,7 @@
 	}
 }
 
-@layer ring {
+@layer pds.ring {
 
 	:root {
 		--ring-size: 1px;
@@ -2391,7 +2391,7 @@
 
 }
 
-@layer icon {
+@layer pds.icon {
 
 	svg {
 		--svg-ico-opacity: 1;

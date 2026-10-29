@@ -797,7 +797,7 @@ function Datagrid<TData extends { id: string | number }>({
                                         }} />
                                     )}
                                     {showCheckedInfo && (
-                                        <div> U heeft{" "} <strong className="text-primary-30">{checkedItems.length}</strong> {" "} {checkedItems.length === 1 ? "rij" : "rijen"} {" "} geselecteerd</div>
+                                        <div> U heeft{" "} <strong className="text-primary-dark">{checkedItems.length}</strong> {" "} {checkedItems.length === 1 ? "rij" : "rijen"} {" "} geselecteerd</div>
                                     )}
                                 </>
                             )}

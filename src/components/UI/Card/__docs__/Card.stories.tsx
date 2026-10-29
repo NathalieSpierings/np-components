@@ -119,7 +119,7 @@ export const Background: StoryFn = () => {
                 <Icon key="1" icon={IconDefinitions.search}
                     variant="circle"
                     size={SizeDefinitions.Small}
-                    color={ColorDefinitions.Olive10}
+                    color={ColorDefinitions.OliveLight}
                     borderColor={ColorDefinitions.Olive}
                     hoverBorderColor={ColorDefinitions.Olive}
                 />,
@@ -131,7 +131,7 @@ export const Background: StoryFn = () => {
                             icon={IconDefinitions.ellipsis_h}
                             variant="circle"
                             size={SizeDefinitions.Small}
-                            color={ColorDefinitions.Olive10}
+                            color={ColorDefinitions.OliveLight}
                             borderColor={ColorDefinitions.Olive}
                             hoverBorderColor={ColorDefinitions.Olive} />)
                     }}
@@ -149,14 +149,14 @@ export const Background: StoryFn = () => {
                 />
             ]}
             headerBoxProps={{
-                background: ColorDefinitions.Olive30,
-                borderColor: ColorDefinitions.Olive30,
+                background: ColorDefinitions.OliveDark,
+                borderColor: ColorDefinitions.OliveDark,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                background: ColorDefinitions.Olive10,
-                borderColor: ColorDefinitions.Olive10,
+                background: ColorDefinitions.OliveLight,
+                borderColor: ColorDefinitions.OliveLight,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
@@ -196,7 +196,7 @@ export const TitleContent: StoryFn = () => {
             title={
                 <div>
                     Card title
-                    <Badge badgeCss="ml-1" size={SizeDefinitions.Tiny} background={ColorDefinitions.Rose30}>
+                    <Badge badgeCss="ml-1" size={SizeDefinitions.Tiny} background={ColorDefinitions.RoseDark}>
                         HOT
                     </Badge>
                 </div>

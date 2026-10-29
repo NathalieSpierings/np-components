@@ -67,7 +67,7 @@ export const Colored: StoryFn = () => {
         <StaticTagsInput
             selectedTags={selectedTags}
             label="My tags"
-            color={ColorDefinitions.Rose30}
+            color={ColorDefinitions.RoseDark}
         />
     );
 };

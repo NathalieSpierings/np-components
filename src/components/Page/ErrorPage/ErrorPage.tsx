@@ -60,7 +60,7 @@ const ErrorPage: FC<ErrorPageProps> = ({
                 <>
                     U heeft onvoldoende rechten om de inhoud van deze pagina te bekijken.
                     <br />
-                    <Link to="https://promeetec.nl/contact/" target="_blank" className="link text-primary-30">
+                    <Link to="https://promeetec.nl/contact/" target="_blank" className="link text-primary-dark">
                         Neem contact op
                     </Link>{' '}
                     met Promeetec als u denkt dat u deze inhoud wel moet kunnen zien.
@@ -72,7 +72,7 @@ const ErrorPage: FC<ErrorPageProps> = ({
             message = (
                 <>
                     We gaan dit nu regelen, maar u kunt ons desgewenst{' '}
-                    <Link to="https://promeetec.nl/contact/" target="_blank" className="link text-primary-30">
+                    <Link to="https://promeetec.nl/contact/" target="_blank" className="link text-primary-dark">
                         laten weten wat u probeerde te doen
                     </Link>
                     .

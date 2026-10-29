@@ -93,7 +93,7 @@ export const AllCollapsed: StoryFn = () => {
 export const Color: StoryFn = () => {
     return (
         <Accordion
-            headerBackground={ColorDefinitions.Olive30}
+            headerBackground={ColorDefinitions.OliveDark}
             contentBackground={ColorDefinitions.Olive}
             accentColor={ColorDefinitions.Green}
         >

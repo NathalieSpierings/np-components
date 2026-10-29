@@ -126,7 +126,7 @@ export const IndividualItemBackgroundAndBorder: StoryFn = () => (
     <Collection
         items={fewItems.map(item =>
             item.id === '2'
-                ? { ...item, background: ColorDefinitions.Rose5, borderColor: ColorDefinitions.Rose30 }
+                ? { ...item, background: ColorDefinitions.RoseSubtle, borderColor: ColorDefinitions.RoseDark }
                 : item
         )}
         itemVariant="bordered"
@@ -247,9 +247,9 @@ export const CheckboxesWithActions: StoryFn = () => {
                 rounded={SizeDefinitions.Large}
                 items={demoFiles.map(file => ({
                     id: file.id,
-                    background: file.removed ? ColorDefinitions.Rose5 : undefined,
+                    background: file.removed ? ColorDefinitions.RoseSubtle : undefined,
                     borderColor: file.removed ? ColorDefinitions.Rose : undefined,
-                    collectionItemCss: file.removed ? `text-${ColorDefinitions.Rose30}` : '',
+                    collectionItemCss: file.removed ? `text-${ColorDefinitions.RoseDark}` : '',
                     content: {
                         prefix: (
                             <>

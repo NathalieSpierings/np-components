@@ -167,7 +167,7 @@ export const Background: StoryFn = () => {
         <FileSelect
             multiple={true}
             backgroundColor={ColorDefinitions.Olive}
-            buttonColor={ColorDefinitions.Olive30}
+            buttonColor={ColorDefinitions.OliveDark}
             selectedFiles={selectedFiles}
             setSelectedFiles={setSelectedFiles}
             accept={[".doc", ".docx", ".txt", ".pdf", ".xls", ".xlsx", ".csv", ".zip"]}
@@ -184,7 +184,7 @@ export const Border: StoryFn = () => {
 
         <FileSelect
             multiple={true}
-            borderColor={ColorDefinitions.Blue30}
+            borderColor={ColorDefinitions.BlueDark}
             backgroundColor={ColorDefinitions.SurfaceLight}
             buttonColor={ColorDefinitions.Surface}
             selectedFiles={selectedFiles}
@@ -204,7 +204,7 @@ export const Primary: StoryFn = () => {
         <FileSelect
             multiple={true}
             borderColor={ColorDefinitions.Primary}
-            backgroundColor={ColorDefinitions.Primary5}
+            backgroundColor={ColorDefinitions.PrimarySubtle}
             buttonColor={ColorDefinitions.Primary}
             selectedFiles={selectedFiles}
             setSelectedFiles={setSelectedFiles}

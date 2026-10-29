@@ -58,7 +58,7 @@ export const Background: StoryFn = () => {
     const [firstName, setFirstName] = useState('');
 
     return (
-        <Input name="firstname" label="Firstname" value={firstName} onChange={e => setFirstName(e.target.value)} background={ColorDefinitions.Purple10} />
+        <Input name="firstname" label="Firstname" value={firstName} onChange={e => setFirstName(e.target.value)} background={ColorDefinitions.PurpleLight} />
 
     );
 };
@@ -67,7 +67,7 @@ export const ColorAndBackground: StoryFn = () => {
     const [firstName, setFirstName] = useState('');
 
     return (
-        <Input name="firstname" label="Firstname" value={firstName} onChange={e => setFirstName(e.target.value)} color={ColorDefinitions.Purple30} background={ColorDefinitions.Purple10} />
+        <Input name="firstname" label="Firstname" value={firstName} onChange={e => setFirstName(e.target.value)} color={ColorDefinitions.PurpleDark} background={ColorDefinitions.PurpleLight} />
 
     );
 };
@@ -76,7 +76,7 @@ export const Utilities: StoryFn = () => {
     const [firstName, setFirstName] = useState('');
 
     return (
-        <Input name="firstname" label="Firstname" value={firstName} onChange={e => setFirstName(e.target.value)} labelCss="text-green-30" inputCss="bg-green-10 text-green-30 border-green-30" />
+        <Input name="firstname" label="Firstname" value={firstName} onChange={e => setFirstName(e.target.value)} labelCss="text-green-dark" inputCss="bg-green-light text-green-dark border-green-dark" />
 
     );
 };

@@ -6,44 +6,63 @@
 
 
 $colors: (
-  "black": #000000,
-  "white": #FFFFFF,
-  "offwhite": #FDFDFC,
-  "light": #F3F1EE,
-  "silver": #C0C0C0,
-  "beige": #D9D4D0,
-  "terracotta": #E56046,
-  "bordeaux": #852D37,
-  "magenta": #ED344E,
-  "pale": #FBB7A7,
-  "pepper": #9A928A,
-  "sand": #CAC6C3,
-  "transparent": transparent
+  "black":        #000000,
+	"white":        #FFFFFF,
+	"offwhite":     #FDFDFC,
+	"carbon":       #3f3f3f,
+  "snow":         #F3F1EE,
+	"hot-pink":     #d51a54,	
+	"bordeaux":     #852D37,
+	"magenta":      #ED344E,
+	"pale":         #FBB7A7,
+	"sand":         #CAC6C3,
+	"pepper":       #9A928A,
+	"overcast":     #788489,
+	"stone":         #676663,
+	"silver":       #C0C0C0,	
+	"chinese-white": #dbead2,	
+	"terracotta":   #e0804a,
+	"isabelline":   #f4f0e9,
+	"beige":        #EFE9E2,
+	"dark-brown": #39302B,
+	"transparent": transparent
 );
 
 $shades: (
-  "purple": ("base": #AF88FD, "5": #f3edff, "10": #e7dbfe,  "30": #8C6DCA),
-  "violet": ("base": #C08EE4, "5": #f2e8fa, "10": #e6d2f4,  "30": #9A72B6),
-  "royalblue": ("base": #2D7FCA, "5": #eaf2fa, "10": #c0d9ef,  "30": #2466A2),
-  "blue": ("base": #79b2cc, "5": #e5f1f7, "10": #cae3ee,  "30": #3882A2),
-  "vintage-blue": ("base": #779faa, "5": #c9e7ea, "10": #adcfd4,  "30": #5d8793),
-  "cyan": ("base":#5bcbd3, "5": #d5ffff, "10": #98e5e9, "30":#339da6),
-  "sea": ("base": #80C8C2, "5": #ecf7f6, "10": #d9efed,  "30": #66A09B),
-  "olive": ("base": #89977a, "5": #e8ebe6, "10": #d2d7cc,  "30": #616f53),
-  "sage": ("base": #b8d08f, "5": #dde9c8, "10": #ccddae, "30": #91a96a),
-  "green": ("base": #8CC996, "5": #e8f4ea, "10": #d1e9d5, "30": #70A178),
-  "spring": ("base": #67D07E, "5": #ccf5df, "10": #afeac3, "30": #45a859),
-  "yellow": ("base": #FCCB7A, "5": #fef5e4, "10": #feeaca, "30": #FABB61),
-  "havanna": ("base": #F5BD6E, "5": #fdf0ce, "10": #fbe2b3, "30": #e7b062),
-  "orange": ("base": #FFB064, "5": #ffefe0, "10": #ffdfc1, "30": #F38E40),
-  "salmon": ("base": #FF8B68, "5": #ffe5c6, "10": #ffcbab, "30":#d26345),
-  "soft-pink": ("base": #fba19d, "5": #feeae9, "10": #fdd5d3, "30": #b36160),
-  "nude": ("base": #E1A299, "5": #F1D5D1, "10": #F5C9C0, "30": #D3948B),
-  "rose": ("base": #f88392, "5": #ffe8e9, "10": #ffcfd3, "30": #dc6a7a),
-  "mulberry": ("base": #D06495, "5": #f6e0ea, "10":#ecc1d5, "30": #A65077),
-  "pink": ("base": #F691BE, "5": #fde9f2, "10": #fbd3e5, "30": #E17EAA),
-  "brown": ("base": #87705B, "5": #e7e2de, "10": #cfc6bd, "30": #6C5A49),
-  "secondary": ("base": #5EAFB1, "5": #ddffff, "10": #c1edee, "30": #3f898b),
+	"primary": #e0804a, "primary-dark": #C47041, "primary-light": #F7BCA2, "primary-subtle": #F8ECE5,
+	"secondary": #173D4B, "secondary-dark": #14313E, "secondary-light": #768B94, "secondary-subtle": #E4E5E9,
+	"tertiary": #587068, "tertiary-dark": #094345, "tertiary-light": #798d86, "tertiary-subtle": #dee2e1,
+	"cotton": #e8e2db, "cotton-dark": #bcb4a9, "cotton-light": #EFE9E2, "cotton-subtle": #F4F0E9,
+	"ice": #DADEE1, "ice-dark": #C5CED0, "ice-light": #E7E9EB, "ice-subtle": #F6F6F6,
+	"marine": #173D4B, "marine-dark": #14313E, "marine-light": #768B94, "marine-subtle": #E4E5E9,
+	"cyprus": #587068, "cyprus-dark": #094345, "cyprus-light": #798d86, "cyprus-subtle": #dee2e1,
+	"highland": #729061, "highland-dark": #537348, "highland-light": #9cb190, "highland-subtle": #DCE5D9,
+	"dull-orange": #e0804a, "dull-orange-dark": #C47041, "dull-orange-light": #F7BCA2, "dull-orange-subtle": #F8ECE5,
+	"cherry": #E56368, "cherry-dark": #AC4A4E, "cherry-light": #efa1a4, "cherry-subtle": #fceff0,
+	"cottage-blue": #96B3BB, "cottage-blue-dark": #788f96, "cottage-blue-light": #c0d1d6, "cottage-blue-subtle": #eaf0f1,
+	"golden": #EABE65, "golden-dark": #bb9851, "golden-light": #f2d8a3, "golden-subtle": #fbf2e0,
+	"purple": #AF88FD, "purple-dark": #8C6DCA, "purple-light": #e7dbfe, "purple-subtle": #f3edff,
+	"violet": #C08EE4, "violet-dark": #9A72B6, "violet-light": #e6d2f4, "violet-subtle": #f2e8fa,
+	"royalblue": #2D7FCA, "royalblue-dark": #2466A2, "royalblue-light": #c0d9ef, "royalblue-subtle": #eaf2fa,
+	"blue": #79b2cc, "blue-dark": #3882A2, "blue-light": #cae3ee, "blue-subtle": #e5f1f7,
+	"vintage-blue": #779faa, "vintage-blue-dark": #5d8793, "vintage-blue-light": #adcfd4, "vintage-blue-subtle": #c9e7ea,
+	"cyan": #5bcbd3, "cyan-dark": #339da6, "cyan-light": #98e5e9, "cyan-subtle": #d5ffff,
+	"sea": #80C8C2, "sea-dark": #66A09B, "sea-light": #d9efed, "sea-subtle": #ecf7f6,
+	"olive": #89977a, "olive-dark": #616f53, "olive-light": #d2d7cc, "olive-subtle": #e8ebe6,
+	"sage": #b8d08f, "sage-dark": #91a96a, "sage-light": #ccddae, "sage-subtle": #dde9c8,
+	"green": #8CC996, "green-dark": #70A178, "green-light": #d1e9d5, "green-subtle": #e8f4ea,
+	"spring": #67D07E, "spring-dark": #45a859, "spring-light": #afeac3, "spring-subtle": #ccf5df,
+	"yellow": #FCCB7A, "yellow-dark": #FABB61, "yellow-light": #feeaca, "yellow-subtle": #fef5e4,
+	"havanna": #F5BD6E, "havanna-dark": #e7b062, "havanna-light": #fbe2b3, "havanna-subtle": #fdf0ce,
+	"orange": #FFB064, "orange-dark": #F38E40, "orange-light": #ffdfc1, "orange-subtle": #ffefe0,
+	"salmon": #FF8B68, "salmon-dark": #d26345, "salmon-light": #ffcbab, "salmon-subtle": #ffe5c6,
+	"red": #E16268, "red-dark": #A5313B, "red-light": #f6d0d2, "red-subtle": #fceff0,
+	"rose": #f88392, "rose-dark": #dc6a7a, "rose-light": #ffcfd3, "rose-subtle": #ffe8e9,
+	"soft-pink": #fba19d, "soft-pink-dark": #b36160, "soft-pink-light": #fdd5d3, "soft-pink-subtle": #feeae9,
+	"nude": #E1A299, "nude-dark": #D3948B, "nude-light": #F5C9C0, "nude-subtle": #F1D5D1,
+	"mulberry": #D06495, "mulberry-dark": #A65077, "mulberry-light": #ecc1d5, "mulberry-subtle": #f6e0ea,
+	"pink": #F691BE, "pink-dark": #E17EAA, "pink-light": #fbd3e5, "pink-subtle": #fde9f2,
+	"brown": #87705B, "brown-dark": #6C5A49, "brown-light": #cfc6bd, "brown-subtle": #e7e2de,
 );
 
 $themes: (
@@ -60,17 +79,7 @@ $themes: (
 		text-light: #a2a1a0,
 		text: #3c3c3c,
 		text-dark: #000000,
-		primary: #ff8b5d,
-		primary-5: #ffdcce,
-		primary-10: #ffc5ae,
-		primary-20: #ffae8e,
-		primary-30: #ec6636,
 		dark: #3f3f3f,
-		"red": #FF8A8A,
-		red-5: #fceff0,
-		red-10: #f6d0d2,
-		red-20: #ea9195,
-		red-30: #A5313B,		
 	),
 	dimmed: (
 		theme-100: #848383,
@@ -85,17 +94,7 @@ $themes: (
 		text-light: #a8a8a8,
 		text: #d3d3d3,
 		text-dark: #fdfdfd,
-		primary: #ff8b5d,
-		primary-5: #ffdcce,
-		primary-10: #ffc5ae,
-		primary-20: #ffae8e,
-		primary-30: #ec6636,
 		dark: #3f3f3f,
-		"red": #f38b94,
-		red-5: #fde8ea,
-		red-10: #f599a1,
-		red-20: #d9656f,
-		red-30: #ae5159,
 	),
 	dark: (
 		theme-100: #656565,
@@ -110,17 +109,7 @@ $themes: (
 		text-light: #878787,
 		text: #cdcdcd,
 		text-dark: #fdfdfd,
-		primary: #ff8b5d,
-		primary-5: #ffdcce,
-		primary-10: #ffc5ae,
-		primary-20: #ffae8e,
-		primary-30: #ec6636,
 		dark: #0d0d0d,
-		"red": #f1707b,
-		red-5: #fde8ea,
-		red-10: #f599a1,
-		red-20: #d9656f,
-		red-30: #ae5159,
 	)
 );
 
@@ -163,7 +152,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
       --color-foreground: var(--color-#{$name}-foreground);
       --color-border: var(--color-#{$name}-border);
       --color-muted: var(--color-#{$name}-muted);
-      --color-shadow: var(--color-shadow-#{$name});
+      --color-shadow: var(--color-#{$name}-shadow);
 
       background: var(--color-background) !important;
       color: var(--color-foreground) !important;
@@ -202,7 +191,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
 
     .shadow-#{$name},
     .hover\:shadow-#{$name}:hover {
-      box-shadow: var(--color-shadow-#{$name}, 0 0 0 transparent) !important;
+      box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent) !important;
     }
 
     .shadow-from-#{$name} {
@@ -212,7 +201,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
     .shadow-before-#{$name},
     .hover\:shadow-before-#{$name}:hover {
       &::before {
-        box-shadow: var(--color-shadow-#{$name}, 0 0 0 transparent) !important;
+        box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent) !important;
       }
     }
 
@@ -251,7 +240,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
 
     .btn-#{$name} {
       --button-foreground: var(--color-#{$name}-foreground);
-      --color-shadow: var(--color-shadow-#{$name});
+      --color-shadow: var(--color-#{$name}-shadow);
       --color-border: var(--color-#{$name});
       --color-background: var(--color-#{$name});
     }
@@ -363,7 +352,7 @@ $light-colors: (
     --color-#{$name}-border: #{$border};
     --color-#{$name}-muted: #{$muted};
     --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
-    --color-shadow-#{$name}: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
+    --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
     0 4px 23px 0 rgb(0 0 0 / 12%),
     0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
   }
@@ -374,7 +363,7 @@ $light-colors: (
   --color-foreground-strong: var(--color-text-dark);
   --color-border: var(--color-surface-border);
   --color-muted: var(--color-text-light);
-  --color-shadow: var(--color-shadow-surface);
+  --color-shadow: var(--color-surface-shadow);
 }
 
 
@@ -382,8 +371,8 @@ $light-colors: (
 
 @function theme-color-foreground($name, $theme: null) {
 
-  // 1. shades -5 / -10 → always dark
-  @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
+  // 1. shades subtle / light → always dark
+  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return var(--color-dark);
   }
 
@@ -400,8 +389,8 @@ $light-colors: (
 
 @function theme-color-muted($name, $value, $theme: null) {
 
-  // 1. shades -5 / -10 → always dark
-  @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
+  // 1. shades subtle / light → always dark
+   @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return oklab-mix($value, 35, black);
   }
 
@@ -414,7 +403,7 @@ $light-colors: (
 
 @function theme-color-border($name, $value, $theme: null) {
 
-  @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
+  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return oklab-mix($value, 10, black);
   }
 
@@ -482,7 +471,7 @@ $theme-all: list.join($theme-low, $theme-high);
       --color-#{$name}-muted: #{$muted};
 
       --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
-      --color-shadow-#{$name}: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
+      --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
       0 4px 23px 0 rgb(0 0 0 / 12%),
       0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
     }
@@ -495,7 +484,7 @@ $theme-all: list.join($theme-low, $theme-high);
     --color-#{$alias}-border: var(--color-#{$target}-border);
     --color-#{$alias}-muted: var(--color-#{$target}-muted);
     --color-#{$alias}-shadow-from: var(--color-#{$target}-shadow-from);
-    --color-shadow-#{$alias}: var(--color-shadow-#{$target});
+    --color-#{$alias}-shadow: var(--color-#{$target}-shadow);
   }
 }
 }
@@ -505,7 +494,7 @@ $theme-all: list.join($theme-low, $theme-high);
 
 @function shade-color-foreground($name) {
 
-  @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
+  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return var(--color-dark);
   }
 
@@ -514,7 +503,7 @@ $theme-all: list.join($theme-low, $theme-high);
 
 @function shade-color-muted($name, $value) {
 
-  @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
+  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return oklab-mix($value, 35, black);
   }
 
@@ -523,7 +512,7 @@ $theme-all: list.join($theme-low, $theme-high);
 
 @function shade-color-border($name, $value, $theme: null) {
 
-  @if string.slice("#{$name}", -2)=='-5' or string.slice("#{$name}", -3)=='-10' {
+  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return oklab-mix($value, 10, black);
   }
 
@@ -532,32 +521,20 @@ $theme-all: list.join($theme-low, $theme-high);
 
 // Generate css-variables for shades
 :root {
-  @each $name, $value in $shades {
-    @each $shade, $shadeValue in $value {
-      $key: null;
-
-      @if($shade ==base) {
-        $key: $name
-      }
-
-      @else {
-        $key: "#{$name}-#{$shade}"
-      }
+ @each $key, $value in $shades {
 
       $foreground: shade-color-foreground($key);
-      $muted: shade-color-muted($key, $shadeValue);
-      $border: shade-color-border($key, $shadeValue);
+      $muted: shade-color-muted($key, $value);
+      $border: shade-color-border($key, $value);
 
-      --color-#{$key}: #{$shadeValue};
+      --color-#{$key}: #{$value};
       --color-#{$key}-foreground: #{$foreground};
       --color-#{$key}-border: #{$border};
       --color-#{$key}-muted: #{$muted};
       --color-#{$key}-shadow-from: hsl(from var(--color-#{$key}) h s l / 42%);
-      --color-shadow-#{$key}: 0 14px 26px -12px var(--color-#{$key}-shadow-from, #{$shadeValue}),
+      --color-#{$key}-shadow: 0 14px 26px -12px var(--color-#{$key}-shadow-from, #{$value}),
       0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);
-
-    }
+      0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);    
   }
 }
 
@@ -590,20 +567,10 @@ $theme-all: list.join($theme-low, $theme-high);
 
 
 // Generate utility and component classes for shades
-@each $name, $value in $shades {
-  @each $shade, $shadeValue in $value {
-    $key: null;
-
-    @if($shade ==base) {
-      $key: $name;
-    }
-    @else {
-      $key: "#{$name}-#{$shade}";
-    }
-
-    @include utilities($key, $shadeValue );
-    @include components($key, $shadeValue );
-  }
+@each $key, $value in $shades {
+    @include utilities($key,$value );
+    @include components($key, $value );
+  
 }
 
 .theme-light {

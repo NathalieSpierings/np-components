@@ -105,7 +105,7 @@
     --shadow-light: rgb(0 0 0 / 6%);
     --shadow-light-inverse: rgb(255 255 255 / 6%);
 
-    --color-shadow: var(--color-shadow-surface);
+    --color-shadow: var(--color-surface-shadow);
     --color-accent: var(--color-primary);
 
     --color-hover: var(--shadow-light-inverse);
@@ -165,7 +165,7 @@
     // Illustrations
     --art-background: var(--color-theme-500);
 	--art-dark: var(--color-dark);
-	--art-light: var(--color-light);
+	--art-light: var(--color-offwhite);
 	--art-muted: var(--color-muted);
 	--art-accent: var(--color-primary);
     --art-secondary: var(--color-secondary);

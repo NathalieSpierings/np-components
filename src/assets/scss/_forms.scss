@@ -1,9 +1,9 @@
-@layer inputReset, inputAnimations, formField, checkboxField, radioField, toggleSwithField,
-selectField, inputField, passwordField, searchInputField, tagsInputField,
-checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, fileupload;
+@layer pds.inputReset, pds.inputAnimations, pds.formField, pds.checkboxField, pds.radioField, pds.toggleSwithField,
+pds.selectField, pds.inputField, pds.passwordField, pds.searchInputField, pds.tagsInputField,
+pds.checkboxAnimated, pds.dropdownFieldOld, pds.dropdownField, pds.multiSelect, pds.datepicker, pds.fileupload;
 
 
-@layer inputReset {
+@layer pds.inputReset {
 
 	// === Clear X in search input for IE and Chome/Brave
 
@@ -80,7 +80,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer inputAnimations {
+@layer pds.inputAnimations {
 
 	@-webkit-keyframes inputFadeInDown {
 		0% {
@@ -118,14 +118,14 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer formField {
+@layer pds.formField {
 	.form-inline {
 		display: flex;
 		gap: 1rem;
 	}
 
 	.field-validation-error {
-		color: var(--color-rose-30);
+		color: var(--color-rose-dark);
 		background: var(--color-background);
 		padding: .5rem 1rem;
 		border-radius: var(--radius-sm);
@@ -168,7 +168,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 				.checker .check,
 				[type="checkbox"]:checked~.checker .check {
-					--form-field-background: var(--color-rose-30) !important;
+					--form-field-background: var(--color-rose-dark) !important;
 				}
 			}
 
@@ -176,7 +176,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 				.checker,
 				input[type="radio"]:checked~.checker {
-					--form-field-background: var(--color-rose-30) !important;
+					--form-field-background: var(--color-rose-dark) !important;
 				}
 			}
 
@@ -187,7 +187,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 					&:before,
 					&:after {
-						--form-field-background: var(--color-rose-30) !important;
+						--form-field-background: var(--color-rose-dark) !important;
 					}
 				}
 			}
@@ -257,7 +257,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer checkboxField {
+@layer pds.checkboxField {
 
 	.checkbox input:focus~.checker,
 	.checkbox input:active~.checker {
@@ -433,7 +433,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer radioField {
+@layer pds.radioField {
 
 	.radio input:focus~.checker,
 	.radio input:active~.checker {
@@ -528,7 +528,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer toggleSwithField {
+@layer pds.toggleSwithField {
 
 	.switch:focus-within,
 	.switch:focus-visible {
@@ -628,7 +628,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer selectField {
+@layer pds.selectField {
 
 	select {
 		appearance: none;
@@ -667,7 +667,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer inputField {
+@layer pds.inputField {
 
 	.form-group {
 		position: relative;
@@ -927,17 +927,17 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 		&.is-invalid {
 			.form-control {
-				border-color: var(--color-rose-30);
+				border-color: var(--color-rose-dark);
 
 				&:focus-visible {
-					outline-color: var(--color-rose-30);
-					box-shadow: var(--color-shadow-rose-30);
+					outline-color: var(--color-rose-dark);
+					box-shadow: var(--color-rose-dark-shadow);
 				}
 			}
 
 			label,
 			.form-control:focus+label {
-				color: var(--color-rose-30);
+				color: var(--color-rose-dark);
 			}
 		}
 
@@ -947,13 +947,13 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 				&:focus-visible {
 					outline-color: var(--color-green);
-					box-shadow: var(--color-shadow-green);
+					box-shadow: var(--color-green-shadow);
 				}
 			}
 
 			label,
 			.form-control:focus+label {
-				color: var(--color-green-30);
+				color: var(--color-green-dark);
 			}
 		}
 
@@ -1136,7 +1136,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer passwordField {
+@layer pds.passwordField {
 	.password {
 		position: relative;
 
@@ -1238,7 +1238,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer searchInputField {
+@layer pds.searchInputField {
 	.search-input {
 		--search-input-width: 220px;
 		--search-input-icon-top: .5rem;
@@ -1313,7 +1313,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer tagsInputField {
+@layer pds.tagsInputField {
 
 	.tags-input {
 		position: relative;
@@ -1410,7 +1410,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer checkboxAnimated {
+@layer pds.checkboxAnimated {
 	// === Animated Checkbox
 
 	.animated-checkbox {
@@ -1560,7 +1560,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 	}
 }
 
-@layer dropdownField {
+@layer pds.dropdownField {
 	.dropdown {
 		--color-background: var(--color-surface-light);
 		--color-border: var(--color-surface-light-border);
@@ -1909,7 +1909,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer multiSelect {
+@layer pds.multiSelect {
 
 	.multiselect {
 		position: relative;
@@ -2009,7 +2009,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer datepicker {
+@layer pds.datepicker {
 
 	.react-datepicker__navigation-icon::before,
 	.react-datepicker__year-read-view--down-arrow,
@@ -3146,7 +3146,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer fileupload {
+@layer pds.fileupload {
 
 	.fileupload {
 		position: relative;
@@ -3203,7 +3203,7 @@ checkboxAnimated, dropdownFieldOld, dropdownField, multiSelect, datepicker, file
 
 }
 
-@layer formDisplayList {
+@layer pds.formDisplayList {
 
 	.form-display-list {
 		&__item {

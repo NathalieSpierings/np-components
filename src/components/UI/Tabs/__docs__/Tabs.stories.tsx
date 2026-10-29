@@ -338,7 +338,7 @@ export const WithAccentColors: StoryFn = () => {
                     {
                         label: 'Team rood',
                         index: DsTeam.Rood,
-                        accentColor: ColorDefinitions.Rose30,
+                        accentColor: ColorDefinitions.RoseDark,
                     },
                     {
                         label: 'Team oranje',

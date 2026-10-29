@@ -39,7 +39,7 @@ export default function DatagridFilterDropdown<TData>({
                 content: (
                     <div>
                         <Tooltip content="Filter wissen">
-                            <Button variant="ghost" color={ColorDefinitions.Rose30} onClick={() => onChange(undefined)} size={SizeDefinitions.Small} >
+                            <Button variant="ghost" color={ColorDefinitions.RoseDark} onClick={() => onChange(undefined)} size={SizeDefinitions.Small} >
                                 <Icon icon={IconDefinitions.funnel_cross} />
                                 Filter wissen
                             </Button>

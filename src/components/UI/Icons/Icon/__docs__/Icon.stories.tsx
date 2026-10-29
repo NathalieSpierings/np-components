@@ -216,7 +216,7 @@ export const Ring: StoryFn = (args) => {
                     rounded={SizeDefinitions.Full}
                     ring={true}
                     ringSize="ring-2"
-                    ringOffsetColor={ColorDefinitions.Blue10}
+                    ringOffsetColor={ColorDefinitions.BlueLight}
                     ringHoverColor={ColorDefinitions.Royalblue}
                 />
             </Flex>
@@ -249,7 +249,7 @@ export const Ring: StoryFn = (args) => {
                     rounded={SizeDefinitions.Full}
                     ring={true}
                     ringSize="ring-3"
-                    ringOffsetColor={ColorDefinitions.Blue10}
+                    ringOffsetColor={ColorDefinitions.BlueLight}
                     ringHoverColor={ColorDefinitions.Royalblue}
                 />
             </Flex>

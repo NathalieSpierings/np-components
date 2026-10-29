@@ -139,7 +139,7 @@ export const EventStopperSample: StoryFn = () => {
                                 </div>
                             )}
 
-                            <div className="pc-layout__main bg-blue-10">
+                            <div className="pc-layout__main bg-blue-light">
 
                                 {enableNested ? (
                                     <div className={`pc-layout ${nestedFullHeight ? 'pc-layout--full-height' : ''} `}>
@@ -266,7 +266,7 @@ export const NestedContent: StoryFn = () => {
                                 </div>
                             )}
 
-                            <div className="pc-layout__main bg-blue-10">
+                            <div className="pc-layout__main bg-blue-light">
 
                                 {enableNested ? (
                                     <div className={`pc-layout ${nestedFullHeight ? 'pc-layout--full-height' : ''} `}>
@@ -579,7 +579,7 @@ export const TabsHeader: StoryFn = () => {
                                 </div>
                          
 
-                            <div className="pc-layout__main bg-blue-10">
+                            <div className="pc-layout__main bg-blue-light">
 
                                
                                         <div className="p2000">Long content</div>

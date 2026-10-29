@@ -53,8 +53,8 @@ export const Default: StoryFn = () => {
 export const Square: StoryFn = () => {
     return (
         <div className="grid-y">
-            <Avatar square initials="NS" background={ColorDefinitions.Rose10} color={ColorDefinitions.Rose30} />
-            <Avatar square icon={IconDefinitions.user} background={ColorDefinitions.Green10} color={ColorDefinitions.Green30} />
+            <Avatar square initials="NS" background={ColorDefinitions.RoseLight} color={ColorDefinitions.RoseDark} />
+            <Avatar square icon={IconDefinitions.user} background={ColorDefinitions.GreenLight} color={ColorDefinitions.GreenDark} />
             <Avatar square imageUrl={IMG} alt="user avatar" />
         </div>
     );
@@ -63,8 +63,8 @@ export const Square: StoryFn = () => {
 export const Border: StoryFn = () => {
     return (
         <div className="grid-y">
-            <Avatar border initials="NS" background={ColorDefinitions.Rose10} color={ColorDefinitions.Rose30} />
-            <Avatar border icon={IconDefinitions.user} background={ColorDefinitions.Green10} color={ColorDefinitions.Green30} />
+            <Avatar border initials="NS" background={ColorDefinitions.RoseLight} color={ColorDefinitions.RoseDark} />
+            <Avatar border icon={IconDefinitions.user} background={ColorDefinitions.GreenLight} color={ColorDefinitions.GreenDark} />
             <Avatar border imageUrl={IMG} alt="user avatar" />
         </div>
     );
@@ -113,8 +113,8 @@ export const ShadowAndAutoColor: StoryFn = () => {
 export const Float: StoryFn = () => {
     return (
         <div className="grid-y">
-            <Avatar float initials="NS" background={ColorDefinitions.Rose10} color={ColorDefinitions.Rose30} />
-            <Avatar float icon={IconDefinitions.user} background={ColorDefinitions.Green10} color={ColorDefinitions.Green30} />
+            <Avatar float initials="NS" background={ColorDefinitions.RoseLight} color={ColorDefinitions.RoseDark} />
+            <Avatar float icon={IconDefinitions.user} background={ColorDefinitions.GreenLight} color={ColorDefinitions.GreenDark} />
             <Avatar float imageUrl={IMG} alt="user avatar" />
         </div>
 
