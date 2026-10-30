@@ -16,8 +16,8 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             d="M444.99 436.6H7.9m454.05 0h-8.96"
         />
         <path
-            fill="var(--color-dark)"
-            stroke="var(--color-dark)"
+            fill="var(--art-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M358.73 113.62a9.24 9.24 0 0 1-6.6-7.35c-1.37-6.27 10.3-8.07 15.25-11.36s15.44-3.69 23-2.38 17.56 4.67 20 10.07 7.17 16.34 6.44 23.14a32.42 32.42 0 0 1-4.27 13.57c-1.56 2.64-.55 5-.18 6.36s-.41 1.49-2.5 4.32-2.45 3.82-9.26 3.09-9.26-4.06-11-6.55-5.53-12.58-8.6-17.25-3.76-10.1-8.73-13.69-7.74-3.9-13.55-1.97Z"
@@ -121,8 +121,8 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             d="M361.99 106.27s-6.93 10-7.13 14.11-.92 10.88-2.39 13.16-4.42 7.08-3.68 11.55 3.61 14.05 4.63 15.86 9.73 4.71 9.73 4.71 9.08 8.54 10.36 10.38 7 .51 13.84-8.51 6.07-17.88 6.07-17.88 4.48 1.46 6.34-2.24 3.84-13 1.53-14.22-8.61 3-9.17 3.64-1.68-2.63-4.61-6.63-6.74-5.36-8.58-10.92-4-10.19-7.41-12.75-6.8-2.65-9.53-.26Z"
         />
         <path
-            fill="var(--color-dark)"
-            stroke="var(--color-dark)"
+            fill="var(--art-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M400.33 130.69s-1.94.18-4.54 3.72c-4.37 5.95-5.67 4-5.77 0-.06-2.06-4.13-2.48-6.61-5.37a172.06 172.06 0 0 1-13.2-18.57c-3.3-5.77-8.19-4.2-8.19-4.2s-8.73-5.29 9-7.76"
@@ -207,7 +207,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             d="M134.63 356.73c-6.3.9-8.17 24.46-4.17 52.63s12.33 50.29 18.63 49.4 8.17-24.46 4.17-52.63-12.33-50.29-18.63-49.4Zm3.41 14.86c2.94 5.08 5.94 14.6 8.16 26.2a5 5 0 0 0-.76-1Zm-2.8-1.54c1 3.19 5.87 21.95 7.57 28.43a13.25 13.25 0 0 0-.33 2l-8.49-2.07c-1.1-12.82-.6-23.33 1.28-28.33Zm13.1 47.2a5.42 5.42 0 0 0 .46-1.15c1.09 11.76.85 21.74-.56 27.44Zm-13.95-14.57 8.12 2.86a15.21 15.21 0 0 0 .23 2.08c.1.71.22 1.4.35 2.07l-7 5q-.51-2.92-.95-6t-.75-6.01Zm2.48 16.24 7.61-4.36a13.1 13.1 0 0 0 .86 1.82c.17 6.7.66 26.09.64 29.42-3.2-4.27-6.61-14.26-9.11-26.88Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="M145.99 462.66c-4.69 0-9-5.28-13-16.09-3.61-9.56-6.68-22.47-8.65-36.34-2-13.87-2.6-27.13-1.79-37.31 1-12.26 3.9-18.56 8.94-19.28s9.61 4.53 14 16c3.61 9.56 6.68 22.47 8.64 36.34s2.61 27.13 1.8 37.32c-1 12.25-3.9 18.55-8.94 19.27a8.44 8.44 0 0 1-1 .09Zm-13.5-102c-2.66 2.72-5.21 20.39-1.22 48.55s11.35 44.42 14.67 46.3c2.66-2.73 5.2-20.4 1.21-48.55s-11.35-44.39-14.62-46.26Z"
         />
         <path
@@ -229,7 +229,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             strokeLinejoin="round"
             d="M130.22 357.36c-6.3.89-8.17 24.45-4.18 52.63s12.34 50.29 18.64 49.39 8.17-24.45 4.17-52.63-12.32-50.28-18.63-49.39Zm12.38 96.81c-4.87.69-11.71-19.16-15.28-44.34s-2.51-46.16 2.36-46.85 11.71 19.19 15.31 44.33 2.48 46.15-2.39 46.86Z"
         />
-        <path fill="var(--color-dark)" d="M107.78 412.07h37.97l-1.22-7.61h-36.75v7.61z" />
+        <path fill="var(--art-dark)" d="M107.78 412.07h37.97l-1.22-7.61h-36.75v7.61z" />
         <path
             fill="var(--color-white)"
             d="M122.42 443.87h-18.43a2.23 2.23 0 1 1 0-4.46h18.47a8.23 8.23 0 0 0 8.21-8.21v-85.67a6.46 6.46 0 0 0-6.46-6.46h-14.76a2.23 2.23 0 1 1 0-4.46h14.72a10.93 10.93 0 0 1 10.92 10.92v85.64a12.69 12.69 0 0 1-12.67 12.7Z"
@@ -244,17 +244,17 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M122.42 443.87h-18.43a2.23 2.23 0 1 1 0-4.46h18.47a8.23 8.23 0 0 0 8.21-8.21v-85.67a6.46 6.46 0 0 0-6.46-6.46h-14.76a2.23 2.23 0 1 1 0-4.46h14.72a10.93 10.93 0 0 1 10.92 10.92v85.64a12.69 12.69 0 0 1-12.67 12.7Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="M133.15 331.5h-15.79c-1 0-1.82 1.19-1.82 2.66s.81 2.66 1.82 2.66h15.79c1 0 1.83-1.19 1.83-2.66s-.82-2.66-1.83-2.66Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="m116.81 336.7 16.77-5.12-5.68-1.41a1.12 1.12 0 0 0-.53-.13h-15.84c-1 0-1.82 1.19-1.82 2.66a2.88 2.88 0 0 0 1.12 2.46l.18.08.16.07Z"
         />
         <path
@@ -263,7 +263,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         />
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M105.53 352.84v-72.76H25.84v75h2.78v11s70.67 36.78 104.18-1.09l-2.17-12.08Z"
@@ -281,12 +281,12 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M96.62 268.9h-.8a2.23 2.23 0 1 0 0 4.46h.8a7.78 7.78 0 0 1 7.77 7.81v87.19a1.58 1.58 0 0 0-.61-.08l-7 4.55-31.05 22.19-28.1-21.47-6.51-4.38a2.22 2.22 0 0 0-2.19 2.26 2.25 2.25 0 0 0 .87 1.74l32.1 24.54-33.28 25.9V281.17a12.23 12.23 0 0 0-12.22-12.23h-.81a2.23 2.23 0 1 0 0 4.46h.81a7.78 7.78 0 0 1 7.77 7.77v147a2.22 2.22 0 0 0 2.19 2.23h0a2.24 2.24 0 0 0 1.36-.47l37.71-29.33 39.83 29.37a2.23 2.23 0 0 0 3.55-1.8v-147a12.24 12.24 0 0 0-12.19-12.27Zm7.77 154.85L69.34 397.9l35.05-25.1Z"
         />
-        <path fill="var(--color-dark)" d="M22.24 404.47h95.66v7.6H22.24z" />
+        <path fill="var(--art-dark)" d="M22.24 404.47h95.66v7.6H22.24z" />
         <path
             fill="var(--color-white)"
             d="M80.04 443.87H61.25a13.53 13.53 0 0 1-13.52-13.51v-83.08a8.22 8.22 0 0 0-8.2-8.2h-4.21a2.23 2.23 0 1 1 0-4.46h4.21a12.68 12.68 0 0 1 12.67 12.67v83.08a9.06 9.06 0 0 0 9.06 9.05h18.79a2.23 2.23 0 0 1 0 4.46Z"
@@ -306,16 +306,16 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             d="M80.04 443.87H61.25a13.53 13.53 0 0 1-13.52-13.51v-83.08a8.22 8.22 0 0 0-8.2-8.2h-4.21a2.23 2.23 0 1 1 0-4.46h4.21a12.68 12.68 0 0 1 12.67 12.67v83.08a9.06 9.06 0 0 0 9.06 9.05h18.79a2.23 2.23 0 0 1 0 4.46Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="M52.93 331.5H37.14c-1 0-1.83 1.19-1.83 2.66s.82 2.66 1.83 2.66h15.79c1 0 1.82-1.19 1.82-2.66s-.76-2.66-1.82-2.66Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="m36.58 336.7 16.78-5.12-5.69-1.41a1.12 1.12 0 0 0-.53-.13h-15.8c-1 0-1.83 1.19-1.83 2.66a2.86 2.86 0 0 0 1.13 2.47l.18.08.15.07Z"
         />
         <path
-            fill="var(--color-dark)"
-            stroke="var(--color-dark)"
+            fill="var(--art-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="m20.93 380.08-5.57-.62-.3 2.74 4.91.54c1.19.1 2.2-1.34.96-2.66Zm-5.4 48.7-5.54-.61-.3 2.74 4.91.54c1.21.12 2.21-1.28.93-2.67Z"
@@ -334,7 +334,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="m34.17 402.52.57-4.38-9.63 2.68s7.08-31 7.32-31.36-1.71-2.41-1.71-2.41l-8.12 31.24 2.53 7.73Z"
@@ -353,13 +353,13 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="m32.84 414.57-8.06-5.4-4.15 7 1.14 32.25s2.37-1.6 2.2-2-.34-32.2-.34-32.2l8.82 4.7Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="M24.21 462.84h-.71c-5.07-.56-8.19-6.77-9.54-19-1.13-10.16-.91-23.43.62-37.35s4.2-26.93 7.51-36.6c4-11.63 8.39-17 13.44-16.46s8.18 6.77 9.54 19c1.13 10.16.9 23.42-.63 37.35s-4.19 26.92-7.45 36.59c-3.84 11.06-8 16.47-12.78 16.47ZM34.75 360.5c-3.25 2-10.1 18.47-13.21 46.73s0 45.85 2.74 48.49c3.25-2 10.1-18.47 13.2-46.74 3.11-28.26 0-45.85-2.73-48.48Z"
         />
         <path
@@ -376,7 +376,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M25.34 370.65c1.24-2.23 4.13-5.83 6.27-2.09m-10.28 12.32c.29-1 .6-1.93.92-2.89m-4.96 22.43a149.54 149.54 0 0 1 3.08-16m-5.07 42.66a141.44 141.44 0 0 1 1.43-22.62m-.85 30.38c-.17-1.38-.3-2.77-.4-4.16m7.51 16.49c-3.51 5.15-6.23-7-6.59-9"
@@ -395,7 +395,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="m23.17 401.31-2.5-5.24a10.91 10.91 0 0 0-1.21 3.42l1.6 7.69-3.23 7.16a10.92 10.92 0 0 0 .43 3.59l3.58-4.57.26-6.07Z"
@@ -414,46 +414,46 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         </g>
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M25.99 407.72c-.66 6-2.59 10.78-4.3 10.59s-2.57-5.24-1.9-11.27 2.59-10.78 4.3-10.59 2.54 5.23 1.9 11.27Z"
         />
         <path
             fill="var(--art-accent)"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="m30.99 364.77-2-.21.42-3.83 1.92.21a1.92 1.92 0 0 1 1.7 2.13h0a1.91 1.91 0 0 1-2.1 1.7Zm1.54 45.61-1.91-.21.42-3.83 1.91.21a1.92 1.92 0 0 1 1.71 2.12h0a1.93 1.93 0 0 1-2.12 1.7Zm-9.82 42.09-1.92-.21.42-3.83 1.92.21a1.92 1.92 0 0 1 1.7 2.11h0a1.93 1.93 0 0 1-2.12 1.7Z"
         />
         <path
             fill="var(--art-accent)"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M26.28 355.92c-6.32-.7-14 21.67-17.08 50s-.5 51.78 5.82 52.48 14-21.67 17.08-50 .51-51.78-5.82-52.48Zm-11 99.77c-.59-.15-3-2.94-4.14-14-1-9.66-.78-22.27.68-35.51a181.85 181.85 0 0 1 7-34.82c3.55-10.57 6.49-12.76 7.08-12.77s3 2.91 4.13 14c1 9.66.78 22.28-.68 35.52a181.85 181.85 0 0 1-7 34.82c-3.5 10.54-6.43 12.74-7 12.76Z"
         />
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M108.58 337.79a8.24 8.24 0 0 0-3.1 2m4.16 47.49c-1.77-2.47-5.32-22.93-5.32-22.93m10.84 44.67c-2.47-1.29-12.34 3.06-12.34 3.06m-10.57-9.29s-7.3 4-8.59 3.76-3.06-3.76-3.06-3.76"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="M89.24 431.27h-16c-4 0-9.12 3.12-11.53 7-1.13 1.81-.54 3.28 1.33 3.28h23.55a7.36 7.36 0 0 0 5.4-3.28c2.46-3.88 1.2-7-2.75-7Zm35.34 0h-16c-4 0-9.12 3.12-11.52 7-1.14 1.81-.55 3.28 1.32 3.28h23.55a7.33 7.33 0 0 0 5.44-3.28c2.42-3.88 1.16-7-2.79-7Z"
         />
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M43.53 335.95a10 10 0 0 1 .13-2.19 3.88 3.88 0 0 1-1.31-1.9M12.53 440.58s1.49 8.58 3 10.81a18.66 18.66 0 0 0 2.88 3.4s1.54 0 .24 2.17"
         />
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M16.63 453.99s4.47-2.89 8.13-.71m-9.51-1.26a7.36 7.36 0 0 1 7.16-1.23m-8.88-1.71a7 7 0 0 1 7.28-1.06m-8.22-2.72s4.1-2.47 7.49-.6"
@@ -467,21 +467,21 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         />
         <path
             fill="var(--art-accent)"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M246.62 184.71a2.41 2.41 0 0 0-2.55 2.23c-.67 10.48-1.28 19.63-1.82 27.64l-17.52-.41c-.23-8-.44-17.22-.7-27.66a2.4 2.4 0 0 0-4.78.07c1.08 46.48 1.69 67.48 4.82 78.48 2.42 8.43 2 102.44 1.71 135a2.39 2.39 0 0 0 2.35 2.42h0a2.44 2.44 0 0 0 1.43-.46 2.38 2.38 0 0 0 1.44.55h0a2.41 2.41 0 0 0 2.44-2.32c1-32.54 4.52-126.49 7.29-134.81 3.59-10.85 5.06-31.81 8.06-78.22a2.38 2.38 0 0 0-2.17-2.51Zm-4.72 34.68c-1.62 22.41-3 35.16-5.17 42.93l-8.51-.18c-1.85-7.76-2.69-20.6-3.37-43.06Zm-11 119.63c0-29-.43-61.12-1.7-72.11l6.38.13c-1.72 10.93-3.41 42.99-4.68 71.98Z"
         />
         <path
             fill="none"
-            stroke="var(--color-dark)"
+            stroke="var(--art-dark)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="7"
             d="M217.37 186.5s5.48-5 16.63-4.71 16.73 5.38 16.73 5.38"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="m225.99 400.57 7.4.15-.72 34.79a1.47 1.47 0 0 1-1.51 1.45l-4.43-.09a1.47 1.47 0 0 1-1.45-1.51l.71-34.79Z"
         />
         <g fill="none" stroke="var(--color-foreground)" strokeLinecap="round" strokeLinejoin="round">
@@ -511,7 +511,7 @@ const ArtVerbruiksmiddel: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
             d="M175.93 76.92a115.56 115.56 0 0 1-43.69-24.75 7.75 7.75 0 0 0-10.46 0 115.56 115.56 0 0 1-43.69 24.78 7.8 7.8 0 0 0-5.49 8.22c1.49 14.63 9.28 51.4 49.26 86.74a7.8 7.8 0 0 0 10.3 0c40-35.34 47.77-72.11 49.26-86.74a7.79 7.79 0 0 0-5.49-8.25Z"
         />
         <path
-            fill="var(--color-dark)"
+            fill="var(--art-dark)"
             d="M126.99 174.31a8.25 8.25 0 0 1-5.48-2.07c-40.24-35.56-48-72.73-49.42-87.06a8.3 8.3 0 0 1 5.9-8.73 114.38 114.38 0 0 0 43.5-24.72 8.27 8.27 0 0 1 11.13 0 114.41 114.41 0 0 0 43.51 24.72 8.32 8.32 0 0 1 5.78 8.72c-1.45 14.33-9.18 51.5-49.42 87.06a8.25 8.25 0 0 1-5.5 2.08Zm0-123.73a7.25 7.25 0 0 0-4.89 1.89A115.32 115.32 0 0 1 78.22 77.4a7.31 7.31 0 0 0-5.14 7.68c1.44 14.21 9.12 51.08 49.09 86.41a7.27 7.27 0 0 0 9.63 0c40-35.33 47.65-72.2 49.1-86.41a7.33 7.33 0 0 0-5.14-7.68 115.32 115.32 0 0 1-43.86-24.93 7.25 7.25 0 0 0-4.91-1.89Z"
         />
         <path
