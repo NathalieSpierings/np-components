@@ -6,111 +6,210 @@
 
 
 $colors: (
-  "black":        #000000,
-	"white":        #FFFFFF,
-	"offwhite":     #FDFDFC,
-	"carbon":       #3f3f3f,
-  "snow":         #F3F1EE,
-	"hot-pink":     #d51a54,	
-	"bordeaux":     #852D37,
-	"magenta":      #ED344E,
-	"pale":         #FBB7A7,
-	"sand":         #CAC6C3,
-	"pepper":       #9A928A,
-	"overcast":     #788489,
-	"stone":         #676663,
-	"silver":       #C0C0C0,	
-	"chinese-white": #dbead2,	
-	"terracotta":   #e0804a,
-	"isabelline":   #f4f0e9,
-	"beige":        #EFE9E2,
-	"dark-brown": #39302B,
-	"transparent": transparent
+  "black": #000000,
+  "white": #FFFFFF,
+  "offwhite": #FDFDFC,
+  "carbon": #3f3f3f,
+  "snow": #F3F1EE,
+  "hot-pink": #d51a54,
+  "bordeaux": #852D37,
+  "magenta": #ED344E,
+  "pale": #FBB7A7,
+  "sand": #CAC6C3,
+  "pepper": #9A928A,
+  "overcast": #788489,
+  "stone": #676663,
+  "silver": #C0C0C0,
+  "chinese-white": #dbead2,
+  "terracotta": #e0804a,
+  "isabelline": #f4f0e9,
+  "beige": #EFE9E2,
+  "dark-brown": #39302B,
+  "transparent": transparent
 );
 
 $shades: (
-	"primary": #e0804a, "primary-dark": #C47041, "primary-light": #F7BCA2, "primary-subtle": #F8ECE5,
-	"secondary": #173D4B, "secondary-dark": #14313E, "secondary-light": #768B94, "secondary-subtle": #E4E5E9,
-	"tertiary": #587068, "tertiary-dark": #094345, "tertiary-light": #798d86, "tertiary-subtle": #dee2e1,
-	"cotton": #e8e2db, "cotton-dark": #bcb4a9, "cotton-light": #EFE9E2, "cotton-subtle": #F4F0E9,
-	"ice": #DADEE1, "ice-dark": #C5CED0, "ice-light": #E7E9EB, "ice-subtle": #F6F6F6,
-	"marine": #173D4B, "marine-dark": #14313E, "marine-light": #768B94, "marine-subtle": #E4E5E9,
-	"cyprus": #587068, "cyprus-dark": #094345, "cyprus-light": #798d86, "cyprus-subtle": #dee2e1,
-	"highland": #729061, "highland-dark": #537348, "highland-light": #9cb190, "highland-subtle": #DCE5D9,
-	"dull-orange": #e0804a, "dull-orange-dark": #C47041, "dull-orange-light": #F7BCA2, "dull-orange-subtle": #F8ECE5,
-	"cherry": #E56368, "cherry-dark": #AC4A4E, "cherry-light": #efa1a4, "cherry-subtle": #fceff0,
-	"cottage-blue": #96B3BB, "cottage-blue-dark": #788f96, "cottage-blue-light": #c0d1d6, "cottage-blue-subtle": #eaf0f1,
-	"golden": #EABE65, "golden-dark": #bb9851, "golden-light": #f2d8a3, "golden-subtle": #fbf2e0,
-	"purple": #AF88FD, "purple-dark": #8C6DCA, "purple-light": #e7dbfe, "purple-subtle": #f3edff,
-	"violet": #C08EE4, "violet-dark": #9A72B6, "violet-light": #e6d2f4, "violet-subtle": #f2e8fa,
-	"royalblue": #2D7FCA, "royalblue-dark": #2466A2, "royalblue-light": #c0d9ef, "royalblue-subtle": #eaf2fa,
-	"blue": #79b2cc, "blue-dark": #3882A2, "blue-light": #cae3ee, "blue-subtle": #e5f1f7,
-	"vintage-blue": #779faa, "vintage-blue-dark": #5d8793, "vintage-blue-light": #adcfd4, "vintage-blue-subtle": #c9e7ea,
-	"cyan": #5bcbd3, "cyan-dark": #339da6, "cyan-light": #98e5e9, "cyan-subtle": #d5ffff,
-	"sea": #80C8C2, "sea-dark": #66A09B, "sea-light": #d9efed, "sea-subtle": #ecf7f6,
-	"olive": #89977a, "olive-dark": #616f53, "olive-light": #d2d7cc, "olive-subtle": #e8ebe6,
-	"sage": #b8d08f, "sage-dark": #91a96a, "sage-light": #ccddae, "sage-subtle": #dde9c8,
-	"green": #8CC996, "green-dark": #70A178, "green-light": #d1e9d5, "green-subtle": #e8f4ea,
-	"spring": #67D07E, "spring-dark": #45a859, "spring-light": #afeac3, "spring-subtle": #ccf5df,
-	"yellow": #FCCB7A, "yellow-dark": #FABB61, "yellow-light": #feeaca, "yellow-subtle": #fef5e4,
-	"havanna": #F5BD6E, "havanna-dark": #e7b062, "havanna-light": #fbe2b3, "havanna-subtle": #fdf0ce,
-	"orange": #FFB064, "orange-dark": #F38E40, "orange-light": #ffdfc1, "orange-subtle": #ffefe0,
-	"salmon": #FF8B68, "salmon-dark": #d26345, "salmon-light": #ffcbab, "salmon-subtle": #ffe5c6,
-	"red": #E16268, "red-dark": #A5313B, "red-light": #f6d0d2, "red-subtle": #fceff0,
-	"rose": #f88392, "rose-dark": #dc6a7a, "rose-light": #ffcfd3, "rose-subtle": #ffe8e9,
-	"soft-pink": #fba19d, "soft-pink-dark": #b36160, "soft-pink-light": #fdd5d3, "soft-pink-subtle": #feeae9,
-	"nude": #E1A299, "nude-dark": #D3948B, "nude-light": #F5C9C0, "nude-subtle": #F1D5D1,
-	"mulberry": #D06495, "mulberry-dark": #A65077, "mulberry-light": #ecc1d5, "mulberry-subtle": #f6e0ea,
-	"pink": #F691BE, "pink-dark": #E17EAA, "pink-light": #fbd3e5, "pink-subtle": #fde9f2,
-	"brown": #87705B, "brown-dark": #6C5A49, "brown-light": #cfc6bd, "brown-subtle": #e7e2de,
+  "primary": #e0804a,
+  "primary-dark": #C47041,
+  "primary-light": #F7BCA2,
+  "primary-subtle": #F8ECE5,
+  "secondary": #173D4B,
+  "secondary-dark": #14313E,
+  "secondary-light": #768B94,
+  "secondary-subtle": #E4E5E9,
+  "tertiary": #587068,
+  "tertiary-dark": #094345,
+  "tertiary-light": #798d86,
+  "tertiary-subtle": #dee2e1,
+  "cotton": #e8e2db,
+  "cotton-dark": #bcb4a9,
+  "cotton-light": #EFE9E2,
+  "cotton-subtle": #F4F0E9,
+  "ice": #DADEE1,
+  "ice-dark": #C5CED0,
+  "ice-light": #E7E9EB,
+  "ice-subtle": #F6F6F6,
+  "marine": #173D4B,
+  "marine-dark": #14313E,
+  "marine-light": #768B94,
+  "marine-subtle": #E4E5E9,
+  "cyprus": #587068,
+  "cyprus-dark": #094345,
+  "cyprus-light": #798d86,
+  "cyprus-subtle": #dee2e1,
+  "highland": #729061,
+  "highland-dark": #537348,
+  "highland-light": #9cb190,
+  "highland-subtle": #DCE5D9,
+  "dull-orange": #e0804a,
+  "dull-orange-dark": #C47041,
+  "dull-orange-light": #F7BCA2,
+  "dull-orange-subtle": #F8ECE5,
+  "cherry": #E56368,
+  "cherry-dark": #AC4A4E,
+  "cherry-light": #efa1a4,
+  "cherry-subtle": #fceff0,
+  "cottage-blue": #96B3BB,
+  "cottage-blue-dark": #788f96,
+  "cottage-blue-light": #c0d1d6,
+  "cottage-blue-subtle": #eaf0f1,
+  "golden": #EABE65,
+  "golden-dark": #bb9851,
+  "golden-light": #f2d8a3,
+  "golden-subtle": #fbf2e0,
+  "purple": #AF88FD,
+  "purple-dark": #8C6DCA,
+  "purple-light": #e7dbfe,
+  "purple-subtle": #f3edff,
+  "violet": #C08EE4,
+  "violet-dark": #9A72B6,
+  "violet-light": #e6d2f4,
+  "violet-subtle": #f2e8fa,
+  "royalblue": #2D7FCA,
+  "royalblue-dark": #2466A2,
+  "royalblue-light": #c0d9ef,
+  "royalblue-subtle": #eaf2fa,
+  "blue": #79b2cc,
+  "blue-dark": #3882A2,
+  "blue-light": #cae3ee,
+  "blue-subtle": #e5f1f7,
+  "vintage-blue": #779faa,
+  "vintage-blue-dark": #5d8793,
+  "vintage-blue-light": #adcfd4,
+  "vintage-blue-subtle": #c9e7ea,
+  "cyan": #5bcbd3,
+  "cyan-dark": #339da6,
+  "cyan-light": #98e5e9,
+  "cyan-subtle": #d5ffff,
+  "sea": #80C8C2,
+  "sea-dark": #66A09B,
+  "sea-light": #d9efed,
+  "sea-subtle": #ecf7f6,
+  "olive": #89977a,
+  "olive-dark": #616f53,
+  "olive-light": #d2d7cc,
+  "olive-subtle": #e8ebe6,
+  "sage": #b8d08f,
+  "sage-dark": #91a96a,
+  "sage-light": #ccddae,
+  "sage-subtle": #dde9c8,
+  "green": #8CC996,
+  "green-dark": #70A178,
+  "green-light": #d1e9d5,
+  "green-subtle": #e8f4ea,
+  "spring": #67D07E,
+  "spring-dark": #45a859,
+  "spring-light": #afeac3,
+  "spring-subtle": #ccf5df,
+  "yellow": #FCCB7A,
+  "yellow-dark": #FABB61,
+  "yellow-light": #feeaca,
+  "yellow-subtle": #fef5e4,
+  "havanna": #F5BD6E,
+  "havanna-dark": #e7b062,
+  "havanna-light": #fbe2b3,
+  "havanna-subtle": #fdf0ce,
+  "orange": #FFB064,
+  "orange-dark": #F38E40,
+  "orange-light": #ffdfc1,
+  "orange-subtle": #ffefe0,
+  "salmon": #FF8B68,
+  "salmon-dark": #d26345,
+  "salmon-light": #ffcbab,
+  "salmon-subtle": #ffe5c6,
+  "red": #E16268,
+  "red-dark": #A5313B,
+  "red-light": #f6d0d2,
+  "red-subtle": #fceff0,
+  "rose": #f88392,
+  "rose-dark": #dc6a7a,
+  "rose-light": #ffcfd3,
+  "rose-subtle": #ffe8e9,
+  "soft-pink": #fba19d,
+  "soft-pink-dark": #b36160,
+  "soft-pink-light": #fdd5d3,
+  "soft-pink-subtle": #feeae9,
+  "nude": #E1A299,
+  "nude-dark": #D3948B,
+  "nude-light": #F5C9C0,
+  "nude-subtle": #F1D5D1,
+  "mulberry": #D06495,
+  "mulberry-dark": #A65077,
+  "mulberry-light": #ecc1d5,
+  "mulberry-subtle": #f6e0ea,
+  "pink": #F691BE,
+  "pink-dark": #E17EAA,
+  "pink-light": #fbd3e5,
+  "pink-subtle": #fde9f2,
+  "brown": #87705B,
+  "brown-dark": #6C5A49,
+  "brown-light": #cfc6bd,
+  "brown-subtle": #e7e2de,
 );
 
 $themes: (
-  light: (
-		theme-100: #fffffe,
-		theme-200: #fefcfc,
-		theme-300: #f9f7f5,
-		theme-400: #f2eeeb,
-		theme-500: #eae6e3,
-		theme-600: #d8d5d2,
-		theme-700: #cfcbc9,
-		theme-800: #c5c2bf,
-		theme-900: #bbb8b6,
-		text-light: #a2a1a0,
-		text: #3c3c3c,
-		text-dark: #000000,
-		dark: #3f3f3f,
-	),
-	dimmed: (
-		theme-100: #848383,
-		theme-200: #7c7c7b,
-		theme-300: #646463,
-		theme-400: #6d6d6c,
-		theme-500: #5a5a59,
-		theme-600: #565655,
-		theme-700: #515150,
-		theme-800: #4d4d4c,
-		theme-900: #484847,
-		text-light: #a8a8a8,
-		text: #d3d3d3,
-		text-dark: #fdfdfd,
-		dark: #3f3f3f,
-	),
-	dark: (
-		theme-100: #656565,
-		theme-200: #4b4b4b,
-		theme-300: #414141,
-		theme-400: #373737,
-		theme-500: #303030,
-		theme-600: #2b2b2b,
-		theme-700: #252525,
-		theme-800: #202020,
-		theme-900: #1a1a1a,
-		text-light: #878787,
-		text: #cdcdcd,
-		text-dark: #fdfdfd,
-		dark: #0d0d0d,
-	)
+  light: (theme-100: #fffffe,
+    theme-200: #fefcfc,
+    theme-300: #f9f7f5,
+    theme-400: #f2eeeb,
+    theme-500: #eae6e3,
+    theme-600: #d8d5d2,
+    theme-700: #cfcbc9,
+    theme-800: #c5c2bf,
+    theme-900: #bbb8b6,
+    text-light: #a2a1a0,
+    text: #3c3c3c,
+    text-dark: #000000,
+    dark: #3f3f3f,
+  ),
+  dimmed: (theme-100: #848383,
+    theme-200: #7c7c7b,
+    theme-300: #646463,
+    theme-400: #6d6d6c,
+    theme-500: #5a5a59,
+    theme-600: #565655,
+    theme-700: #515150,
+    theme-800: #4d4d4c,
+    theme-900: #484847,
+    text-light: #a8a8a8,
+    text: #d3d3d3,
+    text-dark: #fdfdfd,
+    dark: #3f3f3f,
+  ),
+  dark: (theme-100: #656565,
+    theme-200: #4b4b4b,
+    theme-300: #414141,
+    theme-400: #373737,
+    theme-500: #303030,
+    theme-600: #2b2b2b,
+    theme-700: #252525,
+    theme-800: #202020,
+    theme-900: #1a1a1a,
+    text-light: #878787,
+    text: #cdcdcd,
+    text-dark: #fdfdfd,
+    dark: #0d0d0d,
+  )
 );
 
 
@@ -154,54 +253,54 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
       --color-muted: var(--color-#{$name}-muted);
       --color-shadow: var(--color-#{$name}-shadow);
 
-      background: var(--color-background) !important;
-      color: var(--color-foreground) !important;
+      background: var(--color-background);
+      color: var(--color-foreground);
     }
 
     .text-#{$name},
     .hover\:text-#{$name}:hover {
-      --color-foreground: var(--color-#{$name}) !important;
-      color: var(--color-#{$name}) !important;
+      --color-foreground: var(--color-#{$name});
+      color: var(--color-#{$name});
     }
 
     .text-#{$name}-muted,
     .hover\:text-#{$name}-muted:hover {
       --color-muted: var(--color-#{$name}-muted);
-      color: var(--color-muted) !important;
+      color: var(--color-muted);
     }
 
     .border-#{$name},
     .hover\:border-#{$name}:hover {
-      border-color: var(--color-#{$name}-border) !important;
+      border-color: var(--color-#{$name}-border);
     }
 
     .border-before-#{$name},
     .hover\:border-before-#{$name}:hover {
       &::before {
-        border-color: var(--color-#{$name}-border) !important;
+        border-color: var(--color-#{$name}-border);
       }
     }
 
     .border-after-#{$name},
     .hover\:border-after-#{$name}:hover {
       &::after {
-        border-color: var(--color-#{$name}-border) !important;
+        border-color: var(--color-#{$name}-border);
       }
     }
 
     .shadow-#{$name},
     .hover\:shadow-#{$name}:hover {
-      box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent) !important;
+      box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent);
     }
 
     .shadow-from-#{$name} {
-      --color-shadow-from: var(--color-#{$name}-shadow-from) !important;
+      --color-shadow-from: var(--color-#{$name}-shadow-from);
     }
 
     .shadow-before-#{$name},
     .hover\:shadow-before-#{$name}:hover {
       &::before {
-        box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent) !important;
+        box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent);
       }
     }
 
@@ -214,13 +313,13 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
     }
 
     .ring-hover-#{$name} {
-     --ring-offset-border-color: var(--color-#{$name}, #{$value});
+      --ring-offset-border-color: var(--color-#{$name}, #{$value});
     }
   }
 }
 
-// Generate component classes
-@mixin components($name, $value) {
+// Generate component classes (per component-layer)
+@mixin dropdown-colors($name) {
 
   @if not is-excluded($name) {
 
@@ -228,7 +327,7 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
       .dropdown__menu__item {
         &:hover {
           --color-hover: var(--color-#{$name});
-          --color-foreground: var(--color-#{$name}-foreground) !important;
+          --color-foreground: var(--color-#{$name}-foreground);
         }
 
         &.selected {
@@ -237,6 +336,12 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
         }
       }
     }
+  }
+}
+
+@mixin button-colors($name) {
+
+  @if not is-excluded($name) {
 
     .btn-#{$name} {
       --button-foreground: var(--color-#{$name}-foreground);
@@ -272,28 +377,49 @@ $excluded-props: list.join($excluded-theme-props, $excluded-color-props);
         --button-foreground: var(--color-#{$name});
       }
     }
+  }
+}
 
-   .form-field-#{$name} {
-			--form-field-accent: var(--color-#{$name}) !important;
-			--form-field-background: var(--color-#{$name}) !important;
-		}
-    
-		.form-group-#{$name}{
-			.form-control {
-				--input-border: var(--color-#{$name});
-			}
-			&.floating {
-				label {
-					--input-label-foreground: var(--color-#{$name});
-				}
-			}
-		}
+@mixin form-field-colors($name) {
+
+  @if not is-excluded($name) {
+
+    .form-field-#{$name} {
+      --form-field-accent: var(--color-#{$name});
+      --form-field-background: var(--color-#{$name});
+    }
+  }
+}
+
+@mixin form-group-colors($name) {
+
+  @if not is-excluded($name) {
+
+    .form-group-#{$name} {
+      .form-control {
+        --input-border: var(--color-#{$name});
+      }
+
+      &.floating {
+        label {
+          --input-label-foreground: var(--color-#{$name});
+        }
+      }
+    }
+  }
+}
+
+@mixin tooltip-colors($name) {
+
+  @if not is-excluded($name) {
+
     .tooltip-#{$name} {
       --tooltip-background: var(--color-#{$name});
       --tooltip-foreground: var(--color-#{$name}-foreground);
     }
   }
 }
+
 
 
 
@@ -340,30 +466,32 @@ $light-colors: (
 
 
 // Generate css-variabels for colors
-:root {
-  @each $name, $value in $colors {
+@layer pds.tokens {
+  :where(:root) {
+    @each $name, $value in $colors {
 
-    $foreground: color-foreground($name);
-    $muted: color-muted($name, $value);
-    $border: color-border($name, $value);
+      $foreground: color-foreground($name);
+      $muted: color-muted($name, $value);
+      $border: color-border($name, $value);
 
-    --color-#{$name}: #{$value};
-    --color-#{$name}-foreground: #{$foreground};
-    --color-#{$name}-border: #{$border};
-    --color-#{$name}-muted: #{$muted};
-    --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
-    --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
-    0 4px 23px 0 rgb(0 0 0 / 12%),
-    0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+      --color-#{$name}: #{$value};
+      --color-#{$name}-foreground: #{$foreground};
+      --color-#{$name}-border: #{$border};
+      --color-#{$name}-muted: #{$muted};
+      --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
+      --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
+      0 4px 23px 0 rgb(0 0 0 / 12%),
+      0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+    }
+
+    --color-background: var(--color-surface);
+    --color-foreground-light: var(--color-text-light);
+    --color-foreground: var(--color-text);
+    --color-foreground-strong: var(--color-text-dark);
+    --color-border: var(--color-surface-border);
+    --color-muted: var(--color-text-light);
+    --color-shadow: var(--color-surface-shadow);
   }
-
-  --color-background: var(--color-surface);
-  --color-foreground-light: var(--color-text-light);
-  --color-foreground: var(--color-text);
-  --color-foreground-strong: var(--color-text-dark);
-  --color-border: var(--color-surface-border);
-  --color-muted: var(--color-text-light);
-  --color-shadow: var(--color-surface-shadow);
 }
 
 
@@ -390,7 +518,7 @@ $light-colors: (
 @function theme-color-muted($name, $value, $theme: null) {
 
   // 1. shades subtle / light → always dark
-   @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
+  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
     @return oklab-mix($value, 35, black);
   }
 
@@ -428,63 +556,65 @@ $theme-all: list.join($theme-low, $theme-high);
 
 // Theme
 
-    @if $theme == light {
-      @if list.index($theme-low, $name) {
-          @return oklab-mix($value, 10, black);
-      }
+@if $theme ==light {
+  @if list.index($theme-low, $name) {
+    @return oklab-mix($value, 10, black);
+  }
 
-      @if list.index($theme-high, $name) {
-          @return oklab-mix($value, 30, white);
-      }
-    }
+  @if list.index($theme-high, $name) {
+    @return oklab-mix($value, 30, white);
+  }
+}
 
-    @if $theme != light {
-      @if $theme == dimmed and $name == theme-300 {
-        @return oklab-mix($value, 25, white);
-    }
-    
-      @if list.index($theme-all, $name) {
-          @return oklab-mix($value, 20, white);
-      }
-    }
+@if $theme !=light {
+  @if $theme ==dimmed and $name ==theme-300 {
+    @return oklab-mix($value, 25, white);
+  }
 
-    @return oklab-mix($value, 50, white);
+  @if list.index($theme-all, $name) {
+    @return oklab-mix($value, 20, white);
+  }
+}
+
+@return oklab-mix($value, 50, white);
 }
 
 // Generate css-variables for themes
-@each $theme, $values in $themes {
+@layer pds.tokens {
+  @each $theme, $values in $themes {
 
-  // #{if($theme == light, ":root, .theme-light", ".theme-#{$theme}")} {
-  #{if(sass($theme == light): ":root, .theme-light"; else: ".theme-#{$theme}")} {
+    // #{if($theme == light, ":where(:root), .theme-light", ".theme-#{$theme}")} {
+    #{if(sass($theme == light): ":where(:root), .theme-light"; else: ".theme-#{$theme}")} {
 @each $name, $value in $values {
 
-    --color-#{$name}: #{$value};
+      --color-#{$name}: #{$value};
 
-    @if not is-excluded($name) {
+      @if not is-excluded($name) {
 
-      $foreground: theme-color-foreground($name, $theme);
-      $muted: theme-color-muted($name, $value, $theme);
-      $border: theme-color-border($name, $value, $theme);
+        $foreground: theme-color-foreground($name, $theme);
+        $muted: theme-color-muted($name, $value, $theme);
+        $border: theme-color-border($name, $value, $theme);
 
-      --color-#{$name}-foreground: #{$foreground};
-      --color-#{$name}-border: #{$border};
-      --color-#{$name}-muted: #{$muted};
+        --color-#{$name}-foreground: #{$foreground};
+        --color-#{$name}-border: #{$border};
+        --color-#{$name}-muted: #{$muted};
 
-      --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
-      --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
-      0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+        --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
+        --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
+        0 4px 23px 0 rgb(0 0 0 / 12%),
+        0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+      }
     }
-  }
 
-  // aliases genereren
-  @each $alias, $target in $theme-aliases {
-    --color-#{$alias}: var(--color-#{$target});
-    --color-#{$alias}-foreground: var(--color-#{$target}-foreground);
-    --color-#{$alias}-border: var(--color-#{$target}-border);
-    --color-#{$alias}-muted: var(--color-#{$target}-muted);
-    --color-#{$alias}-shadow-from: var(--color-#{$target}-shadow-from);
-    --color-#{$alias}-shadow: var(--color-#{$target}-shadow);
+    // aliases genereren
+    @each $alias, $target in $theme-aliases {
+      --color-#{$alias}: var(--color-#{$target});
+      --color-#{$alias}-foreground: var(--color-#{$target}-foreground);
+      --color-#{$alias}-border: var(--color-#{$target}-border);
+      --color-#{$alias}-muted: var(--color-#{$target}-muted);
+      --color-#{$alias}-shadow-from: var(--color-#{$target}-shadow-from);
+      --color-#{$alias}-shadow: var(--color-#{$target}-shadow);
+    }
   }
 }
 }
@@ -520,8 +650,9 @@ $theme-all: list.join($theme-low, $theme-high);
 }
 
 // Generate css-variables for shades
-:root {
- @each $key, $value in $shades {
+@layer pds.tokens {
+  :where(:root) {
+    @each $key, $value in $shades {
 
       $foreground: shade-color-foreground($key);
       $muted: shade-color-muted($key, $value);
@@ -534,107 +665,64 @@ $theme-all: list.join($theme-low, $theme-high);
       --color-#{$key}-shadow-from: hsl(from var(--color-#{$key}) h s l / 42%);
       --color-#{$key}-shadow: 0 14px 26px -12px var(--color-#{$key}-shadow-from, #{$value}),
       0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);    
+      0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);
+    }
   }
 }
 
 
 // === GENERATE UTILITY AND COMPONENT CLASSES
 
+// Loop over alle kleurnamen: colors, light-theme, theme-aliassen en shades
+@mixin each-color-name {
+  @each $name, $value in $colors {
+    @content($name, $value);
+  }
 
-// Generate utility and component classes for colors
-@each $name, $value in $colors {
-  @include utilities($name, $value );
-  @include components($name, $value );
-}
+  @each $name, $value in map.get($themes, light) {
+    @content($name, $value);
+  }
 
+  @each $alias, $target in $theme-aliases {
+    @content($alias, var(--color-#{$target}));
+  }
 
-// Generate utility and component classes for themes
-@each $theme, $themeMap in $themes {
-  @if($theme ==light) {
-    @each $name, $value in $themeMap {
-      @include utilities($name, $value );
-      @include components($name, $value );
-    }
+  @each $key, $value in $shades {
+    @content($key, $value);
   }
 }
 
-// Generate utility and component classes for theme aliasses
-@each $alias, $target in $theme-aliases {
-  @include utilities($alias, var(--color-#{$target}));
-  @include components($alias, var(--color-#{$target}));
+@layer pds.tokens {
+
+  .theme-light {
+    color-scheme: light;
+
+    --scrollbar-background: var(--color-theme-500);
+    --scrollbar-thumb: var(--color-theme-600);
+    --scrollbar-thumb-hover: var(--color-theme-700);
+
+    --color-hover: var(--shadow-light);
+    --color-selected: var(--shadow-base);
+  }
+
+  .theme-dimmed,
+  .theme-dark {
+    color-scheme: dark;
+
+    --scrollbar-background: var(--color-theme-500);
+    --scrollbar-thumb: var(--color-theme-600);
+    --scrollbar-thumb-hover: var(--color-theme-700);
+  }
 }
 
 
-// Generate utility and component classes for shades
-@each $key, $value in $shades {
-    @include utilities($key,$value );
-    @include components($key, $value );
-  
-}
-
-.theme-light {
-  color-scheme: light;
-
-  --scrollbar-background: var(--color-theme-500);
-  --scrollbar-thumb: var(--color-theme-600);
-  --scrollbar-thumb-hover: var(--color-theme-700);
-
-  --color-hover: var(--shadow-light);
-  --color-selected: var(--shadow-base);
-}
-
-.theme-dimmed,
-.theme-dark {
-  color-scheme: dark;
-
-  --scrollbar-background: var(--color-theme-500);
-  --scrollbar-thumb: var(--color-theme-600);
-  --scrollbar-thumb-hover: var(--color-theme-700);
-}
-
-
-.theme-light {
-    --color-gray-25: #fcfbfa;
-    --color-gray-50: #f8f7f6;
-    --color-gray-100: #f1efee;
-    --color-gray-200: #e6e3e1;
-    --color-gray-300: #d7d3d0;
-    --color-gray-400: #c3bfbc;
-    --color-gray-500: #a8a4a1;
-    --color-gray-600: #8c8885;
-    --color-gray-700: #706c69;
-    --color-gray-800: #54514f;
-    --color-gray-900: #373533;
-    --color-gray-950: #1f1d1c;
-}
-
-.theme-dimmed {
-    --color-gray-25: #f8f8f8;
-    --color-gray-50: #f2f2f2;
-    --color-gray-100: #e5e5e5;
-    --color-gray-200: #d4d4d4;
-    --color-gray-300: #b8b8b8;
-    --color-gray-400: #9a9a9a;
-    --color-gray-500: #7a7a7a;
-    --color-gray-600: #5f5f5f;
-    --color-gray-700: #474747;
-    --color-gray-800: #323232;
-    --color-gray-900: #1f1f1f;
-    --color-gray-950: #0f0f0f;
-}
-
-.theme-dark {
-    --color-gray-25: #f5f5f5;
-    --color-gray-50: #ebebeb;
-    --color-gray-100: #d9d9d9;
-    --color-gray-200: #c0c0c0;
-    --color-gray-300: #a3a3a3;
-    --color-gray-400: #858585;
-    --color-gray-500: #6b6b6b;
-    --color-gray-600: #545454;
-    --color-gray-700: #404040;
-    --color-gray-800: #2d2d2d;
-    --color-gray-900: #1c1c1c;
-    --color-gray-950: #0f0f0f;
+@layer pds.utilities {
+  @include each-color-name using ($name, $value) {
+    @include utilities($name, $value);
+    @include button-colors($name);
+    @include dropdown-colors($name);
+    @include tooltip-colors($name);
+    @include form-field-colors($name);
+    @include form-group-colors($name);
+  }
 }
