@@ -46,7 +46,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
                     ring
                     rounded={SizeDefinitions.Full}
                     ringHoverColor={ColorDefinitions.Primary}
-                    ringOffsetColor={ColorDefinitions.Theme100}
+                    ringOffsetColor={ColorDefinitions.SurfaceLightSubtle}
                     color={ColorDefinitions.Primary}
                 />
 
@@ -63,7 +63,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
                     ringSize="ring-1"
                     ring
                     ringHoverColor={ColorDefinitions.Primary}
-                    ringOffsetColor={ColorDefinitions.Theme100}
+                    ringOffsetColor={ColorDefinitions.SurfaceLightSubtle}
                     color={ColorDefinitions.Primary}
                 />
             </button>

@@ -40,10 +40,10 @@ export const Gap: StoryFn = () => {
 export const ColumnDivider: StoryFn = () => {
     return (
         <DuoColumnLayout columnDivider={true}>
-            <DuoColumn background={ColorDefinitions.Theme100}>
+            <DuoColumn background={ColorDefinitions.SurfaceLightSubtle}>
                 <p>Left content.</p>
             </DuoColumn>
-            <DuoColumn background={ColorDefinitions.Theme100}>
+            <DuoColumn background={ColorDefinitions.SurfaceLightSubtle}>
                 <p>Right content.</p>
             </DuoColumn>
         </DuoColumnLayout>
@@ -56,7 +56,7 @@ export const Background: StoryFn = () => {
             <DuoColumn>
                 <p>Left content.</p>
             </DuoColumn>
-            <DuoColumn background={ColorDefinitions.Theme100}>
+            <DuoColumn background={ColorDefinitions.SurfaceLightSubtle}>
                 <p>Right content.</p>
             </DuoColumn>
         </DuoColumnLayout>

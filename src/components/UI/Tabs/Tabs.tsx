@@ -39,15 +39,14 @@ const Tabs = <TIndex extends React.Key | null | undefined = React.Key | null | u
     borderBottomColor = ColorDefinitions.Surface,
     renderContent = false,
 } : TabsProps<TIndex>) : ReactNode => {
+
     const navRef = useRef<HTMLDivElement | null>(null);
     const selectorRef = useRef<HTMLDivElement | null>(null);
     const isPills = variant === "pills";
 
     useEffect(() => {
         if (isPills && navRef.current && selectorRef.current) {
-            const activeTab = navRef.current.querySelector(
-                ".tab.active"
-            ) as HTMLElement;
+            const activeTab = navRef.current.querySelector(".tab.active") as HTMLElement;
             if (activeTab) {
                 selectorRef.current.style.left = `${activeTab.offsetLeft}px`;
                 selectorRef.current.style.width = `${activeTab.offsetWidth}px`;

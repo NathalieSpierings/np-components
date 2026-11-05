@@ -1,5 +1,5 @@
 
-const themeSteps = [100, 200, 300, 400, 500, 600, 700, 800, 900];
+const themeColors = ["surface-light-subtle", "surface-light", "surface", "surface-dark", "surface-dark-strong", "theme-600", "theme-700", "theme-800", "theme-900"];
 const shadeSteps = ["", "dark", "light", "subtle"];
 
 const colors = [
@@ -33,8 +33,8 @@ const ColorSwatch: React.FC<ColorSwatchProps> = ({ theme }) => {
     if (theme) {
         return (
             <div className="colors">
-                {themeSteps.map((step) => (
-                    <Swatch key={step} name={`theme-${step}`} />
+                {themeColors.map((name) => (
+                    <Swatch key={name} name={name} />
                 ))}
             </div>
         );

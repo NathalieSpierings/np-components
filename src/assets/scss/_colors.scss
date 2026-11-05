@@ -1,728 +1,797 @@
-@use "sass:list";
 @use "sass:color";
+@use "sass:list";
+@use "sass:map";
 @use "sass:meta";
 @use "sass:string";
-@use "sass:map";
+@use "sass:math";
+
+@use "config" as *;
+
+// Theme shades: light, dimmed, dark
+// =====================================================================
 
 
-$colors: (
-  "black": #000000,
-  "white": #FFFFFF,
-  "offwhite": #FDFDFC,
-  "carbon": #3f3f3f,
-  "snow": #F3F1EE,
-  "hot-pink": #d51a54,
-  "bordeaux": #852D37,
-  "magenta": #ED344E,
-  "pale": #FBB7A7,
-  "sand": #CAC6C3,
-  "pepper": #9A928A,
-  "overcast": #788489,
-  "stone": #676663,
-  "silver": #C0C0C0,
-  "chinese-white": #dbead2,
-  "terracotta": #e0804a,
-  "isabelline": #f4f0e9,
-  "beige": #EFE9E2,
-  "dark-brown": #39302B,
-  "transparent": transparent
+@function light-neutrals($bg, $base, $step: 2%, $text-muted: 35%, $text: 70%, $text-strong: 90%) {
+   @return (
+	    'neutral-50': $bg, // surface
+        'neutral-100': #faf8f6, // subtle
+        'neutral-200': color.adjust(#faf8f6, $lightness: -$step * .75),  // light
+        'neutral-300': $base, // dark
+        'neutral-400': color.adjust($base, $lightness: -$step * 1.5), // strong
+        'neutral-500': color.adjust($base, $lightness: -$step * 3),
+        'neutral-600': color.adjust($base, $lightness: -$step * 4),
+        'neutral-700': #9f9f9f,//color.scale($base, $lightness: -$text-muted), // text-muted
+        'neutral-800': #3f3f3f,//color.scale($base, $lightness: -$text), // text
+        'neutral-900': #161616,//color.scale($base, $lightness: -$text-strong), // text-strong
+    );
+}
+	
+
+// @function light-neutrals($bg, $base, $step: 3%, $text-muted: 40%, $text: 70%, $text-strong: 90%) {
+//    @return (
+// 	    'neutral-50':  $bg, // surface
+//         'neutral-100': $base, // color.adjust($base, $lightness: -$step * 1), // subtle
+//         'neutral-200': color.adjust($base, $lightness: -$step * .5), // light
+//         'neutral-300': color.adjust($base, $lightness: -$step * 1), // dark
+//         'neutral-400': color.adjust($base, $lightness: -$step * 2), // strong
+//         'neutral-500': color.adjust($base, $lightness: -$step * 4),
+//         'neutral-600': color.adjust($base, $lightness: -$step * 5),
+//         'neutral-700': color.scale($base, $lightness: -$text-muted), // text-muted
+//         'neutral-800': color.scale($base, $lightness: -$text), // text
+//         'neutral-900': color.scale($base, $lightness: -$text-strong), // text-strong
+//     );
+// }
+	
+	
+@function dark-neutrals($base, $step: 3%, $text-muted: 35%, $text: 80%, $text-strong: 92%) {
+    @return (
+		'neutral-50':  color.scale($base, $lightness: $text-strong),
+        'neutral-100': color.scale($base, $lightness: $text),
+        'neutral-200': color.scale($base, $lightness: $text-muted),
+        'neutral-300': color.adjust($base, $lightness: $step * 12),
+        'neutral-400': color.adjust($base, $lightness: $step * 8),
+        'neutral-500': color.adjust($base, $lightness: $step * 6), // light
+        'neutral-600': color.adjust($base, $lightness: $step * 3), // dark
+        'neutral-700': color.adjust($base, $lightness: $step), // subtle
+        'neutral-800': $base,
+        'neutral-900': color.adjust($base, $lightness: -$step), // strong 
+    );
+}
+
+$neutrals: (
+	light:  light-neutrals(#fefcfb, #edebe7),
+	//light:  light-neutrals(#FDFDFD, #F9F9F9),
+    dimmed: dark-neutrals(#545453, $step: 3%),//#454242
+    dark:   dark-neutrals(#262626, $step: 2%),
 );
 
-$shades: (
-  "primary": #e0804a,
-  "primary-dark": #C47041,
-  "primary-light": #F7BCA2,
-  "primary-subtle": #F8ECE5,
-  "secondary": #173D4B,
-  "secondary-dark": #14313E,
-  "secondary-light": #768B94,
-  "secondary-subtle": #E4E5E9,
-  "tertiary": #587068,
-  "tertiary-dark": #094345,
-  "tertiary-light": #798d86,
-  "tertiary-subtle": #dee2e1,
-  "cotton": #e8e2db,
-  "cotton-dark": #bcb4a9,
-  "cotton-light": #EFE9E2,
-  "cotton-subtle": #F4F0E9,
-  "ice": #DADEE1,
-  "ice-dark": #C5CED0,
-  "ice-light": #E7E9EB,
-  "ice-subtle": #F6F6F6,
-  "marine": #173D4B,
-  "marine-dark": #14313E,
-  "marine-light": #768B94,
-  "marine-subtle": #E4E5E9,
-  "cyprus": #587068,
-  "cyprus-dark": #094345,
-  "cyprus-light": #798d86,
-  "cyprus-subtle": #dee2e1,
-  "highland": #729061,
-  "highland-dark": #537348,
-  "highland-light": #9cb190,
-  "highland-subtle": #DCE5D9,
-  "dull-orange": #e0804a,
-  "dull-orange-dark": #C47041,
-  "dull-orange-light": #F7BCA2,
-  "dull-orange-subtle": #F8ECE5,
-  "cherry": #E56368,
-  "cherry-dark": #AC4A4E,
-  "cherry-light": #efa1a4,
-  "cherry-subtle": #fceff0,
-  "cottage-blue": #96B3BB,
-  "cottage-blue-dark": #788f96,
-  "cottage-blue-light": #c0d1d6,
-  "cottage-blue-subtle": #eaf0f1,
-  "golden": #EABE65,
-  "golden-dark": #bb9851,
-  "golden-light": #f2d8a3,
-  "golden-subtle": #fbf2e0,
-  "purple": #AF88FD,
-  "purple-dark": #8C6DCA,
-  "purple-light": #e7dbfe,
-  "purple-subtle": #f3edff,
-  "violet": #C08EE4,
-  "violet-dark": #9A72B6,
-  "violet-light": #e6d2f4,
-  "violet-subtle": #f2e8fa,
-  "royalblue": #2D7FCA,
-  "royalblue-dark": #2466A2,
-  "royalblue-light": #c0d9ef,
-  "royalblue-subtle": #eaf2fa,
-  "blue": #79b2cc,
-  "blue-dark": #3882A2,
-  "blue-light": #cae3ee,
-  "blue-subtle": #e5f1f7,
-  "vintage-blue": #779faa,
-  "vintage-blue-dark": #5d8793,
-  "vintage-blue-light": #adcfd4,
-  "vintage-blue-subtle": #c9e7ea,
-  "cyan": #5bcbd3,
-  "cyan-dark": #339da6,
-  "cyan-light": #98e5e9,
-  "cyan-subtle": #d5ffff,
-  "sea": #80C8C2,
-  "sea-dark": #66A09B,
-  "sea-light": #d9efed,
-  "sea-subtle": #ecf7f6,
-  "olive": #89977a,
-  "olive-dark": #616f53,
-  "olive-light": #d2d7cc,
-  "olive-subtle": #e8ebe6,
-  "sage": #b8d08f,
-  "sage-dark": #91a96a,
-  "sage-light": #ccddae,
-  "sage-subtle": #dde9c8,
-  "green": #8CC996,
-  "green-dark": #70A178,
-  "green-light": #d1e9d5,
-  "green-subtle": #e8f4ea,
-  "spring": #67D07E,
-  "spring-dark": #45a859,
-  "spring-light": #afeac3,
-  "spring-subtle": #ccf5df,
-  "yellow": #FCCB7A,
-  "yellow-dark": #FABB61,
-  "yellow-light": #feeaca,
-  "yellow-subtle": #fef5e4,
-  "havanna": #F5BD6E,
-  "havanna-dark": #e7b062,
-  "havanna-light": #fbe2b3,
-  "havanna-subtle": #fdf0ce,
-  "orange": #FFB064,
-  "orange-dark": #F38E40,
-  "orange-light": #ffdfc1,
-  "orange-subtle": #ffefe0,
-  "salmon": #FF8B68,
-  "salmon-dark": #d26345,
-  "salmon-light": #ffcbab,
-  "salmon-subtle": #ffe5c6,
-  "red": #E16268,
-  "red-dark": #A5313B,
-  "red-light": #f6d0d2,
-  "red-subtle": #fceff0,
-  "rose": #f88392,
-  "rose-dark": #dc6a7a,
-  "rose-light": #ffcfd3,
-  "rose-subtle": #ffe8e9,
-  "soft-pink": #fba19d,
-  "soft-pink-dark": #b36160,
-  "soft-pink-light": #fdd5d3,
-  "soft-pink-subtle": #feeae9,
-  "nude": #E1A299,
-  "nude-dark": #D3948B,
-  "nude-light": #F5C9C0,
-  "nude-subtle": #F1D5D1,
-  "mulberry": #D06495,
-  "mulberry-dark": #A65077,
-  "mulberry-light": #ecc1d5,
-  "mulberry-subtle": #f6e0ea,
-  "pink": #F691BE,
-  "pink-dark": #E17EAA,
-  "pink-light": #fbd3e5,
-  "pink-subtle": #fde9f2,
-  "brown": #87705B,
-  "brown-dark": #6C5A49,
-  "brown-light": #cfc6bd,
-  "brown-subtle": #e7e2de,
-);
 
 $themes: (
-  light: (theme-100: #fffffe,
-    theme-200: #fefcfc,
-    theme-300: #f9f7f5,
-    theme-400: #f2eeeb,
-    theme-500: #eae6e3,
+	"light": (
+		'surface':         map.get($neutrals, 'light', 'neutral-50'),
+		'surface-subtle':  map.get($neutrals, 'light', 'neutral-100'),
+		'surface-light':   map.get($neutrals, 'light', 'neutral-200'),
+		'surface-dark':    map.get($neutrals, 'light', 'neutral-300'),
+		'surface-strong':  map.get($neutrals, 'light', 'neutral-400'),
+		'surface-inverse': map.get($neutrals, 'light', 'neutral-800'),
+		'text-muted':      map.get($neutrals, 'light', 'neutral-700'),
+		'text':            map.get($neutrals, 'light', 'neutral-800'),
+		'text-strong':     map.get($neutrals, 'light', 'neutral-900'),
+		'text-inverse':    map.get($neutrals, 'light', 'neutral-50'),		
+     'dark': #3f3f3f, // todo remove
+	),
+	"dimmed": (
+		'surface':         map.get($neutrals, 'dimmed', 'neutral-700'),
+		'surface-subtle':  map.get($neutrals, 'dimmed', 'neutral-600'),
+		'surface-light':   map.get($neutrals, 'dimmed', 'neutral-500'),
+		'surface-dark':    map.get($neutrals, 'dimmed', 'neutral-800'),
+		'surface-strong':  map.get($neutrals, 'dimmed', 'neutral-900'),
+		'surface-inverse': map.get($neutrals, 'dimmed', 'neutral-100'),
+		'text-muted':      map.get($neutrals, 'dimmed', 'neutral-200'),
+		'text':            map.get($neutrals, 'dimmed', 'neutral-100'),
+		'text-strong':     map.get($neutrals, 'dimmed', 'neutral-50'),
+		'text-inverse':    map.get($neutrals, 'dimmed', 'neutral-900'),	
+		'dark': #3f3f3f,
+		
+	),
+	"dark": (
+		'surface':         map.get($neutrals, 'dark', 'neutral-700'),
+		'surface-subtle':  map.get($neutrals, 'dark', 'neutral-600'),
+		'surface-light':   map.get($neutrals, 'dark', 'neutral-500'),
+		'surface-dark':    map.get($neutrals, 'dark', 'neutral-800'),
+		'surface-strong':  map.get($neutrals, 'dark', 'neutral-900'),
+		'surface-inverse': map.get($neutrals, 'dark', 'neutral-100'),
+		'text-muted':      map.get($neutrals, 'dark', 'neutral-200'),
+		'text':            map.get($neutrals, 'dark', 'neutral-100'),
+		'text-strong':     map.get($neutrals, 'dark', 'neutral-50'),
+		'text-inverse':    map.get($neutrals, 'dark', 'neutral-900'),	
+		'dark': #3f3f3f,		
+	),
+);
+
+/*
+$themes: (
+  light: (
+    surface-light-subtle: #fffffe,
+    surface-light: #fefcfc,
+    surface: #f9f7f5,
+    surface-dark: #f2eeeb,
+    surface-dark-strong: #eae6e3,
     theme-600: #d8d5d2,
     theme-700: #cfcbc9,
     theme-800: #c5c2bf,
     theme-900: #bbb8b6,
-    text-light: #a2a1a0,
+    text-muted: #a2a1a0,
     text: #3c3c3c,
-    text-dark: #000000,
+    text-strong: #000000,
     dark: #3f3f3f,
   ),
-  dimmed: (theme-100: #848383,
-    theme-200: #7c7c7b,
-    theme-300: #646463,
-    theme-400: #6d6d6c,
-    theme-500: #5a5a59,
+  dimmed: (
+    surface-light-subtle: #848383,
+    surface-light: #7c7c7b,
+    surface: #646463,
+    surface-dark: #6d6d6c,
+    surface-dark-strong: #5a5a59,
     theme-600: #565655,
     theme-700: #515150,
     theme-800: #4d4d4c,
     theme-900: #484847,
-    text-light: #a8a8a8,
+    text-muted: #a8a8a8,
     text: #d3d3d3,
-    text-dark: #fdfdfd,
+    text-strong: #fdfdfd,
     dark: #3f3f3f,
   ),
-  dark: (theme-100: #656565,
-    theme-200: #4b4b4b,
-    theme-300: #414141,
-    theme-400: #373737,
-    theme-500: #303030,
+  dark: (
+    surface-light-subtle: #656565,
+    surface-light: #4b4b4b,
+    surface: #414141,
+    surface-dark: #373737,
+    surface-dark-strong: #303030,
     theme-600: #2b2b2b,
     theme-700: #252525,
     theme-800: #202020,
     theme-900: #1a1a1a,
-    text-light: #878787,
+    text-muted: #878787,
     text: #cdcdcd,
-    text-dark: #fdfdfd,
+    text-strong: #fdfdfd,
     dark: #0d0d0d,
   )
 );
+*/
 
-
-
-$theme-aliases: (
-  surface-light: theme-200,
-  surface: theme-300,
-  surface-dark: theme-400
+$colors: (
+	"black":         #000000,
+	"white":         #FFFFFF,
+	"offwhite":      #FDFDFC,
+	"carbon":        #3f3f3f,
+	"snow":          #F3F1EE,
+	"hot-pink":      #d51a54,
+	"bordeaux":      #852D37,
+	"magenta":       #ED344E,
+	"pale":          #FBB7A7,
+	"sand":          #CAC6C3,
+	"pepper":        #9A928A,
+	"overcast":      #788489,
+	"stone":         #676663,
+	"silver":        #C0C0C0,
+	"chinese-white": #dbead2,
+	"terracotta":    #e0804a,
+	"isabelline":    #f4f0e9,
+	"beige":         #EFE9E2,
+	"dark-brown":    #39302B,
+	"transparent":   transparent
 );
 
-$excluded-color-props: (
-  "transparent"
-);
-$excluded-theme-props: (
-  text,
-  text-light,
-  text-dark
-);
-$excluded-props: list.join($excluded-theme-props, $excluded-color-props);
-
-@function is-excluded($name) {
-  @return list.index($excluded-props, $name) !=null;
-}
-
-@function oklab-mix($value, $percent: 15, $color: white) {
-  $from-percent: 100 - $percent;
-  @return string.unquote("color-mix(in oklab, #{$value} #{$from-percent}%, #{$color} #{$percent}%)");
-}
-
-
-// Generate utility classes
-@mixin utilities($name, $value) {
-
-  @if not is-excluded($name) {
-
-    .bg-#{$name},
-    .hover\:bg-#{$name}:hover {
-      --color-background: var(--color-#{$name});
-      --color-foreground: var(--color-#{$name}-foreground);
-      --color-border: var(--color-#{$name}-border);
-      --color-muted: var(--color-#{$name}-muted);
-      --color-shadow: var(--color-#{$name}-shadow);
-
-      background: var(--color-background);
-      color: var(--color-foreground);
-    }
-
-    .text-#{$name},
-    .hover\:text-#{$name}:hover {
-      --color-foreground: var(--color-#{$name});
-      color: var(--color-#{$name});
-    }
-
-    .text-#{$name}-muted,
-    .hover\:text-#{$name}-muted:hover {
-      --color-muted: var(--color-#{$name}-muted);
-      color: var(--color-muted);
-    }
-
-    .border-#{$name},
-    .hover\:border-#{$name}:hover {
-      border-color: var(--color-#{$name}-border);
-    }
-
-    .border-before-#{$name},
-    .hover\:border-before-#{$name}:hover {
-      &::before {
-        border-color: var(--color-#{$name}-border);
-      }
-    }
-
-    .border-after-#{$name},
-    .hover\:border-after-#{$name}:hover {
-      &::after {
-        border-color: var(--color-#{$name}-border);
-      }
-    }
-
-    .shadow-#{$name},
-    .hover\:shadow-#{$name}:hover {
-      box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent);
-    }
-
-    .shadow-from-#{$name} {
-      --color-shadow-from: var(--color-#{$name}-shadow-from);
-    }
-
-    .shadow-before-#{$name},
-    .hover\:shadow-before-#{$name}:hover {
-      &::before {
-        box-shadow: var(--color-#{$name}-shadow, 0 0 0 transparent);
-      }
-    }
-
-    .ring-#{$name} {
-      --ring-color: var(--color-#{$name}, #{$value});
-    }
-
-    .ring-offset-#{$name} {
-      --ring-offset-color: var(--color-#{$name}, #{$value});
-    }
-
-    .ring-hover-#{$name} {
-      --ring-offset-border-color: var(--color-#{$name}, #{$value});
-    }
-  }
-}
-
-// Generate component classes (per component-layer)
-@mixin dropdown-colors($name) {
-
-  @if not is-excluded($name) {
-
-    .dropdown.dropdown-#{$name} {
-      .dropdown__menu__item {
-        &:hover {
-          --color-hover: var(--color-#{$name});
-          --color-foreground: var(--color-#{$name}-foreground);
-        }
-
-        &.selected {
-          --color-selected: var(--color-#{$name});
-          --color-foreground: var(--color-#{$name}-foreground);
-        }
-      }
-    }
-  }
-}
-
-@mixin button-colors($name) {
-
-  @if not is-excluded($name) {
-
-    .btn-#{$name} {
-      --button-foreground: var(--color-#{$name}-foreground);
-      --color-shadow: var(--color-#{$name}-shadow);
-      --color-border: var(--color-#{$name});
-      --color-background: var(--color-#{$name});
-    }
-
-    .btn-ghost.btn-#{$name},
-    .btn-outline.btn-#{$name} {
-
-      @if ($name ==theme-100 or $name ==theme-200 or $name ==theme-300 or $name ==theme-400 or $name ==surface-light or $name ==surface or $name ==surface-dark) {
-        --button-foreground: var(--color-#{$name}-foreground);
-        --color-border: var(--color-#{$name}-border);
-      }
-
-      @else {
-        --button-foreground: var(--color-#{$name});
-        --color-border: var(--color-#{$name});
-      }
-
-      &:hover {
-        --button-foreground: var(--color-#{$name}-foreground);
-      }
-    }
-
-    .btn-flat.btn-#{$name} {
-      @if ($name ==theme-100 or $name ==theme-200 or $name ==theme-300 or $name ==theme-400 or $name ==surface-light or $name ==surface or $name ==surface-dark) {
-        --button-foreground: var(--color-#{$name}-foreground);
-      }
-
-      @else {
-        --button-foreground: var(--color-#{$name});
-      }
-    }
-  }
-}
-
-@mixin form-field-colors($name) {
-
-  @if not is-excluded($name) {
-
-    .form-field-#{$name} {
-      --form-field-accent: var(--color-#{$name});
-      --form-field-background: var(--color-#{$name});
-    }
-  }
-}
-
-@mixin form-group-colors($name) {
-
-  @if not is-excluded($name) {
-
-    .form-group-#{$name} {
-      .form-control {
-        --input-border: var(--color-#{$name});
-      }
-
-      &.floating {
-        label {
-          --input-label-foreground: var(--color-#{$name});
-        }
-      }
-    }
-  }
-}
-
-@mixin tooltip-colors($name) {
-
-  @if not is-excluded($name) {
-
-    .tooltip-#{$name} {
-      --tooltip-background: var(--color-#{$name});
-      --tooltip-foreground: var(--color-#{$name}-foreground);
-    }
-  }
-}
-
-
-
-
-
-
-// === COLORS
-
-$light-colors: (
-  "white",
-  "offwhite",
-  "light",
-  "silver",
-  "beige",
-  "transparent",
-  "pale",
-  "sand"
+$grey: (  
+  'grey-50': '#e9e9e9',
+  'grey-100': '#d3d3d3',
+  'grey-200': '#bcbcbc',
+  'grey-300': '#a6a6a6',
+  'grey-400': '#909090',
+  'grey-500': '#7a7a7a',
+  'grey-600': '#646464',
+  'grey-700': '#4d4d4d',
+  'grey-800': '#373737',
+  'grey-900': '#212121',
 );
 
-@function color-foreground($name) {
 
-  @if list.index($light-colors, $name) {
-    @return var(--color-dark);
-  }
-
-  @return var(--color-offwhite);
-}
-
-@function color-muted($name, $value) {
-  @if list.index($light-colors, $name) {
-    @return oklab-mix($value, 35, black);
-  }
-
-  @return oklab-mix($value, 55, white);
-}
-
-@function color-border($name, $value, $theme: null) {
-
-  @if list.index($light-colors, $name) {
-    @return oklab-mix($value, 10, black);
-  }
-
-  @return oklab-mix($value, 50, white);
-}
-
-
-// Generate css-variabels for colors
-@layer pds.tokens {
-  :where(:root) {
-    @each $name, $value in $colors {
-
-      $foreground: color-foreground($name);
-      $muted: color-muted($name, $value);
-      $border: color-border($name, $value);
-
-      --color-#{$name}: #{$value};
-      --color-#{$name}-foreground: #{$foreground};
-      --color-#{$name}-border: #{$border};
-      --color-#{$name}-muted: #{$muted};
-      --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
-      --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
-      0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
-    }
-
-    --color-background: var(--color-surface);
-    --color-foreground-light: var(--color-text-light);
-    --color-foreground: var(--color-text);
-    --color-foreground-strong: var(--color-text-dark);
-    --color-border: var(--color-surface-border);
-    --color-muted: var(--color-text-light);
-    --color-shadow: var(--color-surface-shadow);
-  }
-}
-
-
-// === THEMES
-
-@function theme-color-foreground($name, $theme: null) {
-
-  // 1. shades subtle / light → always dark
-  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
-    @return var(--color-dark);
-  }
-
-  @if ($name ==theme-100 or $name ==theme-200 or $name ==theme-300 or $name ==theme-400 or $name ==theme-500) {
-    @return var(--color-text);
-  }
-
-  @if ($theme ==light and ($name ==theme-100 or $name ==theme-200 or $name ==theme-300 or $name ==theme-400 or $name ==theme-500)) {
-    @return var(--color-dark);
-  }
-
-  @return var(--color-offwhite);
-}
-
-@function theme-color-muted($name, $value, $theme: null) {
-
-  // 1. shades subtle / light → always dark
-  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
-    @return oklab-mix($value, 35, black);
-  }
-
-  @if ($theme ==light and ($name ==theme-100 or $name ==theme-200 or $name ==theme-300 or $name ==theme-400 or $name ==theme-500)) {
-    @return oklab-mix($value, 35, black);
-  }
-
-  @return oklab-mix($value, 55, white);
-}
-
-@function theme-color-border($name, $value, $theme: null) {
-
-  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
-    @return oklab-mix($value, 10, black);
-  }
-
-  // Theme ranges
-  $theme-surface-light: (
-    theme-200
-  );
-$theme-low: (
-  theme-100,
-  theme-200,
-  theme-300,
-  theme-400,
-  theme-500
+$shades: (
+	"primary": #e0804a, "primary-dark": #C47041, "primary-light": #F7BCA2, "primary-subtle": #F8ECE5,
+	"secondary": #173D4B, "secondary-dark": #14313E, "secondary-light": #768B94, "secondary-subtle": #E4E5E9,
+	"tertiary": #587068, "tertiary-dark": #094345, "tertiary-light": #798d86, "tertiary-subtle": #dee2e1,
+	"cotton": #e8e2db, "cotton-dark": #bcb4a9, "cotton-light": #EFE9E2, "cotton-subtle": #F4F0E9,
+	"ice": #DADEE1, "ice-dark": #C5CED0, "ice-light": #E7E9EB, "ice-subtle": #F6F6F6,
+	"marine": #173D4B, "marine-dark": #14313E, "marine-light": #768B94, "marine-subtle": #E4E5E9,
+	"cyprus": #587068, "cyprus-dark": #094345, "cyprus-light": #798d86, "cyprus-subtle": #dee2e1,
+	"highland": #729061, "highland-dark": #537348, "highland-light": #9cb190, "highland-subtle": #DCE5D9,
+	"dull-orange": #e0804a, "dull-orange-dark": #C47041, "dull-orange-light": #F7BCA2, "dull-orange-subtle": #F8ECE5,
+	"cherry": #E56368, "cherry-dark": #AC4A4E, "cherry-light": #efa1a4, "cherry-subtle": #fceff0,
+	"cottage-blue": #96B3BB, "cottage-blue-dark": #788f96, "cottage-blue-light": #c0d1d6, "cottage-blue-subtle": #eaf0f1,
+	"golden": #EABE65, "golden-dark": #bb9851, "golden-light": #f2d8a3, "golden-subtle": #fbf2e0,
+	"purple": #AF88FD, "purple-dark": #8C6DCA, "purple-light": #e7dbfe, "purple-subtle": #f3edff,
+	"violet": #C08EE4, "violet-dark": #9A72B6, "violet-light": #e6d2f4, "violet-subtle": #f2e8fa,
+	"royalblue": #2D7FCA, "royalblue-dark": #2466A2, "royalblue-light": #c0d9ef, "royalblue-subtle": #eaf2fa,
+	"blue": #79b2cc, "blue-dark": #3882A2, "blue-light": #cae3ee, "blue-subtle": #e5f1f7,
+	"vintage-blue": #779faa, "vintage-blue-dark": #5d8793, "vintage-blue-light": #adcfd4, "vintage-blue-subtle": #c9e7ea,
+	"cyan": #5bcbd3, "cyan-dark": #339da6, "cyan-light": #98e5e9, "cyan-subtle": #d5ffff,
+	"sea": #80C8C2, "sea-dark": #66A09B, "sea-light": #d9efed, "sea-subtle": #ecf7f6,
+	"olive": #89977a, "olive-dark": #616f53, "olive-light": #d2d7cc, "olive-subtle": #e8ebe6,
+	"sage": #b8d08f, "sage-dark": #91a96a, "sage-light": #ccddae, "sage-subtle": #dde9c8,
+	"green": #8CC996, "green-dark": #70A178, "green-light": #d1e9d5, "green-subtle": #e8f4ea,
+	"spring": #67D07E, "spring-dark": #45a859, "spring-light": #afeac3, "spring-subtle": #ccf5df,
+	"yellow": #FCCB7A, "yellow-dark": #FABB61, "yellow-light": #feeaca, "yellow-subtle": #fef5e4,
+	"havanna": #F5BD6E, "havanna-dark": #e7b062, "havanna-light": #fbe2b3, "havanna-subtle": #fdf0ce,
+	"orange": #FFB064, "orange-dark": #F38E40, "orange-light": #ffdfc1, "orange-subtle": #ffefe0,
+	"salmon": #FF8B68, "salmon-dark": #d26345, "salmon-light": #ffcbab, "salmon-subtle": #ffe5c6,
+	"red": #E16268, "red-dark": #A5313B, "red-light": #f6d0d2, "red-subtle": #fceff0,
+	"rose": #f88392, "rose-dark": #dc6a7a, "rose-light": #ffcfd3, "rose-subtle": #ffe8e9,
+	"soft-pink": #fba19d, "soft-pink-dark": #b36160, "soft-pink-light": #fdd5d3, "soft-pink-subtle": #feeae9,
+	"nude": #E1A299, "nude-dark": #D3948B, "nude-light": #F5C9C0, "nude-subtle": #F1D5D1,
+	"mulberry": #D06495, "mulberry-dark": #A65077, "mulberry-light": #ecc1d5, "mulberry-subtle": #f6e0ea,
+	"pink": #F691BE, "pink-dark": #E17EAA, "pink-light": #fbd3e5, "pink-subtle": #fde9f2,
+	"brown": #87705B, "brown-dark": #6C5A49, "brown-light": #cfc6bd, "brown-subtle": #e7e2de,
 );
-$theme-high: (
-  theme-600,
-  theme-700,
-  theme-800,
-  theme-900
+
+// =====================================================================
+// CONFIG
+// =====================================================================
+
+$default-theme: "light";
+
+// Color-scheme per theme
+$schemes: (
+	"light":  light,
+	"dimmed": dark,
+	"dark":   dark,
 );
-$theme-all: list.join($theme-low, $theme-high);
 
-// Theme
 
-@if $theme ==light {
-  @if list.index($theme-low, $name) {
-    @return oklab-mix($value, 10, black);
-  }
+// Voorgrond: kiest automatisch de tekstkleur met het hoogste WCAG-contrast.
+$foreground-on-light:  "carbon";   // token uit $colors
+$foreground-on-dark:   "offwhite"; // token uit $colors
 
-  @if list.index($theme-high, $name) {
-    @return oklab-mix($value, 30, white);
-  }
+// Sterke voorgrond (headings) per voorgrond-token
+$foreground-strong: (
+	"carbon":   "black",
+	"offwhite": "white",
+);
+
+// Witte tekst krijgt voorrang zolang het contrast minimaal deze waarde haalt.
+// 4.5 = WCAG normale tekst, 3 = WCAG grote/vette tekst. Lager = meer witte tekst.
+$foreground-min-contrast: 1.5;
+
+
+// Handmatig overrulen als de berekende keuze minder mooi is.
+// Voorbeeld: ("primary": "offwhite", "purple": "offwhite")
+$foreground-overrides: ();
+
+
+$muted-strength:         45%;
+$border-subtle-strength: 10%;
+$border-strong-strength: 30%;
+$border-strength:        20%;
+
+// .text-mute-{color}: aandeel van de kleur, de rest is de huidige achtergrond
+$text-mute-amount: 60%;
+
+// Shadow: % zwart erdoorheen, daarna transparantie
+$shadow-darken: 75%;
+$shadow-alpha:  0.25;
+
+// Interactietoestanden: aandeel van de voorgrondkleur over transparant
+$state-hover-strength:    6%;
+$state-active-strength:   10%;
+$state-selected-strength: 14%;
+
+// =====================================================================
+// COLOR FUNCTIONS
+// =====================================================================
+
+// WCAG-luminantie: 0 = zwart, 1 = wit
+@function luminance($c) {
+	$sum: 0;
+	@each $channel, $weight in ("red": 0.2126, "green": 0.7152, "blue": 0.0722) {
+		$v: math.div(color.channel($c, $channel, $space: rgb), 255);
+		$v: if(sass($v <= 0.04045): math.div($v, 12.92); else: math.pow(math.div($v + 0.055, 1.055), 2.4));
+		$sum: $sum + $v * $weight;
+	}
+	@return $sum;
 }
 
-@if $theme !=light {
-  @if $theme ==dimmed and $name ==theme-300 {
-    @return oklab-mix($value, 25, white);
-  }
-
-  @if list.index($theme-all, $name) {
-    @return oklab-mix($value, 20, white);
-  }
+// WCAG-contrastratio tussen twee kleuren (1 t/m 21)
+@function contrast($a, $b) {
+	$la: luminance($a);
+	$lb: luminance($b);
+	@return math.div(math.max($la, $lb) + 0.05, math.min($la, $lb) + 0.05);
 }
 
-@return oklab-mix($value, 50, white);
+// Tokennaam van de voorgrond:
+// 1. override als die er is
+// 2. witte tekst als die minimaal $foreground-min-contrast haalt
+// 3. anders de optie met het meeste contrast
+@function foreground($name, $bg) {
+	@if map.has-key($foreground-overrides, $name) {
+		@return map.get($foreground-overrides, $name);
+	}
+
+	$contrast-on-light: contrast($bg, map.get($colors, $foreground-on-light)); // donkere tekst
+	$contrast-on-dark:  contrast($bg, map.get($colors, $foreground-on-dark));  // witte tekst
+
+	@if $contrast-on-dark >= $foreground-min-contrast or $contrast-on-dark > $contrast-on-light {
+		@return $foreground-on-dark;
+	}
+	@return $foreground-on-light;
 }
 
-// Generate css-variables for themes
-@layer pds.tokens {
-  @each $theme, $values in $themes {
+// Tokennaam van de sterke voorgrond: de sterke variant van foreground(),
+// of dezelfde token als er geen variant is opgegeven (bijv. bij een override)
+@function foreground-strong($name, $bg) {
+	$fg: foreground($name, $bg);
+	@return if(sass(map.has-key($foreground-strong, $fg)): map.get($foreground-strong, $fg); else: $fg);
+}
 
-    // #{if($theme == light, ":where(:root), .theme-light", ".theme-#{$theme}")} {
-    #{if(sass($theme == light): ":where(:root), .theme-light"; else: ".theme-#{$theme}")} {
-@each $name, $value in $values {
+// Surfaces: themetekst door de surface gemengd
+@function blend($bg, $fg, $strength) {
+	@return color.to-space(color.mix($fg, $bg, $strength, $method: oklab), oklch);
+}
 
-      --color-#{$name}: #{$value};
+@function shadow($bg) {
+	$c: color.to-space(color.mix(#000, $bg, $shadow-darken, $method: oklab), oklch);
+	@return color.change($c, $alpha: $shadow-alpha);
+}
 
-      @if not is-excluded($name) {
+@function glow($c) {
+	@return 0 14px 26px -12px color-mix(in oklab, #{$c} 42%, transparent),
+	        0 4px 23px 0 rgb(0 0 0 / 12%),
+	        0 8px 10px -5px color-mix(in oklab, #{$c} 20%, transparent);
+}
 
-        $foreground: theme-color-foreground($name, $theme);
-        $muted: theme-color-muted($name, $value, $theme);
-        $border: theme-color-border($name, $value, $theme);
+// =====================================================================
+// PALETTE: colors and shades in one platte map
+// =====================================================================
 
-        --color-#{$name}-foreground: #{$foreground};
-        --color-#{$name}-border: #{$border};
-        --color-#{$name}-muted: #{$muted};
+$palette: map.merge($colors, $shades);
 
-        --color-#{$name}-shadow-from: hsl(from var(--color-#{$name}) h s l / 42%);
-        --color-#{$name}-shadow: 0 14px 26px -12px var(--color-#{$name}-shadow-from, #{$value}),
-        0 4px 23px 0 rgb(0 0 0 / 12%),
-        0 8px 10px -5px hsl(from var(--color-#{$name}) h s l / 20%);
+// =====================================================================
+// MIXINS
+// =====================================================================
+
+@mixin state-tokens {
+	--color-hover:    color-mix(in oklab, var(--color-foreground) #{$state-hover-strength}, transparent);
+	--color-active:   color-mix(in oklab, var(--color-foreground) #{$state-active-strength}, transparent);
+	--color-selected: color-mix(in oklab, var(--color-foreground) #{$state-selected-strength}, transparent);
+}
+
+@mixin color-tokens($name, $bg) {
+	$fg:   var(--color-#{$name}-foreground);
+	$self: var(--color-#{$name});
+
+	--color-#{$name}:                   #{$bg};
+	--color-#{$name}-foreground:        var(--color-#{foreground($name, $bg)});
+	--color-#{$name}-foreground-strong: var(--color-#{foreground-strong($name, $bg)});
+	--color-#{$name}-muted:             color-mix(in oklab, #{$fg} #{$muted-strength}, #{$self});
+	--color-#{$name}-border:            var(--color-#{$name}-muted);
+	--color-#{$name}-border-subtle:     color-mix(in oklab, #{$fg} #{$border-subtle-strength}, #{$self});
+	--color-#{$name}-border-strong:     color-mix(in oklab, #{$fg} #{$border-strong-strength}, #{$self});
+	--color-#{$name}-shadow:            #{shadow($bg)};
+}
+
+@mixin shadow-tokens {
+	--shadow-light: color-mix(in oklab, var(--color-shadow) 40%, transparent);
+	--shadow-none:  0 0 #0000;
+	--shadow-xs:    0 1px 2px 0 var(--shadow-light);
+	--shadow-sm:    0 1px 3px 0 var(--shadow-light), 0 1px 2px -1px var(--shadow-light);
+	--shadow-md:    0 4px 6px -1px var(--shadow-light), 0 2px 4px -2px var(--shadow-light);
+	--shadow-lg:    0 10px 15px -3px var(--shadow-light), 0 4px 6px -4px var(--shadow-light);
+	--shadow-xl:    0 20px 25px -5px var(--shadow-light), 0 8px 10px -6px var(--shadow-light);
+	--shadow-2xl:   0 25px 50px -12px var(--color-shadow);
+	--shadow-inset: inset 0 2px 4px 0 var(--shadow-light);
+	--shadow-glow:  #{glow(var(--color-background))};
+
+	--drop-shadow-sm: 0 1px 2px var(--color-shadow);
+	--drop-shadow-md: 0 3px 3px var(--color-shadow);
+}
+
+// Color utilities and component classes
+
+@mixin color-utilities($keys) {
+
+	// Background: sets the full color context
+	@each $key in $keys {
+		.bg-#{$key},
+		.hover\:bg-#{$key}:hover {
+			--color-background:        var(--color-#{$key});
+			--color-foreground:        var(--color-#{$key}-foreground);
+			--color-foreground-strong: var(--color-#{$key}-foreground-strong);
+			--color-muted:             var(--color-#{$key}-muted);
+			--color-border:            var(--color-#{$key}-border);
+			--color-border-subtle:     var(--color-#{$key}-border-subtle);
+			--color-border-strong:     var(--color-#{$key}-border-strong);
+			--color-shadow:            var(--color-#{$key}-shadow);
+			@include shadow-tokens;
+			@include state-tokens;
+
+			background-color: var(--color-background);
+			color: var(--color-foreground);
+		}
+	}
+
+	// Text (after all .bg-*, so .text-* always wins on the same element)
+	@each $key in $keys {
+		.text-#{$key},
+		.hover\:text-#{$key}:hover {
+			--color-foreground: var(--color-#{$key});
+			color: var(--color-foreground);
+		}
+	}
+
+	// Muted text in a fixed color, blended into the current background
+	@each $key in $keys {
+		.text-mute-#{$key},
+		.hover\:text-mute-#{$key}:hover {
+			--color-muted: color-mix(in oklab, var(--color-#{$key}) #{$text-mute-amount}, var(--color-background));
+			color: var(--color-muted);
+		}
+	}
+
+	.text-muted {
+		color: var(--color-muted);
+	}
+
+	// Border
+	@each $key in $keys {
+		.border-#{$key},
+		.hover\:border-#{$key}:hover {
+			--color-border: var(--color-#{$key});
+			border-color: var(--color-border);
+		}
+	}
+
+  @each $key in $keys {
+		.border-before-#{$key},
+		.hover\:border-before-#{$key}:hover {
+			--color-border: var(--color-#{$key});
+	       &::before {
+				  border-color: var(--color-border);
+	       }
+		}
+	}
+
+  @each $key in $keys {
+		.border-after-#{$key},
+		.hover\:border-after-#{$key}:hover {
+			--color-border: var(--color-#{$key});
+	       &::after {
+				  border-color: var(--color-border);
+	       }
+		}
+	}
+
+	// Glow in the color of the current context: purple on .bg-purple, orange on .bg-orange
+	.shadow-glow {
+		box-shadow: var(--shadow-glow);
+	}
+
+	// Glow in a fixed color: .shadow-glow-purple, .shadow-glow-primary, ...
+	@each $key in $keys {
+		.shadow-glow-#{$key} {
+			box-shadow: #{glow(var(--color-#{$key}))};
+		}
+	}
+
+    @each $key in $keys {
+     .ring-#{$key} {
+      --ring-color: var(--color-#{$key});
+      }
+
+      .ring-offset-#{$key} {
+        --ring-offset-color: var(--color-#{$key});
+      }
+
+    
+      .ring-hover-#{$key} {
+        --ring-offset-border-color: var(--color-#{$key});
       }
     }
-
-    // aliases genereren
-    @each $alias, $target in $theme-aliases {
-      --color-#{$alias}: var(--color-#{$target});
-      --color-#{$alias}-foreground: var(--color-#{$target}-foreground);
-      --color-#{$alias}-border: var(--color-#{$target}-border);
-      --color-#{$alias}-muted: var(--color-#{$target}-muted);
-      --color-#{$alias}-shadow-from: var(--color-#{$target}-shadow-from);
-      --color-#{$alias}-shadow: var(--color-#{$target}-shadow);
-    }
-  }
-}
+   
 }
 
+@mixin color-components($keys) {
+	@each $key in $keys {
+		 .dropdown.dropdown-#{$key} {
+	      .dropdown__menu__item {
+	        &:hover {
+	          --color-hover: var(--color-#{$key});
+	          --color-foreground: var(--color-#{$key}-foreground);
+	        }
+	
+	        &.selected {
+	          --color-selected: var(--color-#{$key});
+	          --color-foreground: var(--color-#{$key}-foreground);
+	        }
+	      }
+	    }
+	}
 
-// === SHADES
+	@each $key in $keys {
+		 .btn-#{$key} {
+	      --button-foreground: var(--color-#{$key}-foreground);
+	      --color-shadow: var(--color-#{$key}-shadow);
+	      --color-border: var(--color-#{$key});
+	      --color-background: var(--color-#{$key});
+	    }
+	
+	    .btn-ghost.btn-#{$key},
+	    .btn-outline.btn-#{$key} {
+	
+	      @if ($key ==surface-subtle or $key ==surface-light or $key ==surface or $key ==surface-dark) {
+	        --button-foreground: var(--color-#{$key}-foreground);
+	        --color-border: var(--color-#{$key}-border);
+	      }
+	
+	      @else {
+	        --button-foreground: var(--color-#{$key});
+	        --color-border: var(--color-#{$key});
+	      }
+	
+	      &:hover {
+	        --button-foreground: var(--color-#{$key}-foreground);
+	      }
+	    }
+	
+	    .btn-flat.btn-#{$key} {
+	      @if ($key ==surface-subtle or $key ==surface-light or $key ==surface or $key ==surface-dark) {
+	        --button-foreground: var(--color-#{$key}-foreground);
+	      }
+	
+	      @else {
+	        --button-foreground: var(--color-#{$key});
+	      }
+	    }
+	}
 
-@function shade-color-foreground($name) {
+	@each $key in $keys {
+		.form-field-#{$key} {
+	      --form-field-accent: var(--color-#{$key});
+	      --form-field-background: var(--color-#{$key});
+	    }
+	}
 
-  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
-    @return var(--color-dark);
-  }
+	@each $key in $keys {
+		 .form-group-#{$key} {
+	      .form-control {
+	        --input-border: var(--color-#{$key});
+	      }
+	
+	      &.floating {
+	        label {
+	          --input-label-foreground: var(--color-#{$key});
+	        }
+	      }
+	    }
+	}
 
-  @return var(--color-offwhite);
+	@each $key in $keys {
+		.tooltip-#{$key} {
+	      --tooltip-background: var(--color-#{$key});
+	      --tooltip-foreground: var(--color-#{$key}-foreground);
+	    }
+	}
 }
 
-@function shade-color-muted($name, $value) {
-
-  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
-    @return oklab-mix($value, 35, black);
-  }
-
-  @return oklab-mix($value, 55, white);
-}
-
-@function shade-color-border($name, $value, $theme: null) {
-
-  @if string.slice("#{$name}", -7)=='-subtle' or string.slice("#{$name}", -6)=='-light' {
-    @return oklab-mix($value, 10, black);
-  }
-
-  @return oklab-mix($value, 50, white);
-}
-
-// Generate css-variables for shades
-@layer pds.tokens {
-  :where(:root) {
-    @each $key, $value in $shades {
-
-      $foreground: shade-color-foreground($key);
-      $muted: shade-color-muted($key, $value);
-      $border: shade-color-border($key, $value);
-
-      --color-#{$key}: #{$value};
-      --color-#{$key}-foreground: #{$foreground};
-      --color-#{$key}-border: #{$border};
-      --color-#{$key}-muted: #{$muted};
-      --color-#{$key}-shadow-from: hsl(from var(--color-#{$key}) h s l / 42%);
-      --color-#{$key}-shadow: 0 14px 26px -12px var(--color-#{$key}-shadow-from, #{$value}),
-      0 4px 23px 0 rgb(0 0 0 / 12%),
-      0 8px 10px -5px hsl(from var(--color-#{$key}) h s l / 20%);
-    }
-  }
-}
-
-
-// === GENERATE UTILITY AND COMPONENT CLASSES
-
-// Loop over alle kleurnamen: colors, light-theme, theme-aliassen en shades
-@mixin each-color-name {
-  @each $name, $value in $colors {
-    @content($name, $value);
-  }
-
-  @each $name, $value in map.get($themes, light) {
-    @content($name, $value);
-  }
-
-  @each $alias, $target in $theme-aliases {
-    @content($alias, var(--color-#{$target}));
-  }
-
-  @each $key, $value in $shades {
-    @content($key, $value);
-  }
-}
+// =====================================================================
+// TOKENS
+// =====================================================================
 
 @layer pds.tokens {
 
-  .theme-light {
-    color-scheme: light;
+	// Colors en shades
+	:where(:root) {
+		@each $name, $value in $palette {
+			@if color.alpha($value) == 0 {
+				--color-#{$name}: #{$value};
+			} @else {
+				@include color-tokens($name, $value);
+			}
+		}
 
-    --scrollbar-background: var(--color-theme-500);
-    --scrollbar-thumb: var(--color-theme-600);
-    --scrollbar-thumb-hover: var(--color-theme-700);
+		// Grey: basiskleuren, zonder extra tokens
+		@each $name, $value in $grey {
+			--color-#{$name}: #{$value};
+		}
+	}
 
-    --color-hover: var(--shadow-light);
-    --color-selected: var(--shadow-base);
-  }
+	// Themes
+	@each $theme, $props in $themes {
+		$selector: ".theme-#{$theme}";
+		@if $theme == $default-theme { $selector: ":root, #{$selector}"; }
 
-  .theme-dimmed,
-  .theme-dark {
-    color-scheme: dark;
+		$text: map.get($props, "text");
 
-    --scrollbar-background: var(--color-theme-500);
-    --scrollbar-thumb: var(--color-theme-600);
-    --scrollbar-thumb-hover: var(--color-theme-700);
-  }
+		:where(#{$selector}) {
+			color-scheme: map.get($schemes, $theme);
+
+			// Neutrals: alleen de kleur zelf
+			@each $key, $value in map.get($neutrals, $theme) {
+				--color-#{$key}: #{$value};
+			}
+
+			
+			@each $prop, $value in $props {
+				@if string.index($prop, "surface") == 1 {
+
+					@if $prop == "surface-inverse" {
+						--color-#{$prop}-foreground:        var(--color-text-inverse);
+						--color-#{$prop}-foreground-strong: var(--color-text-inverse);
+					} @else {
+						--color-#{$prop}-foreground:        var(--color-text);
+						--color-#{$prop}-foreground-strong: var(--color-text-strong);
+					}
+
+					--color-#{$prop}:                   #{$value};					
+					--color-#{$prop}-muted:             var(--color-text-muted);
+					--color-#{$prop}-border:            #{blend($value, $text, $border-strength)};
+					--color-#{$prop}-border-subtle:     #{blend($value, $text, $border-subtle-strength)};
+					--color-#{$prop}-border-strong:     #{blend($value, $text, $border-strong-strength)};
+					--color-#{$prop}-shadow:            #{shadow($value)};
+				} @else {
+					--color-#{$prop}: #{$value};
+				}
+			}
+
+			--color-background:        var(--color-surface);
+			--color-foreground:        var(--color-text);
+			--color-foreground-strong: var(--color-text-strong);
+			--color-muted:             var(--color-text-muted);
+			--color-border:            var(--color-surface-border);
+			--color-border-subtle:     var(--color-surface-border-subtle);
+			--color-border-strong:     var(--color-surface-border-strong);
+			--color-shadow:            var(--color-surface-shadow);
+			@include shadow-tokens;
+			@include state-tokens;
+		}
+	}
 }
 
+
+@layer pds.utilities {	
+	// Surfaces uit het default theme (surface, surface-light, ...), zonder text*
+	$theme-colors: ();
+	@each $prop in map.keys(map.get($themes, $default-theme)) {
+		@if string.index($prop, "surface") == 1 {
+			$theme-colors: list.append($theme-colors, $prop, $separator: comma);
+		}
+	}
+
+	$color-keys: list.join(map.keys(map.remove($palette, "transparent")), $theme-colors);
+
+	@include color-utilities($color-keys);
+	@include color-components($color-keys);
+
+	// Neutrals: alleen de kleur zelf, zonder kleurcontext (voorgrond, borders, shadow)
+	@each $key in map.keys(map.get($neutrals, $default-theme)) {
+		.bg-#{$key}     { background-color: var(--color-#{$key}); }
+		.text-#{$key}   { color: var(--color-#{$key}); }
+		.border-#{$key} { border-color: var(--color-#{$key}); }
+	}
+
+	// Grey: alleen de kleur zelf
+	@each $key in map.keys($grey) {
+		.bg-#{$key}     { background-color: var(--color-#{$key}); }
+		.text-#{$key}   { color: var(--color-#{$key}); }
+		.border-#{$key} { border-color: var(--color-#{$key}); }
+	}
+
+}
+
+
+// =====================================================================
+// TYPOGRAPHY
+// =====================================================================
+
+@function variant-key($name, $variant) {
+	@if $variant == "" { @return $name; }
+	@return "#{$name}-#{$variant}";
+}
+
+// Viewport range for fluid sizes: below min = smallest size, above max = largest size
+$fluid-min-vw: 36rem;   // 360px
+$fluid-max-vw: 144rem;  // 1440px
+
+$headings: (
+	1: (min: 2.4rem, max: 3.4rem, line-height: 1.2,  weight: 700, tracking: -0.01em),
+	2: (min: 2rem,   max: 2.8rem, line-height: 1.25, weight: 700, tracking: -0.01em),
+	3: (min: 1.8rem, max: 2.2rem, line-height: 1.3,  weight: 600, tracking: -0.005em),
+	4: (min: 1.7rem, max: 1.9rem, line-height: 1.35, weight: 600, tracking: 0),
+	5: (min: 1.6rem, max: 1.7rem, line-height: 1.4,  weight: 600, tracking: 0),
+	6: (min: 1.4rem, max: 1.4rem, line-height: 1.4,  weight: 600, tracking: 0.01em),
+);
+
+$titles: (
+	"":   (size: var(--fs-xl),  heading: 2),
+	"xs": (size: var(--fs-sm),  heading: 6),
+	"sm": (size: var(--fs-md),  heading: 5),
+	"md": (size: var(--fs-lg),  heading: 3),
+	"lg": (size: var(--fs-2xl), heading: 2),
+);
+
+// Fluid size between $min and $max, scaling with the viewport width
+@function fluid($min, $max, $vw-min: $fluid-min-vw, $vw-max: $fluid-max-vw) {
+	@if $min == $max { @return $min; }
+	$slope:     math.div($max - $min, $vw-max - $vw-min);
+	$intercept: $min - $slope * $vw-min;
+	@return clamp(#{$min}, #{$intercept} + #{$slope * 100}vw, #{$max});
+}
+
+@layer pds.tokens {
+	:where(:root) {
+    --rem-scale: 1;
+		--lh-base: 1.5;
+
+    --fontstack1: "Inter", sans-serif;
+    --fontstack2: "Inter Tight", sans-serif;
+
+    --fontstack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --fontstack-mono: "JetBrains Mono", ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+    
+		--font-size-body-xs: calc(1.3rem * var(--rem-scale, 1));
+		--font-size-body-sm: var(--fs-sm);
+		--font-size-body-lg: calc(1.5rem * var(--rem-scale, 1));
+		
+		--leading-body-xs: calc(1.9rem * var(--rem-scale, 1));
+		--leading-body-sm: calc(2rem * var(--rem-scale, 1));
+		--leading-body-lg: calc(2.2rem * var(--rem-scale, 1));
+
+			// Font sizes
+		@each $name, $size in $font-sizes {
+			--fs-#{$name}: calc(#{$size} * var(--rem-scale, 1));
+		}	
+
+		--heading-font:   var(--fontstack2);
+		--heading-margin: 0 0 0.5em;
+		--title-font:     var(--fontstack2);
+		--title-margin:   0 0 0.3em;
+		
+		@each $level, $h in $headings {
+			--h#{$level}-size:        #{fluid(map.get($h, min), map.get($h, max))};
+			--h#{$level}-line-height: #{map.get($h, line-height)};
+			--h#{$level}-weight:      #{map.get($h, weight)};
+			--h#{$level}-tracking:    #{map.get($h, tracking)};
+		}
+	}
+}
+
+@layer pds.typography {
+
+	@each $level, $h in $headings {
+		:where(h#{$level}, .h#{$level}) {
+			font-size:      var(--h#{$level}-size);
+			line-height:    var(--h#{$level}-line-height);
+			font-weight:    var(--h#{$level}-weight);
+			letter-spacing: var(--h#{$level}-tracking);
+		}
+	}
+
+	
+	@each $name, $t in $titles {
+		$level: map.get($t, heading);
+
+		.#{variant-key("title", $name)} {
+			font-size:      map.get($t, size);
+			line-height:    var(--h#{$level}-line-height);
+			font-weight:    var(--h#{$level}-weight);
+			letter-spacing: var(--h#{$level}-tracking);
+		}
+	}
+	
+	
+}
 
 @layer pds.utilities {
-  @include each-color-name using ($name, $value) {
-    @include utilities($name, $value);
-    @include button-colors($name);
-    @include dropdown-colors($name);
-    @include tooltip-colors($name);
-    @include form-field-colors($name);
-    @include form-group-colors($name);
+  @each $name, $size in $font-sizes {
+      .text-#{$name} {
+        font-size: var(--fs-#{$name});
+      }
   }
 }

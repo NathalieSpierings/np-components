@@ -19,7 +19,7 @@ const Text: React.FC<TextProps> = ({
     showTooltip = false,
     tooltipContent,
     tooltipArrow = false,
-    tooltipColor = ColorDefinitions.Theme100,
+    tooltipColor = ColorDefinitions.SurfaceLightSubtle,
     children,
 }) => {
     const ref = useRef<HTMLDivElement>(null);

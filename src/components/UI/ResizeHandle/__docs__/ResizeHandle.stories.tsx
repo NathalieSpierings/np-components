@@ -45,7 +45,7 @@ export const PanelLeft: StoryFn = () => <ResizablePanel side="left">Sleep de rec
 
 /** The border shown on hover and while resizing uses `--resize-handle-color`, e.g. to match the surrounding borders. */
 export const CustomColor: StoryFn = () => (
-    <ResizablePanel side="right" style={{ '--resize-handle-color': 'var(--color-primary)' } as CSSProperties}>
+    <ResizablePanel side="right" style={{ '--resize-handle-color': 'var(--color-accent)' } as CSSProperties}>
         Sleep de linkerrand: de rand is in de primaire kleur.
     </ResizablePanel>
 );

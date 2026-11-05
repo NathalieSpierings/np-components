@@ -160,7 +160,7 @@
 			margin-bottom: var(--form-group-padding);
 
 			&-accent {
-				--form-field-accent: var(--color-primary) !important;
+				--form-field-accent: var(--color-accent) !important;
 
 			}
 
@@ -230,28 +230,28 @@
 		.theme-dimmed,
 		.theme-dark {
 			.form-field {
-				--form-field-background: var(--color-theme-100);
-				--form-field-accent: var(--color-theme-100);
+				--form-field-background: var(--color-surface-subtle);
+				--form-field-accent: var(--color-surface-subtle);
 			}
 
 			.bg-surface-light {
 				.form-field {
-					--form-field-background: var(--color-theme-100);
-					--form-field-accent: var(--color-theme-100);
+					--form-field-background: var(--color-surface-subtle);
+					--form-field-accent: var(--color-surface-subtle);
 
 					&-accent {
-						--form-field-accent: var(--color-primary);
+						--form-field-accent: var(--color-accent);
 					}
 				}
 			}
 
 			.bg-surface-dark {
 				.form-field {
-					--form-field-background: var(--color-theme-100);
-					--form-field-accent: var(--color-theme-100);
+					--form-field-background: var(--color-surface-subtle);
+					--form-field-accent: var(--color-surface-subtle);
 
 					&-accent {
-						--form-field-accent: var(--color-primary);
+						--form-field-accent: var(--color-accent);
 					}
 				}
 			}
@@ -267,7 +267,7 @@
 			outline-width: var(--accessibility-focus-outline-width);
 			outline-style: var(--accessibility-focus-outline-style);
 			outline-color: var(--accessibility-focus-outline-color);
-			box-shadow: var(--accessibility-focus-box-shadow);
+			box-shadow: var(--accessibility-focus-outline-box-shadow);
 			border-radius: 2px;
 		}
 
@@ -444,7 +444,7 @@
 			outline-width: var(--accessibility-focus-outline-width);
 			outline-style: var(--accessibility-focus-outline-style);
 			outline-color: var(--accessibility-focus-outline-color);
-			box-shadow: var(--accessibility-focus-box-shadow);
+			box-shadow: var(--accessibility-focus-outline-box-shadow);
 		}
 
 		.radio {
@@ -540,7 +540,7 @@
 			outline-width: var(--accessibility-focus-outline-width);
 			outline-style: var(--accessibility-focus-outline-style);
 			outline-color: var(--accessibility-focus-outline-color);
-			box-shadow: var(--accessibility-focus-box-shadow);
+			box-shadow: var(--accessibility-focus-outline-box-shadow);
 			border-radius: 100px;
 		}
 
@@ -767,7 +767,7 @@
 				}
 
 				.form-control:focus~label {
-					color: var(--color-primary);
+					color: var(--color-accent);
 				}
 
 				&:has(label) {
@@ -921,7 +921,7 @@
 					background: transparent;
 
 					&:focus {
-						border-color: var(--color-primary);
+						border-color: var(--color-accent);
 					}
 
 					&:focus-visible {
@@ -1117,8 +1117,8 @@
 		.bg-surface-dark {
 			.form-group {
 				--input-border: var(--color-surface-dark-border);
-				--input-background: var(--color-theme-500);
-				--input-disabled-border: var(--color-theme-500-border);
+				--input-background: var(--color-surface-dark);
+				--input-disabled-border: var(--color-border);
 			}
 		}
 
@@ -1376,7 +1376,7 @@
 					border-radius: 0.5rem;
 					padding: 0.25rem var(--page-padding) 0.25rem var(--page-padding-sm);
 					color: var(--color-foreground);
-					background: var(--color-theme-600);
+					background: var(--color-surface-strong);
 					margin-inline-end: 0.5rem;
 
 					&:last-child {
@@ -1434,7 +1434,7 @@
 				outline-width: var(--accessibility-focus-outline-width);
 				outline-style: var(--accessibility-focus-outline-style);
 				outline-color: var(--accessibility-focus-outline-color);
-				box-shadow: var(--accessibility-focus-box-shadow);
+				box-shadow: var(--accessibility-focus-outline-box-shadow);
 			}
 
 			input {
@@ -1646,7 +1646,7 @@
 					--color-foreground: var(--color-offwhite);
 
 					.collection__item__container {
-						--color-selected: var(--color-primary);
+						--color-selected: var(--color-accent);
 					}
 				}
 			}
@@ -2742,7 +2742,7 @@
 			right: 0.5rem !important;
 
 			&::after {
-				background-color: var(--color-theme-700) !important;
+				background-color: var(--color-surface-strong) !important;
 				color: var(--color-foreground) !important;
 				height: 20px !important;
 				width: 20px !important;
@@ -2797,12 +2797,12 @@
 		.react-datepicker__year-text--in-selecting-range,
 		.react-datepicker__year-text--in-range {
 			color: var(--color-offwhite) !important;
-			background-color: var(--color-primary) !important;
+			background-color: var(--color-accent) !important;
 			border-radius: var(--radius-full) !important;
 
 			&:hover {
 				color: var(--color-offwhite) !important;
-				background-color: var(--color-primary) !important;
+				background-color: var(--color-accent) !important;
 				border-radius: var(--radius-full) !important;
 			}
 		}
@@ -2835,7 +2835,7 @@
 
 				&:hover {
 					border-style: dashed;
-					border-color: var(--color-primary);
+					border-color: var(--color-accent);
 				}
 			}
 

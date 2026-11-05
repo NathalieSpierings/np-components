@@ -15,7 +15,7 @@ De `CollapsibleMenu` component is een verticaal menu met onbeperkt veel levels. 
 - **Accordion:** met `accordion` staat per level maximaal één item open.
 - **Controlled of uncontrolled:** gebruik `openIds` en `onOpenChange`, of alleen `defaultOpenIds`.
 - **Styling:** extra CSS-klassen via `menuCss`; inspringing via de CSS-variabele `--collapsible-menu-indent`.
-- **Accentlijn:** een item op het eerste niveau krijgt een accentlijn links (net als in `MainMenu`) als zijn eigen link actief is, of als het open staat. Diepere items krijgen geen lijn; een actieve link daar krijgt alleen een achtergrond. Kleur en dikte via `--collapsible-menu-accent` (default `var(--color-primary)`) en `--collapsible-menu-accent-width` (default `2px`).
+- **Accentlijn:** een item op het eerste niveau krijgt een accentlijn links (net als in `MainMenu`) als zijn eigen link actief is, of als het open staat. Diepere items krijgen geen lijn; een actieve link daar krijgt alleen een achtergrond. Kleur en dikte via `--collapsible-menu-accent` (default `var(--color-accent)`) en `--collapsible-menu-accent-width` (default `2px`).
 - **Hulplijnen:** standaard loopt er een lijn langs elk submenu; zet `showLines={false}` om die te verbergen.
 - **Collapsed:** met `collapsed` toont het menu alleen de iconen (of de eerste letter), met de titel als tooltip. Een klik op een item met children zet dat item open en roept `onCollapsedClick` aan, bijvoorbeeld om een PanelLayout-aside uit te klappen. Zet `collapsedTooltips={false}` als de container zelf al opent bij hover. Het icoon staat in een vak met de breedte `--collapsible-menu-collapsed-width` (in een PanelLayout automatisch de strip-breedte).
 

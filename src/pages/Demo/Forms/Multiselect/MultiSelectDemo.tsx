@@ -230,9 +230,9 @@ const MultiselectDemo = ({
                         onSelectionChange={setselected}
                         multiselectHeader={{
                             content: "My label goes here...",
-                            borderColor: ColorDefinitions.Theme100
+                            borderColor: ColorDefinitions.SurfaceLightSubtle
                         }}
-                        toolbarBorderColor={ColorDefinitions.Theme100}
+                        toolbarBorderColor={ColorDefinitions.SurfaceLightSubtle}
 
                     />
                 </Dropdown>

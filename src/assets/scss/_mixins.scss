@@ -86,7 +86,6 @@ $breakpoints: (
 // === Grid system
 
 $row-columns: 12 !default;
-$row-gutter-width: 1.5rem !default;
 
 @function breakpoint-infix($name, $bp: $breakpoints) {
   @if breakpoint-min($name, $bp) == null {

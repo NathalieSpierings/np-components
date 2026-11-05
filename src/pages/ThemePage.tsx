@@ -27,19 +27,19 @@ const ThemePage = ({
 					<div className="demobox__content">
 						<span className="text-">The usefulness of nonsensical content</span>
 						<p>Dummy text is also used to demonstrate the appearance of different typefaces and layouts, and in general the content of dummy text is nonsensical. Due to its widespread use as filler text for layouts, non-readability is of great importance: human perception is tuned to recognize certain patterns and repetitions in texts. If the distribution of letters and 'words' is random, the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces (typography), or the distribution of text on the page (layout or type area). For this reason, dummy text usually consists of a more or less random series of words or syllables. This prevents repetitive patterns from impairing the overall visual impression and facilitates the comparison of different typefaces. Furthermore, it is advantageous when the dummy text is relatively realistic so that the layout impression of the final publication is not compromised.</p>
-						<div className="box bg-theme-100">
+						<div className="box bg-surface-light-subtle">
 							here is a box on top 100
 						</div>
-						<div className="box bg-theme-200">
+						<div className="box bg-surface-light">
 							here is a box on top 200
 						</div>
-						<div className="box bg-theme-300">
+						<div className="box bg-surface">
 							here is a box on top 300
 						</div>
-						<div className="box bg-theme-400">
+						<div className="box bg-surface-dark">
 							here is a box on top 400
 						</div>
-						<div className="box bg-theme-500">
+						<div className="box bg-surface-dark-strong">
 							here is a box on top 500
 						</div>
 						<div className="box bg-theme-600">
@@ -68,19 +68,19 @@ const ThemePage = ({
 					<div className="demobox__content">
 						<span className="text-">The usefulness of nonsensical content</span>
 						<p>Dummy text is also used to demonstrate the appearance of different typefaces and layouts, and in general the content of dummy text is nonsensical. Due to its widespread use as filler text for layouts, non-readability is of great importance: human perception is tuned to recognize certain patterns and repetitions in texts. If the distribution of letters and 'words' is random, the reader will not be distracted from making a neutral judgement on the visual impact and readability of the typefaces (typography), or the distribution of text on the page (layout or type area). For this reason, dummy text usually consists of a more or less random series of words or syllables. This prevents repetitive patterns from impairing the overall visual impression and facilitates the comparison of different typefaces. Furthermore, it is advantageous when the dummy text is relatively realistic so that the layout impression of the final publication is not compromised.</p>
-						<div className="box bg-theme-100">
+						<div className="box bg-surface-light-subtle">
 							here is a box on top 100
 						</div>
-						<div className="box bg-theme-200">
+						<div className="box bg-surface-light">
 							here is a box on top 200
 						</div>
-						<div className="box bg-theme-300">
+						<div className="box bg-surface">
 							here is a box on top 300
 						</div>
-						<div className="box bg-theme-400">
+						<div className="box bg-surface-dark">
 							here is a box on top 400
 						</div>
-						<div className="box bg-theme-500">
+						<div className="box bg-surface-dark-strong">
 							here is a box on top 500
 						</div>
 						<div className="box bg-theme-600">
@@ -108,24 +108,24 @@ const ThemePage = ({
 						<p className="text-orange">I am a warning message</p>
 						<p className="text-blue">I am a info message</p>
 						<p className="text-green">I am a success message</p>
-						<div className="bg-theme-100">button</div>
+						<div className="bg-surface-light-subtle">button</div>
 					</div>
 				</div>
 			</div>
 
-			<div className="box bg-theme-100">
+			<div className="box bg-surface-light-subtle">
 				here is a box on top 100
 			</div>
-			<div className="box bg-theme-200">
+			<div className="box bg-surface-light">
 				here is a box on top 200
 			</div>
-			<div className="box bg-theme-300">
+			<div className="box bg-surface">
 				here is a box on top 300
 			</div>
-			<div className="box bg-theme-400">
+			<div className="box bg-surface-dark">
 				here is a box on top 400
 			</div>
-			<div className="box bg-theme-500">
+			<div className="box bg-surface-dark-strong">
 				here is a box on top 500
 			</div>
 			<div className="box bg-theme-600">

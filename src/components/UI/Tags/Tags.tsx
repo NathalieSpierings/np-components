@@ -163,7 +163,7 @@ function Tags<T = TagItem>({
 
                         {onRemove && canRemoveTag && (
                             <DismissButton
-                                size={SizeDefinitions.Tiny}
+                                size={SizeDefinitions.ExtraExtraSmall}
                                 onClick={() =>
                                     onRemove(tag)
                                 }

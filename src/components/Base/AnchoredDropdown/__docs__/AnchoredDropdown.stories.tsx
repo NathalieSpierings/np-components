@@ -20,7 +20,7 @@ export const Default: StoryFn = () => {
     return (
         <AnchoredDropdown open={open} setOpen={setOpen}>
             <Button onClick={_ => setOpen(b => !b)}>Anchor (click me!)</Button>
-            <Card background={ColorDefinitions.Theme100}
+            <Card background={ColorDefinitions.SurfaceLightSubtle}
                         title={'Dropdown panel'}
                 >
             </Card>
@@ -34,7 +34,7 @@ export const LongContents: StoryFn = () => {
     return (
         <AnchoredDropdown open={open} setOpen={setOpen}>
             <Button onClick={_ => setOpen(b => !b)}>Anchor (click me!)</Button>
-            <Card background={ColorDefinitions.Theme100}
+            <Card background={ColorDefinitions.SurfaceLightSubtle}
                         title={'DropdownPane'}
                 >
                 <p>Renders as part of document.Body, so strechted page if required</p>

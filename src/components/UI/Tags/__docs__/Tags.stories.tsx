@@ -19,7 +19,6 @@ const meta: Meta<typeof Tags> = {
         (Story) => (
             <LayoutProvider>
                 <ToastrProvider>
-
                     <MemoryRouter>
                         <SvgSprite />
                         <Story />
@@ -379,20 +378,14 @@ const addonPrefixTags: TagItem[] = [
         id: "1",
         label: "Amsterdam",
         prefix: (
-            <Icon
-                icon={IconDefinitions.star}
-                size={SizeDefinitions.ExtraSmall}
-            />
+            <Icon icon={IconDefinitions.star} size={SizeDefinitions.Small} />
         )
     },
     {
         id: "2",
         label: "London",
         prefix: (
-            <Icon
-                icon={IconDefinitions.cookie}
-                size={SizeDefinitions.ExtraSmall}
-            />
+            <Icon icon={IconDefinitions.cookie} size={SizeDefinitions.Small} />
         )
     },
     {
@@ -401,7 +394,7 @@ const addonPrefixTags: TagItem[] = [
         prefix: (
             <Icon
                 icon={IconDefinitions.bulb}
-                size={SizeDefinitions.ExtraSmall}
+                size={SizeDefinitions.Small}
             />
         )
     },
@@ -411,7 +404,7 @@ const addonPrefixTags: TagItem[] = [
         prefix: (
             <Icon
                 icon={IconDefinitions.magic_wand}
-                size={SizeDefinitions.ExtraSmall}
+                size={SizeDefinitions.Small}
             />
         )
     }
@@ -424,7 +417,7 @@ const addonPostfixTags: TagItem[] = [
         postfix: (
             <Icon
                 icon={IconDefinitions.star}
-                size={SizeDefinitions.ExtraSmall}
+                size={SizeDefinitions.Small}
             />
         )
     },
@@ -434,7 +427,7 @@ const addonPostfixTags: TagItem[] = [
         postfix: (
             <Icon
                 icon={IconDefinitions.bulb}
-                size={SizeDefinitions.ExtraSmall}
+                size={SizeDefinitions.Small}
             />
         )
     },
@@ -444,7 +437,7 @@ const addonPostfixTags: TagItem[] = [
         postfix: (
             <Icon
                 icon={IconDefinitions.bulb}
-                size={SizeDefinitions.ExtraSmall}
+                size={SizeDefinitions.Small}
             />
         )
     },
@@ -454,7 +447,7 @@ const addonPostfixTags: TagItem[] = [
         postfix: (
             <Icon
                 icon={IconDefinitions.chat}
-                size={SizeDefinitions.ExtraSmall}
+                size={SizeDefinitions.Small}
             />
         )
     }
@@ -502,7 +495,7 @@ export const ReadOnly: StoryFn = () => {
 export const DatasourceUserModel: StoryFn = () => {
 
     const [selectedUsers, setSelectedUsers] = useState<TagItem[]>([]);
-  
+
     return (
         <Tags<UserModel>
             tags={selectedUsers}
@@ -533,108 +526,108 @@ export const MinimalOneTagMandatory: StoryFn = () => {
 
     return (
         <Tags<UserModel>
-                tags={minimalTags}
-                dataSource={users}
-                dataSourceId="id"
-                dataSourceLabel="displayName"
-                color={ColorDefinitions.Red}
-                onAddItem={user => {
-                    setMinimalTags(current => [
-                         ...current,
-                        {
-                            id: user.id,
-                            label: user.displayName
-                        }
-                    ]);
-                }}
-                onRemove={tag =>{
-                    setMinimalTags(current =>
-                        current.filter(item => item.id !== tag.id)
-                    );
-                }
-                }
-                enableMinimalOneTag
-            />
+            tags={minimalTags}
+            dataSource={users}
+            dataSourceId="id"
+            dataSourceLabel="displayName"
+            color={ColorDefinitions.Red}
+            onAddItem={user => {
+                setMinimalTags(current => [
+                    ...current,
+                    {
+                        id: user.id,
+                        label: user.displayName
+                    }
+                ]);
+            }}
+            onRemove={tag => {
+                setMinimalTags(current =>
+                    current.filter(item => item.id !== tag.id)
+                );
+            }
+            }
+            enableMinimalOneTag
+        />
     )
 };
 
- 
+
 export const DatasourceTagItem: StoryFn = () => {
 
     const [selectableTags, setSelectableTags] = useState<TagItem[]>([]);
-    
+
     const removeTag = (tag: TagItem) => {
         setSelectableTags(current => current.filter(item => item.id !== tag.id));
     };
 
     return (
-       <Tags<TagItem>
-                tags={selectableTags}
-                dataSource={tagOptions}
-                dataSourceId="id"
-                dataSourceLabel="label"
-                placeholder="Plaats zoeken"
-                onAddItem={tag => {
-                    setSelectableTags(current => [
-                        ...current,
-                        tag
-                    ]);
-                }}
-                onRemove={removeTag}
-            />
+        <Tags<TagItem>
+            tags={selectableTags}
+            dataSource={tagOptions}
+            dataSourceId="id"
+            dataSourceLabel="label"
+            placeholder="Plaats zoeken"
+            onAddItem={tag => {
+                setSelectableTags(current => [
+                    ...current,
+                    tag
+                ]);
+            }}
+            onRemove={removeTag}
+        />
     )
 };
 
 
 export const Color: StoryFn = () => {
 
-     const [coloredTags, setColoredTags] = useState<TagItem[]>(defaultTags);
+    const [coloredTags, setColoredTags] = useState<TagItem[]>(defaultTags);
 
-     const removeTag = (tag: TagItem) => {
+    const removeTag = (tag: TagItem) => {
         setColoredTags(current => current.filter(item => item.id !== tag.id));
     };
 
     return (
-       <Tags<TagItem>
-                tags={coloredTags}
-                dataSource={tagOptions}
-                dataSourceId="id"
-                dataSourceLabel="label"
-                color={ColorDefinitions.Green}
-                onAddItem={tag => {
-                    setColoredTags(current => [
-                        ...current,
-                        tag
-                    ]);
-                }}
-                onRemove={removeTag}
-            />
+        <Tags<TagItem>
+            tags={coloredTags}
+            dataSource={tagOptions}
+            dataSourceId="id"
+            dataSourceLabel="label"
+            color={ColorDefinitions.Green}
+            onAddItem={tag => {
+                setColoredTags(current => [
+                    ...current,
+                    tag
+                ]);
+            }}
+            onRemove={removeTag}
+        />
     )
 };
 
 
 export const AddonPrefix: StoryFn = () => {
 
-   const [prefixTags, setPrefixTags] = useState<TagItem[]>(addonPrefixTags);
+    const [prefixTags, setPrefixTags] = useState<TagItem[]>(addonPrefixTags);
 
     const removeTag = (tag: TagItem) => {
         setPrefixTags(current => current.filter(item => item.id !== tag.id));
     };
 
     return (
-       <Tags<TagItem>
-                tags={prefixTags}
-                dataSource={addonPrefixTags}
-                dataSourceId="id"
-                dataSourceLabel="label"
-                onAddItem={tag => {
-                    setPrefixTags(current => [
-                        ...current,
-                        tag
-                    ]);
-                }}
-                onRemove={removeTag}
-            />
+        <Tags<TagItem>
+            tags={prefixTags}
+            dataSource={addonPrefixTags}
+            dataSourceId="id"
+            dataSourceLabel="label"
+            onAddItem={tag => {
+                setPrefixTags(current => [
+                    ...current,
+                    tag
+                ]);
+            }}
+            onRemove={removeTag}
+        />
     )
 };
 
@@ -643,23 +636,23 @@ export const AddonPostfix: StoryFn = () => {
 
     const [postfixTags, setPostfixTags] = useState<TagItem[]>(addonPostfixTags);
 
-     const removeTag = (tag: TagItem) => {
+    const removeTag = (tag: TagItem) => {
         setPostfixTags(current => current.filter(item => item.id !== tag.id));
     };
 
     return (
-       <Tags<TagItem>
-                tags={postfixTags}
-                dataSource={addonPostfixTags}
-                dataSourceId="id"
-                dataSourceLabel="label"
-                onAddItem={tag => {
-                    setPostfixTags(current => [
-                        ...current,
-                        tag
-                    ]);
-                }}
-                onRemove={removeTag}
-            />
+        <Tags<TagItem>
+            tags={postfixTags}
+            dataSource={addonPostfixTags}
+            dataSourceId="id"
+            dataSourceLabel="label"
+            onAddItem={tag => {
+                setPostfixTags(current => [
+                    ...current,
+                    tag
+                ]);
+            }}
+            onRemove={removeTag}
+        />
     )
 };

@@ -35,7 +35,7 @@ const QuickAccessMenu: FC<QuickAccessMenuProps> = ({
     items,
     title,
     footer,
-    toggleIcon = <Icon icon={IconDefinitions.list_apps} />,
+    toggleIcon = <Icon icon={IconDefinitions.view_grid} />,
     toggleLabel,
     columns = 3,
     maxHeight = 420,

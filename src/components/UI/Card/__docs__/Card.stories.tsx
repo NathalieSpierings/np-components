@@ -33,7 +33,7 @@ type Story = StoryObj<typeof Card>;
 export const Default: StoryFn = () => {
     return (
         <Card
-            background={ColorDefinitions.Theme100}
+            background={ColorDefinitions.SurfaceLightSubtle}
             title={'Card title'}
             headerActions={[
                 <Icon key="iconSearch" icon={IconDefinitions.search} variant="circle" size={SizeDefinitions.Small} />,
@@ -41,12 +41,12 @@ export const Default: StoryFn = () => {
                 <Icon key="iconEllipsis" icon={IconDefinitions.ellipsis_h} variant="circle" size={SizeDefinitions.Small} />,
             ]}
             headerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
@@ -58,8 +58,8 @@ export const Default: StoryFn = () => {
 export const Shadow: StoryFn = () => {
     return (
         <Card
-            background={ColorDefinitions.Theme100}
-            shadowColor={ColorDefinitions.Theme100}
+            background={ColorDefinitions.SurfaceLightSubtle}
+            shadowColor={ColorDefinitions.SurfaceLightSubtle}
             title={'Card title'}
             headerActions={[
                 <Icon key="iconSearch" icon={IconDefinitions.search} variant="circle" size={SizeDefinitions.Small} />,
@@ -67,12 +67,12 @@ export const Shadow: StoryFn = () => {
                 <Icon key="iconEllipsis" icon={IconDefinitions.ellipsis_h} variant="circle" size={SizeDefinitions.Small} />,
             ]}
             headerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
@@ -84,8 +84,8 @@ export const Shadow: StoryFn = () => {
 export const ShadowHover: StoryFn = () => {
     return (
         <Card
-            background={ColorDefinitions.Theme100}
-            hoverShadowColor={ColorDefinitions.Theme100}
+            background={ColorDefinitions.SurfaceLightSubtle}
+            hoverShadowColor={ColorDefinitions.SurfaceLightSubtle}
             title={'Card title'}
             headerActions={[
                 <Icon key="iconSearch" icon={IconDefinitions.search} variant="circle" size={SizeDefinitions.Small} />,
@@ -93,12 +93,12 @@ export const ShadowHover: StoryFn = () => {
                 <Icon key="iconEllipsis" icon={IconDefinitions.ellipsis_h} variant="circle" size={SizeDefinitions.Small} />,
             ]}
             headerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
@@ -175,12 +175,12 @@ export const Transparent: StoryFn = () => {
                 <Icon key="iconEllipsis" icon={IconDefinitions.ellipsis_h} variant="circle" size={SizeDefinitions.Small} />,
             ]}
             headerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
@@ -192,7 +192,7 @@ export const Transparent: StoryFn = () => {
 export const TitleContent: StoryFn = () => {
     return (
         <Card
-            background={ColorDefinitions.Theme100}
+            background={ColorDefinitions.SurfaceLightSubtle}
             title={
                 <div>
                     Card title
@@ -207,12 +207,12 @@ export const TitleContent: StoryFn = () => {
                 <Icon key="iconEllipsis" icon={IconDefinitions.ellipsis_h} variant="circle" size={SizeDefinitions.Small} />,
             ]}
             headerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
@@ -226,7 +226,7 @@ export const HeaderSticky: StoryFn = () => {
 
     return (
         <Card
-            background={ColorDefinitions.Theme100}
+            background={ColorDefinitions.SurfaceLightSubtle}
             scrollPosition={scrollPosition}
             title={'Card title'}
             headerSticky={true}
@@ -237,12 +237,12 @@ export const HeaderSticky: StoryFn = () => {
                 <Button key="btnSave" color={ColorDefinitions.Primary}>Opslaan</Button>,
             ]}
             headerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>
@@ -372,12 +372,12 @@ export const HeaderSticky: StoryFn = () => {
 export const Image: StoryFn = () => {
     return (
         <Card
-            background={ColorDefinitions.Theme100}
+            background={ColorDefinitions.SurfaceLightSubtle}
             imageUrl="https://promeetec.nl/wp-content/uploads/2022/02/Promeetec-Gemakkelijk-declareren-VECOZO-scaled-1-1030x1030.jpeg"
             footerLeftContent={<p>Action</p>}
             footerRightContent={<p>Action</p>}
             footerBoxProps={{
-                borderColor: ColorDefinitions.Theme100,
+                borderColor: ColorDefinitions.SurfaceLightSubtle,
             }}
         >
             <p>The forest was alive with the soft murmur of nature.</p>
