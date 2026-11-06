@@ -30,8 +30,8 @@ const Modal: FC<ModalProps> = ({
     titleContent,
     variant,
     size = "default",
-    headerBoxProps = { borderColor: ColorDefinitions.Surface },
-    footerBoxProps = { borderColor: ColorDefinitions.Surface },
+    headerBoxProps,
+    footerBoxProps,
     footerActions,
     footerActionPosition = "left",
     background,
@@ -62,7 +62,7 @@ const Modal: FC<ModalProps> = ({
 
     const cls = [
         'modal',
-        background ? `bg--${background}` : '',
+        background ? `bg-${background}` : '',
         variant ? `modal-${variant}` : '',
         size ? `modal--${size}` : ''
     ].filter(Boolean).join(' ');

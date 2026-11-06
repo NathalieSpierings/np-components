@@ -699,6 +699,7 @@
 				}
 
 				&:focus-visible {
+					--input-border: var(--color-border-strong);
 					border-radius: var(--radius);
 					outline-offset: var(--accessibility-focus-outline-offset);
 					outline-width: var(--accessibility-focus-outline-width);

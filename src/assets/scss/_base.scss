@@ -1027,15 +1027,26 @@
 
     @layer buttons {
 
+		// Standaard knopachtergrond per thema
+		:where(:root, .theme-light) {
+			--button-background: var(--color-surface-dark);
+			
+		}
+
+		:where(.theme-dimmed, .theme-dark) {
+			--button-background: var(--color-surface-subtle);
+			--button-hover-lightness: 10%;
+		}
+
         .btn {
             --button-icon-size: 2.4;
             --button-size: 3.6rem;
             --button-padding: 0.8rem 1.5rem;
             --button-fontsize: var(--fs-sm);
-            --color-border: transparant;
-            --color-background: var(--color-surface-dark);
+            --color-background: var(--button-background);
             --button-foreground: var(--color-foreground);
             --button-line-height: 1.5;
+			--button-hover-lightness: 15%;
 
             position: relative;
             z-index: 1;
@@ -1057,9 +1068,9 @@
             font-weight: normal;
             color: var(--button-foreground);
             background: var(--color-background);
-            border: 1px solid var(--color-border);
+            border: 1px solid transparent;
             border-radius: var(--radius);
-            transition: all 0.3s ease;
+            transition: background-color 150ms, scale 150ms, opacity 200ms, box-shadow 200ms, color 200ms;
             margin-bottom: 0.5rem;
             margin-inline-start: 0.5rem;
 
@@ -1067,11 +1078,9 @@
                 margin-inline-start: 0;
             }
 
-            &:hover {
-                opacity: 0.9;
-                background-color: var(--color-background);
-                color: var(--button-foreground);
-            }
+			&:not(.btn-outline, .btn-ghost, .btn-flat):hover {
+                background: color-mix(in oklab, var(--color-background), white var(--button-hover-lightness));
+           }
 
             &:active,
             &.active {
@@ -1117,8 +1126,8 @@
             }
 
             &--rounded {
-                border-radius: var(--radius-lg);
-                padding: 0.5rem 1.25rem;
+                border-radius: var(--radius-2xl);
+                padding: var(--page-padding-2xs) var(--page-padding-sm) ;
             }
 
             &--circle {
@@ -1130,9 +1139,8 @@
             }
 
             &-outline {
-                --color-border: var(--color-border);
                 color: var(--button-foreground);
-                border-color: var(--color-border);
+                border: 1px solid var(--color-border);
                 background: transparent;
 
                 &::before {
@@ -1195,15 +1203,15 @@
 
             &--shadow {
                 &:hover {
-                    box-shadow: var(--color-shadow);
+                    box-shadow: var(--shadow-glow);
                 }
             }
 
             &--raised {
-                box-shadow: var(--color-shadow);
+                box-shadow: var(--shadow-lg);
             }
 
-            &--xs {
+		    &--xs {
                 --button-padding: .5rem .75rem;
                 --button-size: 2.4rem;
                 --button-fontsize: var(--fs-xs);
@@ -1302,7 +1310,6 @@
                 --color-background: var(--color-accent);
             }
         }
-
     }
 
 }

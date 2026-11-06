@@ -474,7 +474,7 @@
                 --dismiss-offset: 1rem;
 
                 .dismiss__icon {
-                    --color-background: var(--shadow-dark);
+                    --color-background: var(--shadow-light);
                     --dismiss-cross-size: calc(var(--dismiss-size) /2);
 
                     height: var(--dismiss-size);
@@ -1281,6 +1281,12 @@
                     img {
                         object-fit: cover;
                     }
+                }
+            }
+
+            &--hover{
+                &:hover{
+                    transition: border-color 150ms, translate 150ms var(--ease);
                 }
             }
         }
@@ -4323,12 +4329,13 @@
                     --color-foreground: var(--color-orange);
                 }
 
-
                 .btn-primary {
-                    --button-foreground: var(--color-offwhite) !important;
+                    --button-foreground: var(--color-orange-foreground) !important;
+                    --color-border: var(--color-orange) !important;
                     --color-background: var(--color-orange) !important;
-                    --color-border: var(--color-orange-border) !important;
                     --color-shadow: var(--color-orange-shadow) !important;
+                    --shadow-glow: 0 14px 26px -12px color-mix(in oklab, var(--color-background) 42%, transparent), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px color-mix(in oklab, var(--color-background) 20%, transparent) !important;
+
                 }
             }
 
@@ -4339,10 +4346,12 @@
 
 
                 .btn-primary {
-                    --button-foreground: var(--color-offwhite) !important;
+                    --button-foreground: var(--color-rose-dark-foreground) !important;
+                    --color-border: var(--color-rose-dark) !important;
                     --color-background: var(--color-rose-dark) !important;
-                    --color-border: var(--color-rose-dark-border) !important;
-                    --color-shadow: var(--color-rose-dark-shadow) !important;
+                    --color-shadow: var(--color-rose-dark-shadow)!important;
+                    --shadow-glow: 0 14px 26px -12px color-mix(in oklab, var(--color-background) 42%, transparent), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px color-mix(in oklab, var(--color-background) 20%, transparent) !important;
+
                 }
             }
 
@@ -4351,12 +4360,12 @@
                     --color-foreground: var(--color-blue);
                 }
 
-
                 .btn-primary {
-                    --button-foreground: var(--color-offwhite) !important;
+                    --button-foreground: var(--color-blue-foreground) !important;
+                    --color-border: var(--color-blue) !important;
                     --color-background: var(--color-blue) !important;
-                    --color-border: var(--color-blue-border) !important;
-                    --color-shadow: var(--color-blue-shadow) !important;
+                    --color-shadow: var(--color-blue-shadow)!important;
+                    --shadow-glow: 0 14px 26px -12px color-mix(in oklab, var(--color-background) 42%, transparent), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px color-mix(in oklab, var(--color-background) 20%, transparent) !important;
                 }
             }
 
@@ -4365,12 +4374,14 @@
                     --color-foreground: var(--color-green);
                 }
 
-
                 .btn-primary {
-                    --button-foreground: var(--color-offwhite) !important;
-                    --color-background: var(--color-green) !important;
-                    --color-border: var(--color-green-border) !important;
-                    --color-shadow: var(--color-green-shadow) !important;
+                --button-foreground: var(--color-green-foreground) !important;
+                --color-border: var(--color-green) !important;
+                --color-background: var(--color-green) !important;
+                --color-shadow: var(--color-green-shadow) !important;
+                --shadow-glow: 0 14px 26px -12px color-mix(in oklab, var(--color-background) 42%, transparent), 0 4px 23px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px color-mix(in oklab, var(--color-background) 20%, transparent) !important;
+
+
                 }
             }
         }

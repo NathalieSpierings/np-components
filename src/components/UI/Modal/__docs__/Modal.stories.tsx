@@ -272,18 +272,22 @@ export const Background: StoryFn = () => {
                 background={modalBackground}
                 title="My modal title"
                 onClose={() => setModalOpen(false)}
+               // headerBoxProps={{ borderColor: ColorDefinitions.HighlandLight }}
+               // footerBoxProps={{ borderColor: ColorDefinitions.HighlandLight }}
                 footerActions={
                     <>
-                        <Button color={ColorDefinitions.Primary} raised={true} onClick={() => setModalOpen(false)}>
+                        <Button color={ColorDefinitions.HighlandDark} raised={true} onClick={() => setModalOpen(false)}>
                             Confirm
                         </Button>
-                        <Button onClick={() => setModalOpen(false)}>Cancel</Button>
+                        <Button color={ColorDefinitions.HighlandSubtle} onClick={() => setModalOpen(false)}>
+                            Cancel
+                        </Button>
                     </>
                 }
             >
                 My content goes here...
             </Modal>
-            <button type="button" className="btn" onClick={() => openModal(ColorDefinitions.Olive)}>
+            <button type="button" className="btn" onClick={() => openModal(ColorDefinitions.Highland)}>
                 Background
             </button>
         </>

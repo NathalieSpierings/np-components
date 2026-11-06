@@ -27,21 +27,6 @@
 }
 	
 
-// @function light-neutrals($bg, $base, $step: 3%, $text-muted: 40%, $text: 70%, $text-strong: 90%) {
-//    @return (
-// 	    'neutral-50':  $bg, // surface
-//         'neutral-100': $base, // color.adjust($base, $lightness: -$step * 1), // subtle
-//         'neutral-200': color.adjust($base, $lightness: -$step * .5), // light
-//         'neutral-300': color.adjust($base, $lightness: -$step * 1), // dark
-//         'neutral-400': color.adjust($base, $lightness: -$step * 2), // strong
-//         'neutral-500': color.adjust($base, $lightness: -$step * 4),
-//         'neutral-600': color.adjust($base, $lightness: -$step * 5),
-//         'neutral-700': color.scale($base, $lightness: -$text-muted), // text-muted
-//         'neutral-800': color.scale($base, $lightness: -$text), // text
-//         'neutral-900': color.scale($base, $lightness: -$text-strong), // text-strong
-//     );
-// }
-	
 	
 @function dark-neutrals($base, $step: 3%, $text-muted: 35%, $text: 80%, $text-strong: 92%) {
     @return (
@@ -293,7 +278,13 @@ $state-selected-strength: 14%;
 	$sum: 0;
 	@each $channel, $weight in ("red": 0.2126, "green": 0.7152, "blue": 0.0722) {
 		$v: math.div(color.channel($c, $channel, $space: rgb), 255);
-		$v: if(sass($v <= 0.04045): math.div($v, 12.92); else: math.pow(math.div($v + 0.055, 1.055), 2.4));
+
+		@if $v <= 0.04045 {
+			$v: math.div($v, 12.92);
+		} @else {
+			$v: math.pow(math.div($v + 0.055, 1.055), 2.4);
+		}
+		
 		$sum: $sum + $v * $weight;
 	}
 	@return $sum;
@@ -328,8 +319,12 @@ $state-selected-strength: 14%;
 // of dezelfde token als er geen variant is opgegeven (bijv. bij een override)
 @function foreground-strong($name, $bg) {
 	$fg: foreground($name, $bg);
-	@return if(sass(map.has-key($foreground-strong, $fg)): map.get($foreground-strong, $fg); else: $fg);
+	@if map.has-key($foreground-strong, $fg) {
+		@return map.get($foreground-strong, $fg);
+	}
+	@return $fg;
 }
+
 
 // Surfaces: themetekst door de surface gemengd
 @function blend($bg, $fg, $strength) {
@@ -375,6 +370,7 @@ $palette: map.merge($colors, $shades);
 	--color-#{$name}-border-subtle:     color-mix(in oklab, #{$fg} #{$border-subtle-strength}, #{$self});
 	--color-#{$name}-border-strong:     color-mix(in oklab, #{$fg} #{$border-strong-strength}, #{$self});
 	--color-#{$name}-shadow:            #{shadow($bg)};
+	--color-#{$name}-glow:              #{glow($bg)};
 }
 
 @mixin shadow-tokens {
@@ -517,9 +513,10 @@ $palette: map.merge($colors, $shades);
 	@each $key in $keys {
 		 .btn-#{$key} {
 	      --button-foreground: var(--color-#{$key}-foreground);
-	      --color-shadow: var(--color-#{$key}-shadow);
 	      --color-border: var(--color-#{$key});
 	      --color-background: var(--color-#{$key});
+		  --color-shadow: var(--color-#{$key}-shadow);
+		 @include shadow-tokens;
 	    }
 	
 	    .btn-ghost.btn-#{$key},
@@ -635,6 +632,7 @@ $palette: map.merge($colors, $shades);
 					--color-#{$prop}-border-subtle:     #{blend($value, $text, $border-subtle-strength)};
 					--color-#{$prop}-border-strong:     #{blend($value, $text, $border-strong-strength)};
 					--color-#{$prop}-shadow:            #{shadow($value)};
+					--color-#{$prop}-glow:              #{glow($value)};
 				} @else {
 					--color-#{$prop}: #{$value};
 				}

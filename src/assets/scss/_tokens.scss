@@ -39,14 +39,38 @@
         --shadow-rgb: var(--rgb-black);
         --shadow-rgb-inverse: var(--rgb-white);
 
-        --shadow-dark: rgb(var(--shadow-rgb) / 6%);
-        --shadow-light: rgb(var(--shadow-rgb-inverse) / 6%);
-        --shadow-base-dark: rgb(var(--shadow-rgb) / 12%);
-        --shadow-base-light: rgb(var(--shadow-rgb-inverse) / 12%);
+        --shadow-light: rgb(var(--shadow-rgb) / 6%);
+        --shadow-light-inverse: rgb(var(--shadow-rgb-inverse) / 6%);
+
+        --shadow-base: rgb(var(--shadow-rgb) / 12%);
+        --shadow-base-inverse: rgb(var(--shadow-rgb-inverse) / 12%);
 
 		@include shadow-tokens;
 
-		
+		/*
+@layer pds.tokens {
+    :where(:root) {
+       
+ //TODO controleren
+        
+        
+
+        --color-shadow: var(--color-surface-shadow);
+     
+        --color-hover: var(--shadow-light-inverse);
+        --color-selected: var(--shadow-base-inverse);
+        --color-disabled: var(--color-surface-subtle);
+
+        --color-hover: rgb(var(--overlay-rgb) / 0.03);
+        --color-active: rgb(var(--overlay-rgb) / 0.07);
+    }
+
+    :root,
+    .theme-light {
+        --overlay-rgb: 0 0 0;
+    }
+}
+*/
 		// Accessibility
 		--accessibility-focus-outline-style: dashed;
 		--accessibility-focus-outline-offset: 3px;
@@ -91,10 +115,10 @@
 
         --form-group-padding: var(--page-padding);
         --input-padding: 1.5rem;
-        --input-background: var(--color-surface-dark);
+        --input-background: var(--color-surface-subtle);
         --input-foreground: var(--color-foreground);
-        --input-border: var(--color-surface-dark-border);
-        --input-disabled-border: var(--color-surface-dark-border);
+        --input-border: var(--color-border);
+        --input-disabled-border: var(--color-border);
         --input-radius: var(--radius);
         --input-height: 48px;
         --input-label-foreground: var(--color-muted);
@@ -144,35 +168,3 @@
     }
 }
 
-/*
-@layer pds.tokens {
-    :where(:root) {
-       
- //TODO controleren
-        --shadow-base: rgb(0 0 0 / 12%);
-        --shadow-base-inverse: rgb(255 255 255 / 12%);
-        --shadow-light: rgb(0 0 0 / 6%);
-        --shadow-light-inverse: rgb(255 255 255 / 6%);
-
-        --color-shadow: var(--color-surface-shadow);
-     
-        --color-hover: var(--shadow-light-inverse);
-        --color-selected: var(--shadow-base-inverse);
-        --color-disabled: var(--color-surface-subtle);
-
-        --color-hover: rgb(var(--overlay-rgb) / 0.03);
-        --color-active: rgb(var(--overlay-rgb) / 0.07);
-
-       
-
-       
-       
-
-    }
-
-    :root,
-    .theme-light {
-        --overlay-rgb: 0 0 0;
-    }
-}
-*/
